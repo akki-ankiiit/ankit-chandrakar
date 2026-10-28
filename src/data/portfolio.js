@@ -41,12 +41,12 @@ export const profile = {
 };
 
 export const imagery = {
-  logo: '/assets/newlogo/Logo (4).svg',
+  logo: '/assets/newlogo/navbar-logo.svg',
   mark: asset('monogram.svg'),
   hero: '/assets/newlogo/image.png',
   heroSmall: '/assets/newlogo/image.png',
-  portrait: '/assets/newlogo/ankit.png',
-  flower: asset('ink-book-cutout.webp'),
+  portrait: '/assets/image_6.png',
+  flower: '/assets/imagery/flower-fy.webp',
   headphones: asset('ink-headphones.svg'),
   sketchbook: asset('ink-sketchbook.svg'),
   sneaker: asset('ink-sneaker.svg'),
@@ -54,9 +54,182 @@ export const imagery = {
 };
 
 export const categories = [
-  { id: 'products', label: 'Products', folder: asset('folder-products.svg') },
-  { id: 'websites', label: 'Websites', folder: asset('folder-websites.svg') },
-  { id: 'systems', label: 'Systems', folder: asset('folder-systems.svg') },
+  { id: 'case-studies', label: 'Case Studies', folder: '/assets/imagery/folder-beige.webp' },
+  { id: 'websites', label: 'Websites', folder: '/assets/imagery/folder-slate.webp' },
+  { id: 'apps', label: 'Apps', folder: '/assets/imagery/folder-green.webp' },
+  { id: 'design-systems', label: 'Design Systems', folder: '/assets/imagery/folder-terracotta.webp' },
+  { id: 'packaging-designs', label: 'Packaging designs', folder: '/assets/imagery/folder-brown.webp' },
+];
+
+export const artworks = [
+  { id: 'feedusbitch', title: 'Feed Us Bitch', year: '2025', image: '/assets/work/art/2025-feedusbitch.webp', width: 800, height: 800, col: 0 },
+  { id: 'bs-kitchen', title: 'Kitchen Stories', year: '2025', image: '/assets/work/art/2025-bs-kitchen.webp', width: 800, height: 604, col: 0 },
+  { id: 'flash', title: 'Flash & Locker Room', year: '2025', image: '/assets/work/art/2025-flash.webp', width: 800, height: 1067, col: 0 },
+  { id: 'goose', title: 'Goose in the Pond', year: '2023', image: '/assets/work/art/2023-goose.webp', width: 800, height: 800, col: 1 },
+  { id: 'neyomi-hop', title: 'Neyomi — Hopper x Noru', year: '2025', image: '/assets/work/art/2025-neyomi-hop.webp', width: 800, height: 1135, col: 1 },
+  { id: 'bs-movie', title: 'Movie Night', year: '2025', image: '/assets/work/art/2025-bs-movie.webp', width: 800, height: 999, col: 2 },
+  { id: 'bs-locker', title: 'Golden Hour', year: '2025', image: '/assets/work/art/2025-bs-locker.webp', width: 800, height: 608, col: 2 },
+  { id: 'kdh-zoey', title: 'K-Pop Demon Hunters: Zoey', year: '2026', image: '/assets/work/art/2026-kdh-zoey.webp', width: 800, height: 1066, col: 2 },
+  { id: 'kdh-mira', title: 'K-Pop Demon Hunters: Mira', year: '2026', image: '/assets/work/art/2026-kdh-mira.webp', width: 800, height: 1066, col: 3 },
+  { id: 'reena', title: 'Reena', year: '2025', image: '/assets/work/art/2025-reena.webp', width: 800, height: 800, col: 3 },
+];
+
+export const designBooks = [
+  {
+    id: 'ouabh',
+    title: 'Once Upon a Broken Heart',
+    author: 'STEPHANIE GARBER',
+    image: '/assets/work/design/cover-ouabh.webp',
+    rating: 4,
+    stars: 4,
+    maxStars: 5,
+    locked: false,
+    client: 'Stephanie Garber',
+    category: 'Book Cover & Illustration',
+    year: '2024',
+    role: 'Cover Artist & Illustrator',
+    scope: 'Book jacket & character illustration',
+    description: 'Special edition book cover and character illustration for Stephanie Garber’s bestselling fantasy novel Once Upon a Broken Heart.',
+    highlights: [
+      'Illustrated evocative character portrait of Evangeline and Jacks.',
+      'Designed ornate fantasy typography and decorative border detailing.',
+      'Created custom metallic foil print finishes and special edition dust jacket.',
+    ],
+  },
+  {
+    id: 'secret-western',
+    title: '🍋🤠🐎',
+    author: 'COMING SOON...',
+    image: '/assets/work/design/cover-secret.webp',
+    rating: 4,
+    stars: 4,
+    maxStars: 5,
+    locked: true,
+    client: 'Confidential Author',
+    category: 'Cover Design',
+    year: '2025',
+    role: 'Illustrator & Cover Designer',
+    scope: 'Upcoming romance release',
+    description: 'An unannounced western romance novel cover currently under NDA. Full artwork to be revealed upon publication.',
+    highlights: [
+      'Custom illustrated characters and western aesthetic.',
+      'Bespoke hand-lettered title treatment.',
+      'Scheduled for publication in late 2025.',
+    ],
+  },
+  {
+    id: 'sleet-series',
+    title: 'Sleet Series',
+    author: 'S.J. TILLY',
+    image: '/assets/work/design/cover-sleet.webp',
+    rating: 5,
+    stars: 5,
+    maxStars: 5,
+    locked: false,
+    client: 'S.J. Tilly',
+    category: 'Book Series Design',
+    year: '2024',
+    role: 'Cover Artist & Designer',
+    scope: 'Series branding & cover art',
+    description: 'Character-driven illustrated book cover for Sleet Kitten in S.J. Tilly’s beloved hockey romance series.',
+    highlights: [
+      'Illustrated warm and cozy winter couple artwork.',
+      'Designed bold modern typography with snowy aesthetic.',
+      'Cohesive series visual branding across paperbacks and digital editions.',
+    ],
+  },
+  {
+    id: 'secret-picnic',
+    title: '🍎🌵🧺',
+    author: 'COMING SOON...',
+    image: '/assets/work/design/cover-soon.webp',
+    rating: 4,
+    stars: 4,
+    maxStars: 5,
+    locked: true,
+    client: 'Confidential Author',
+    category: 'Cover Design',
+    year: '2025',
+    role: 'Illustrator & Cover Designer',
+    scope: 'Upcoming romance release',
+    description: 'An unannounced romantic comedy novel cover currently under wraps. Full details to be unveiled soon.',
+    highlights: [
+      'Vibrant illustrated scene with playful character dynamics.',
+      'Custom lettering and paperback jacket layout.',
+      'Release date and full cover reveal coming soon.',
+    ],
+  },
+];
+
+export const designProjects = [
+  {
+    id: 'jv-wedding',
+    client: 'JV',
+    category: 'EVENTS',
+    title: 'The Wedding of Jamie & Victoria',
+    image: '/assets/work/design/cover-jv-locked.webp',
+    locked: true,
+    year: '2025',
+    role: 'Lead Designer',
+    scope: 'Brand & Event Design',
+    description: 'An exclusive event brand and bespoke printed collateral designed for the wedding celebration of Jamie & Victoria.',
+    highlights: [
+      'Bespoke invitations, stationery suite, and custom event monogram.',
+      'Art direction, typography, and premium letterpress print finishes.',
+      'Signage, menu cards, and cohesive aesthetic across the venue.',
+    ],
+  },
+  {
+    id: 'nuvei',
+    client: 'NUVEI',
+    category: 'DESIGN & MOTION',
+    title: 'Every payment, everywhere',
+    image: '/assets/work/design/cover-nuvei.webp',
+    locked: false,
+    year: '2025',
+    role: 'Product Designer',
+    scope: 'Design & Motion',
+    description: 'Design system, marketing collateral, and motion graphics for Nuvei payment terminals, packaging, and quick reference guides.',
+    highlights: [
+      'Designed onboarding collateral and quick reference guides for POS terminals.',
+      'Created 3D motion renders and visual assets for marketing showcases.',
+      'Crafted cohesive packaging, cards, and digital touchpoints.',
+    ],
+  },
+  {
+    id: 'dymocks',
+    client: 'DYMOCKS',
+    category: 'PRODUCT DESIGN',
+    title: '25 years of Dymocks Melbourne',
+    image: '/assets/work/design/cover-dymocks.webp',
+    locked: false,
+    year: '2025',
+    role: 'Product Designer',
+    scope: 'Print & Visual Design',
+    description: 'A 25th anniversary celebratory book and collectible interactive collateral for Dymocks Melbourne bookstore.',
+    highlights: [
+      'Designed limited-edition anniversary book layout, covers, and typography.',
+      'Illustrated custom storybook adventure map and bookstore discovery guides.',
+      'Crafted bookmarks, stickers, and commemorative merchandise.',
+    ],
+  },
+  {
+    id: 'vauliys',
+    client: 'VAULIYS',
+    category: 'BRAND IDENTITY',
+    title: 'Artistically overwhelmed',
+    image: '/assets/work/design/cover-vauliys.webp',
+    locked: false,
+    year: '2025',
+    role: 'Visual Designer & Illustrator',
+    scope: 'Brand Identity & Illustration',
+    description: 'A playful and expressive brand identity featuring manga-inspired ink illustrations, custom character art, and sketchbook graphics.',
+    highlights: [
+      'Developed character mascot illustrations and dynamic sketchbook aesthetics.',
+      'Created custom vector stickers, logomarks, and social media branding.',
+      'Designed merchandise, prints, and interactive digital portfolio elements.',
+    ],
+  },
 ];
 
 const existingProjects = [
@@ -128,6 +301,37 @@ const existingProjects = [
     highlights: ['Original website design sourced from the published portfolio.', 'Explore the source slide below for the project in its original presentation.'],
     tags: ['Web design', 'Visual design', 'Original portfolio work'],
   })),
+  ...[
+    { id: 'blackspace', title: 'Blackspace', subtitle: 'A bold, dark-mode web presence.', category: 'Website Design', embedUrl: 'https://www.blackspace.media/', context: ['Blackspace is a creative studio in Bengaluru, established in 2023, making content, film and brand work.', 'The team writes, shoots, cuts and ships content campaigns, scripts, edits and brand work, with AI handling much of the preparation.', 'The website puts that process front and centre: work, services and contact sit in a single bold interface, with playful cards that show each stage of a project.'] },
+    { id: 'azure-interiors', title: 'Azure Interiors', subtitle: 'A calm, elegant home for interior design.', category: 'Website Design' },
+    { id: 'atlas', title: 'Atlas', subtitle: 'A warm, exploratory web experience.', category: 'Website Design' },
+    { id: 'golf-mill', title: 'The Golf Mill', subtitle: 'Tee times and the game, a click away.', category: 'Website Design' },
+  ].map((project) => ({
+    ...project, client: 'Selected work', group: 'websites', year: 'Selected work', role: 'Web Designer',
+    scope: 'Website interface design',
+    description: `Website design for ${project.title}: layout, visual language, and responsive interface design.`,
+    highlights: ['Designed the site structure, layouts, and responsive interface.', 'Defined the visual language: typography, color, and imagery.'],
+    tags: ['Web design', 'Visual design'],
+  })),
+  ...[
+    { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.' },
+    { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Tools for contractors, built into the Tejas ecosystem.' },
+    { id: 'mistribhai', title: 'MistriBhai', subtitle: 'A workflow app from the Tejas ecosystem.' },
+  ].map((project) => ({
+    ...project, client: 'Patcorn Drymix', category: 'Business App', group: 'apps', year: '2025 — Present',
+    role: 'Design Consultant', scope: 'Product design within the Tejas ecosystem',
+    description: `${project.title} is one of the internal business products designed and launched as part of the Tejas ecosystem.`,
+    highlights: ['Designed the product experience within the shared Tejas standards.', 'Built on the reusable components used across the ecosystem.'],
+    tags: ['Business workflows', 'Product design'],
+  })),
+  {
+    id: 'golf-mill-system', title: 'The Golf Mill design system', subtitle: 'Palette, type, and components for the course.',
+    client: 'The Golf Mill', category: 'Design System', group: 'systems', year: 'Selected work',
+    role: 'Product Designer', scope: 'Palette, type & components',
+    description: 'A compact design system for The Golf Mill, covering the color palette, typography, and reusable components such as buttons and booking actions.',
+    highlights: ['Defined the color palette and typographic scale.', 'Built reusable components, from booking buttons to content blocks.'],
+    tags: ['Design systems', 'Visual design'],
+  },
   {
     id: 'neostra-system', title: 'Neostra design system', subtitle: 'Consistency, built into every interaction.',
     client: 'Nyusta', category: 'Design System', group: 'systems', year: '2024 — Present',
@@ -148,9 +352,26 @@ const existingProjects = [
   },
 ];
 
+const cardThumbnails = {
+  neostra: '/assets/Neo.png',
+  yesbot: '/assets/thumbnails/case-study-yesbot.webp',
+  cryptotax: '/assets/thumbnails/case-study-cryptotax.webp',
+  tejas: '/assets/thumbnails/case-study-tejas.webp',
+  thanq: '/assets/thumbnails/case-study-thanq.webp',
+  'neostra-system': '/assets/Neo.png',
+  blackspace: '/assets/thumbnails/website-blackspace-hero.webp',
+  'azure-interiors': '/assets/thumbnails/website-azure-interiors.webp',
+  atlas: '/assets/Atlas.png',
+  'golf-mill': '/assets/thumbnails/website-the-golf-mill-hero.webp',
+  'golf-mill-system': '/assets/thumbnails/design-system-the-golf-mill.webp',
+  adhikar: '/assets/thumbnails/case-study-tejas.webp',
+  contractorbhai: '/assets/thumbnails/case-study-tejas.webp',
+  mistribhai: '/assets/thumbnails/case-study-tejas.webp',
+};
+
 export const projects = [...existingProjects.map((project) => ({ ...project, ...behanceEnrichment[project.id] })), ...behanceProjects].map((project) => ({
   ...project,
-  image: asset(`ink-${project.id}.webp`),
+  image: cardThumbnails[project.id] || asset(`ink-${project.id}.webp`),
   sourceLabel: project.sourceLabel || (project.sourceUrl ? 'Notion' : undefined),
   caseStudy: project.caseStudy || {
     challenge: project.description,
@@ -160,9 +381,11 @@ export const projects = [...existingProjects.map((project) => ({ ...project, ...
 }));
 
 export const experience = [
-  { company: 'Nyusta', role: 'Lead Product Designer', period: 'Nov 2024 — Present', location: 'Bengaluru', description: 'Leading Neostra’s end-to-end design: 30+ enterprise workflows, 200+ reusable components, and a consistent experience across privacy-compliance modules.' },
-  { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — Present', location: 'Gurgaon', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
-  { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Raipur', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
+  { company: 'Nyusta', role: 'Lead Product Designer', period: 'Nov 2024 — Present', location: 'Bengaluru', description: 'Led end-to-end product design for Neostra, a privacy management platform, and delivered UX/UI, branding, design systems, websites, and digital experiences for The Golf Mill, ThanQ, Blackspace, and multiple client projects, driving scalable, user-centric solutions across diverse industries.' },
+  { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including MistriBhai, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
+  { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — May 2026', location: 'Raipur', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
+  { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Gurgaon', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
+  
 ];
 
 export const education = { degree: 'B.Tech · Computer Science & Engineering', school: 'Government Engineering College Raipur', period: 'July 2020 — May 2024' };

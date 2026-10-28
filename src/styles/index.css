@@ -5,6 +5,7 @@
 @import './case-study.css';
 @import './sage-theme.css';
 @import './ink-art.css';
+@import './impact.css';
 
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Regular.otf') format('opentype'); font-weight: 100 900; font-style: normal; font-display: swap; }
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Italic.otf') format('opentype'); font-weight: 100 900; font-style: italic; font-display: swap; }

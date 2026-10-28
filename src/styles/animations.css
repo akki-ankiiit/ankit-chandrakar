@@ -5,9 +5,9 @@
 @keyframes marquee { to { transform: translateX(-50%); } }
 @keyframes flower-sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(4deg); } }
 @keyframes flower-wave { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-13deg); } 65% { transform: rotate(10deg); } }
-.page-enter { animation: fade-in .75s ease both; }
+.page-enter { animation: fade-in .75s ease backwards; }
 .hero-copy { animation: page-in .85s var(--ease) both; }
-.hero-art { animation: fade-in 1.2s .15s both; }
+.hero-art { animation: fade-in 1.2s .15s backwards; }
 .gallery-transition { animation: page-in .4s var(--ease) both; }
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--reveal-delay, 0ms); }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }

@@ -25,7 +25,7 @@ export default function Hero({ isHub = false, onNavigate }) {
             </>
           )}
         </div>
-        <div className="hero-art"><HeroArtwork /></div>
+        <div className="hero-art"><HeroArtwork videoSrc={isHub ? '/assets/skating-desk-paper.mp4' : undefined} /></div>
       </div>
     </section>
   );

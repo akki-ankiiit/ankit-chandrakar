@@ -1,10 +1,13 @@
 import { access } from 'node:fs/promises';
 import sharp from 'sharp';
-import { categories, imagery, profile, projects } from '../src/data/portfolio.js';
+import { artworks, categories, designBooks, designProjects, imagery, profile, projects } from '../src/data/portfolio.js';
 
 const images = new Set([
   ...Object.values(imagery),
   ...categories.map((category) => category.folder),
+  ...(artworks || []).map((art) => art.image),
+  ...(designBooks || []).map((book) => book.image),
+  ...(designProjects || []).map((proj) => proj.image),
   ...projects.flatMap((project) => [project.image, ...project.caseStudy.chapters.flatMap((chapter) => chapter.images.map((image) => image.src))]),
 ]);
 const missing = [];

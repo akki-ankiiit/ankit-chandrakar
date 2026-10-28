@@ -9,7 +9,7 @@ const all = (source, title, description) => [chapter(source, 'visuals', title, d
 
 export const behanceEnrichment = {
   yesbot: {
-    sourceUrl: media['case-study-01'].url, sourceLabel: 'Behance', published: 'May 30, 2024',
+    sourceUrl: media['case-study-01'].url, sourceLabel: 'Behance', published: 'May 30, 2024', stream: true,
     caseStudy: {
       eyebrow: 'A more human conversation',
       challenge: 'Business support experiences can become fragmented across knowledge sources, conversations, and customer information. YesBot.ai explores how these pieces can come together in a configurable AI-chatbot workspace that is approachable on desktop, tablet, and mobile.',
@@ -28,7 +28,7 @@ export const behanceEnrichment = {
     },
   },
   cryptotax: {
-    sourceUrl: media['case-study-02'].url, sourceLabel: 'Behance', published: 'June 3, 2024',
+    sourceUrl: media['case-study-02'].url, sourceLabel: 'Behance', published: 'June 3, 2024', stream: true,
     caseStudy: {
       eyebrow: 'Bringing order to the numbers',
       challenge: 'Cryptocurrency activity is often spread across wallets and exchanges. The case study investigates transaction-tracking complexity, manual errors, tax calculations, regulatory differences, and the difficulty of understanding tax-harvesting opportunities.',

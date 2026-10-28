@@ -3,7 +3,7 @@
 .hero { padding-top: 198px; padding-bottom: 64px; background-image: none; }
 .hero-grid { grid-template-columns: 1fr 1.04fr; gap: 32px; }
 .hero h1 { font-size: clamp(34px, 3.2vw, 43px); line-height: 1.16; letter-spacing: -1.3px; margin-bottom: 20px; text-wrap: balance; }
-.hero-eyebrow { display: flex; align-items: center; gap: 8px; font: 10px/1.5 Henriette, Georgia, serif; letter-spacing: 1.2px; color: #656e5c; margin-bottom: 21px; }
+.hero-eyebrow { display: flex; align-items: center; gap: 8px; font: 14px/1.5 Henriette, Georgia, serif; letter-spacing: 1.6px; color: #656e5c; margin-bottom: 24px; }
 .hero-eyebrow > span { height: 5px; width: 5px; flex: 0 0 5px; border-radius: 50%; background: #7b9764; box-shadow: 0 0 0 4px #c5de9b30; }
 .hero-introduction { max-width: 405px; font-size: 15px; line-height: 1.7; color: #65685e; }
 .hero-socials { margin: 24px 0 27px; gap: 22px; }
@@ -22,8 +22,8 @@
 .about-inner { max-width: 880px; grid-template-columns: 340px 1fr; gap: 52px; align-items: center; }
 .portrait-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; }
 .about-portrait-frame { position: relative; width: 100%; max-width: 340px; margin-inline: auto; display: flex; align-items: center; justify-content: center; }
-.about-portrait-frame .portrait, .portrait { width: 100%; max-width: 340px; height: auto; object-fit: contain; display: block; margin: 0 auto; filter: drop-shadow(0 12px 28px rgba(45, 52, 38, 0.12)); transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1), filter .4s ease; }
-.about-portrait-frame .portrait:hover, .portrait:hover { transform: rotate(-1.5deg) scale(1.02); filter: drop-shadow(0 16px 32px rgba(45, 52, 38, 0.16)); }
+.about-portrait-frame .portrait, .portrait { width: 100%; max-width: 340px; height: auto; object-fit: contain; display: block; margin: 0 auto; filter: none; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.about-portrait-frame .portrait:hover, .portrait:hover { transform: rotate(-1.5deg) scale(1.02); filter: none; }
 .about-portrait-caption { text-align: center; font-size: 12.5px; font-style: italic; margin-top: 14px; color: #758064; }
 .about-copy { line-height: 1.7; }
 .about-copy .eyebrow { font-size: 11px; letter-spacing: .075em; margin-bottom: 12px; }
@@ -96,6 +96,8 @@
 .project-highlights li::marker { color: #90a175; }
 .visual-note { padding: 12px 15px; font-size: 11px; line-height: 1.6; background: var(--beige); border-radius: 7px; color: #727866; margin-bottom: 20px; }
 .project-source { display: inline-block; margin-bottom: 24px; font-size: 13px; }
+.project-embed { margin: 18px 0 0; }
+.project-embed iframe { display: block; width: 100%; height: 70dvh; min-height: 420px; border: 1px solid #34383120; border-radius: 6px; margin-bottom: 13px; background: var(--paper); }
 .project-evidence { margin: 10px 0 28px; }
 .project-evidence a { display: block; margin-bottom: 13px; }
 .project-evidence img { display: block; width: 100%; height: auto; border: 1px solid #34383120; border-radius: 6px; }
@@ -125,7 +127,7 @@
 @media (min-width: 750px) and (max-width: 950px) {
   .hero-grid { gap: 16px; }
   .hero h1 { font-size: 35px; }
-  .hero-eyebrow { font-size: 9px; letter-spacing: .7px; }
+  .hero-eyebrow { font-size: 12px; letter-spacing: 1px; }
   .hero-introduction { font-size: 14px; }
   .hero-stats { gap: 10px; }
   .hero-stats span { font-size: 10px; }
@@ -137,7 +139,7 @@
   .hero { padding-top: 160px; padding-bottom: 36px; background-image: none; }
   .hero-grid { grid-template-columns: 1fr; gap: 22px; }
   .hero-copy { max-width: 430px; width: 100%; padding-block: 0; }
-  .hero-eyebrow { justify-content: center; font-size: 9px; letter-spacing: .8px; margin-bottom: 19px; }
+  .hero-eyebrow { justify-content: center; font-size: 11px; letter-spacing: .9px; margin-bottom: 20px; }
   .hero h1 { font-size: clamp(32px, 8.7vw, 39px); max-width: 390px; line-height: 1.18; margin-bottom: 17px; letter-spacing: -.8px; }
   .hero-introduction { max-width: 380px; margin-inline: auto; font-size: 14px; line-height: 1.7; }
   .hero-socials { margin: 23px 0 25px; gap: 22px; }

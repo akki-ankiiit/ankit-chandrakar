@@ -3,6 +3,7 @@ import { Link, Route, Routes, useLocation, useNavigate, useNavigationType } from
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
+import Impact from './components/Impact.jsx';
 import Work from './components/Work.jsx';
 import CreatorHub from './components/CreatorHub.jsx';
 import Contact from './components/Contact.jsx';
@@ -13,7 +14,7 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const navigationType = useNavigationType();
-  const [category, setCategory] = useState('products');
+  const [category, setCategory] = useState('case-studies');
   const scrollPositions = useRef(new Map());
   const page = location.pathname === '/desk' ? 'hub' : location.pathname.startsWith('/work/') ? 'case' : 'home';
 
@@ -55,7 +56,7 @@ export default function App() {
       <Header page={page} onNavigate={onNavigate} />
       <main id="main" tabIndex={-1}>
         <Routes>
-          <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /></div>} />
+          <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /><Impact /></div>} />
           <Route path="/desk" element={<div className="page-enter"><Hero isHub onNavigate={onNavigate} /><CreatorHub /></div>} />
           <Route path="/work/:projectId" element={<CaseStudy />} />
           <Route path="*" element={<section className="not-found container"><p className="eyebrow">A page out of place</p><h1>This chapter hasn’t been written.</h1><Link className="text-link" to="/">Back to the portfolio ↗</Link></section>} />

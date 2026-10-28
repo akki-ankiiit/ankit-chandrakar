@@ -10,7 +10,7 @@ export default function About() {
         <div className="about-inner">
           <Reveal className="portrait-wrap">
             <div className="about-portrait-frame">
-              <img className="portrait" src={imagery.portrait} alt="Ankit Chandrakar" width="1463" height="1075" loading="lazy" />
+              <img className="portrait" src={imagery.portrait} alt="Ankit Chandrakar" width="724" height="543" loading="lazy" />
             </div>
             <p className="about-portrait-caption">always a work in curiosity.</p>
           </Reveal>

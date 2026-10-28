@@ -56,7 +56,8 @@ function CaseStudyContent({ project }) {
     return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update); if (description && previous) description.content = previous; };
   }, [project]);
 
-  const contents = [{ id: 'overview', label: 'Overview' }, { id: 'challenge', label: 'The challenge' }, { id: 'approach', label: 'The approach' }, ...(hasPresentation ? [{ id: 'presentation', label: 'Presentation' }] : [{ id: 'contribution', label: 'Design scope' }])];
+  const contributionNumber = project.embedUrl ? '05' : '04';
+  const contents = [{ id: 'overview', label: 'Overview' }, { id: 'challenge', label: 'The challenge' }, { id: 'approach', label: 'The approach' }, ...(project.embedUrl ? [{ id: 'live', label: 'The live site' }] : []), ...(hasPresentation ? [{ id: 'presentation', label: 'Presentation' }] : [{ id: 'contribution', label: 'Design scope' }])];
 
   return (
     <article className="case-study-page page-enter" ref={article}>
@@ -74,7 +75,8 @@ function CaseStudyContent({ project }) {
           <section id="overview" className="case-section"><div className="case-section-heading"><span className="chapter-number">01</span><div><p className="eyebrow">The short story</p><h2>A little context.</h2></div></div><p className="case-lead">{project.description}</p><div className="case-tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div></section>
           <section id="challenge" className="case-section"><div className="case-section-heading"><span className="chapter-number">02</span><div><p className="eyebrow">Start with the right question</p><h2>{hasPresentation ? 'What needed untangling?' : 'The product context.'}</h2></div></div><div className="challenge-note"><span className="paper-tape" aria-hidden="true" /><p>{project.caseStudy.challenge}</p></div></section>
           <section id="approach" className="case-section"><div className="case-section-heading"><span className="chapter-number">03</span><div><p className="eyebrow">From the question to the details</p><h2>A considered approach.</h2></div></div><div className="case-approach">{project.caseStudy.approach.map((step, number) => <div key={step.title}><span className="approach-number">0{number + 1}</span><h3>{step.title}</h3><p>{step.text}</p></div>)}</div></section>
-          {hasPresentation ? <Presentation project={project} /> : <section id="contribution" className="case-section"><div className="case-section-heading"><span className="chapter-number">04</span><div><p className="eyebrow">An overview of the work</p><h2>What I contributed.</h2></div></div><ul className="case-contributions">{project.highlights.map((item) => <li key={item}><Icon size={14} /><span>{item}</span></li>)}</ul><p className="case-source-note">This project overview is based on my résumé and portfolio. The cover is an original scrapbook illustration; product screens can be added to this page as the case study grows.</p></section>}
+          {project.embedUrl && <section id="live" className="case-section"><div className="case-section-heading"><span className="chapter-number">04</span><div><p className="eyebrow">Visit the site</p><h2>The live site.</h2></div></div><div className="project-embed"><iframe src={project.embedUrl} title={`${project.title} — live website`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" /><a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">Open the site in a new tab ↗</a></div></section>}
+          {hasPresentation ? <Presentation project={project} /> : <section id="contribution" className="case-section"><div className="case-section-heading"><span className="chapter-number">{contributionNumber}</span><div><p className="eyebrow">An overview of the work</p><h2>What I contributed.</h2></div></div><ul className="case-contributions">{project.highlights.map((item) => <li key={item}><Icon size={14} /><span>{item}</span></li>)}</ul><p className="case-source-note">This project overview is based on my résumé and portfolio. The cover is an original scrapbook illustration; product screens can be added to this page as the case study grows.</p></section>}
           {project.caseStudy.takeaway && <section className="case-takeaway"><Icon size={24} /><h2>The thread that connects it.</h2><p>{project.caseStudy.takeaway}</p></section>}
           <div className="case-endnote"><span>Thanks for looking through my notes.</span>{project.sourceUrl && <a className="text-link" href={project.sourceUrl} target="_blank" rel="noreferrer">See the original on {project.sourceLabel} ↗</a>}{project.published && <small>Originally published {project.published}</small>}</div>
         </div>
@@ -85,9 +87,63 @@ function CaseStudyContent({ project }) {
   );
 }
 
+function ShowcasePage({ project }) {
+  useEffect(() => {
+    document.title = `${project.title} — Ankit Chandrakar`;
+  }, [project]);
+
+  return (
+    <article className="showcase-page page-enter">
+      <div className="case-container">
+        <Link className="showcase-back" to="/#work" state={{ category: project.group, focusProject: project.id }}><Icon name="arrow" size={15} />Back to selected work</Link>
+        <header className="showcase-header">
+          <h1>{project.title}</h1>
+          <p className="case-subtitle">{project.subtitle}</p>
+        </header>
+        <figure className="showcase-cover"><img src={project.image} alt={`${project.title} — website cover`} width="1032" height="740" fetchPriority="high" /></figure>
+        <div className="showcase-context">
+          {project.context.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+      </div>
+      <section className="showcase-site" aria-label={`${project.title} live website`}>
+        <iframe src={project.embedUrl} title={`${project.title} — live website`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />
+        <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">Open the site in a new tab ↗</a>
+      </section>
+    </article>
+  );
+}
+
+function StreamPage({ project }) {
+  const images = project.caseStudy.chapters.flatMap((chapter) => chapter.images);
+  useEffect(() => {
+    document.title = `${project.title} — Case study by Ankit Chandrakar`;
+  }, [project]);
+
+  return (
+    <article className="stream-page page-enter">
+      <div className="case-container">
+        <Link className="showcase-back" to="/#work" state={{ category: project.group, focusProject: project.id }}><Icon name="arrow" size={15} />Back to selected work</Link>
+        <header className="showcase-header">
+          <h1>{project.title}</h1>
+          <p className="case-subtitle">{project.subtitle}</p>
+        </header>
+        <dl className="stream-facts"><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Scope</dt><dd>{project.scope}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>Client</dt><dd>{project.client}</dd></div></dl>
+        <figure className="showcase-cover"><img src={project.image} alt={`${project.title} — case study cover`} width="1032" height="740" fetchPriority="high" /></figure>
+        <p className="stream-intro">{project.description}</p>
+        <div className="stream-images">
+          {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />)}
+        </div>
+        {project.sourceUrl && <a className="text-link stream-source" href={project.sourceUrl} target="_blank" rel="noreferrer">View the original on {project.sourceLabel} ↗</a>}
+      </div>
+    </article>
+  );
+}
+
 export default function CaseStudy() {
   const { projectId } = useParams();
   const project = projects.find((item) => item.id === projectId);
   if (!project) return <section className="not-found container"><p className="eyebrow">A page out of place</p><h1>This project isn’t in the folder.</h1><Link className="text-link" to="/#work">Browse selected work ↗</Link></section>;
+  if (project.stream) return <StreamPage key={project.id} project={project} />;
+  if (project.embedUrl) return <ShowcasePage key={project.id} project={project} />;
   return <CaseStudyContent key={project.id} project={project} />;
 }
