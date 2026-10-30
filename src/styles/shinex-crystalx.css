@@ -1,0 +1,104 @@
+/* ShineX & CrystalX case study. Built on the shared case-study patterns and the site's tokens.
+   Product accents (--accent-product) appear only on product-specific elements.
+   Small text uses --soft (#5a6350) so it passes WCAG AA on paper and on the panel. */
+.sx-page { --panel: #f3f2e6; --panel-line: #dfe1d0; --soft: #5a6350; }
+.sx-story { padding-top: 70px; }
+.sx-copy { max-width: 680px; color: #4f5a43; }
+.sx-link { display: inline-block; margin-top: 22px; font-size: 15px; color: var(--ink); }
+
+.sx-page .case-breadcrumb > span, .sx-page .case-section-heading .eyebrow { color: var(--soft); font-size: 10px; }
+.sx-page .case-title-row .eyebrow { color: var(--accent-strong); font-size: 12px; }
+.sx-page .case-subtitle { color: #65685e; max-width: 640px; }
+.sx-page .chapter-number { color: var(--accent-strong); }
+.sx-page .case-lead { color: #4f5a43; }
+
+/* Hero */
+.sx-meta { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 28px 0 0; }
+.sx-meta li { font-size: 12px; line-height: 1.3; color: #56604b; padding: 6px 12px; border: 1px solid #c6ceb6; border-radius: 20px; }
+.sx-bottles { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 6vw, 80px); align-items: end; max-width: 760px; margin: 48px auto 0; padding: 0; }
+.sx-bottle { display: flex; flex-direction: column; align-items: center; gap: 16px; min-width: 0; animation: sx-rise .9s var(--ease) both; animation-delay: calc(var(--i, 0) * 140ms); }
+.sx-bottle img { width: min(100%, 300px); height: auto; filter: drop-shadow(0 14px 16px #28282826); }
+.sx-bottle:first-child img { transform: rotate(-2deg); transform-origin: 50% 100%; }
+.sx-bottle:last-child img { transform: rotate(2deg); transform-origin: 50% 100%; }
+.sx-surface { display: inline-block; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--surface, var(--accent-product)); padding: 4px 12px; border: 1px solid currentColor; border-radius: 20px; background: var(--paper); }
+@keyframes sx-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* Range */
+.sx-products { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(7, auto); column-gap: 56px; margin: 40px 0 0; padding: 0; }
+.sx-product { grid-row: span 7; display: grid; grid-template-rows: subgrid; min-width: 0; }
+.sx-product-art { position: relative; aspect-ratio: 4 / 5; border-radius: 14px; background: var(--panel); }
+.sx-product-art img { position: absolute; inset: 0; margin: auto; height: 80%; width: auto; max-width: 100%; }
+.sx-product-logo { margin-top: 24px; }
+.sx-product-logo img { width: min(100%, 150px); height: auto; }
+.sx-product-meta { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-bottom: 16px; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--soft); }
+.sx-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-product); }
+.sx-benefits { grid-row: 4 / span 4; display: grid; grid-template-rows: subgrid; list-style: none; margin: 0; padding: 0; }
+.sx-benefits li { padding: 13px 0; border-top: 1px solid #28282835; font-size: 17px; line-height: 1.45; }
+
+.sx-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
+.sx-note { min-width: 0; padding-top: 22px; border-top: 1px solid #cbd1bd80; }
+.sx-note h3 { font-size: 20px; line-height: 1.3; margin-bottom: 8px; }
+.sx-note p { font-size: 14px; line-height: 1.7; color: #4f5a43; }
+
+/* Social gallery */
+.sx-social .sx-copy { margin-bottom: 32px; }
+.sx-columns { display: flex; align-items: flex-start; gap: 14px; }
+.sx-column { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.sx-post { display: block; width: 100%; padding: 0; border: 1px solid var(--panel-line); border-radius: 4px; overflow: hidden; background: var(--panel); transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.sx-post img { width: 100%; height: auto; }
+.sx-post:hover { transform: translateY(-3px); box-shadow: 4px 6px 0 #34383112; }
+.sx-post:focus-visible { outline: 2px solid #6a8154; outline-offset: 4px; }
+
+/* Lightbox (native dialog, like the project dialog) */
+.sx-lightbox { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--paper); }
+.sx-lightbox::backdrop { background: #282828; }
+.sx-lightbox-inner { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 18px 24px 26px; box-sizing: border-box; }
+.sx-lightbox-top { display: flex; justify-content: space-between; align-items: center; min-height: 36px; }
+.sx-lightbox .icon-button { background: var(--paper); color: var(--ink); }
+.sx-counter { font: 12px/1.5 Arial, sans-serif; letter-spacing: .8px; color: var(--paper); }
+.sx-lightbox-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 16px; padding-block: 14px; }
+.sx-lightbox-stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; min-width: 0; object-fit: contain; border-radius: 4px; }
+.sx-lightbox-stage .icon-button { flex: 0 0 auto; }
+
+/* Role */
+.sx-role { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 36px; margin: 0; }
+.sx-role li { align-items: center; margin: 0; padding: 16px 0; border-top: 1px solid #cbd1bd80; color: var(--ink); font-size: 17px; line-height: 1.5; }
+.sx-role svg { margin-top: 0; flex-shrink: 0; color: var(--accent-strong); }
+
+/* Previous / next */
+.sx-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 20px; padding-block: 36px; border-top: 1px solid #cbd1bd80; }
+.sx-pager-link { display: flex; flex-direction: column; gap: 10px; min-width: 0; padding-block: 8px; }
+.sx-pager-link.is-next { align-items: flex-end; text-align: right; }
+.sx-pager-label { font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--soft); }
+.sx-pager-title { display: flex; align-items: center; gap: 16px; font-size: 32px; line-height: 1.2; letter-spacing: -.6px; }
+.sx-pager-title svg { color: var(--accent-strong); transition: transform .25s; }
+.sx-pager-link.is-previous svg { transform: rotate(180deg); }
+.sx-pager-link.is-previous:hover svg { transform: rotate(180deg) translateX(6px); }
+.sx-pager-link.is-next:hover svg { transform: translateX(6px); }
+.sx-pager-note { font-size: 13px; color: var(--soft); }
+
+@media (max-width: 1000px) {
+  .sx-notes { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 749px) {
+  .sx-story { padding-top: 48px; }
+  .sx-bottles { margin-top: 36px; gap: 22px; }
+  .sx-bottle img { width: min(100%, 220px); }
+  .sx-products { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 56px; }
+  .sx-product { grid-row: auto; display: block; }
+  .sx-benefits { grid-row: auto; display: block; }
+  .sx-role { grid-template-columns: 1fr; }
+  .sx-role li { font-size: 16px; }
+  .sx-columns { gap: 10px; }
+  .sx-column { gap: 10px; }
+  .sx-lightbox-inner { padding: 14px 12px 18px; }
+  .sx-lightbox-stage { gap: 10px; }
+  .sx-pager { grid-template-columns: 1fr; gap: 8px; }
+  .sx-pager-link.is-next { align-items: flex-start; text-align: left; border-top: 1px solid #cbd1bd80; padding-top: 24px; }
+  .sx-pager-title { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sx-bottle { animation: none; }
+  .sx-post, .sx-post:hover { transform: none; transition: none; }
+  .sx-pager-title svg { transition: none; }
+}

@@ -9,6 +9,12 @@ import CreatorHub from './components/CreatorHub.jsx';
 import Contact from './components/Contact.jsx';
 import Experience from './components/Experience.jsx';
 import CaseStudy from './pages/CaseStudy.jsx';
+import KSeriesCaseStudy from './pages/KSeriesCaseStudy.jsx';
+import BondureCaseStudy from './pages/BondureCaseStudy.jsx';
+import ShineXCrystalXCaseStudy from './pages/ShineXCrystalXCaseStudy.jsx';
+
+// Maps project group → Work tab category ID
+const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'apps', systems: 'design-systems' };
 
 export default function App() {
   const location = useLocation();
@@ -26,7 +32,10 @@ export default function App() {
 
   useEffect(() => {
     if (location.hash === '#hub') { navigate('/desk', { replace: true }); return; }
-    if (location.state?.category) setCategory(location.state.category);
+    if (location.state?.category) {
+      const mapped = groupToCategory[location.state.category] || location.state.category;
+      setCategory(mapped);
+    }
     const frame = requestAnimationFrame(() => {
       const saved = scrollPositions.current.get(location.key);
       const target = location.hash ? document.getElementById(location.hash.slice(1)) : null;
@@ -58,6 +67,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /><Impact /></div>} />
           <Route path="/desk" element={<div className="page-enter"><Hero isHub onNavigate={onNavigate} /><CreatorHub /></div>} />
+          <Route path="/work/kamdhenu-k-series" element={<KSeriesCaseStudy />} />
+          <Route path="/work/bondure" element={<BondureCaseStudy />} />
+          <Route path="/work/shinex-crystalx" element={<ShineXCrystalXCaseStudy />} />
           <Route path="/work/:projectId" element={<CaseStudy />} />
           <Route path="*" element={<section className="not-found container"><p className="eyebrow">A page out of place</p><h1>This chapter hasn’t been written.</h1><Link className="text-link" to="/">Back to the portfolio ↗</Link></section>} />
         </Routes>

@@ -1,0 +1,132 @@
+{
+  "shinex": {
+    "src": "/assets/TileCleaner/ShineX.webp",
+    "width": 794,
+    "height": 1100
+  },
+  "crystalx": {
+    "src": "/assets/TileCleaner/CrystalX.webp",
+    "width": 794,
+    "height": 1100
+  },
+  "post-01": {
+    "src": "/assets/TileCleaner/smc/01.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-02": {
+    "src": "/assets/TileCleaner/smc/02.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-03": {
+    "src": "/assets/TileCleaner/smc/03.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-04": {
+    "src": "/assets/TileCleaner/smc/04.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-05": {
+    "src": "/assets/TileCleaner/smc/05.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-06": {
+    "src": "/assets/TileCleaner/smc/06.webp",
+    "width": 1536,
+    "height": 1024
+  },
+  "post-07": {
+    "src": "/assets/TileCleaner/smc/07.webp",
+    "width": 1023,
+    "height": 1536
+  },
+  "post-08": {
+    "src": "/assets/TileCleaner/smc/08.webp",
+    "width": 1022,
+    "height": 1536
+  },
+  "post-09": {
+    "src": "/assets/TileCleaner/smc/09.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-10": {
+    "src": "/assets/TileCleaner/smc/10.webp",
+    "width": 1122,
+    "height": 1402
+  },
+  "post-11": {
+    "src": "/assets/TileCleaner/smc/11.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-12": {
+    "src": "/assets/TileCleaner/smc/12.webp",
+    "width": 1402,
+    "height": 1122
+  },
+  "post-13": {
+    "src": "/assets/TileCleaner/smc/13.webp",
+    "width": 1535,
+    "height": 1024
+  },
+  "post-14": {
+    "src": "/assets/TileCleaner/smc/14.webp",
+    "width": 1122,
+    "height": 1402
+  },
+  "post-15": {
+    "src": "/assets/TileCleaner/smc/15.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-16": {
+    "src": "/assets/TileCleaner/smc/16.webp",
+    "width": 1122,
+    "height": 1402
+  },
+  "post-17": {
+    "src": "/assets/TileCleaner/smc/17.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-18": {
+    "src": "/assets/TileCleaner/smc/18.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-19": {
+    "src": "/assets/TileCleaner/smc/19.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-20": {
+    "src": "/assets/TileCleaner/smc/20.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-21": {
+    "src": "/assets/TileCleaner/smc/21.webp",
+    "width": 1024,
+    "height": 1536
+  },
+  "post-22": {
+    "src": "/assets/TileCleaner/smc/22.webp",
+    "width": 1022,
+    "height": 1536
+  },
+  "card": {
+    "src": "/assets/TileCleaner/shinex-crystalx-card.webp",
+    "width": 1200,
+    "height": 850
+  },
+  "og": {
+    "src": "/assets/TileCleaner/shinex-crystalx-og.jpg",
+    "width": 1200,
+    "height": 630
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "k50-front": {
+    "src": "/assets/packaging/K-Series/k50-front.webp",
+    "width": 1200,
+    "height": 1510
+  },
+  "k50-front-thumb": {
+    "src": "/assets/packaging/K-Series/k50-front-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k50-back": {
+    "src": "/assets/packaging/K-Series/k50-back.webp",
+    "width": 1400,
+    "height": 1761
+  },
+  "k50-back-thumb": {
+    "src": "/assets/packaging/K-Series/k50-back-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k50-colour": {
+    "src": "/assets/packaging/K-Series/k50-colour.webp",
+    "width": 720,
+    "height": 222
+  },
+  "k60-front": {
+    "src": "/assets/packaging/K-Series/k60-front.webp",
+    "width": 1200,
+    "height": 1510
+  },
+  "k60-front-thumb": {
+    "src": "/assets/packaging/K-Series/k60-front-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k60-back": {
+    "src": "/assets/packaging/K-Series/k60-back.webp",
+    "width": 1400,
+    "height": 1761
+  },
+  "k60-back-thumb": {
+    "src": "/assets/packaging/K-Series/k60-back-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k60-colour": {
+    "src": "/assets/packaging/K-Series/k60-colour.webp",
+    "width": 720,
+    "height": 222
+  },
+  "k80-front": {
+    "src": "/assets/packaging/K-Series/k80-front.webp",
+    "width": 1200,
+    "height": 1510
+  },
+  "k80-front-thumb": {
+    "src": "/assets/packaging/K-Series/k80-front-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k80-back": {
+    "src": "/assets/packaging/K-Series/k80-back.webp",
+    "width": 1400,
+    "height": 1761
+  },
+  "k80-back-thumb": {
+    "src": "/assets/packaging/K-Series/k80-back-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k80-colour": {
+    "src": "/assets/packaging/K-Series/k80-colour.webp",
+    "width": 720,
+    "height": 222
+  },
+  "k90-front": {
+    "src": "/assets/packaging/K-Series/k90-front.webp",
+    "width": 1200,
+    "height": 1510
+  },
+  "k90-front-thumb": {
+    "src": "/assets/packaging/K-Series/k90-front-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k90-back": {
+    "src": "/assets/packaging/K-Series/k90-back.webp",
+    "width": 1400,
+    "height": 1761
+  },
+  "k90-back-thumb": {
+    "src": "/assets/packaging/K-Series/k90-back-thumb.webp",
+    "width": 480,
+    "height": 604
+  },
+  "k90-colour": {
+    "src": "/assets/packaging/K-Series/k90-colour.webp",
+    "width": 720,
+    "height": 222
+  },
+  "card": {
+    "src": "/assets/packaging/K-Series/k-series-card.webp",
+    "width": 1200,
+    "height": 659
+  },
+  "signed-brochure": {
+    "src": "/assets/packaging/K-Series/signed-brochure.webp",
+    "width": 1400,
+    "height": 1050
+  },
+  "me-and-sunil": {
+    "src": "/assets/packaging/K-Series/me-and-sunil.webp",
+    "width": 900,
+    "height": 1200
+  },
+  "logo-adhesive": {
+    "src": "/assets/packaging/K-Series/kamdhenu-adhesive-logo.svg",
+    "width": 527,
+    "height": 139
+  },
+  "logo-group": {
+    "src": "/assets/packaging/K-Series/kamdhenu-group-logo.svg",
+    "width": 548,
+    "height": 209
+  }
+}

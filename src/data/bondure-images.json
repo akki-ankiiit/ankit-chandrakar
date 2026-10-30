@@ -1,0 +1,62 @@
+{
+  "bondure": {
+    "src": "/assets/Bondure/Bondure.webp",
+    "width": 1063,
+    "height": 1199
+  },
+  "wallstark": {
+    "src": "/assets/Bondure/Wallstark.webp",
+    "width": 1059,
+    "height": 1194
+  },
+  "screed": {
+    "src": "/assets/Bondure/Screed.webp",
+    "width": 1041,
+    "height": 1221
+  },
+  "card": {
+    "src": "/assets/Bondure/bondure-card.webp",
+    "width": 1200,
+    "height": 850
+  },
+  "og": {
+    "src": "/assets/Bondure/bondure-og.jpg",
+    "width": 1200,
+    "height": 630
+  },
+  "roof-wallstark": {
+    "src": "/assets/Bondure/roof-wallstark.webp",
+    "width": 620,
+    "height": 126
+  },
+  "roof-screed": {
+    "src": "/assets/Bondure/roof-screed.webp",
+    "width": 500,
+    "height": 128
+  },
+  "conforms": {
+    "src": "/assets/Bondure/conforms.webp",
+    "width": 305,
+    "height": 80
+  },
+  "icon-self-curing": {
+    "src": "/assets/Bondure/icon-self-curing.webp",
+    "width": 132,
+    "height": 132
+  },
+  "icon-durability": {
+    "src": "/assets/Bondure/icon-durability.webp",
+    "width": 132,
+    "height": 132
+  },
+  "icon-strength": {
+    "src": "/assets/Bondure/icon-strength.webp",
+    "width": 132,
+    "height": 132
+  },
+  "icon-easy": {
+    "src": "/assets/Bondure/icon-easy.webp",
+    "width": 132,
+    "height": 132
+  }
+}
