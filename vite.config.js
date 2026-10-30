@@ -1,6 +1,8 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath, URL } from 'node:url';
 import { bondureMeta } from './src/data/bondure-meta.js';
 import { shinexMeta } from './src/data/shinex-meta.js';
 
@@ -39,4 +41,7 @@ function caseStudyStaticPages(metas) {
   };
 }
 
-export default defineConfig({ plugins: [react(), caseStudyStaticPages([bondureMeta, shinexMeta])] });
+export default defineConfig({
+  plugins: [tailwindcss(), react(), caseStudyStaticPages([bondureMeta, shinexMeta])],
+  resolve: { alias: { '@': fileURLToPath(new URL('./src/playtime-app', import.meta.url)) } },
+});

@@ -4,7 +4,7 @@ import HeroArtwork from './HeroArtwork.jsx';
 
 export default function Hero({ isHub = false, onNavigate }) {
   return (
-    <section className={`hero ${isHub ? 'hero-hub' : ''}`} aria-labelledby="hero-title">
+    <section className={`hero hero-compact ${isHub ? 'hero-hub' : ''}`} aria-labelledby="hero-title">
       <div className="container hero-grid">
         <div className="hero-copy">
           <p className="hero-eyebrow"><span /> ANKIT CHANDRAKAR · PRODUCT DESIGNER</p>
@@ -25,7 +25,7 @@ export default function Hero({ isHub = false, onNavigate }) {
             </>
           )}
         </div>
-        <div className="hero-art"><HeroArtwork videoSrc={isHub ? '/assets/skating-desk-paper.mp4' : undefined} /></div>
+        <div className="hero-art"><HeroArtwork videoSrc={isHub ? '/assets/designdesk.mp4' : undefined} /></div>
       </div>
     </section>
   );

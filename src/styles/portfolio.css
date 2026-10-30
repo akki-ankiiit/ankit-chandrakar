@@ -213,3 +213,27 @@
   .page-enter, .hero-copy, .hero-art, .gallery-transition, .portfolio-card, .project-dialog[open] { animation: none !important; opacity: 1; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+
+/* Compact hero (home, desk, playtime): starts just below the fixed site header */
+.hero.hero-compact { padding-top: 160px; padding-bottom: 40px; }
+.hero.hero-compact .hero-grid { align-items: center; }
+.hero.hero-compact h1 { font-size: clamp(30px, 2.9vw, 40px); margin-bottom: 14px; }
+.hero.hero-compact .hero-introduction { font-size: 14px; }
+.hero.hero-compact .hero-art { max-width: 420px; width: 100%; justify-self: end; }
+@media (max-width: 749px) {
+  .hero.hero-compact { padding-top: 150px; padding-bottom: 28px; }
+  .hero.hero-compact .hero-art { justify-self: center; }
+}
+
+/* Design desk hero video: multiply blends the video's paper-white background into the page */
+.hero.hero-hub .ink-hero-image { mix-blend-mode: multiply; }
+
+/* Design desk: the boy rests his arms on the top edge of the footer. The image's arm line sits at ~82% of its height. */
+.footer.has-visitor { position: relative; }
+.footer-visitor { position: absolute; left: 50%; bottom: 100%; width: 480px; height: auto; transform: translate(-50%, 17.6%); pointer-events: none; user-select: none; }
+.creator-hub { padding-bottom: 210px; }
+@media (max-width: 749px) {
+  .footer-visitor { width: 360px; }
+  .creator-hub { padding-bottom: 160px; }
+}
+

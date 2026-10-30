@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { imagery, profile } from '../data/portfolio.js';
 import { Pill, Reveal, SocialLinks } from './ui.jsx';
 
-export default function Contact() {
+export default function Contact({ visitor = false }) {
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
   const submitting = useRef(false);
@@ -39,7 +39,8 @@ export default function Contact() {
   };
 
   return (
-    <footer id="footer" className="footer">
+    <footer id="footer" className={`footer${visitor ? ' has-visitor' : ''}`}>
+      {visitor && <img className="footer-visitor" src="/assets/footer-visitor.png" alt="" aria-hidden="true" />}
       <div className="container contact-grid">
         <Reveal className="contact-copy">
           <img className="contact-ink-doodle" src={imagery.companion} alt="" width="440" height="340" loading="lazy" />

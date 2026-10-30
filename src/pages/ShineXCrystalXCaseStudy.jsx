@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
+import SnapGallery from '../components/SnapGallery.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
-import useMediaQuery from '../hooks/useMediaQuery.js';
 import { projects } from '../data/portfolio.js';
 import { bondureCard } from '../data/bondure.js';
 import { kSeriesCard } from '../data/k-series.js';
@@ -12,16 +12,6 @@ const accent = (product) => ({ '--accent-product': product.accent });
 
 function Heading({ number, eyebrow, id, children }) {
   return <div className="case-section-heading"><span className="chapter-number">{number}</span><div><p className="eyebrow">{eyebrow}</p><h2 id={id}>{children}</h2></div></div>;
-}
-
-function distribute(entries, count) {
-  const columns = Array.from({ length: count }, () => ({ entries: [], height: 0 }));
-  for (const entry of entries) {
-    const shortest = columns.reduce((best, column) => (column.height < best.height ? column : best));
-    shortest.entries.push(entry);
-    shortest.height += entry.post.height / entry.post.width;
-  }
-  return columns.map((column) => column.entries);
 }
 
 function Hero() {
@@ -88,8 +78,6 @@ function Range() {
 }
 
 function SocialGallery() {
-  const wide = useMediaQuery('(min-width: 1000px)');
-  const columns = useMemo(() => distribute(posts.map((post, index) => ({ post, index })), wide ? 3 : 2), [wide]);
   const [current, setCurrent] = useState(null);
   const dialog = useRef(null);
   const isOpen = current !== null;
@@ -114,7 +102,7 @@ function SocialGallery() {
   const closed = () => {
     const index = current;
     setCurrent(null);
-    document.querySelector(`.sx-post[data-index="${index}"]`)?.focus();
+    document.querySelector(`.sx-snap-card[data-index="${index}"]`)?.focus();
   };
   const onBackdropClick = (event) => {
     if (event.target.matches('.sx-lightbox, .sx-lightbox-inner, .sx-lightbox-stage')) dialog.current.close();
@@ -139,17 +127,7 @@ function SocialGallery() {
 
   return (
     <>
-      <div className="sx-columns">
-        {columns.map((column, columnIndex) => (
-          <div className="sx-column" key={columnIndex}>
-            {column.map(({ post: item, index }) => (
-              <button key={item.number} type="button" className="sx-post" data-index={index} onClick={() => setCurrent(index)}>
-                <img src={item.src} width={item.width} height={item.height} alt={item.alt} loading="lazy" decoding="async" />
-              </button>
-            ))}
-          </div>
-        ))}
-      </div>
+      <SnapGallery items={posts} onOpen={setCurrent} />
       <dialog ref={dialog} className="sx-lightbox" aria-label="ShineX social post" onClose={closed} onClick={onBackdropClick} onKeyDown={onKeyDown}>
         {post && (
           <div className="sx-lightbox-inner">

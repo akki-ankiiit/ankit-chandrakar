@@ -59,7 +59,7 @@
 .hero-hub { padding-bottom: 80px; }
 .hub-intro { font-size: 15px; line-height: 1.6; margin-bottom: 24px; }
 .hub-actions { display: flex; align-items: center; gap: 20px; }
-.creator-hub { background: var(--beige); padding-block: 70px 85px; }
+.creator-hub { background: #e4ecd0; padding-block: 70px 85px; }
 .creator-hub h2 { font-size: 36px; letter-spacing: -.7px; margin-top: 13px; }
 .hub-description { font-size: 15px; margin-top: 12px; color: var(--muted); }
 .resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 35px; }

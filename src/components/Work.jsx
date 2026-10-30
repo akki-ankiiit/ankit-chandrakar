@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { categories, designProjects, imagery, projects } from '../data/portfolio.js';
+import { categories, designProjects, projects } from '../data/portfolio.js';
 import { kSeriesCard } from '../data/k-series.js';
 import { bondureCard } from '../data/bondure.js';
 import { shinexCard } from '../data/shinex-crystalx.js';
@@ -132,7 +132,7 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
     <section id="work" className="work-section" aria-labelledby="work-title">
       <div className="work-container">
         <Reveal className="work-heading">
-          <img className="work-flower" src={imagery.flower} width="64" height="77" alt="" loading="lazy" />
+          <img className="work-flower" src="/assets/imagery/my-work-icon.svg" width="74" height="56" alt="" loading="lazy" />
           <h2 id="work-title">My work</h2>
           <div className="folder-tabs" role="tablist" aria-label="Work categories">
             {categories.map((category, index) => (

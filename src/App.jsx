@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -12,6 +12,8 @@ import CaseStudy from './pages/CaseStudy.jsx';
 import KSeriesCaseStudy from './pages/KSeriesCaseStudy.jsx';
 import BondureCaseStudy from './pages/BondureCaseStudy.jsx';
 import ShineXCrystalXCaseStudy from './pages/ShineXCrystalXCaseStudy.jsx';
+import NotFound from './pages/NotFound.jsx';
+const Playtime = lazy(() => import('./pages/Playtime.jsx'));
 
 // Maps project group → Work tab category ID
 const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'apps', systems: 'design-systems' };
@@ -22,7 +24,7 @@ export default function App() {
   const navigationType = useNavigationType();
   const [category, setCategory] = useState('case-studies');
   const scrollPositions = useRef(new Map());
-  const page = location.pathname === '/desk' ? 'hub' : location.pathname.startsWith('/work/') ? 'case' : 'home';
+  const page = location.pathname === '/desk' ? 'hub' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
 
   useEffect(() => {
     const rememberScroll = () => scrollPositions.current.set(location.key, window.scrollY);
@@ -49,11 +51,14 @@ export default function App() {
   }, [location, navigate, navigationType]);
 
   useEffect(() => {
-    if (page !== 'case') document.title = page === 'hub' ? 'Design desk — Ankit Chandrakar' : 'Ankit Chandrakar — Lead Product Designer';
+    if (page === 'not-found') document.title = 'Page not found — Ankit Chandrakar';
+    else if (page === 'playtime') document.title = 'Playtime — Ankit Chandrakar';
+    else if (page !== 'case') document.title = page === 'hub' ? 'Design desk — Ankit Chandrakar' : 'Ankit Chandrakar — Lead Product Designer';
   }, [page]);
 
   const onNavigate = (destination) => {
     if (destination === 'hub') navigate('/desk');
+    else if (destination === 'playtime') navigate('/playtime');
     else if (destination === 'home') navigate('/');
     else if (destination === 'footer') navigate(`${location.pathname}#footer`);
     else navigate(`/#${destination}`);
@@ -67,14 +72,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /><Impact /></div>} />
           <Route path="/desk" element={<div className="page-enter"><Hero isHub onNavigate={onNavigate} /><CreatorHub /></div>} />
+          <Route path="/playtime" element={<Suspense fallback={<div className="playtime-loading" />}><Playtime /></Suspense>} />
           <Route path="/work/kamdhenu-k-series" element={<KSeriesCaseStudy />} />
           <Route path="/work/bondure" element={<BondureCaseStudy />} />
           <Route path="/work/shinex-crystalx" element={<ShineXCrystalXCaseStudy />} />
           <Route path="/work/:projectId" element={<CaseStudy />} />
-          <Route path="*" element={<section className="not-found container"><p className="eyebrow">A page out of place</p><h1>This chapter hasn’t been written.</h1><Link className="text-link" to="/">Back to the portfolio ↗</Link></section>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Contact />
+      <Contact visitor={page === 'hub'} />
     </>
   );
 }

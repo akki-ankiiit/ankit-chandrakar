@@ -1,0 +1,36 @@
+.playtime-loading {
+  min-height: 100vh;
+  background: #f0f0f0;
+}
+
+.playtime-shadow-host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background: #f0f0f0;
+}
+
+html.playtime-route {
+  scroll-padding-top: 0;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis-scrolling iframe {
+  pointer-events: none;
+}

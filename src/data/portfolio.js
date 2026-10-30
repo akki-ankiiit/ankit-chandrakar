@@ -46,7 +46,6 @@ export const imagery = {
   hero: '/assets/newlogo/image.png',
   heroSmall: '/assets/newlogo/image.png',
   portrait: '/assets/image_6.png',
-  flower: '/assets/imagery/flower-fy.webp',
   headphones: asset('ink-headphones.svg'),
   sketchbook: asset('ink-sketchbook.svg'),
   sneaker: asset('ink-sneaker.svg'),

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { profile, projects } from '../data/portfolio.js';
 import { Pill } from '../components/ui.jsx';
 import Icon from '../components/Icon.jsx';
+import NotFound from './NotFound.jsx';
 
 function Presentation({ project }) {
   const chapters = project.caseStudy.chapters;
@@ -142,7 +143,7 @@ function StreamPage({ project }) {
 export default function CaseStudy() {
   const { projectId } = useParams();
   const project = projects.find((item) => item.id === projectId);
-  if (!project) return <section className="not-found container"><p className="eyebrow">A page out of place</p><h1>This project isn’t in the folder.</h1><Link className="text-link" to="/#work">Browse selected work ↗</Link></section>;
+  if (!project) return <NotFound title="This project isn’t in the folder." message="The case study you’re looking for may have moved, or it hasn’t been published yet. Browse the selected work to find your way back." />;
   if (project.stream) return <StreamPage key={project.id} project={project} />;
   if (project.embedUrl) return <ShowcasePage key={project.id} project={project} />;
   return <CaseStudyContent key={project.id} project={project} />;
