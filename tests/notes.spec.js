@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+test.skip(true, 'Notes and the backend footer are temporarily disabled; restore with Notes routes.');
+
 // Configured cases use the Vite server's real public configuration. For example:
 // VITE_SUPABASE_URL=https://notes-test.supabase.co
 // VITE_SUPABASE_ANON_KEY=sb_publishable_browser_test_key

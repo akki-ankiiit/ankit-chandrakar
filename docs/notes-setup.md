@@ -1,5 +1,7 @@
 # Notes, private messages, and owner dashboard
 
+> **Temporarily paused:** Notes navigation and the `/notes` and `/admin/notes` routes are disabled. The footer currently opens a `mailto:` draft in the visitor's configured email app instead of submitting to the backend. The feature files and backend are retained for restoration; the Notes browser suite is skipped until the routes return. The guide below describes the paused implementation.
+
 Practical operator guide for the implementation in this repository. Commands run from the repository root unless stated otherwise. This guide documents setup and verification steps; it does not certify a deployment, configured credentials, passing checks, or live email delivery.
 
 ## 1. Architecture and behavior
