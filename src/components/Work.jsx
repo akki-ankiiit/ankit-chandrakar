@@ -105,7 +105,9 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
       case 'apps':
         return {
           topline: 'Enterprise platforms, conversational AI workspaces, and mobile interfaces',
-          items: pick(['adhikar', 'contractorbhai', 'mistribhai', 'thanq']),
+          items: pick(['adhikar', 'contractorbhai', 'mistribhai', 'thanq']).map((project) => (
+            project.id === 'adhikar' ? { ...project, thumbnail: '/assets/Adhikar.png' } : project
+          )),
         };
       case 'design-systems':
         return {
@@ -116,6 +118,11 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
         return {
           topline: 'Packaging systems, brand identities, and print collateral',
           items: packagingItems,
+        };
+      case 'brand-design':
+        return {
+          topline: 'Brand identities, visual languages, and expressions across products',
+          items: pick(['neostra', 'tejas', 'thanq', 'atlas', 'adhikar']),
         };
       default:
         return {

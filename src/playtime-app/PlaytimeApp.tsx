@@ -42,6 +42,7 @@ function App() {
   return (
     <div id="top" className="playtime-app min-h-screen w-full flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-x-hidden relative font-sans selection:bg-[var(--color-accent-orange)] selection:text-white">
       <main className="flex flex-col w-full relative z-10">
+        <div id="pocket-vibes"><PocketPlayerSection /></div>
         <div id="keep-moving"><ImageTrail /></div>
         <div id="works"><SnapCarousel /></div>
         <div id="flipbook"><Flipbook /></div>
@@ -51,7 +52,6 @@ function App() {
         <div id="dot-field"><DotBackgroundSection /></div>
         <div id="globe-gallery"><GlobeGallerySection /></div>
         <div id="dock"><DockSection /></div>
-        <div id="pocket-vibes"><PocketPlayerSection /></div>
       </main>
     </div>
   );

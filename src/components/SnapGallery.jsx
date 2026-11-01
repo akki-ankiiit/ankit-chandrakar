@@ -145,14 +145,16 @@ export default function SnapGallery({ items, onOpen }) {
 
   return (
     <div className="sx-snap" tabIndex={0} role="region" aria-roledescription="carousel" aria-label="ShineX social posts" onKeyDown={onKeyDown}>
-      <MotionDiv className="sx-snap-track" onPan={onPan} onPanEnd={onPanEnd}>
-        {items.map((item, index) => (
-          <SnapCard key={item.number} item={item} index={index} total={total} scrollX={scrollX} onSelect={onSelect} />
-        ))}
-      </MotionDiv>
-      <MotionDiv className="sx-snap-frame" animate={controls} aria-hidden="true">
-        <span className="tl" /><span className="tr" /><span className="bl" /><span className="br" />
-      </MotionDiv>
+      <div className="sx-snap-stage">
+        <MotionDiv className="sx-snap-track" onPan={onPan} onPanEnd={onPanEnd}>
+          {items.map((item, index) => (
+            <SnapCard key={item.number} item={item} index={index} total={total} scrollX={scrollX} onSelect={onSelect} />
+          ))}
+        </MotionDiv>
+        <MotionDiv className="sx-snap-frame" animate={controls} aria-hidden="true">
+          <span className="tl" /><span className="tr" /><span className="bl" /><span className="br" />
+        </MotionDiv>
+      </div>
       <p className="sx-snap-caption" aria-live="polite">
         <span>{active + 1} / {total}</span>
         {items[active].alt}

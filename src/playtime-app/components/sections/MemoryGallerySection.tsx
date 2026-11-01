@@ -95,7 +95,7 @@ export const MemoryGallerySection = () => {
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none">
         <div className="flex flex-col text-[#e8e6e3] select-none">
           <div className="flex items-start justify-between w-full relative">
-            <h2 
+            <h2
               className="text-4xl md:text-5xl lg:text-5xl tracking-tight leading-[0.85] italic font-light pr-1"
               style={{ fontFamily: "'PP Editorial New', 'Editorial New', serif" }}
             >
@@ -103,14 +103,14 @@ export const MemoryGallerySection = () => {
             </h2>
             <span className="absolute top-0 right-0 text-4xl md:text-5xl font-light leading-none">+</span>
           </div>
-          <h2 
+          <h2
             className="text-6xl md:text-5xl lg:text-5xl tracking-tight leading-[0.85] mt-1 md:mt-1 italic"
             style={{ fontFamily: "'PP Editorial New', 'Editorial New', serif" }}
           >
-            to my akki world
+            to this canvas
           </h2>
           <div className="w-full flex justify-end mt-4 md:mt-3 pr-3">
-            <span 
+            <span
               className="text-xs md:text-lg italic tracking-[0.1em] text-[#e8e6e3]"
               style={{ fontFamily: "'PP Editorial New', 'Editorial New', serif" }}
             >

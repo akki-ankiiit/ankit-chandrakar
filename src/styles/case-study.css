@@ -161,13 +161,22 @@
 .showcase-context { max-width: 680px; margin-top: 44px; }
 .showcase-context p { font-size: 17px; line-height: 1.8; color: #7e6751; }
 .showcase-context p + p { margin-top: 16px; }
-.showcase-site { width: 100%; max-width: 1440px; margin: 72px auto 0; padding-inline: 32px; box-sizing: border-box; }
-.showcase-site iframe { display: block; width: 100%; height: 88vh; min-height: 720px; border: 1px solid #b8997855; border-radius: 6px; background: #fff; }
+.showcase-site { width: 100%; max-width: 1080px; margin: 72px auto 0; padding-inline: 32px; box-sizing: border-box; }
+/* The site is rendered at 90% (zoomed out): the iframe is 1/0.9 of the frame in both directions, then scaled down. */
+.showcase-frame { position: relative; width: 100%; height: calc(100vh - 200px); height: calc(100dvh - 200px); overflow: hidden; border: 1px solid #b8997855; border-radius: 6px; background: #fff; }
+.showcase-frame iframe { position: absolute; top: 0; left: 0; display: block; width: calc(100% / .9); height: calc(100% / .9); border: 0; transform: scale(.9); transform-origin: 0 0; }
+.showcase-preview { position: absolute; inset: 0; display: block; background: #f7f3eb; }
+.showcase-preview img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.showcase-preview-caption { position: absolute; right: 16px; bottom: 16px; left: 16px; width: fit-content; max-width: calc(100% - 32px); margin-inline: auto; padding: 14px 20px; border: 1px solid #b8997855; border-radius: 6px; background: #faf7f0; color: #493c30; text-align: center; box-shadow: 0 4px 16px #30261918; }
+.showcase-preview-caption strong { display: block; font-size: 15px; line-height: 1.5; }
+.showcase-preview-caption small { display: block; margin-top: 4px; font-size: 12px; line-height: 1.5; color: #7e6751; }
+.showcase-preview:hover .showcase-preview-caption { background: #fffdf8; border-color: #8b6b50; }
+.showcase-preview:focus-visible { outline: 3px solid #8b6b50; outline-offset: -4px; }
 .showcase-site .text-link { display: inline-block; margin-top: 14px; }
 @media (max-width: 749px) {
   .showcase-page { padding-top: 148px; }
   .showcase-site { padding-inline: 7%; }
-  .showcase-site iframe { height: 70vh; min-height: 520px; }
+  .showcase-frame { height: calc(100vh - 180px); height: calc(100dvh - 180px); }
   .showcase-context p { font-size: 15px; }
 }
 

@@ -9,14 +9,14 @@ export const kSeriesCard = {
   client: 'KAMDHENU ADHESIVE',
   category: 'PACKAGING & NAMING',
   title: 'K-Series',
-  image: '/assets/Kseries.png',
-  subtitle: 'Four numbers and four colours that turned a tile adhesive range into something masons can pick off the shelf.',
+  image: images['portfolio-card'].src,
+  subtitle: 'We asked the people who sell and use the bags. Four numbers and four colours later, a ₹1.5 Cr range became a ₹20 Cr one.',
 };
 
 export const kSeriesHero = {
   title: 'K-Series',
-  subtitle: 'How four numbers and four colours turned Kamdhenu Adhesive into a range masons can pick off the shelf without reading a word.',
-  meta: ['Packaging and naming system', 'Kamdhenu Adhesive', 'Role: Lead Product Designer'],
+  subtitle: kSeriesCard.subtitle,
+  facts: [['Client', 'Kamdhenu Adhesive'], ['Scope', 'Research, naming and packaging'], ['Role', 'Lead Product Designer'], ['Outcome', '₹1.5 Cr to ₹20 Cr a year']],
 };
 
 export const kSeriesMeta = {
@@ -30,111 +30,110 @@ export const grades = [
     id: 'k50', code: 'K50', colour: '#D2491A', ink: '#ffffff',
     english: 'Floor & Wall Tile Adhesive',
     hindi: 'फ्लोर एंड वाल टाइल एडसिव',
-    use: 'Everyday ceramic tiles on floors and walls. The entry point of the range.',
-    colourNote: 'Warm and approachable for the everyday grade.',
-    frontNote: 'K50 shows trowelled adhesive and ceramic floor tiles going down: the everyday job.',
+    use: 'Ceramic floors and walls',
   },
   {
     id: 'k60', code: 'K60', colour: '#E1BE00', ink: '#282828',
     english: 'Superior Floor & Wall Tile Adhesive',
     hindi: 'सुपीरियर फ्लोर एंड वॉल टाइल एडेसिव',
-    use: 'Vitrified tiles in bathrooms and kitchens, where water and traffic test the bond.',
-    colourNote: 'A step brighter, matching Kamdhenu’s own logo yellow.',
-    frontNote: 'K60 shows glossy vitrified tiles in a bathroom, where water resistance matters.',
+    use: 'Vitrified tiles, wet areas',
   },
   {
     id: 'k80', code: 'K80', colour: '#C8161D', ink: '#ffffff',
     english: 'Superior Tile & Stone Adhesive',
     hindi: 'सुप्रीम टाइल एंड स्टोन एडेसिव',
-    use: 'Heavier tiles and natural stone, including marble-look slabs on counters and walls.',
-    colourNote: 'The brand red, signalling serious strength for stone.',
-    frontNote: 'K80 shows marble-look slabs pressed onto a counter and a wall: tile and stone.',
+    use: 'Heavy tiles and natural stone',
   },
   {
     id: 'k90', code: 'K90', colour: '#0B4A98', ink: '#ffffff',
     english: 'Paramount Tile & Stone Adhesive',
     hindi: 'पैरामाउंट टाइल एंड स्टोन एडेसिव',
-    use: 'Large-format slabs and vertical stone cladding. The top of the range.',
-    colourNote: 'The deepest colour for the premium grade, taken from the logo’s blue.',
-    frontNote: 'K90 shows large slabs being fixed to a vertical wall: the hardest job in the range.',
+    use: 'Large slabs, vertical cladding',
   },
 ];
 
-export const problem = {
-  heading: 'Every adhesive bag on the counter looked the same.',
-  paragraphs: [
-    'Kamdhenu Adhesive was entering a market crowded with grey-and-white sacks. Each brand had several grades, each grade had a long technical name, and they all sat in the same dusty stack at the dealer’s shop.',
-    'The result was predictable. Dealers handed over whatever was on top. Masons used a basic adhesive under heavy vitrified tiles and stone, and when a tile came loose, the brand took the blame. Kamdhenu’s name carried trust from steel and pipes, but the adhesive range had no way to show which bag was meant for which job.',
+export const recognition = {
+  heading: 'Signed off by the founder.',
+  lede: 'Sunil Agrawal, founder of Kamdhenu Group, appreciated the work at the K-Series launch and signed the brochure.',
+  quote: 'All the best for Adhesive.',
+  quoteCaption: 'Handwritten on the K-Series brochure',
+  profile: {
+    name: 'Sunil Agrawal',
+    role: 'Founder, Kamdhenu Group',
+    imageKey: 'sunil-portrait',
+    alt: 'Sunil Agrawal, founder of Kamdhenu Group',
+    bio: 'Kamdhenu’s familiar TMT steel grades helped inspire the K-Series naming system. At the K-Series launch, he appreciated the design and signed the product brochure.',
+  },
+  figures: [
+    { key: 'me-and-sunil', caption: 'With Sunil Agrawal at the launch stand', alt: 'Ankit Chandrakar and Sunil Agrawal standing together at an evening event, with K50 and K60 signage behind them.' },
+    { key: 'signed-brochure', caption: 'The signed brochure', alt: 'The K-Series product brochure with a handwritten message and signature from Sunil Agrawal.' },
   ],
-  caption: 'Take the colour and the number away and four very different products become one anonymous stack. That was the shelf we had to win.',
 };
 
-export const buyer = {
-  heading: 'The real customer holds a trowel, not a brochure.',
-  intro: 'Homeowners pay for tile adhesive, but masons and contractors decide which bag gets opened. I spent time at dealer counters and on site to see how they choose.',
-  columns: [
-    { title: 'They choose by colour', text: 'A mason asks for “the red one” or “the blue one”. Colour is remembered after a single job; product names are not.' },
-    { title: 'They trust a number', text: 'Builders already compare cement and steel by grade. A higher number reads as a stronger product with no explanation needed.' },
-    { title: 'They read Hindi first', text: 'Instructions in English technical language get skipped. Pictures and Hindi get followed, even with wet hands and a mixer running.' },
+export const oldBags = [
+  { key: 'old-t10', alt: 'Original Kamdhenu T-10 Silver tile adhesive bag in light blue.' },
+  { key: 'old-t20', alt: 'Original Kamdhenu T-20 Gold tile adhesive bag in gold.' },
+  { key: 'old-wt20', alt: 'Original Kamdhenu WT-20 Gold white tile adhesive bag in muted green.' },
+  { key: 'old-t30', alt: 'Original Kamdhenu T-30 Diamond tile adhesive bag in lime green.' },
+];
+
+export const problem = {
+  heading: 'Every bag on the counter looked the same.',
+  lede: 'The original T-series used technical names and similar layouts across four tile adhesives.',
+  caption: 'T-10 Silver, T-20 Gold, WT-20 Gold and T-30 Diamond: different colours, similar front-of-pack layouts.',
+  names: ['T-10 Silver', 'T-20 Gold', 'WT-20 Gold', 'T-30 Diamond'],
+  issues: ['Technical names were hard to say and remember.', 'Near-identical layouts made the range hard to tell apart.', 'No obvious entry-to-premium order.'],
+  salesBefore: { label: 'Annual sales before', value: '₹1–1.5 Cr' },
+  buyer: [
+    { title: 'They choose by colour', text: 'Masons ask for the red one.' },
+    { title: 'They trust a number', text: 'Steel and cement are bought by grade.' },
+    { title: 'They read Hindi first', text: 'Pictures and Hindi get followed.' },
   ],
 };
 
 export const insight = {
-  heading: 'Kamdhenu had already taught builders to trust a grade.',
-  paragraphs: [
-    'Kamdhenu built its name on TMT bars, where every contractor picks steel by its grade number. I gave the adhesive range the same logic: a K for Kamdhenu, and a number that rises with performance.',
-    'No new vocabulary for the market to learn. A mason who knows Kamdhenu steel already understands that K90 is stronger than K50.',
-  ],
+  heading: 'Borrow the grade builders already trust.',
+  lede: 'Kamdhenu sells TMT steel by grade. Fe500 became the cue for K50: K for Kamdhenu, and a number that rises with strength.',
+  steelGradeExample: ['Fe500', 'K50'],
 };
 
 export const naming = {
   heading: 'Climb the number, climb the job.',
+  lede: 'One grade, one colour, one job. The colour fills the lower half of every bag.',
   axis: ['Lighter tiles, floors', 'Heavier stone, walls and facades'],
-};
-
-export const colour = {
-  heading: 'One colour per grade, filling the lower half of the bag.',
-  text: 'The bottom of every bag is a solid field of its grade colour, carrying the same wave pattern. Stacked on a pallet or in a dealer’s godown, each grade forms its own colour block that can be spotted from the door.',
+  ladder: { k50: 'Ceramic', k60: 'Vitrified', k80: 'Stone', k90: 'Slabs' },
 };
 
 export const front = {
-  heading: 'Read from top to bottom in three seconds.',
+  heading: 'Read top to bottom in three seconds.',
+  lede: 'Five zones, in the order a mason reads them.',
   pins: [
-    { id: 1, x: '50%', y: '14%', title: 'Two marks of trust', text: 'Kamdhenu Group’s gear logo sits beside the Kamdhenu Adhesive wordmark, so the group’s reputation carries straight into a new category.' },
-    { id: 2, x: '14%', y: '28%', title: 'The grade, at display size', text: 'The K-number is the largest thing on the bag, with the product name set beside it.' },
-    { id: 3, x: '50%', y: '45%', title: 'Four promises', text: 'Ready to use, saves time, high strength, durability. Icons first, words second.' },
-    { id: 4, x: '50%', y: '59%', title: 'A window onto the job', text: 'Two photographs show exactly where this grade belongs, so the bag explains itself.' },
-    { id: 5, x: '22%', y: '75%', title: 'The colour field', text: 'The grade colour, the wave pattern and the net weight in white.' },
+    { id: 1, x: '50%', y: '14%', title: 'Two marks of trust', text: 'Group logo beside the Adhesive wordmark.' },
+    { id: 2, x: '14%', y: '28%', title: 'The grade', text: 'The K-number is the largest thing on the bag.' },
+    { id: 3, x: '50%', y: '45%', title: 'Four promises', text: 'Icons first, words second.' },
+    { id: 4, x: '50%', y: '59%', title: 'The job', text: 'Two photos show where this grade belongs.' },
+    { id: 5, x: '22%', y: '75%', title: 'The colour field', text: 'Grade colour, wave pattern, net weight.' },
   ],
 };
 
 export const back = {
-  heading: 'Fourteen pictures, from clean floor to grout.',
-  text: 'The back of every K-Series bag works as a site manual. A mason can follow it without reading English, and a contractor can check the specification in seconds.',
+  heading: 'The back is a site manual.',
+  lede: 'A mason can follow it without English; a contractor can check the spec in seconds.',
   points: [
-    { title: 'A 14-step pictogram guide', text: 'Cleaning, water ratio, mixing, resting time, notching, back-buttering, twisting the tile, 24-hour wait and grouting.' },
-    { title: 'Bilingual identity', text: 'The product name repeats in Devanagari at the top, so Hindi readers see their language first.' },
-    { title: 'Trowel and coverage table', text: 'Notch sizes with the area one 20 kg bag covers, which helps contractors estimate quantity before buying.' },
-    { title: 'Compliance in one block', text: 'Standard, open time, adjustment time, shelf life, and a clear box for batch, MRP and unit price.' },
+    { title: '14-step pictograms', text: 'From clean floor to grout' },
+    { title: 'Hindi first', text: 'Name repeated in Devanagari' },
+    { title: 'Coverage table', text: 'Area per 20 kg bag, by notch size' },
+    { title: 'Compliance block', text: 'Standard, batch, MRP' },
   ],
   spec: ['Type 4, IS 15477:2019', '20 min open time', '3–4 hrs pot life', '20 kg net'],
 };
 
-export const approval = {
-  heading: 'Approved at Kamdhenu Group headquarters.',
-  text: 'The K-Series was designed in Raipur for Kamdhenu Adhesive, marketed by Patcorn Drymix. The complete system, names, colours and both sides of all four bags, went to Kamdhenu Group’s head office in Cyber City, Gurgaon, and was approved as the face of the adhesive range.',
-  steps: [
-    { title: 'Raipur', text: 'Naming, colour system and bag artwork designed and refined with the sales team and dealers.' },
-    { title: 'Cyber City, Gurgaon', text: 'Reviewed by Kamdhenu Group headquarters against the group’s brand standards.' },
-    { title: 'Approved', text: 'Adopted for the full K-Series and taken to market under the Kamdhenu Group mark.' },
-  ],
-};
-
 export const results = {
-  heading: 'The range is now selling beyond Raipur.',
-  figure: '₹10 Cr',
-  figureLabel: 'Yearly sales of K-Series bags in Raipur alone.',
-  text: 'Dealers and masons now ask for the range by number and colour. With Raipur proven, the same bags have moved into Nagpur, Bhopal and more cities across central India.',
+  heading: 'From ₹1.5 Cr to ₹20 Cr.',
+  lede: 'Approved by Kamdhenu Group in Gurgaon, then rolled out across central India.',
+  figure: '₹20 Cr',
+  figureLabel: 'Annual adhesive sales, up from ₹1–1.5 Cr',
+  supporting: [{ figure: '₹10 Cr', label: 'a year from Raipur alone' }, { figure: '3+', label: 'markets: Raipur, Nagpur, Bhopal and more' }],
   spread: [
     { name: 'Raipur', note: 'Origin, proven', kind: 'origin' },
     { name: 'Nagpur', note: 'Now selling', kind: 'city' },
@@ -143,40 +142,38 @@ export const results = {
   ],
 };
 
-export const founder = {
-  label: 'The person behind the brand',
-  heading: 'Sunil Agrawal, Founder, Kamdhenu Group',
-  paragraphs: [
-    'Sunil Agrawal is the founder of Kamdhenu Group, the company behind Kamdhenu TMT bars. Kamdhenu TMT is one of the most recognised names in Indian construction, and the group, headquartered in Cyber City, Gurgaon, has since grown into paints, structural products and, with Kamdhenu Adhesive, tile adhesives.',
-    'For a founder who built his brand on grades that contractors trust, the K-Series naming logic was a natural fit. Seeing him approve it and put his name to it on the brochure was the moment the work felt complete.',
-  ],
-  facts: [
-    { label: 'Headquarters', value: 'Cyber City, Gurgaon' },
-    { label: 'Known for', value: 'Kamdhenu TMT bars' },
-  ],
+export const role = [
+  'Field research with sellers, contractors and masons',
+  'Naming: K50, K60, K80, K90',
+  'Colour coding by grade',
+  'Front-of-pack layout',
+  'Back-of-pack pictograms and specs',
+  'English and Hindi copy',
+  'Approval with Kamdhenu Group HQ',
+];
+
+export const listening = {
+  round1: {
+    who: 'Regional managers, founders and sales teams',
+    where: 'Dealer counters and sales reviews',
+    learned: ['The range was hard to explain in one line.', 'Customers asked by colour, including the red one.', 'Competitor bags were easier to compare at a glance.'],
+  },
+  round2: {
+    who: 'Contractors and masons',
+    where: 'On site and at dealer shops',
+    learned: ['They choose by colour.', 'They trust grades like those on steel and cement.', 'They read Hindi first and follow pictures.'],
+  },
+  interviewCount: '', // TODO_USER: Confirm interview count; leave empty until supplied.
+  methods: ['Structured interviews', 'Shelf and site observation', 'Competitor bag comparison'],
 };
 
-export const recognition = {
-  heading: 'Recognised by the founder of Kamdhenu Group.',
-  text: 'At the group’s biggest event, in front of the K-Series launch stand, founder Sunil Agrawal recognised me for the work, congratulated me in person and signed the K-Series product brochure.',
-  quote: 'All the best for Adhesive.',
-  quoteCaption: 'Handwritten by Sunil Agrawal on the K-Series brochure.',
-  figures: [
-    { key: 'me-and-sunil', caption: 'With Sunil Agrawal at the K-Series display.', alt: 'Ankit Chandrakar and Sunil Agrawal standing together at an evening event, with K50 and K60 signage behind them.' },
-    { key: 'signed-brochure', caption: 'The signed product brochure.', alt: 'The K-Series product brochure with a handwritten message and signature from Sunil Agrawal.' },
-  ],
-};
+export const researchFindings = [
+  { finding: 'Colour is the shortcut.', designResponse: 'One colour per grade, filling the lower half of the bag.' },
+  { finding: 'A number carries trust.', designResponse: 'K50–K90: a rising grade system inspired by TMT steel.' },
+  { finding: 'Hindi and pictures lead.', designResponse: 'Hindi on the front. A pictogram site manual on the back.' },
+];
 
-export const role = {
-  heading: 'A product range people can read at a glance.',
-  text: 'I took the K-Series from a set of unnamed formulations to an approved, selling range. The work was never just four pretty bags; it was a system that tells dealers what to stock, masons what to use and Kamdhenu what to build next.',
-  deliverables: [
-    ['Naming architecture', 'K50, K60, K80, K90'],
-    ['Colour coding', 'orange, yellow, red, blue'],
-    ['Front layout', 'trust marks, grade, promises, use case'],
-    ['Back of pack', '14-step pictograms, specs, compliance'],
-    ['Bilingual copy', 'English and Hindi'],
-    ['Approval', 'Kamdhenu Group HQ, Gurgaon'],
-    ['Outcome', '₹10 Cr yearly in Raipur, now multi-city'],
-  ],
+export const strategyShift = {
+  heading: 'A product line the sales team could finally pitch.',
+  points: ['A clear ladder replaced four unrelated names.', 'Each step gave dealers a way to explain the next grade and upsell.', 'The system could extend to new grades and new cities.'],
 };

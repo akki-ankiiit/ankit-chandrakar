@@ -22,39 +22,36 @@ export const bondureCard = {
 
 export const bondureHero = {
   title: 'BONDURE',
-  subtitle: 'Packaging and identity for a new construction-chemicals brand by Tejas, built to look established from day one.',
-  meta: ['Brand identity', 'Packaging', 'Tejas', 'Role: Lead Product Designer'],
+  subtitle: 'Identity and packaging that made a brand-new construction-chemicals range look established from day one.',
+  facts: [['Client', 'Tejas'], ['Scope', 'Identity and packaging'], ['Role', 'Lead Product Designer'], ['Outcome', '₹2 Cr+ in monthly sales']],
 };
 
 export const brief = {
-  heading: 'A new name, entering a market that already knew the team.',
-  text: 'Tejas is a new company launched by the founding team behind Kamdhenu Adhesive. Their first range was three products for modern walls and floors: an AAC block jointing mortar, a ready-mix plaster and a floor screed.',
-  challenge: 'a brand nobody had heard of had to sit on the same shelves as established names and look premium, trustworthy and like one family.',
+  heading: 'A new name on a crowded shelf.',
+  lede: 'Tejas, from the team behind Kamdhenu Adhesive, launched three products for modern walls and floors.',
+  challenge: 'Look premium, trustworthy and like one family, next to brands buyers already knew.',
   linkLabel: 'See how the same team launched Kamdhenu Adhesive →',
 };
 
 export const logo = {
-  heading: 'The logo',
-  text: 'I designed the BONDURE wordmark: a strong serif that reads as “bond” and “endure”, solid enough for a product that holds walls together. Tejas stays as the maker’s mark on every bag.',
+  heading: 'A wordmark built to hold.',
+  lede: 'BONDURE reads as “bond” and “endure”. Tejas stays as the maker’s mark on every bag.',
 };
 
 // Accents are the median colour of the solid colour field at the bottom of each bag (sampled from the PNGs).
 export const products = [
   {
     id: 'bondure', image: 'bondure', name: 'BONDURE', type: 'AAC Block Jointing Mortar',
-    use: 'For laying AAC blocks with thin, strong joints.',
     colour: 'Maroon', accent: '#540E1E', pack: '40 kg',
     alt: 'BONDURE AAC Block Jointing Mortar bag in maroon, 40 kg',
   },
   {
     id: 'wallstark', image: 'wallstark', name: 'Wall Stârk', type: 'German Finish Ready-Mix Plaster',
-    use: 'Smooth wall plastering straight from the bag.',
     colour: 'Navy', accent: '#0B1628', pack: '40 kg',
     alt: 'Wall Stârk German Finish Ready-Mix Plaster bag in navy, 40 kg',
   },
   {
     id: 'screed', image: 'screed', name: 'Scrêêd', type: 'German Finish Floor Screed',
-    use: 'Level, durable floor beds.',
     colour: 'Deep green', accent: '#0F2D28', pack: '50 kg',
     alt: 'Scrêêd German Finish Floor Screed bag in deep green, 50 kg',
   },
@@ -62,13 +59,13 @@ export const products = [
 
 export const system = {
   heading: 'One family, three colours.',
-  intro: 'Every bag uses the same layout, so the range is recognisable from across a store. Only the colour and the product name change.',
+  lede: 'The same layout on every bag. Only the colour and the product name change.',
 };
 
 export const notes = {
   roof: {
     title: 'Roof accents',
-    text: 'The chevrons over the “â” and “êê” in Stârk and Scrêêd are drawn as roofs, a quiet nod to building.',
+    text: 'The chevrons over “â” and “êê” are drawn as roofs.',
     figures: [
       { key: 'roof-wallstark', alt: 'The Wall Stârk name from the bag, with a red roof-shaped chevron over the “â”.' },
       { key: 'roof-screed', alt: 'The Scrêêd name from the bag, with a red roof-shaped chevron over each “ê”.' },
@@ -76,6 +73,7 @@ export const notes = {
   },
   promises: {
     title: 'Four promises',
+    text: 'One icon set across the range.',
     items: [
       { key: 'icon-self-curing', label: 'Self curing', alt: 'Self curing icon: a clock with a circular arrow' },
       { key: 'icon-strength', label: 'High strength', alt: 'High strength icon: a flexed arm' },
@@ -85,27 +83,17 @@ export const notes = {
   },
   proof: {
     title: 'Proof at the bottom',
-    conforms: 'Conforms to',
+    text: 'Certifications and net weight close every bag.',
     conformsAlt: 'ISO, IGBC, ASTM and Bureau of Indian Standards marks from the bottom of the BONDURE bag',
-    weightLabel: 'Net weight',
   },
 };
 
 export const results = {
-  heading: 'Results',
+  heading: 'Selling across three states.',
+  lede: 'The range now sells across central and western India.',
   figure: '₹2 Cr+',
-  figureLabel: 'Monthly sales across the range.',
-  text: 'Sold across Chhattisgarh, Maharashtra, Madhya Pradesh and other states of India.',
+  figureLabel: 'Monthly sales across the range',
   states: ['Chhattisgarh', 'Maharashtra', 'Madhya Pradesh'],
 };
 
-export const role = {
-  heading: 'My role',
-  items: [
-    'Brand name treatment and BONDURE logo',
-    'Packaging system for three products',
-    'Colour coding',
-    'Icon set',
-    'Print-ready bag artwork',
-  ],
-};
+export const role = ['BONDURE name treatment and logo', 'Packaging system for three products', 'Colour coding', 'Icon set', 'Print-ready bag artwork'];

@@ -1,0 +1,7 @@
+project_id = "ankit-portfolio"
+
+[functions.portfolio-api]
+verify_jwt = false
+
+[db.seed]
+enabled = false

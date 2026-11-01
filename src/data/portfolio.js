@@ -16,8 +16,8 @@ export const profile = {
   notion,
   resume: '/ankit-chandrakar-resume.pdf',
   announcement: 'Thoughtful products. A little curiosity. A lot of care.',
-  headline: 'Making complex things feel beautifully simple.',
-  introduction: 'Hey, I’m Ankit — a Lead Product Designer turning complex workflows into thoughtful digital experiences.',
+  headline: 'Ankit Chandrakar is a product designer who designs & codes </>',
+  introduction: 'A Lead Product Designer turning complex workflows into thoughtful digital experiences.',
   role: 'Lead Product Designer',
   bio: 'I’m Ankit Chandrakar, a product designer with a computer science foundation and 2+ years of experience across enterprise SaaS, AI-powered products, privacy technology, and design systems. I connect user needs, business goals, and engineering to take products from the first question to the final interaction.',
   philosophy: 'A little structure for the complex. A little personality for the everyday.',
@@ -55,9 +55,10 @@ export const imagery = {
 export const categories = [
   { id: 'case-studies', label: 'Case Studies', folder: '/assets/imagery/folder-beige.webp' },
   { id: 'websites', label: 'Websites', folder: '/assets/imagery/folder-slate.webp' },
-  { id: 'apps', label: 'Apps', folder: '/assets/imagery/folder-green.webp' },
+  { id: 'apps', label: 'Product design', folder: '/assets/imagery/folder-green.webp' },
   { id: 'design-systems', label: 'Design Systems', folder: '/assets/imagery/folder-terracotta.webp' },
   { id: 'packaging-designs', label: 'Packaging designs', folder: '/assets/imagery/folder-brown.webp' },
+  { id: 'brand-design', label: 'Brand Design', folder: '/assets/imagery/folder-plum.webp' },
 ];
 
 export const artworks = [
@@ -95,6 +96,7 @@ export const designProjects = [
 const existingProjects = [
   {
     id: 'neostra', title: 'Neostra', subtitle: 'Privacy, without the complexity.',
+    href: '/work/neostra',
     client: 'Nyusta', category: 'Enterprise SaaS', group: 'products', year: '2024 — Present',
     image: asset('project-neostra.webp'), visualType: 'concept',
     role: 'Lead Product Designer', scope: 'Discovery → implementation',
@@ -163,9 +165,9 @@ const existingProjects = [
   })),
   ...[
     { id: 'blackspace', title: 'Blackspace', subtitle: 'A bold, dark-mode web presence.', category: 'Website Design', embedUrl: 'https://www.blackspace.media/', context: ['Blackspace is a creative studio in Bengaluru, established in 2023, making content, film and brand work.', 'The team writes, shoots, cuts and ships content campaigns, scripts, edits and brand work, with AI handling much of the preparation.', 'The website puts that process front and centre: work, services and contact sit in a single bold interface, with playful cards that show each stage of a project.'] },
-    { id: 'azure-interiors', title: 'Azure Interiors', subtitle: 'A calm, elegant home for interior design.', category: 'Website Design' },
+    { id: 'azure-interiors', title: 'Azure Interiors', subtitle: 'A calm, elegant home for interior design.', category: 'Website Design', embedUrl: 'https://azure-interior.vercel.app/' },
     { id: 'atlas', title: 'Atlas', subtitle: 'A warm, exploratory web experience.', category: 'Website Design' },
-    { id: 'golf-mill', title: 'The Golf Mill', subtitle: 'Tee times and the game, a click away.', category: 'Website Design' },
+    { id: 'golf-mill', title: 'The Golf Mill', subtitle: 'Tee times and the game, a click away.', category: 'Website Design', embedUrl: 'https://thegolfmill.in/' },
   ].map((project) => ({
     ...project, client: 'Selected work', group: 'websites', year: 'Selected work', role: 'Web Designer',
     scope: 'Website interface design',
@@ -186,6 +188,17 @@ const existingProjects = [
   })),
   {
     id: 'neostra-system', title: 'Neostra design system', subtitle: 'Consistency, built into every interaction.',
+    embedUrl: 'https://design.penpot.app/?screen=viewer&file-id=2bd3d7f1-914f-8188-8008-dd279008f96c&page-id=6188061b-c672-80ce-8008-a55672bc5fb1&section=interactions&frame-id=1e5ac49f-73a5-805a-8008-a5681f884b8c&index=0&interactions-mode=show-on-click&share-id=afdfee27-b9c2-42ed-b7e6-96fa5e01fea9',
+    embedLabel: 'Shared Penpot file preview',
+    embedLinkLabel: 'Open interactive Penpot file ↗',
+    embedPreview: {
+      src: asset('neostra-penpot-preview.webp'),
+      alt: 'Neostra — Design system V1 in Penpot: Privacy, with clarity, with the green #29BD8E accent and DM Sans + Crimson Pro typography.',
+      width: 1440,
+      height: 1000,
+      note: 'Penpot opens in a new tab',
+    },
+    context: ['Explore the components, foundations and patterns in the shared Penpot file.'],
     client: 'Nyusta', category: 'Design System', group: 'systems', year: '2024 — Present',
     image: asset('project-neostra-system.webp'), visualType: 'concept',
     role: 'Lead Product Designer', scope: 'Components, patterns & documentation',
@@ -237,14 +250,14 @@ export const experience = [
   { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including MistriBhai, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
   { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — May 2026', location: 'Raipur', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
   { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Gurgaon', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
-  
+
 ];
 
 export const education = { degree: 'B.Tech · Computer Science & Engineering', school: 'Government Engineering College Raipur', period: 'July 2020 — May 2024' };
 
 export const skills = [
   { title: 'Lead & align', items: ['Product strategy', 'UX leadership', 'Stakeholder management', 'Cross-functional collaboration', 'DesignOps', 'Agile & Scrum'] },
-  { title: 'Research & make', items: ['User research', 'Information architecture', 'Interaction design', 'Prototyping', 'Usability testing', 'Design systems', 'Accessibility (WCAG)'] },
-  { title: 'Tools of the trade', items: ['Figma & FigJam', 'Framer', 'Adobe Creative Suite', 'Jira', 'Notion', 'Miro'] },
+  { title: 'Research & make', items: ['User research', 'Information architecture', 'Interaction design', 'Prototyping', 'Usability testing', 'Design systems', 'Accessibility (WCAG)', 'Motion Design', 'Brand Design'] },
+  { title: 'Tools of the trade', items: ['Figma & FigJam', 'Framer', 'Adobe Creative Suite', 'Jira', 'Notion', 'Miro', 'Penpot', 'Antigravity', 'Protopie', 'XCode'] },
   { title: 'An AI-assisted practice', items: ['Generative AI', 'Prompt engineering', 'ChatGPT · Claude · Gemini', 'Cursor & GitHub Copilot', 'Midjourney · Leonardo · Ideogram', 'V0 · Lovable · Readdy AI'] },
 ];

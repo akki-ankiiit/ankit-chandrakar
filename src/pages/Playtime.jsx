@@ -80,11 +80,11 @@ export default function Playtime() {
         <div className="container hero-grid">
           <div className="hero-copy">
             <p className="hero-eyebrow"><span /> PLAYTIME · INTERACTIVE EXPERIMENTS</p>
-            <h1 id="playtime-title">Ten small experiments, built to be played with.</h1>
+            <h1 id="playtime-title">I code for fun, here you can experience.</h1>
             <p className="hero-introduction">A place to make things move, test ideas, and enjoy the process.</p>
             <div className="hero-socials">
               <Pill onClick={() => {
-                const target = hostRef.current?.shadowRoot?.querySelector('#keep-moving');
+                const target = hostRef.current?.shadowRoot?.querySelector('#pocket-vibes');
                 if (target) scrollToTarget(target);
               }}>Start playing</Pill>
               <SocialLinks />

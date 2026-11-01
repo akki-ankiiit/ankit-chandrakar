@@ -101,14 +101,18 @@ function ShowcasePage({ project }) {
           <h1>{project.title}</h1>
           <p className="case-subtitle">{project.subtitle}</p>
         </header>
-        <figure className="showcase-cover"><img src={project.image} alt={`${project.title} — website cover`} width="1032" height="740" fetchPriority="high" /></figure>
-        <div className="showcase-context">
+        {project.context?.length > 0 && <div className="showcase-context">
           {project.context.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </div>
+        </div>}
       </div>
-      <section className="showcase-site" aria-label={`${project.title} live website`}>
-        <iframe src={project.embedUrl} title={`${project.title} — live website`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />
-        <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">Open the site in a new tab ↗</a>
+      <section className="showcase-site" aria-label={`${project.title} — ${project.embedLabel || 'live website'}`}>
+        <div className="showcase-frame">
+          {project.embedPreview ? <a className="showcase-preview" href={project.embedUrl} target="_blank" rel="noopener noreferrer">
+            <img src={project.embedPreview.src} alt={project.embedPreview.alt} width={project.embedPreview.width} height={project.embedPreview.height} decoding="async" />
+            <span className="showcase-preview-caption"><strong>{project.embedLinkLabel || 'Open the site in a new tab ↗'}</strong>{project.embedPreview.note && <small>{project.embedPreview.note}</small>}</span>
+          </a> : <iframe src={project.embedUrl} title={`${project.title} — ${project.embedLabel || 'live website'}`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />}
+        </div>
+        <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">{project.embedLinkLabel || 'Open the site in a new tab ↗'}</a>
       </section>
     </article>
   );

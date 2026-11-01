@@ -18,6 +18,10 @@ export function SocialLinks({ className = '' }) {
 export function Reveal({ children, className = '', delay = 0 }) {
   const ref = useRef(null);
   useEffect(() => {
+    if (!('IntersectionObserver' in window)) {
+      ref.current?.classList.add('is-visible');
+      return undefined;
+    }
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');

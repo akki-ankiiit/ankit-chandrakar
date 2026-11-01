@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
 import useMediaQuery from '../hooks/useMediaQuery.js';
 
-export default function HeroArtwork({ videoSrc = '/assets/herovideo-hero-paper.mp4' }) {
+export default function HeroArtwork({
+  videoSrc = '/assets/herovideo-hero-paper.mp4',
+  ariaLabel = 'Animated illustration of a young designer waving, with a backpack, sketchbook, and sneakers',
+}) {
   const stage = useRef(null);
   const video = useRef(null);
   const animationFrame = useRef(null);
@@ -50,7 +53,7 @@ export default function HeroArtwork({ videoSrc = '/assets/herovideo-hero-paper.m
           loop
           playsInline
           autoPlay
-          aria-label="Animated illustration of a young designer waving, with a backpack, sketchbook, and sneakers"
+          aria-label={ariaLabel}
         />
       </div>
     </div>

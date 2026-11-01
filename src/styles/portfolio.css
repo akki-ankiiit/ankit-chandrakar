@@ -225,15 +225,18 @@
   .hero.hero-compact .hero-art { justify-self: center; }
 }
 
-/* Design desk hero video: multiply blends the video's paper-white background into the page */
 .hero.hero-hub .ink-hero-image { mix-blend-mode: multiply; }
-
-/* Design desk: the boy rests his arms on the top edge of the footer. The image's arm line sits at ~82% of its height. */
-.footer.has-visitor { position: relative; }
-.footer-visitor { position: absolute; left: 50%; bottom: 100%; width: 480px; height: auto; transform: translate(-50%, 17.6%); pointer-events: none; user-select: none; }
-.creator-hub { padding-bottom: 210px; }
-@media (max-width: 749px) {
-  .footer-visitor { width: 360px; }
-  .creator-hub { padding-bottom: 160px; }
+/* Paper-matched derivative shares hero dimensions; no runtime brightening. */
+.hero.hero-design-desk .ink-hero-image {
+  mix-blend-mode: normal;
+  border: 0;
+  box-shadow: none;
 }
 
+/* The boy rests his arms on the footer edge; reserve the 82.4% of the image above it. */
+.footer.has-visitor { position: relative; margin-top: 224px; }
+.footer-visitor { position: absolute; left: 50%; bottom: 100%; width: 480px; max-width: 100%; height: auto; transform: translate(-50%, 17.6%); pointer-events: none; user-select: none; }
+@media (max-width: 749px) {
+  .footer.has-visitor { margin-top: 168px; }
+  .footer-visitor { width: 360px; }
+}

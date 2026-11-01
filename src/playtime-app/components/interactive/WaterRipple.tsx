@@ -7,7 +7,7 @@ export const WaterRipple = () => {
       {/* Fullscreen Water Ripple Background using the high-quality FBO component */}
       <div className="absolute inset-0 z-0">
         <WaterRippleImage 
-          src="/water.jpg"
+          src="/assets/water.png"
           fit="cover"
           autoRipples={false}
         />

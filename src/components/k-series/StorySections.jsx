@@ -1,93 +1,57 @@
-import { Link } from 'react-router-dom';
-import Icon from '../Icon.jsx';
-import { Reveal } from '../ui.jsx';
-import { buyer, colour, grades, insight, kSeriesHero, naming, problem } from '../../data/k-series.js';
-import { Heading, ShelfFigure } from './parts.jsx';
+import { grades, insight, listening, naming, oldBags, problem, researchFindings, strategyShift } from '../../data/k-series.js';
+import { Section, ShelfFigure } from './parts.jsx';
 import { pic } from './media.jsx';
 
-export function Hero() {
-  return (
-    <header className="case-hero case-container">
-      <div className="case-breadcrumb">
-        <Link to="/#work" state={{ category: 'packaging-designs' }}><Icon name="arrow" size={15} />Back to selected work</Link>
-        <span>PACKAGING &amp; NAMING / KAMDHENU ADHESIVE</span>
-      </div>
-      <div className="case-title-row"><div><p className="eyebrow">Kamdhenu Adhesive</p><h1>{kSeriesHero.title}</h1><p className="case-subtitle">{kSeriesHero.subtitle}</p></div></div>
-      <ul className="case-tags ks-meta" aria-label="Project details">{kSeriesHero.meta.map((item) => <li key={item}><span>{item}</span></li>)}</ul>
-      <div className="ks-shelf" role="list">{grades.map((grade, index) => <ShelfFigure key={grade.id} grade={grade} index={index} />)}</div>
-    </header>
-  );
+export function Shelf() {
+  return <div className="ks-shelf" role="list">{grades.map((grade) => <ShelfFigure key={grade.id} grade={grade} />)}</div>;
 }
 
 export function Problem() {
-  return (
-    <section className="case-section" aria-labelledby="ks-problem">
-      <Heading number="01" eyebrow="The problem" id="ks-problem">{problem.heading}</Heading>
-      {problem.paragraphs.map((text) => <p className="case-lead ks-copy" key={text}>{text}</p>)}
-      <figure className="ks-stack">
-        <div className="ks-stack-bags" aria-hidden="true">{grades.map((grade) => <div key={grade.id}>{pic(`${grade.id}-front-thumb`, '', { loading: 'lazy' })}</div>)}</div>
-        <figcaption className="challenge-note"><span className="paper-tape" aria-hidden="true" /><p>{problem.caption}</p></figcaption>
-      </figure>
-    </section>
-  );
+  return <Section id="ks-problem" eyebrow="01 / The challenge" title="The range was hard to tell apart" lede={problem.lede}>
+    <div className="ks-old-range ks-panel">
+      <div className="ks-old-bags">{oldBags.map((bag, index) => <figure key={bag.key}>
+        {pic(bag.key, bag.alt, { sizes: '(max-width: 749px) 110px, 150px' })}<figcaption>{problem.names[index]}</figcaption>
+      </figure>)}</div>
+      <p className="ks-caption">{problem.caption}</p>
+    </div>
+    <div className="ks-problem-bottom"><p className="ks-before-stat"><span>{problem.salesBefore.label}</span><strong>{problem.salesBefore.value}</strong></p>
+      <ol className="ks-issues">{problem.issues.map((issue) => <li key={issue}>{issue}</li>)}</ol></div>
+  </Section>;
 }
 
-export function Buyer() {
-  return (
-    <section className="case-section" aria-labelledby="ks-buyer">
-      <Heading number="02" eyebrow="The buyer" id="ks-buyer">{buyer.heading}</Heading>
-      <p className="case-lead ks-copy">{buyer.intro}</p>
-      <div className="case-approach ks-columns">
-        {buyer.columns.map((column, index) => <div key={column.title}><span className="approach-number">0{index + 1}</span><h3>{column.title}</h3><p>{column.text}</p></div>)}
-      </div>
-    </section>
-  );
-}
-
-export function Insight() {
-  return (
-    <section className="case-section" aria-labelledby="ks-insight">
-      <Heading number="03" eyebrow="The insight" id="ks-insight">{insight.heading}</Heading>
-      <Reveal className="ks-type">
-        <p aria-label="Fe500 becomes K50"><span className="ks-type-old" aria-hidden="true">Fe500</span><span className="ks-type-arrow" aria-hidden="true">→</span><span className="ks-type-new" aria-hidden="true">K50</span></p>
-      </Reveal>
-      {insight.paragraphs.map((text) => <p className="case-lead ks-copy" key={text}>{text}</p>)}
-    </section>
-  );
+export function Listening() {
+  return <Section id="ks-research" eyebrow="02 / Research" title="Listening before designing" lede="Two rounds of conversations connected the sales counter with the people using the adhesive on site.">
+    <ul className="ks-methods" aria-label="Research methods">{listening.methods.map((method) => <li key={method}>{method}</li>)}</ul>
+    {listening.interviewCount && <p className="ks-caption">{listening.interviewCount}</p>}
+    <div className="ks-research-grid">{[listening.round1, listening.round2].map((round, index) => <div className="ks-research-panel ks-panel" key={round.who}>
+      <p className="ks-eyebrow">Round {index + 1} / {index === 0 ? 'The sales counter' : 'The job site'}</p>
+      <h3>{round.who}</h3><p className="ks-research-where">{round.where}</p>
+      <ul>{round.learned.map((text) => <li key={text}>{text}</li>)}</ul>
+    </div>)}</div>
+    <div className="ks-findings" aria-label="Research findings and design responses">{researchFindings.map((item) => <div className="ks-finding" key={item.finding}>
+      <h3>{item.finding}</h3><p><span aria-hidden="true">→ </span>{item.designResponse}</p>
+    </div>)}</div>
+  </Section>;
 }
 
 export function Naming() {
-  return (
-    <section className="case-section" aria-labelledby="ks-naming">
-      <Heading number="04" eyebrow="The naming system" id="ks-naming">{naming.heading}</Heading>
-      <ol className="ks-stairs">
-        {grades.map((grade, index) => (
-          <li key={grade.id} className="ks-stair" style={{ '--grade': grade.colour, '--grade-ink': grade.ink, '--step': index }}>
-            <span className="ks-stair-code">{grade.code}</span>
-            <strong>{grade.english}</strong>
-            <span className="ks-hindi" lang="hi">{grade.hindi}</span>
-            <p>{grade.use}</p>
-          </li>
-        ))}
-      </ol>
-      <div className="ks-axis" aria-hidden="true"><span>{naming.axis[0]}</span><i /><span>{naming.axis[1]}</span></div>
-    </section>
-  );
+  return <Section id="ks-naming" eyebrow="03 / Naming & colour" title="A range people could recognise" lede={naming.lede}>
+    <div className="ks-insight ks-panel">
+      <p className="ks-grade-transform" aria-label="Fe500 becomes K50"><span>{insight.steelGradeExample[0]}</span><span aria-hidden="true">→</span><span>{insight.steelGradeExample[1]}</span></p>
+      <div><h3>{insight.heading}</h3><p>{insight.lede}</p></div>
+    </div>
+    <div className="ks-grade-cards">{grades.map((grade) => <div className="ks-grade-card" key={grade.id} style={{ '--grade': grade.colour }}>
+      <div className="ks-grade-card-heading"><h3>{grade.code}</h3><span>{naming.ladder[grade.id]}</span></div>
+      <p className="ks-grade-english">{grade.english}</p><p className="ks-hindi" lang="hi">{grade.hindi}</p>
+      <p className="ks-grade-use">{grade.use}</p>
+    </div>)}</div>
+    <p className="ks-axis"><span>{naming.axis[0]}</span><span aria-hidden="true">→</span><span>{naming.axis[1]}</span></p>
+  </Section>;
 }
 
-export function Colour() {
-  return (
-    <section className="case-section" aria-labelledby="ks-colour">
-      <Heading number="05" eyebrow="Colour" id="ks-colour">{colour.heading}</Heading>
-      <p className="case-lead ks-copy">{colour.text}</p>
-      <div className="ks-swatches">
-        {grades.map((grade) => (
-          <figure key={grade.id} className="ks-swatch">
-            {pic(`${grade.id}-colour`, `Bottom of the ${grade.code} bag: a solid field of the grade colour with the wave pattern`, { loading: 'lazy' })}
-            <figcaption><strong>{grade.code}</strong><code>{grade.colour}</code><span>{grade.colourNote}</span></figcaption>
-          </figure>
-        ))}
-      </div>
-    </section>
-  );
+export function StrategyShift() {
+  return <div className="ks-strategy">
+    <h3>{strategyShift.heading}</h3>
+    <ul className="ks-strategy-points">{strategyShift.points.map((point) => <li key={point}>{point}</li>)}</ul>
+  </div>;
 }

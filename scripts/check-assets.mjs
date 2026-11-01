@@ -3,8 +3,7 @@ import sharp from 'sharp';
 import { artworks, categories, designProjects, imagery, profile, projects } from '../src/data/portfolio.js';
 
 const kSeries = JSON.parse(await readFile('src/data/k-series-images.json', 'utf8'));
-const kSeriesCardImage = (await readFile('src/data/k-series.js', 'utf8')).match(/image: '(\/assets\/[^']+)'/)?.[1];
-const kSeriesRaster = Object.values(kSeries).map((image) => image.src).filter((src) => src.endsWith('.webp'));
+const kSeriesRaster = Object.values(kSeries).map((image) => image.src).filter((src) => /\.(webp|png|jpe?g)$/.test(src));
 
 const bondure = JSON.parse(await readFile('src/data/bondure-images.json', 'utf8'));
 const bondureRaster = Object.values(bondure).map((image) => image.src);
@@ -22,13 +21,12 @@ const images = new Set([
   ...categories.map((category) => category.folder),
   ...(artworks || []).map((art) => art.image),
   ...(designProjects || []).flatMap((proj) => [proj.image, proj.thumbnail].filter(Boolean)),
-  kSeriesCardImage,
   ...projects.flatMap((project) => [project.image, ...project.caseStudy.chapters.flatMap((chapter) => chapter.images.map((image) => image.src))]),
 ]);
 const missing = [];
 for (const src of images) {
   try {
-    const metadata = await sharp(`public${src}`).metadata();
+    const metadata = await sharp(`public${decodeURIComponent(src)}`).metadata();
     if (!metadata.width || !metadata.height) throw new Error('Invalid image');
   } catch { missing.push(src); }
 }

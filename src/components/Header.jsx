@@ -48,7 +48,7 @@ export default function Header({ page, onNavigate }) {
     onNavigate(destination);
   };
 
-  const links = <><a className="nav-link" href="/#work" onClick={(e) => navigate(e, 'work')}>My work</a><a className="nav-link" href="/#bio" onClick={(e) => navigate(e, 'bio')}>About</a><a className={`nav-link ${page === 'playtime' ? 'active' : ''}`} href="/playtime" onClick={(e) => navigate(e, 'playtime')}>Playtime</a><a className={`nav-link ${page === 'hub' ? 'active' : ''}`} href="/desk" onClick={(e) => navigate(e, 'hub')}>Design desk</a><Pill href="#footer" onClick={(e) => navigate(e, 'footer')}>Say hello</Pill></>;
+  const links = <><a className="nav-link" href="/#work" onClick={(e) => navigate(e, 'work')}>My work</a><a className={`nav-link ${page === 'about' ? 'active' : ''}`} href="/about" aria-current={page === 'about' ? 'page' : undefined} onClick={(e) => navigate(e, 'about')}>About</a><a className={`nav-link ${page === 'playtime' ? 'active' : ''}`} href="/playtime" onClick={(e) => navigate(e, 'playtime')}>Playtime</a><a className={`nav-link ${page === 'hub' ? 'active' : ''}`} href="/desk" onClick={(e) => navigate(e, 'hub')}>Design desk</a><a className={`nav-link ${page === 'notes' ? 'active' : ''}`} href="/notes" aria-current={page === 'notes' ? 'page' : undefined} onClick={(e) => navigate(e, 'notes')}>Notes</a><Pill href="#footer" onClick={(e) => navigate(e, 'footer')}>Say hello</Pill></>;
 
   return <>
     <header className={`site-header ${hidden && !menuOpen ? 'is-hidden' : ''}`}>

@@ -62,17 +62,11 @@ The PDF is a reformatted résumé summary built from the supplied information; i
 
 `npm run assets:behance` reimports the published Behance images. `scripts/import-notion.mjs` can reimport the 13 original Notion slides. Normal development and production use local files. The `predev` and `prebuild` scripts check asset availability before starting. Earlier reference assets are retained for design reference; the personal site does not use the old identity, portrait, artwork, client logos, or videos.
 
-## Contact form
+## Notes and contact messages
 
-The form opens a prefilled email draft to `chandrakarankit014@gmail.com` by default. The visitor sends it from their email application.
+`/notes` is a moderated guestbook; `/admin/notes` is the owner's password-login dashboard. The footer sends private messages through a Supabase Edge Function with Turnstile protection and durable Resend notifications, without opening an email app. Notes remain private until approved; visitor email addresses are never included in the public wall response.
 
-For direct delivery, add your own key in `.env.local`:
-
-```env
-VITE_WEB3FORMS_KEY=your_public_web3forms_access_key
-```
-
-Restart Vite after changing environment variables. Add the same variable to the production host before building. The form includes validation, duplicate-submit prevention, a honeypot, timeout handling, and explicit delivery/error states.
+Follow **[Notes and contact setup](docs/notes-setup.md)** for local setup, owner provisioning, database/security design, environment variables, email/domain configuration, tests, deployment order, and live delivery verification. Public configuration starts in `.env.example`; backend secrets start in `supabase/secrets.example`.
 
 ## Checks
 

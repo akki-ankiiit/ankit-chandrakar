@@ -3,77 +3,58 @@ import { Link } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
 import SnapGallery from '../components/SnapGallery.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
-import { projects } from '../data/portfolio.js';
-import { bondureCard } from '../data/bondure.js';
+import { PkHero, PkPager, PkRole, PkSection } from '../components/packaging/CaseParts.jsx';
 import { kSeriesCard } from '../data/k-series.js';
-import { idea, notes, posts, products, role, shinexHero, shinexMeta, socialIntro } from '../data/shinex-crystalx.js';
+import { idea, notes, posts, products, range, role, shinexCard, shinexHero, shinexMeta, socialIntro } from '../data/shinex-crystalx.js';
 
 const accent = (product) => ({ '--accent-product': product.accent });
 
-function Heading({ number, eyebrow, id, children }) {
-  return <div className="case-section-heading"><span className="chapter-number">{number}</span><div><p className="eyebrow">{eyebrow}</p><h2 id={id}>{children}</h2></div></div>;
-}
-
-function Hero() {
+function Bottles() {
   return (
-    <header className="case-hero case-container">
-      <div className="case-breadcrumb">
-        <Link to="/#work" state={{ category: 'packaging-designs' }}><Icon name="arrow" size={15} />Back to selected work</Link>
-        <span>PACKAGING &amp; SOCIAL / KAMDHENU ADHESIVE</span>
-      </div>
-      <div className="case-title-row"><div><p className="eyebrow">Kamdhenu Adhesive</p><h1>{shinexHero.title}</h1><p className="case-subtitle">{shinexHero.subtitle}</p></div></div>
-      <ul className="sx-meta" aria-label="Project details">{shinexHero.meta.map((item) => <li key={item}>{item}</li>)}</ul>
-      <ul className="sx-bottles" role="list" aria-label="The ShineX and CrystalX bottles">
-        {products.map((product, index) => (
-          <li key={product.id} className="sx-bottle" style={{ '--i': index, '--surface': product.accent }}>
-            <img src={product.image.src} width={product.image.width} height={product.image.height} alt={product.alt} decoding="async" fetchPriority={index === 0 ? 'high' : undefined} />
-            <span className="sx-surface">{product.surface}</span>
-          </li>
-        ))}
-      </ul>
-    </header>
+    <ul className="sx-bottles" role="list" aria-label="The ShineX and CrystalX bottles">
+      {products.map((product, index) => (
+        <li key={product.id} className="sx-bottle" style={{ '--i': index, '--surface': product.accent }}>
+          <img src={product.image.src} width={product.image.width} height={product.image.height} alt={product.alt} decoding="async" fetchPriority={index === 0 ? 'high' : undefined} />
+          <span className="sx-surface">{product.surface}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
 function Idea() {
   return (
-    <section className="case-section" aria-labelledby="sx-idea">
-      <Heading number="01" eyebrow="The idea" id="sx-idea">{idea.heading}</Heading>
-      <p className="case-lead sx-copy">{idea.text}</p>
-      <Link className="text-link sx-link" to={kSeriesCard.href}>{idea.linkLabel}</Link>
-    </section>
+    <PkSection id="sx-idea" number="01" title={idea.heading} lede={idea.lede}>
+      <Link className="text-link pk-link" to={kSeriesCard.href}>{idea.linkLabel}</Link>
+    </PkSection>
   );
 }
 
 function Range() {
   return (
-    <section className="case-section" aria-labelledby="sx-range">
-      <Heading number="02" eyebrow="The range" id="sx-range">Two products, one family</Heading>
+    <PkSection id="sx-range" number="02" title={range.heading} lede={range.lede}>
       <ul className="sx-products" role="list">
         {products.map((product) => (
           <li key={product.id} className="sx-product" style={accent(product)}>
-            <div className="sx-product-art">
+            <div className="sx-product-art pk-panel">
               <img src={product.image.src} width={product.image.width} height={product.image.height} alt={product.alt} loading="lazy" decoding="async" />
             </div>
-            <h3 className="sx-product-logo">
-              <img src={product.logo.src} width={product.logo.width} height={product.logo.height} alt={product.logo.alt} loading="lazy" decoding="async" />
-            </h3>
-            <p className="sx-product-meta"><span className="sx-dot" aria-hidden="true" />{product.surface} · 1 L</p>
-            <ul className="sx-benefits" role="list" aria-label={`${product.name} benefits`}>
-              {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
-            </ul>
+            <div className="sx-product-body">
+              <h3 className="sx-product-logo">
+                <img src={product.logo.src} width={product.logo.width} height={product.logo.height} alt={product.logo.alt} loading="lazy" decoding="async" />
+              </h3>
+              <p className="sx-product-meta"><span className="sx-dot" aria-hidden="true" />{product.surface} · 1 L</p>
+              <ul className="sx-benefits" role="list" aria-label={`${product.name} benefits`}>
+                {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+              </ul>
+            </div>
           </li>
         ))}
       </ul>
-      <div className="sx-notes">
-        {notes.map((note) => (
-          <div key={note.title} className="sx-note">
-            <h3>{note.title}</h3>
-            <p>{note.text}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+      <ul className="pk-points" role="list" aria-label="What the two bottles share">
+        {notes.map((note) => <li key={note.title}><b>{note.title}</b><span>{note.text}</span></li>)}
+      </ul>
+    </PkSection>
   );
 }
 
@@ -149,50 +130,27 @@ function SocialGallery() {
 
 function Social() {
   return (
-    <section className="case-section sx-social" aria-labelledby="sx-social">
-      <Heading number="03" eyebrow="Social media" id="sx-social">{socialIntro.heading}</Heading>
-      <p className="case-lead sx-copy">{socialIntro.text}</p>
+    <PkSection id="sx-social" number="03" title={socialIntro.heading} lede={socialIntro.lede} className="sx-social">
       <SocialGallery />
-    </section>
-  );
-}
-
-function Role() {
-  return (
-    <section className="case-section" aria-labelledby="sx-role">
-      <Heading number="04" eyebrow="Lead Product Designer" id="sx-role">{role.heading}</Heading>
-      <ul className="case-contributions sx-role" role="list">
-        {role.items.map((item) => <li key={item}><Icon name="check" size={18} />{item}</li>)}
-      </ul>
-    </section>
+    </PkSection>
   );
 }
 
 export default function ShineXCrystalXCaseStudy() {
   usePageMeta(shinexMeta);
-  const next = projects[0];
 
   return (
-    <article className="case-study-page sx-page">
-      <Hero />
-      <div className="case-container sx-story">
+    <article className="case-study-page pk-page sx-page">
+      <PkHero crumb="PACKAGING & SOCIAL / KAMDHENU ADHESIVE" client="Kamdhenu Adhesive" title={shinexHero.title} subtitle={shinexHero.subtitle} facts={shinexHero.facts}>
+        <Bottles />
+      </PkHero>
+      <div className="case-container pk-story">
         <Idea />
         <Range />
         <Social />
-        <Role />
+        <PkRole id="sx-role" number="04" items={role} />
       </div>
-      <nav className="sx-pager case-container" aria-label="More case studies">
-        <Link className="sx-pager-link is-previous" to={bondureCard.href}>
-          <span className="sx-pager-label">Previous case study</span>
-          <span className="sx-pager-title"><Icon name="arrow" size={26} />{bondureCard.title}</span>
-          <span className="sx-pager-note">{bondureCard.category}</span>
-        </Link>
-        <Link className="sx-pager-link is-next" to={`/work/${next.id}`}>
-          <span className="sx-pager-label">Next case study</span>
-          <span className="sx-pager-title">{next.title}<Icon name="arrow" size={26} /></span>
-          <span className="sx-pager-note">{next.category}</span>
-        </Link>
-      </nav>
+      <PkPager current={shinexCard.id} />
     </article>
   );
 }

@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import { pageMetaTags } from './pageMetaTags.js';
 
 // Sets the tab title and the description / Open Graph / Twitter tags for one page, and puts the previous values back on leave.
 function setMeta(name, value) {
   const attribute = name.startsWith('og:') ? 'property' : 'name';
   let element = document.head.querySelector(`meta[${attribute}="${name}"]`);
+  if (!element && value == null) return () => {};
   const created = !element;
   if (created) {
     element = document.createElement('meta');
@@ -11,30 +13,22 @@ function setMeta(name, value) {
     document.head.append(element);
   }
   const previous = element.getAttribute('content');
-  element.setAttribute('content', value);
+  if (value == null) element.remove();
+  else element.setAttribute('content', value);
+  if (value == null) return () => document.head.append(element);
   return () => (created ? element.remove() : element.setAttribute('content', previous));
 }
 
-export default function usePageMeta({ title, description, image, imageAlt, imageWidth, imageHeight, path }) {
+export default function usePageMeta({ title, description, ogDescription, image, imageType, imageAlt, imageWidth, imageHeight, twitterImage, twitterImageAlt, path, siteUrl }, enabled = true) {
   useEffect(() => {
+    if (!enabled) return;
     const previousTitle = document.title;
-    const imageUrl = new URL(image, window.location.origin).href;
     document.title = title;
-    const restore = [
-      setMeta('description', description),
-      setMeta('og:title', title),
-      setMeta('og:description', description),
-      setMeta('og:url', new URL(path, window.location.origin).href),
-      setMeta('og:image', imageUrl),
-      setMeta('og:image:width', String(imageWidth)),
-      setMeta('og:image:height', String(imageHeight)),
-      setMeta('og:image:alt', imageAlt),
-      setMeta('twitter:card', 'summary_large_image'),
-      setMeta('twitter:image', imageUrl),
-    ];
+    const restore = pageMetaTags({ title, description, ogDescription, image, imageType, imageAlt, imageWidth, imageHeight, twitterImage, twitterImageAlt, path }, siteUrl || window.location.origin)
+      .map(([name, value]) => setMeta(name, value));
     return () => {
       restore.reverse().forEach((undo) => undo());
       document.title = previousTitle;
     };
-  }, [title, description, image, imageAlt, imageWidth, imageHeight, path]);
+  }, [title, description, ogDescription, image, imageType, imageAlt, imageWidth, imageHeight, twitterImage, twitterImageAlt, path, siteUrl, enabled]);
 }

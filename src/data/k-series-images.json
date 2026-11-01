@@ -1,4 +1,29 @@
 {
+  "portfolio-card": {
+    "src": "/assets/Kseries.png",
+    "width": 1482,
+    "height": 1062
+  },
+  "old-t10": {
+    "src": "/assets/Kamadhenu_Adhesive%20Old%20bags/T-10%20Silver.png",
+    "width": 187,
+    "height": 305
+  },
+  "old-t20": {
+    "src": "/assets/Kamadhenu_Adhesive%20Old%20bags/T-20%20Gold.png",
+    "width": 207,
+    "height": 308
+  },
+  "old-wt20": {
+    "src": "/assets/Kamadhenu_Adhesive%20Old%20bags/WT-20%20Gold.png",
+    "width": 205,
+    "height": 309
+  },
+  "old-t30": {
+    "src": "/assets/Kamadhenu_Adhesive%20Old%20bags/T-30%20Diamond.png",
+    "width": 224,
+    "height": 318
+  },
   "k50-front": {
     "src": "/assets/packaging/K-Series/k50-front.webp",
     "width": 1200,
@@ -108,6 +133,11 @@
     "src": "/assets/packaging/K-Series/signed-brochure.webp",
     "width": 1400,
     "height": 1050
+  },
+  "sunil-portrait": {
+    "src": "/assets/sunil.png",
+    "width": 690,
+    "height": 776
   },
   "me-and-sunil": {
     "src": "/assets/packaging/K-Series/me-and-sunil.webp",

@@ -19,13 +19,13 @@ export const shinexCard = {
 
 export const shinexHero = {
   title: 'ShineX & CrystalX',
-  subtitle: 'Two floor cleaners from Kamdhenu Adhesive: one for tiles, one for marble, in one family that’s easy to tell apart.',
-  meta: ['Packaging', 'Product naming and logos', 'Social media', 'Kamdhenu Adhesive', 'Role: Lead Product Designer'],
+  subtitle: 'Two floor cleaners, one for tile and one for marble, in a family that’s easy to tell apart.',
+  facts: [['Client', 'Kamdhenu Adhesive'], ['Scope', 'Naming, labels and social'], ['Role', 'Lead Product Designer'], ['Output', '2 bottles, 22 posts']],
 };
 
 export const idea = {
-  heading: 'From fixing the floor to caring for it.',
-  text: 'Kamdhenu Adhesive’s K-Series helps lay tiles and stone. ShineX and CrystalX carry the brand into what happens next: keeping those floors clean. Tile and marble need different care, so the range is split by surface, not by strength.',
+  heading: 'From laying the floor to caring for it.',
+  lede: 'K-Series lays tile and stone; these two keep it clean. The range is split by surface, not strength.',
   linkLabel: 'See the K-Series adhesive range →',
 };
 
@@ -52,15 +52,20 @@ export const products = [
   },
 ];
 
+export const range = {
+  heading: 'Two products, one family.',
+  lede: 'The same bottle and label; a different X for each surface.',
+};
+
 export const notes = [
-  { title: 'Shared bottle, shared label', text: 'Same 1 L bottle, red cap and label layout, framed by the blue, red and yellow swoosh taken from the Kamdhenu Group logo, so both products read as Kamdhenu at a glance.' },
-  { title: 'The X', text: 'Both names end in X. ShineX uses fast, slanted red lettering for everyday tile cleaning. CrystalX uses an icy, crystal-textured X for marble’s polished finish.' },
-  { title: 'Shields for proof', text: 'Every benefit and the net quantity sit in a shield badge, so trust signals look the same on both bottles.' },
+  { title: 'Shared bottle', text: 'Same 1 L bottle, red cap and Kamdhenu swoosh.' },
+  { title: 'The X', text: 'Slanted red for tile, icy crystal for marble.' },
+  { title: 'Shields for proof', text: 'Benefits and quantity sit in shield badges.' },
 ];
 
 export const socialIntro = {
   heading: 'ShineX on social.',
-  text: 'A set of 22 posts introducing ShineX: what it cleans, how to use it and the finish it leaves.',
+  lede: '22 posts on what it cleans, how to use it and the finish it leaves.',
 };
 
 export const posts = [
@@ -92,7 +97,4 @@ export const posts = [
   return { number, src: image.src, width: image.width, height: image.height, alt };
 });
 
-export const role = {
-  heading: 'My role',
-  items: ['Product naming', 'ShineX and CrystalX logos', 'Bottle label design', 'Benefit icons and badges', '22-post social media campaign'],
-};
+export const role = ['Product naming', 'ShineX and CrystalX logos', 'Bottle label design', 'Benefit icons and badges', '22-post social campaign'];
