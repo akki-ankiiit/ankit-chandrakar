@@ -1,0 +1,38 @@
+@import './case-study.css';
+
+/* Route-local palette overrides follow the base case-study rules. */
+.case-reading-progress { background: #aec989; }
+.case-breadcrumb > a, .case-facts dd, .case-contents nav a,
+.case-lead, .case-approach p, .case-contributions li { color: #6c765f; }
+.case-breadcrumb > span, .case-facts dt, .case-contents > p,
+.case-cover figcaption, .case-section-heading .eyebrow, .case-section-intro,
+.presentation-caption, .presentation-images figcaption, .case-source-note,
+.case-endnote small { color: #919982; }
+.case-title-row .eyebrow, .case-facts a, .case-endnote .text-link,
+.case-contents nav a:hover, .case-contributions svg { color: #748b57; }
+.case-subtitle, .case-margin-note, .case-endnote > span,
+.case-next p:last-child, .case-contact-note p { color: #879572; }
+.case-stamp { color: #7d925d; border-color: #9fad83; }
+.case-facts, .case-approach > div, .case-next, .case-endnote { border-color: #cbd1bd80; }
+.case-cover > img, .presentation-images img { border-color: #b8c0a460; }
+.case-contents nav a span, .approach-number { color: #9eaf80; }
+.case-margin-note svg { stroke: #99aa7b; }
+.chapter-number { color: #91a573; border-color: #c9d0b8; }
+.case-tags > span { color: #7f9067; border-color: #c6ceb6; }
+.challenge-note { background: #f0f1df; border-color: #dce1ca; box-shadow: 2px 4px 0 #a9b58c20; }
+.challenge-note p { color: #728061; }
+.paper-tape { background: #bcc9a170; }
+.presentation-tabs { border-color: #c7cfb770; }
+.presentation-tabs button { border-color: #c7ceb7; color: #7e8d6b; background: #f5f5e8; }
+.presentation-tabs button:hover { background: #e8edda; }
+.presentation-tabs button[aria-selected='true'] { background: #dce8c6; color: #52673e; border-color: #9fb382; }
+.presentation-images img { background: #efeedc; }
+.case-source-note { border-color: #bdc9a6; }
+.case-takeaway { background: #edf0de; border-color: #ccd6b8; }
+.case-takeaway > svg, .case-next > div > a svg { color: #80975f; }
+.case-takeaway p { color: #78876a; }
+.case-next .eyebrow { color: #93a07f; }
+.case-next img { border-color: #c5ceb3; }
+@media (max-width: 749px) {
+  .case-contents { border-bottom-color: #c7ceb770; }
+}

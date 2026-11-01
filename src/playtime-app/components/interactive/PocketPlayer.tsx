@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import type { YouTubeEvent, YouTubePlayer } from 'react-youtube';
 
@@ -37,55 +37,112 @@ export const PocketPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const playerHostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
+  const [playerRequested, setPlayerRequested] = useState(false);
+  const [playerReady, setPlayerReady] = useState<YouTubePlayer | null>(null);
+  const playIntent = useRef(false);
+  const mountedRef = useRef(false);
+  const generationRef = useRef(0);
   
   const isScrubbing = useRef(false);
 
   const currentTrack = PLAYLIST[currentTrackIndex];
 
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      generationRef.current += 1;
+      playerRef.current = null;
+    };
+  }, []);
+
+  // Both raw YT instances and SDK wrappers can throw or return promises.
+  // Check the actual iframe and instance again after every async boundary.
+  const runPlayerCommand = useCallback(async (command: (player: YouTubePlayer) => unknown, player = playerRef.current) => {
+    const generation = generationRef.current;
+    try {
+      if (!player || !mountedRef.current || playerRef.current !== player) return;
+      const iframe = await player.getIframe();
+      if (!mountedRef.current || generationRef.current !== generation || playerRef.current !== player ||
+          !iframe?.isConnected || !playerHostRef.current?.contains(iframe)) return;
+      return await command(player);
+    } catch {
+      // An iframe may be destroyed while an SDK promise is pending.
+      return undefined;
+    }
+  }, []);
+
   // Update progress bar
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-    if (isPlaying && playerRef.current) {
+    if (isPlaying && playerReady) {
       interval = setInterval(async () => {
         // Only auto-update time if we aren't currently scrubbing it manually
-        if (!isScrubbing.current) {
-          try {
-            const time = await playerRef.current.getCurrentTime();
-            setCurrentTime(time || 0);
-          } catch (e) {
-            // ignore
-          }
+        if (!isScrubbing.current && !document.hidden && playerRef.current) {
+          const player = playerRef.current;
+          const time = await runPlayerCommand(p => p.getCurrentTime(), player);
+          if (mountedRef.current && playerRef.current === player && typeof time === 'number') setCurrentTime(time);
         }
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, [isPlaying, playerReady, runPlayerCommand]);
 
-  const onReady = (event: YouTubeEvent) => {
-    playerRef.current = event.target;
-    setDuration(event.target.getDuration());
+  useEffect(() => {
+    const player = playerRef.current;
+    if (!playerReady || !player) return;
+    let cancelled = false;
+    void runPlayerCommand(p => {
+      if (cancelled) return;
+      return playIntent.current ? p.loadVideoById(currentTrack.id) : p.cueVideoById(currentTrack.id);
+    }, player);
+    return () => { cancelled = true; };
+  }, [currentTrack.id, playerReady, runPlayerCommand]);
+
+  const onReady = async (event: YouTubeEvent) => {
+    const player = event.target;
+    const generation = generationRef.current;
+    try {
+      const iframe = await player.getIframe();
+      if (!mountedRef.current || generationRef.current !== generation || !iframe?.isConnected ||
+          !playerHostRef.current?.contains(iframe)) return;
+      playerRef.current = player;
+      setPlayerReady(player);
+      const length = await runPlayerCommand(p => p.getDuration(), player);
+      if (mountedRef.current && playerRef.current === player && typeof length === 'number') setDuration(length);
+    } catch {
+      // StrictMode may deliver readiness from the already-destroyed iframe.
+    }
   };
 
   const onStateChange = (event: YouTubeEvent) => {
-    // 1 = playing, 2 = paused, 0 = ended
-    if (event.data === 1) {
-      setIsPlaying(true);
-      setDuration(event.target.getDuration());
-    } else if (event.data === 2) {
-      setIsPlaying(false);
-    } else if (event.data === 0) {
-      handleNext();
-    }
+    void runPlayerCommand(async player => {
+      // 1 = playing, 2 = paused, 0 = ended
+      if (event.data === 1) {
+        if (!playIntent.current) {
+          await player.pauseVideo();
+          return;
+        }
+        setIsPlaying(true);
+        const length = await player.getDuration();
+        if (mountedRef.current && playerRef.current === player && typeof length === 'number') setDuration(length);
+      } else if (event.data === 2) {
+        setIsPlaying(false);
+      } else if (event.data === 0) {
+        playIntent.current = true;
+        handleNext();
+      }
+    }, event.target);
   };
 
   const handlePlayPause = () => {
-    if (!playerRef.current) return;
-    if (isPlaying) {
-      playerRef.current.pauseVideo();
-    } else {
-      playerRef.current.playVideo();
-    }
+    playIntent.current = !playIntent.current;
+    setIsPlaying(playIntent.current);
+    setPlayerRequested(true);
+    if (!playerReady) return;
+    void runPlayerCommand(player => playIntent.current ? player.playVideo() : player.pauseVideo());
   };
 
   const handleNext = () => {
@@ -107,8 +164,10 @@ export const PocketPlayer = () => {
       setCurrentTrackIndex(selectedIndex);
       setCurrentView('nowPlaying');
       setIsPlaying(true);
-      if (playerRef.current) {
-        playerRef.current.playVideo();
+      playIntent.current = true;
+      setPlayerRequested(true);
+      if (playerReady && selectedIndex === currentTrackIndex) {
+        void runPlayerCommand(player => player.playVideo());
       }
     } else {
       handlePlayPause();
@@ -195,7 +254,7 @@ export const PocketPlayer = () => {
     
     // If we were scrubbing, apply the new time to the youtube player
     if (isScrubbing.current && playerRef.current) {
-      playerRef.current.seekTo(currentTime, true);
+      void runPlayerCommand(player => player.seekTo(currentTime, true));
       isScrubbing.current = false;
     }
   };
@@ -204,19 +263,19 @@ export const PocketPlayer = () => {
     <div className="w-[300px] h-[480px] bg-gradient-to-b from-[#fdfdfd] to-[#e6e6e6] rounded-[32px] p-6 shadow-[inset_0_1px_4px_rgba(255,255,255,1),_0_20px_40px_-10px_rgba(0,0,0,0.3)] flex flex-col items-center gap-8 relative border border-gray-300">
       
       {/* Hidden YouTube Player */}
-      <div className="hidden">
-        <YouTube
-          videoId={currentTrack.id}
+      <div ref={playerHostRef} className="hidden">
+        {playerRequested && <YouTube
+          videoId={PLAYLIST[0].id}
           opts={{
             playerVars: {
-              autoplay: isPlaying ? 1 : 0,
+              autoplay: 0,
               controls: 0,
               disablekb: 1,
             },
           }}
           onReady={onReady}
           onStateChange={onStateChange}
-        />
+        />}
       </div>
 
       {/* Screen */}
@@ -328,6 +387,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handlePrev}
+          aria-label="Previous track"
           className="absolute left-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors z-10 p-2"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -339,6 +399,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handleNext}
+          aria-label="Next track"
           className="absolute right-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors z-10 p-2"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -350,6 +411,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handlePlayPause}
+          aria-label={isPlaying ? 'Pause' : 'Play'}
           className="absolute bottom-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors flex items-center justify-center z-10 p-2"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5">
@@ -364,6 +426,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handleSelectClick}
+          aria-label="Select track"
           className="w-[74px] h-[74px] bg-gradient-to-b from-[#f4f4f4] to-[#ebebeb] rounded-full shadow-[inset_0_1px_3px_rgba(255,255,255,1),_0_2px_6px_rgba(0,0,0,0.2)] active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.1),_0_1px_2px_rgba(0,0,0,0.1)] border border-white/50 transition-shadow z-20"
         />
       </div>

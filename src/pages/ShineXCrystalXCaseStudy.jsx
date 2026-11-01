@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import '../styles/case-study-route.css';
+import '../styles/packaging-case.css';
+import '../styles/shinex-crystalx.css';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
 import SnapGallery from '../components/SnapGallery.jsx';

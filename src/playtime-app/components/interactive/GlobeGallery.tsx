@@ -101,7 +101,7 @@ export const GlobeGallery: React.FC<GlobeGalleryProps> = ({ images, radius = 350
               boxShadow: "0 15px 35px rgba(0,0,0,0.15)",
             }}
           >
-            <img 
+            <img loading="lazy" decoding="async"
               src={item.url} 
               alt={`Gallery ${i}`} 
               className="w-full h-full object-cover select-none pointer-events-none"

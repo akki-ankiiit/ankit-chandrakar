@@ -8,14 +8,14 @@ import Work from './components/Work.jsx';
 import CreatorHub from './components/CreatorHub.jsx';
 import Contact from './components/Contact.jsx';
 import Experience from './components/Experience.jsx';
-import CaseStudy from './pages/CaseStudy.jsx';
-import KSeriesCaseStudy from './pages/KSeriesCaseStudy.jsx';
-import BondureCaseStudy from './pages/BondureCaseStudy.jsx';
-import ShineXCrystalXCaseStudy from './pages/ShineXCrystalXCaseStudy.jsx';
 import NotFound from './pages/NotFound.jsx';
-import AboutPage from './pages/AboutPage.jsx';
 import usePageMeta from './hooks/usePageMeta.js';
 import { homeMeta } from './data/home-meta.js';
+const CaseStudy = lazy(() => import('./pages/CaseStudy.jsx'));
+const KSeriesCaseStudy = lazy(() => import('./pages/KSeriesCaseStudy.jsx'));
+const BondureCaseStudy = lazy(() => import('./pages/BondureCaseStudy.jsx'));
+const ShineXCrystalXCaseStudy = lazy(() => import('./pages/ShineXCrystalXCaseStudy.jsx'));
+const AboutPage = lazy(() => import('./pages/AboutPage.jsx'));
 const Playtime = lazy(() => import('./pages/Playtime.jsx'));
 const NeostraLogoBook = lazy(() => import('./pages/NeostraLogoBook.jsx'));
 // Notes temporarily disabled.
@@ -25,20 +25,77 @@ const NeostraLogoBook = lazy(() => import('./pages/NeostraLogoBook.jsx'));
 // Maps project group → Work tab category ID
 const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'apps', systems: 'design-systems' };
 
+// Commit restoration only once the destination's code and CSS are ready.
+function RouteScrollRestoration({ restoration }) {
+  const location = useLocation();
+  const navigationType = useNavigationType();
+  useEffect(() => {
+    const pending = restoration.current;
+    const saved = pending.saved;
+    let frame;
+    let complete = false;
+    const restore = () => {
+      if (complete || restoration.current !== pending) return;
+      const shadow = document.querySelector('.playtime-shadow-host')?.shadowRoot;
+      const playtimePending = location.pathname === '/playtime' && !shadow?.getElementById('top');
+      const target = location.hash ? document.getElementById(location.hash.slice(1)) || shadow?.getElementById(location.hash.slice(1)) : null;
+      if (navigationType === 'POP' && saved !== undefined) {
+        // The experiment wrappers reserve the full page height once ready.
+        if (playtimePending) return;
+        window.scrollTo({ top: saved, behavior: 'instant' });
+      } else if (target) target.scrollIntoView({ behavior: 'instant' });
+      else if (location.hash && playtimePending) return;
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+      complete = true;
+      pending.restoring = false;
+      const projectLink = location.state?.focusProject && document.querySelector(`[data-project-link="${location.state.focusProject}"]`);
+      (projectLink || document.getElementById('main'))?.focus({ preventScroll: true });
+    };
+    const scheduleRestore = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(restore);
+    };
+    window.addEventListener('playtime-ready', scheduleRestore);
+    scheduleRestore();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('playtime-ready', scheduleRestore);
+    };
+  }, [location, navigationType, restoration]);
+  return null;
+}
+
+function RouteLoading() {
+  return <div className="route-loading" role="status" aria-live="polite"><p className="sr-only">Loading page…</p></div>;
+}
+
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const [category, setCategory] = useState('case-studies');
   const scrollPositions = useRef(new Map());
+  const restoration = useRef({ key: location.key, restoring: true, saved: undefined });
+  if (restoration.current.key !== location.key) {
+    restoration.current = { key: location.key, restoring: true, saved: scrollPositions.current.get(location.key) };
+  }
   const page = location.pathname === '/desk' ? 'hub' : location.pathname === '/about' ? 'about' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
   usePageMeta(homeMeta, page === 'home');
 
   useEffect(() => {
-    const rememberScroll = () => scrollPositions.current.set(location.key, window.scrollY);
+    const rememberScroll = () => {
+      if (restoration.current.key === location.key && !restoration.current.restoring) {
+        scrollPositions.current.set(location.key, window.scrollY);
+      }
+    };
     window.addEventListener('scroll', rememberScroll, { passive: true });
     return () => window.removeEventListener('scroll', rememberScroll);
   }, [location.key]);
+
+  useEffect(() => {
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    return () => { window.history.scrollRestoration = previous; };
+  }, []);
 
   useEffect(() => {
     if (location.hash === '#hub') { navigate('/desk', { replace: true }); return; }
@@ -46,17 +103,7 @@ export default function App() {
       const mapped = groupToCategory[location.state.category] || location.state.category;
       setCategory(mapped);
     }
-    const frame = requestAnimationFrame(() => {
-      const saved = scrollPositions.current.get(location.key);
-      const target = location.hash ? document.getElementById(location.hash.slice(1)) : null;
-      if (navigationType === 'POP' && saved !== undefined) window.scrollTo({ top: saved, behavior: 'instant' });
-      else if (target) target.scrollIntoView({ behavior: 'instant' });
-      else window.scrollTo({ top: 0, behavior: 'instant' });
-      const projectLink = location.state?.focusProject && document.querySelector(`[data-project-link="${location.state.focusProject}"]`);
-      (projectLink || document.getElementById('main'))?.focus({ preventScroll: true });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [location, navigate, navigationType]);
+  }, [location, navigate]);
 
   useEffect(() => {
     if (!location.state?.focusProject || location.pathname !== '/') return undefined;
@@ -88,6 +135,7 @@ export default function App() {
       <a className="skip-link" href="#main">Skip to content</a>
       <Header page={page} onNavigate={onNavigate} />
       <main id="main" tabIndex={-1}>
+        <Suspense fallback={<RouteLoading />}>
         <Routes>
           <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /><Impact /></div>} />
           <Route path="/desk" element={<div className="page-enter"><Hero isHub onNavigate={onNavigate} /><CreatorHub /></div>} />
@@ -96,14 +144,16 @@ export default function App() {
           <Route path="/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading notes…</p>}><Notes /></Suspense>} />
           <Route path="/admin/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading sign-in…</p>}><AdminNotes /></Suspense>} />
           */}
-          <Route path="/playtime" element={<Suspense fallback={<div className="playtime-loading" />}><Playtime /></Suspense>} />
+          <Route path="/playtime" element={<Playtime />} />
           <Route path="/work/kamdhenu-k-series" element={<KSeriesCaseStudy />} />
           <Route path="/work/bondure" element={<BondureCaseStudy />} />
           <Route path="/work/shinex-crystalx" element={<ShineXCrystalXCaseStudy />} />
-          <Route path="/work/neostra" element={<Suspense fallback={<div className="nlb-loading" />}><NeostraLogoBook /></Suspense>} />
+          <Route path="/work/neostra" element={<NeostraLogoBook />} />
           <Route path="/work/:projectId" element={<CaseStudy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <RouteScrollRestoration restoration={restoration} />
+        </Suspense>
       </main>
       <Contact visitor />
     </>

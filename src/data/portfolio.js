@@ -4,6 +4,12 @@ const notion = 'https://ankitchandrakar.notion.site/Ankit-Chandrakar-2017005b2f7
 const deck = 'https://ankitchandrakar.notion.site/Check-Out-My-Short-Sweet-Portfolio-207babe469f544ac904082668f82191e';
 const asset = (name) => `/assets/ankit/${name}`;
 const slide = (number) => asset(`notion-slide-${String(number).padStart(2, '0')}.webp`);
+const optimizedCover = (name, width = 1200, height = 860) => ({
+  image: `/assets/optimized/${name}.webp`,
+  thumbnailSrcSet: `/assets/optimized/${name}-640.webp 640w, /assets/optimized/${name}-960.webp 960w, /assets/optimized/${name}.webp ${width}w`,
+  imageWidth: width,
+  imageHeight: height,
+});
 
 export const profile = {
   name: 'Ankit',
@@ -45,7 +51,7 @@ export const imagery = {
   mark: asset('monogram.svg'),
   hero: '/assets/newlogo/image.png',
   heroSmall: '/assets/newlogo/image.png',
-  portrait: '/assets/image_6.png',
+  portrait: '/assets/optimized/image_6.webp',
   headphones: asset('ink-headphones.svg'),
   sketchbook: asset('ink-sketchbook.svg'),
   sneaker: asset('ink-sneaker.svg'),
@@ -176,7 +182,7 @@ const existingProjects = [
     tags: ['Web design', 'Visual design'],
   })),
   ...[
-    { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.' },
+    { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.', appCover: optimizedCover('Adhikar') },
     { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Tools for contractors, built into the Tejas ecosystem.' },
     { id: 'mistribhai', title: 'MistriBhai', subtitle: 'A workflow app from the Tejas ecosystem.' },
   ].map((project) => ({
@@ -218,15 +224,15 @@ const existingProjects = [
 ];
 
 const cardThumbnails = {
-  neostra: '/assets/Neo.png',
-  yesbot: '/assets/YesBot.png',
-  cryptotax: '/assets/CryptoTaxx.png',
+  neostra: optimizedCover('Neo', 1032, 740),
+  yesbot: optimizedCover('YesBot'),
+  cryptotax: optimizedCover('CryptoTaxx'),
   tejas: '/assets/thumbnails/case-study-tejas.webp',
   thanq: '/assets/thumbnails/case-study-thanq.webp',
-  'neostra-system': '/assets/Neo.png',
+  'neostra-system': optimizedCover('Neo', 1032, 740),
   blackspace: '/assets/thumbnails/website-blackspace-hero.webp',
-  'azure-interiors': '/assets/azure.png',
-  atlas: '/assets/Atlas.png',
+  'azure-interiors': optimizedCover('azure', 1032, 740),
+  atlas: optimizedCover('Atlas', 1032, 740),
   'golf-mill': '/assets/thumbnails/website-the-golf-mill-hero.webp',
 
   adhikar: '/assets/thumbnails/case-study-tejas.webp',
@@ -236,7 +242,9 @@ const cardThumbnails = {
 
 export const projects = [...existingProjects.map((project) => ({ ...project, ...behanceEnrichment[project.id] })), ...behanceProjects].map((project) => ({
   ...project,
-  image: cardThumbnails[project.id] || asset(`ink-${project.id}.webp`),
+  ...(typeof cardThumbnails[project.id] === 'object'
+    ? cardThumbnails[project.id]
+    : { image: cardThumbnails[project.id] || asset(`ink-${project.id}.webp`) }),
   sourceLabel: project.sourceLabel || (project.sourceUrl ? 'Notion' : undefined),
   caseStudy: project.caseStudy || {
     challenge: project.description,

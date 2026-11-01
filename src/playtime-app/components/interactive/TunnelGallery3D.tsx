@@ -73,7 +73,7 @@ const TunnelGalleryItem: React.FC<TunnelGalleryItemProps> = ({ item, outerRef })
         {item.isText ? (
           item.text
         ) : (
-          <img 
+          <img loading="lazy" decoding="async"
             src={item.url} 
             alt=""
             className="w-full h-full object-cover rounded-xl border border-white/5"

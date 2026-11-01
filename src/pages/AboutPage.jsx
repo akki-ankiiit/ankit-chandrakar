@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import '../styles/about.css';
 import HeroArtwork from '../components/HeroArtwork.jsx';
 import { Pill, SocialLinks } from '../components/ui.jsx';
 import { artworks, education, experience, imagery, profile } from '../data/portfolio.js';
@@ -27,7 +28,7 @@ export default function AboutPage() {
       </section>
 
       <figure className="about-page-team-photo container">
-        <img src="/assets/TeamNyusta.png" alt="The Nyusta team gathered beside an outdoor pool" width="1920" height="1080" loading="lazy" decoding="async" />
+        <img src="/assets/optimized/TeamNyusta.webp" alt="The Nyusta team gathered beside an outdoor pool" width="1920" height="1080" loading="lazy" decoding="async" />
       </figure>
 
       <div className="about-page-photo-pair container">

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { useTexture } from "@react-three/drei";
@@ -41,10 +41,12 @@ const RippleScene = ({
   overlayColor = "#000000",
   overlayOpacity = 0.0,
   isPaused,
-  reducedMotion
-}: WaterRippleImageProps & { isPaused: boolean; reducedMotion: boolean }) => {
+  reducedMotion,
+  onReady,
+}: WaterRippleImageProps & { isPaused: boolean; reducedMotion: boolean; onReady: () => void }) => {
   const { viewport } = useThree();
   const texture = useTexture(src);
+  const renderedTexture = useRef<THREE.Texture | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
 
   // Ripple state tracking (x, y, startTime, strength)
@@ -364,6 +366,12 @@ const RippleScene = ({
       scale={[viewport.width, viewport.height, 1]}
       onPointerMove={handlePointerMove}
       onPointerDown={handlePointerDown}
+      onAfterRender={() => {
+        if (renderedTexture.current !== texture) {
+          renderedTexture.current = texture;
+          onReady();
+        }
+      }}
     >
       <planeGeometry args={[1, 1, 32, 32]} />
       <shaderMaterial
@@ -395,13 +403,40 @@ export const WaterRippleImage = ({
   overlayColor = "#000000",
   overlayOpacity = 0.0,
 }: WaterRippleImageProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [readySource, setReadySource] = useState<string | null>(null);
+  const [active, setActive] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = typeof IntersectionObserver === 'undefined';
+    const sync = () => {
+      setActive(visible && !document.hidden);
+      setReducedMotion(query.matches);
+    };
+    const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    });
+    if (containerRef.current) observer?.observe(containerRef.current);
+    query.addEventListener('change', sync);
+    document.addEventListener('visibilitychange', sync);
+    sync();
+    return () => {
+      observer?.disconnect();
+      query.removeEventListener('change', sync);
+      document.removeEventListener('visibilitychange', sync);
+    };
+  }, []);
   return (
-    <div className={className} style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+    <div ref={containerRef} className={className} aria-busy={readySource !== src} data-water-ready={readySource === src} style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', backgroundImage: `url("${src}")`, backgroundSize: fit === 'fill' ? '100% 100%' : fit === 'center' ? 'auto' : fit, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
       <Canvas
+        frameloop={active && !reducedMotion ? 'always' : 'demand'}
         camera={{ position: [0, 0, 1] }}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
         dpr={Math.max(1, Math.min(2, window.devicePixelRatio))} // Limit DPR for performance
       >
+        <Suspense fallback={null}>
         <RippleScene
           src={src}
           fit={fit}
@@ -418,9 +453,11 @@ export const WaterRippleImage = ({
           trigger={trigger}
           overlayColor={overlayColor}
           overlayOpacity={overlayOpacity}
-          isPaused={false}
-          reducedMotion={false}
+          isPaused={!active}
+          reducedMotion={reducedMotion}
+          onReady={() => setReadySource(src)}
         />
+        </Suspense>
       </Canvas>
     </div>
   );

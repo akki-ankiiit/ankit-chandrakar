@@ -6,7 +6,7 @@ export const MockupsGrid = () => {
       <div className="w-full max-w-[1400px] mx-auto mt-16 md:mt-24 rounded-3xl bg-[#09090C] p-6 sm:p-10 md:p-16 overflow-hidden relative min-h-[70vh] md:min-h-[90vh] flex items-center justify-center shadow-2xl border border-white/5">
         {/* Subtle background glow/noise */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,90,31,0.08),transparent_70%)] pointer-events-none" />
-        <div className="absolute inset-0 opacity-5 bg-[url('/assets/playtime/noise.svg')] mix-blend-overlay pointer-events-none" />
+        <div className="absolute inset-0 opacity-5 playtime-noise mix-blend-overlay pointer-events-none" />
 
         {/* Perspective Outer wrapper */}
         <div className="w-full h-full relative flex items-center justify-center scale-90 sm:scale-100" style={{ perspective: "1500px" }}>

@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import '../styles/case-study-route.css';
+import '../styles/packaging-case.css';
+import '../styles/k-series.css';
 import { Link } from 'react-router-dom';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { PkPager } from '../components/packaging/CaseParts.jsx';

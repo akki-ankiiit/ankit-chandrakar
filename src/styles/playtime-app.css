@@ -17,6 +17,44 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.playtime-experiments-loading {
+  min-height: 100vh;
+  background: #f0f0f0;
+}
+
+.playtime-experiment-entry {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 50;
+  margin: 0;
+  font-size: 16px;
+}
+
+.playtime-experiment-entry a {
+  display: block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #111;
+  background: #fff;
+  outline: 2px solid #111;
+  outline-offset: 3px;
+}
+
+.playtime-experiment-entry a:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.playtime-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+
 @theme {
   --font-sans: "Cal Sans", sans-serif;
   --font-display: "Cal Sans", sans-serif;

@@ -18,7 +18,7 @@ export function SocialLinks({ className = '' }) {
 export function Reveal({ children, className = '', delay = 0 }) {
   const ref = useRef(null);
   useEffect(() => {
-    if (!('IntersectionObserver' in window)) {
+    if (typeof window.IntersectionObserver !== 'function') {
       ref.current?.classList.add('is-visible');
       return undefined;
     }

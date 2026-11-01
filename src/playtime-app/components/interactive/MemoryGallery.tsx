@@ -34,7 +34,8 @@ const MemoryGalleryItem: React.FC<MemoryGalleryItemProps> = ({ item, idx, hovere
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      whileInView={typeof IntersectionObserver === 'undefined' ? undefined : { opacity: 1, scale: 1 }}
+      animate={typeof IntersectionObserver === 'undefined' ? { opacity: 1, scale: 1 } : undefined}
       viewport={{ once: true }}
       transition={{ 
         duration: 1.2, 
@@ -75,7 +76,7 @@ const MemoryGalleryItem: React.FC<MemoryGalleryItemProps> = ({ item, idx, hovere
         }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={item.url}
           alt={item.caption}
           className="w-full h-auto object-cover transition-transform duration-1000 ease-out"

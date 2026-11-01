@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import '../styles/case-study-route.css';
+import '../styles/packaging-case.css';
+import '../styles/bondure.css';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { PkHero, PkPager, PkRole, PkSection } from '../components/packaging/CaseParts.jsx';
 import { kSeriesCard } from '../data/k-series.js';

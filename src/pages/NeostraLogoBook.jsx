@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import '../styles/case-study-route.css';
+import '../styles/neostra-logo-book.css';
 import { Link } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';

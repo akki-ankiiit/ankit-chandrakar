@@ -20,10 +20,13 @@ function ProjectCard({ project, index, onOpen }) {
       <Selection className="project-cover">
         <img
           src={project.thumbnail || project.image}
+          srcSet={project.thumbnailSrcSet}
+          sizes={project.thumbnailSrcSet ? '(max-width: 539px) 84vw, (max-width: 749px) calc(44vw - 9px), (max-width: 999px) calc(50vw - 60px), 440px' : undefined}
           alt={`${project.title} — case study cover`}
-          width="1200"
-          height="850"
+          width={project.imageWidth || 1200}
+          height={project.imageHeight || 850}
           loading="lazy"
+          decoding="async"
         />
         <span className="project-open">
           <Icon name="arrow" size={20} />
@@ -106,7 +109,7 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
         return {
           topline: 'Enterprise platforms, conversational AI workspaces, and mobile interfaces',
           items: pick(['adhikar', 'contractorbhai', 'mistribhai', 'thanq']).map((project) => (
-            project.id === 'adhikar' ? { ...project, thumbnail: '/assets/Adhikar.png' } : project
+            project.appCover ? { ...project, ...project.appCover } : project
           )),
         };
       case 'design-systems':

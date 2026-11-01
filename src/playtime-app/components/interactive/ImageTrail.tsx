@@ -106,6 +106,7 @@ export const ImageTrail: React.FC = () => {
     
     return () => {
       clearInterval(idleInterval);
+      imageRefs.current.forEach(image => { if (image) gsap.killTweensOf(image); });
       if (container) {
         container.removeEventListener('pointermove', handlePointerMove);
         container.removeEventListener('pointerleave', handlePointerLeave);
@@ -132,6 +133,7 @@ export const ImageTrail: React.FC = () => {
             imageRefs.current[i] = el;
           }}
           src={src}
+          decoding="async"
           alt="trail"
           className="absolute top-0 left-0 w-32 h-40 md:w-44 md:h-56 object-cover shadow-2xl pointer-events-none opacity-0 will-change-transform"
         />

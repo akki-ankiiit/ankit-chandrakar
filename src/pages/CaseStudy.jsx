@@ -4,6 +4,7 @@ import { profile, projects } from '../data/portfolio.js';
 import { Pill } from '../components/ui.jsx';
 import Icon from '../components/Icon.jsx';
 import NotFound from './NotFound.jsx';
+import '../styles/case-study-route.css';
 
 function Presentation({ project }) {
   const chapters = project.caseStudy.chapters;
