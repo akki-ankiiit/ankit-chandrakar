@@ -46,6 +46,7 @@ export default function AboutPage() {
 
       <figure className="about-page-team-photo container">
         <img src="/assets/optimized/TeamNyusta.webp" alt="The Nyusta team gathered beside an outdoor pool" width="1920" height="1080" loading="lazy" decoding="async" />
+        <figcaption>Me &amp; Team Nyusta</figcaption>
       </figure>
 
       <div className="about-page-photo-pair container">
@@ -64,7 +65,7 @@ export default function AboutPage() {
           <div className="about-page-studio-intro">
             <div className="about-page-studio-copy">
               <p className="eyebrow">A visual collection</p>
-              <h2 id="about-gallery-title">A little more<br /><em>personality.</em></h2>
+              <h2 id="about-gallery-title">Drawn for the<br />joy of it.</h2>
               <p className="about-page-gallery-note">Away from the design files, I’m usually drawing. Here’s a little of that world — familiar faces, favourite characters, and ideas just for the joy of it.</p>
               <p className="about-page-studio-note">Off the clock. Still making things.</p>
             </div>

@@ -33,6 +33,17 @@ export const brief = {
   linkLabel: 'See how the same team launched Kamdhenu Adhesive →',
 };
 
+// Early directions: fill in name, what it tried and why it was set aside. Placeholders stay visible until supplied.
+export const ideas = {
+  heading: 'Three directions before one system.',
+  lede: 'TODO_USER: One-line summary of the early directions, before the family system.',
+  items: [
+    { name: 'TODO_USER: Direction 1 name', text: 'TODO_USER: What this direction tried.', setAside: 'TODO_USER: Why it was set aside.' },
+    { name: 'TODO_USER: Direction 2 name', text: 'TODO_USER: What this direction tried.', setAside: 'TODO_USER: Why it was set aside.' },
+    { name: 'TODO_USER: Direction 3 name', text: 'TODO_USER: What this direction tried.', setAside: 'TODO_USER: Why it was set aside.' },
+  ],
+};
+
 export const logo = {
   heading: 'A wordmark built to hold.',
   lede: 'BONDURE reads as “bond” and “endure”. Tejas stays as the maker’s mark on every bag.',
@@ -60,6 +71,22 @@ export const products = [
 export const system = {
   heading: 'One family, three colours.',
   lede: 'The same layout on every bag. Only the colour and the product name change.',
+  why: [
+    { title: 'One layout, one reading', text: 'A buyer who learns one bag can read the next.' },
+    { title: 'Colour does the sorting', text: 'Each product has its own colour, taken from the bag’s solid base.' },
+    { title: 'Only the name changes', text: 'The product name and type are the only text that differ.' },
+  ],
+};
+
+// Kamdhenu Group HQ details: fill in each step from the brief, review and approval. Placeholders stay visible until supplied.
+export const hq = {
+  heading: 'Built to the Kamdhenu HQ brief.',
+  lede: 'Tejas is from the team behind Kamdhenu Adhesive, so the work followed the Kamdhenu Group HQ details before it was implemented.',
+  steps: [
+    { title: 'What HQ asked for', text: 'TODO_USER: The brief and requirements from Kamdhenu Group HQ.' },
+    { title: 'What changed after review', text: 'TODO_USER: Feedback from HQ and the changes made.' },
+    { title: 'How it was approved', text: 'TODO_USER: The approval round and sign-off.' },
+  ],
 };
 
 export const notes = {

@@ -11,7 +11,7 @@
 .hero-stats > div { display: flex; flex-direction: column; gap: 7px; }
 .hero-stats strong { font-size: 28px; font-weight: 400; line-height: 1; letter-spacing: -.5px; }
 .hero-stats span { font-size: 11px; line-height: 1.45; color: #73766a; }
-.stats-note { margin-top: 13px; font-size: 10px; color: #85897c; font-style: italic; }
+.stats-note { margin-top: 13px; font-size: 10px; color: #85897c; }
 .hero-art { aspect-ratio: 520 / 460; }
 .about { padding-block: 56px; }
 .about-inner { max-width: 880px; grid-template-columns: 340px 1fr; gap: 52px; align-items: center; }
@@ -19,11 +19,11 @@
 .about-portrait-frame { position: relative; width: 100%; max-width: 340px; margin-inline: auto; display: flex; align-items: center; justify-content: center; }
 .about-portrait-frame .portrait, .portrait { width: 100%; max-width: 340px; height: auto; object-fit: contain; display: block; margin: 0 auto; filter: none; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .about-portrait-frame .portrait:hover, .portrait:hover { transform: rotate(-1.5deg) scale(1.02); filter: none; }
-.about-portrait-caption { text-align: center; font-size: 12.5px; font-style: italic; margin-top: 14px; color: #758064; }
+.about-portrait-caption { text-align: center; font-size: 12.5px; margin-top: 14px; color: #758064; }
 .about-copy { line-height: 1.7; }
 .about-copy .eyebrow { font-size: 11px; letter-spacing: .075em; margin-bottom: 12px; }
 .about-copy .eyebrow img { opacity: 1; width: 23px; height: 25px; }
-.design-philosophy { font-style: italic; margin-top: 14px; color: #656b5b; }
+.design-philosophy { margin-top: 14px; color: #656b5b; }
 .about-resume { display: inline-flex; gap: 9px; align-items: center; font-size: 12px; margin-top: 19px; }
 .discipline-marquee { padding: 24px 0; border-bottom: 1px solid #efeedc; overflow: hidden; }
 .discipline-track { display: flex; flex-shrink: 0; align-items: center; gap: 43px; padding-right: 43px; }

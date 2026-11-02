@@ -27,6 +27,10 @@ export const idea = {
   heading: 'From laying the floor to caring for it.',
   lede: 'K-Series lays tile and stone; these two keep it clean. The range is split by surface, not strength.',
   linkLabel: 'See the K-Series adhesive range →',
+  steps: [
+    { label: 'Lay', text: 'K-Series adhesives set the tile and stone.' },
+    { label: 'Clean', text: 'ShineX and CrystalX keep that surface looking new.' },
+  ],
 };
 
 export const products = [
@@ -57,15 +61,37 @@ export const range = {
   lede: 'The same bottle and label; a different X for each surface.',
 };
 
-export const notes = [
-  { title: 'Shared bottle', text: 'Same 1 L bottle, red cap and Kamdhenu swoosh.' },
-  { title: 'The X', text: 'Slanted red for tile, icy crystal for marble.' },
-  { title: 'Shields for proof', text: 'Benefits and quantity sit in shield badges.' },
+export const decisions = [
+  { title: 'Split by surface', text: 'Tile and marble need different cleaners, so the range follows the floor, not the strength.' },
+  { title: 'One bottle, one family', text: 'Same 1 L bottle, red cap and Kamdhenu swoosh, so the pair reads as one range on the shelf.' },
+  { title: 'The X tells them apart', text: 'Slanted red for tile, icy crystal for marble.' },
+  { title: 'Shields for proof', text: 'Benefits and quantity sit in shield badges, so claims are easy to scan.' },
 ];
+
+export const explored = {
+  heading: 'Ideas we explored',
+  text: 'TODO_USER: list the directions considered before the surface split (names, colours, layouts) and why each was dropped.',
+};
+
+export const approval = {
+  heading: 'Kamdhenu HQ brief and approval',
+  text: 'TODO_USER: describe how the Kamdhenu HQ brief and approval shaped the ShineX and CrystalX designs.',
+};
 
 export const socialIntro = {
   heading: 'ShineX on social.',
   lede: '22 posts on what it cleans, how to use it and the finish it leaves.',
+};
+
+export const pillars = [
+  { title: 'Show the dirt', text: 'Stained tile, a “Don’t guess. Test it.” challenge and a before-and-after.' },
+  { title: 'Show the home', text: 'Families, children and glossy floors in bright living rooms.' },
+  { title: 'Show the character', text: 'The mascot in blue gloves and boots, with sparks, icons and claims.' },
+];
+
+export const outcome = {
+  heading: 'What happened next',
+  text: 'TODO_USER: add launch, sales or dealer results for ShineX and CrystalX, or remove this chapter.',
 };
 
 export const posts = [

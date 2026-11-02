@@ -10,6 +10,8 @@
 .about-page-photo-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; padding-top: 32px; }
 .about-page-photo-pair figure { min-width: 0; margin: 0; }
 .about-page-photo-pair img { display: block; width: 100%; height: auto; border: 1px solid var(--about-line); border-radius: 3px; }
+.about-page-team-photo figcaption { margin-top: 12px; color: var(--about-secondary); font-size: 13px; line-height: 1.6; }
+.about-page-photo-pair { padding-bottom: 56px; }
 .about-page-photo-pair figcaption { margin-top: 12px; color: var(--about-secondary); font-size: 13px; line-height: 1.6; }
 
 .about-page-background { padding-top: 52px; padding-bottom: 84px; }
@@ -31,7 +33,7 @@
 .about-page-studio-copy h2 { margin-top: 16px; font-size: clamp(36px, 4.5vw, 52px); line-height: 1.08; letter-spacing: -1.4px; }
 .about-page-studio-copy h2 em { font-weight: inherit; color: var(--accent-strong); }
 .about-page-gallery-note { max-width: 430px; margin-top: 20px; font-size: 15px; line-height: 1.75; color: var(--about-secondary); }
-.about-page-studio-note { margin-top: 18px; color: var(--accent-strong); font-size: 14px; font-style: italic; }
+.about-page-studio-note { margin-top: 18px; color: var(--accent-strong); font-size: 14px; }
 .about-page-gallery figure { min-width: 0; margin: 0; }
 .about-page-gallery .about-page-portrait { width: 230px; }
 .about-page-portrait-mat { position: relative; padding: 12px 5px 5px; background: var(--paper); border: 1px solid var(--about-line); border-radius: 2px; box-shadow: 2px 4px 0 #34383108; }
@@ -58,7 +60,6 @@
 .about-page-sketchbook .about-page-image-grid { grid-template-columns: repeat(5, minmax(0, 140px)); justify-content: space-between; gap: 20px; }
 .about-page-sketchbook .about-page-image-grid img { max-height: 210px; }
 .about-page-gallery-end { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--about-line); font-size: 14px; color: var(--about-secondary); }
-.about-page-gallery-end p { font-style: italic; }
 .about-page-gallery-end a { color: var(--ink); }
 
 @media (max-width: 749px) {

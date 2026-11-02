@@ -27,7 +27,7 @@
 .agents-intro-action:hover { background: #dbe7c9; }
 .agents-intro-crew { flex-shrink: 0; text-align: center; }
 .agents-featured-characters { display: flex; align-items: center; gap: 4px; padding-block: 20px; }
-.agents-intro-crew p { color: var(--agents-muted); font-size: 12px; font-style: italic; }
+.agents-intro-crew p { color: var(--agents-muted); font-size: 12px; }
 .agents-orb-section { scroll-margin-top: calc(var(--site-header-height) + 24px); }
 .agents-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 36px; border-top: 1px solid var(--agents-line); padding-top: 24px; margin-bottom: 32px; }
 .agents-section-heading h3 { font-size: 32px; font-weight: 400; line-height: 1.25; letter-spacing: -.6px; }
@@ -77,7 +77,7 @@
 .agents-specialty { font-size: 14px; }
 .agents-role { margin: 12px 0 20px; color: var(--agents-muted); font-size: 15px; line-height: 1.6; }
 .agents-signature { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: auto 0 12px; color: var(--agents-muted); font-size: 12px; }
-.agents-signature > :last-child { font-style: italic; text-transform: capitalize; }
+.agents-signature > :last-child { text-transform: capitalize; }
 .agents-card-actions { display: flex; align-items: stretch; justify-content: space-between; gap: 8px; border-top: 1px solid var(--agents-line); padding-top: 12px; }
 .agents-card-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 8px 10px; border: 1px solid var(--agents-border); border-radius: 4px; background: var(--agents-sage); font-size: 13px; }
 .agents-card-actions button + button { padding-inline: 0; border-color: transparent; background: var(--agents-paper); color: var(--agents-accent); }
@@ -98,7 +98,7 @@
 .agents-close:hover { background: var(--agents-sage); }
 .agents-drawer-profile { display: flex; align-items: center; gap: 24px; margin-top: 28px; padding: 24px 16px; border-radius: 5px; background: var(--agents-surface); }
 .agents-drawer-profile p { font-size: 15px; }
-.agents-drawer-profile blockquote { margin: 12px 0 8px; color: var(--agents-muted); font-size: 15px; font-style: italic; }
+.agents-drawer-profile blockquote { margin: 12px 0 8px; color: var(--agents-muted); font-size: 15px; }
 .agents-drawer-profile small { color: var(--agents-muted); font-size: 12px; }
 .agents-drawer-section { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--agents-line); }
 .agents-drawer-section h3 { margin-bottom: 10px; font-size: 24px; font-weight: 400; line-height: 1.3; }

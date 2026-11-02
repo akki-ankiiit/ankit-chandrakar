@@ -5,7 +5,7 @@
 .ink-hero { position: relative; width: 100%; --art-x: 0px; --art-y: 0px; --art-rotate: 0deg; padding-top: 15px; }
 .ink-art-canvas { position: relative; width: 100%; transform: translate(var(--art-x), var(--art-y)) rotate(var(--art-rotate)); will-change: transform; transition: transform .45s cubic-bezier(.2,.7,.3,1); }
 .ink-hero-image { display: block; width: 100%; height: auto; aspect-ratio: 848 / 1072; object-fit: contain; -webkit-mask-image: linear-gradient(to bottom, #000 92%, transparent 99%); mask-image: linear-gradient(to bottom, #000 92%, transparent 99%); will-change: transform; }
-.ink-art-control { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 6px; color: #3f4537; font-family: 'Comic Sans MS', Henriette, cursive; font-style: italic; font-size: 12px; line-height: 1.4; transition: color .2s, transform .25s; background: #fdfdf5e8; border-radius: 3px; padding: 6px 9px; }
+.ink-art-control { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 6px; color: #3f4537; font-family: 'Comic Sans MS', Henriette, cursive; font-size: 12px; line-height: 1.4; transition: color .2s, transform .25s; background: #fdfdf5e8; border-radius: 3px; padding: 6px 9px; }
 .ink-art-control:hover { color: #657c4d; }
 .ink-art-control:focus-visible { outline: 2px solid #7f9b5e; outline-offset: 4px; }
 .ink-work-note { left: 2%; top: 0; transform: rotate(-6deg); }
@@ -23,7 +23,7 @@
 .ink-thought-note > svg { transition: transform .4s; }
 .ink-thought-note:hover > svg { transform: rotate(100deg); }
 .ink-orbit-spark { position: absolute; right: 0; top: 44%; width: 23px; height: 23px; stroke: #4b5142; stroke-width: 2; fill: none; animation: ink-spark-turn 10s ease-in-out infinite; }
-.ink-art-caption { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; text-align: center; min-height: 42px; margin-top: -3px; padding: 0 20px; color: #788069; font-size: 12px; font-style: italic; line-height: 1.5; }
+.ink-art-caption { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; text-align: center; min-height: 42px; margin-top: -3px; padding: 0 20px; color: #788069; font-size: 12px; line-height: 1.5; }
 .ink-caption-line { display: block; width: 79px; height: 6px; border-bottom: 1px solid #a5af97; border-radius: 50%; transform: rotate(-3deg); }
 .ink-hero.is-focused .ink-orbit-spark { animation-play-state: paused; }
 .ink-hero.is-focused .ink-art-canvas { transform: none; }
@@ -32,7 +32,7 @@
 .about-portrait-frame .portrait, .ink-portrait-frame .portrait { position: relative; width: 100%; height: auto; object-fit: contain; margin: 0 auto; filter: none; transition: transform .4s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .about-portrait-frame .portrait:hover, .ink-portrait-frame .portrait:hover { transform: rotate(-1.5deg) scale(1.02); filter: none; }
 .portrait-pencil-line { display: none !important; }
-.about-portrait-caption, .ink-portrait-caption { text-align: center; font-size: 12.5px; font-style: italic; margin-top: 14px; color: #758064; }
+.about-portrait-caption, .ink-portrait-caption { text-align: center; font-size: 12.5px; margin-top: 14px; color: #758064; }
 .work-flower { width: 74px; height: auto; aspect-ratio: 307 / 233; object-fit: contain; mix-blend-mode: multiply; margin-bottom: 15px; animation: none; transition: transform .35s; }
 .work-flower:hover { animation: none; transform: rotate(-7deg) translateY(-3px); }
 .project-cover { overflow: visible; }

@@ -10,7 +10,6 @@
 @import './route-loading.css';
 
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Regular.otf') format('opentype'); font-weight: 100 900; font-style: normal; font-display: swap; }
-@font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Italic.otf') format('opentype'); font-weight: 100 900; font-style: italic; font-display: swap; }
 
 :root { font-family: Henriette, Georgia, serif; color: #282828; background: #fdfdf5; font-synthesis: none; --site-header-height: 134px; --paper: #fdfdf5; --beige: #efeedc; --ink: #282828; --forest: #343831; --accent: #c5de9b; --accent-strong: #60784b; --green: var(--accent); --muted: #7c7b70; --gold: #8c6a49; --ease: cubic-bezier(.22, 1, .36, 1); }
 * { box-sizing: border-box; }
@@ -26,6 +25,7 @@ a { color: inherit; text-decoration: none; }
 button:disabled { cursor: wait; opacity: .6; }
 p, h1, h2, h3, blockquote { margin: 0; }
 h1, h2, h3 { font-weight: 400; }
+em, i, cite, blockquote, q { font-style: normal; }
 img { display: block; max-width: 100%; }
 svg { flex: 0 0 auto; vertical-align: middle; }
 ::selection { background: #c5de9b88; }

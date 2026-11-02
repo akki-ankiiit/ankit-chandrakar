@@ -7,20 +7,22 @@ export function Shelf() {
 }
 
 export function Problem() {
-  return <Section id="ks-problem" eyebrow="01 / The challenge" title="The range was hard to tell apart" lede={problem.lede}>
+  return <Section id="ks-problem" eyebrow="02 / The problem" title={problem.heading} lede={problem.lede}>
     <div className="ks-old-range ks-panel">
       <div className="ks-old-bags">{oldBags.map((bag, index) => <figure key={bag.key}>
         {pic(bag.key, bag.alt, { sizes: '(max-width: 749px) 110px, 150px' })}<figcaption>{problem.names[index]}</figcaption>
       </figure>)}</div>
       <p className="ks-caption">{problem.caption}</p>
     </div>
-    <div className="ks-problem-bottom"><p className="ks-before-stat"><span>{problem.salesBefore.label}</span><strong>{problem.salesBefore.value}</strong></p>
-      <ol className="ks-issues">{problem.issues.map((issue) => <li key={issue}>{issue}</li>)}</ol></div>
+    <div className="ks-problem-bottom">
+      <p className="ks-before-stat"><span>{problem.salesBefore.label}</span><strong>{problem.salesBefore.value}</strong></p>
+      <ol className="ks-issues">{problem.issues.map((issue) => <li key={issue}>{issue}</li>)}</ol>
+    </div>
   </Section>;
 }
 
 export function Listening() {
-  return <Section id="ks-research" eyebrow="02 / Research" title="Listening before designing" lede="Two rounds of conversations connected the sales counter with the people using the adhesive on site.">
+  return <Section id="ks-research" eyebrow="03 / Research" title={listening.heading} lede="Two rounds of conversations connected the sales counter with the people using the adhesive on site.">
     <ul className="ks-methods" aria-label="Research methods">{listening.methods.map((method) => <li key={method}>{method}</li>)}</ul>
     {listening.interviewCount && <p className="ks-caption">{listening.interviewCount}</p>}
     <div className="ks-research-grid">{[listening.round1, listening.round2].map((round, index) => <div className="ks-research-panel ks-panel" key={round.who}>
@@ -35,7 +37,7 @@ export function Listening() {
 }
 
 export function Naming() {
-  return <Section id="ks-naming" eyebrow="03 / Naming & colour" title="A range people could recognise" lede={naming.lede}>
+  return <Section id="ks-naming" eyebrow="04 / Naming & colour" title={naming.heading} lede={naming.lede}>
     <div className="ks-insight ks-panel">
       <p className="ks-grade-transform" aria-label="Fe500 becomes K50"><span>{insight.steelGradeExample[0]}</span><span aria-hidden="true">→</span><span>{insight.steelGradeExample[1]}</span></p>
       <div><h3>{insight.heading}</h3><p>{insight.lede}</p></div>
@@ -50,8 +52,5 @@ export function Naming() {
 }
 
 export function StrategyShift() {
-  return <div className="ks-strategy">
-    <h3>{strategyShift.heading}</h3>
-    <ul className="ks-strategy-points">{strategyShift.points.map((point) => <li key={point}>{point}</li>)}</ul>
-  </div>;
+  return <ul className="ks-strategy-points">{strategyShift.points.map((point) => <li key={point}>{point}</li>)}</ul>;
 }

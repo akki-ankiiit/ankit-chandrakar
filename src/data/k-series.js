@@ -108,11 +108,11 @@ export const front = {
   heading: 'Read top to bottom in three seconds.',
   lede: 'Five zones, in the order a mason reads them.',
   pins: [
-    { id: 1, x: '50%', y: '14%', title: 'Two marks of trust', text: 'Group logo beside the Adhesive wordmark.' },
-    { id: 2, x: '14%', y: '28%', title: 'The grade', text: 'The K-number is the largest thing on the bag.' },
-    { id: 3, x: '50%', y: '45%', title: 'Four promises', text: 'Icons first, words second.' },
-    { id: 4, x: '50%', y: '59%', title: 'The job', text: 'Two photos show where this grade belongs.' },
-    { id: 5, x: '22%', y: '75%', title: 'The colour field', text: 'Grade colour, wave pattern, net weight.' },
+    { id: 1, side: 'right', y: '13%', title: 'Two marks of trust', text: 'Group logo beside the Adhesive wordmark.' },
+    { id: 2, side: 'left', y: '30%', title: 'The grade', text: 'The K-number is the largest thing on the bag.' },
+    { id: 3, side: 'right', y: '43%', title: 'Four promises', text: 'Icons first, words second.' },
+    { id: 4, side: 'left', y: '60%', title: 'The job', text: 'Two photos show where this grade belongs.' },
+    { id: 5, side: 'right', y: '78%', title: 'The colour field', text: 'Grade colour, wave pattern, net weight.' },
   ],
 };
 
@@ -153,6 +153,7 @@ export const role = [
 ];
 
 export const listening = {
+  heading: 'Listening before designing',
   round1: {
     who: 'Regional managers, founders and sales teams',
     where: 'Dealer counters and sales reviews',

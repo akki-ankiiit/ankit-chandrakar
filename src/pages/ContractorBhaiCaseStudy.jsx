@@ -2,9 +2,15 @@ import { useLayoutEffect, useRef } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { contractorBhaiMeta } from '../data/contractorbhai-meta.js';
+import { applyPresentationBackground } from '../lib/presentationBackground.js';
 import '../styles/contractorbhai.css';
 
 const returnState = { category: 'case-studies', focusProject: 'contractorbhai' };
+
+function handlePresentationLoad(event) {
+  applyPresentationBranding(event);
+  applyPresentationBackground(event, '#eeeee4');
+}
 
 function applyPresentationBranding(event) {
   // Brand the same-origin iframe at runtime to preserve the original presentation source.
@@ -56,7 +62,7 @@ export default function ContractorBhaiCaseStudy() {
         className="cb-presentation"
         src="/assets/ContractorBhai/Final.html"
         title="ContractorBhai — interactive product design case study"
-        onLoad={applyPresentationBranding}
+        onLoad={handlePresentationLoad}
         allowFullScreen
       />
     </section>

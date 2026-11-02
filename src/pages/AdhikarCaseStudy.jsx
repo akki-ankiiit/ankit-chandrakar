@@ -2,10 +2,15 @@ import { useLayoutEffect, useRef } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { adhikarMeta } from '../data/adhikar-meta.js';
+import { applyPresentationBackground } from '../lib/presentationBackground.js';
 import '../styles/contractorbhai.css';
 import '../styles/adhikar-case-study.css';
 
 const returnState = { category: 'case-studies', focusProject: 'adhikar' };
+
+function handlePresentationLoad(event) {
+  applyPresentationBackground(event, '#f0eee5');
+}
 
 export default function AdhikarCaseStudy() {
   const page = useRef(null);
@@ -32,6 +37,7 @@ export default function AdhikarCaseStudy() {
         className="cb-presentation"
         src="/assets/Adhikar/Adhikaar-App-Presentation.html"
         title="Adhikaar — interactive app presentation"
+        onLoad={handlePresentationLoad}
         allowFullScreen
       />
     </section>

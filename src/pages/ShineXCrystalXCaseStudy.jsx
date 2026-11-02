@@ -8,9 +8,10 @@ import SnapGallery from '../components/SnapGallery.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { PkHero, PkPager, PkRole, PkSection } from '../components/packaging/CaseParts.jsx';
 import { kSeriesCard } from '../data/k-series.js';
-import { idea, notes, posts, products, range, role, shinexCard, shinexHero, shinexMeta, socialIntro } from '../data/shinex-crystalx.js';
+import { approval, decisions, explored, idea, outcome, pillars, posts, products, range, role, shinexCard, shinexHero, shinexMeta, socialIntro } from '../data/shinex-crystalx.js';
 
 const accent = (product) => ({ '--accent-product': product.accent });
+const todo = (text) => (text.startsWith('TODO_USER') ? <mark className="sx-todo-mark">{text}</mark> : text);
 
 function Bottles() {
   return (
@@ -28,35 +29,71 @@ function Bottles() {
 function Idea() {
   return (
     <PkSection id="sx-idea" number="01" title={idea.heading} lede={idea.lede}>
-      <Link className="text-link pk-link" to={kSeriesCard.href}>{idea.linkLabel}</Link>
+      <ol className="sx-steps" aria-label="Where these cleaners sit in the floor story">
+        {idea.steps.map((step) => <li key={step.label}><span className="sx-step-label">{step.label}</span><p>{step.text}</p></li>)}
+      </ol>
+      <p className="sx-link"><Link className="text-link" to={kSeriesCard.href}>{idea.linkLabel}</Link></p>
     </PkSection>
   );
 }
 
 function Range() {
   return (
-    <PkSection id="sx-range" number="02" title={range.heading} lede={range.lede}>
-      <ul className="sx-products" role="list">
+    <PkSection id="sx-surface" number="02" title={range.heading} lede={range.lede}>
+      <div className="sx-versus">
         {products.map((product) => (
-          <li key={product.id} className="sx-product" style={accent(product)}>
-            <div className="sx-product-art pk-panel">
-              <img src={product.image.src} width={product.image.width} height={product.image.height} alt={product.alt} loading="lazy" decoding="async" />
-            </div>
-            <div className="sx-product-body">
-              <h3 className="sx-product-logo">
-                <img src={product.logo.src} width={product.logo.width} height={product.logo.height} alt={product.logo.alt} loading="lazy" decoding="async" />
-              </h3>
-              <p className="sx-product-meta"><span className="sx-dot" aria-hidden="true" />{product.surface} · 1 L</p>
-              <ul className="sx-benefits" role="list" aria-label={`${product.name} benefits`}>
-                {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
-              </ul>
-            </div>
+          <article key={product.id} className="sx-side" style={accent(product)}>
+            <p className="sx-surface-tag"><span className="sx-dot" aria-hidden="true" />For {product.surface.toLowerCase()} · 1 L</p>
+            <h3 className="sx-side-logo">
+              <img src={product.logo.src} width={product.logo.width} height={product.logo.height} alt={product.logo.alt} loading="lazy" decoding="async" />
+            </h3>
+            <ul className="sx-benefits" role="list" aria-label={`${product.name} benefits`}>
+              {product.benefits.map((benefit) => <li key={benefit}>{benefit}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </PkSection>
+  );
+}
+
+function Decisions() {
+  return (
+    <PkSection id="sx-decisions" number="03" title="Four decisions that shaped the design." lede="What we chose, and what each choice had to solve on the shelf.">
+      <ol className="sx-decisions" role="list">
+        {decisions.map((item, index) => (
+          <li key={item.title} className="sx-decision">
+            <span className="sx-decision-no" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
           </li>
         ))}
-      </ul>
-      <ul className="pk-points" role="list" aria-label="What the two bottles share">
-        {notes.map((note) => <li key={note.title}><b>{note.title}</b><span>{note.text}</span></li>)}
-      </ul>
+      </ol>
+    </PkSection>
+  );
+}
+
+function Process() {
+  return (
+    <PkSection id="sx-process" number="04" title="From first ideas to an approved direction." lede="The route the range took before it reached the shelf.">
+      <div className="sx-process">
+        <article className="sx-note-card">
+          <h3>{explored.heading}</h3>
+          <p>{todo(explored.text)}</p>
+        </article>
+        <article className="sx-note-card">
+          <h3>{approval.heading}</h3>
+          <p>{todo(approval.text)}</p>
+        </article>
+      </div>
+    </PkSection>
+  );
+}
+
+function Outcome() {
+  return (
+    <PkSection id="sx-outcome" number="06" title={outcome.heading}>
+      <p className="sx-note-card sx-todo">{todo(outcome.text)}</p>
     </PkSection>
   );
 }
@@ -133,7 +170,10 @@ function SocialGallery() {
 
 function Social() {
   return (
-    <PkSection id="sx-social" number="03" title={socialIntro.heading} lede={socialIntro.lede} className="sx-social">
+    <PkSection id="sx-social" number="05" title={socialIntro.heading} lede={socialIntro.lede} className="sx-social">
+      <ul className="pk-points sx-pillars" role="list" aria-label="How the posts are grouped">
+        {pillars.map((pillar) => <li key={pillar.title}><b>{pillar.title}</b><span>{pillar.text}</span></li>)}
+      </ul>
       <SocialGallery />
     </PkSection>
   );
@@ -150,8 +190,11 @@ export default function ShineXCrystalXCaseStudy() {
       <div className="case-container pk-story">
         <Idea />
         <Range />
+        <Decisions />
+        <Process />
         <Social />
-        <PkRole id="sx-role" number="04" items={role} />
+        <Outcome />
+        <PkRole id="sx-role" number="07" items={role} />
       </div>
       <PkPager current={shinexCard.id} />
     </article>

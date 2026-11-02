@@ -2,9 +2,14 @@ import { useLayoutEffect, useRef } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { atlasMeta } from '../data/atlas-meta.js';
+import { applyPresentationBackground } from '../lib/presentationBackground.js';
 import '../styles/contractorbhai.css';
 
 const returnState = { category: 'case-studies', focusProject: 'atlas' };
+
+function handlePresentationLoad(event) {
+  applyPresentationBackground(event, '#f0eee5');
+}
 
 export default function AtlasCaseStudy() {
   const page = useRef(null);
@@ -31,6 +36,7 @@ export default function AtlasCaseStudy() {
         className="cb-presentation"
         src="/assets/Atlas/Atlas-Case-Study.html"
         title="Atlas — interactive case study"
+        onLoad={handlePresentationLoad}
         allowFullScreen
       />
     </section>

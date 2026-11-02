@@ -13,7 +13,7 @@
 .not-found-status { font-size: clamp(76px, 9vw, 118px); line-height: .82; letter-spacing: -.08em; color: var(--forest); }
 .not-found-label { margin-top: 8px; font: 11px/1.5 Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #56604b; }
 .not-found-doodle { width: 100%; height: auto; margin: 16px 0 10px; color: #7d925d; }
-.not-found-caption { font-size: 12.5px; font-style: italic; color: #56604b; text-align: center; }
+.not-found-caption { font-size: 12.5px; color: #56604b; text-align: center; }
 @keyframes not-found-in { from { opacity: 0; transform: rotate(6deg) translateY(18px); } to { opacity: 1; transform: rotate(2.5deg) translateY(0); } }
 @media (max-width: 900px) {
   .not-found-inner { grid-template-columns: 1fr; gap: 48px; }

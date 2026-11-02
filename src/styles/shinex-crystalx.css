@@ -10,17 +10,40 @@
 .sx-surface { display: inline-block; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--surface, var(--accent-product)); padding: 4px 12px; border: 1px solid currentColor; border-radius: 20px; background: var(--paper); }
 @keyframes sx-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
-/* Range: art beside copy, two products side by side */
-.sx-products { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; }
-.sx-product { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: 20px; align-items: center; min-width: 0; padding: 16px; border: 1px solid var(--panel-line); border-radius: 14px; background: var(--paper); }
-.sx-product-art { position: relative; aspect-ratio: 3 / 4; }
-.sx-product-art img { position: absolute; inset: 0; margin: auto; height: 84%; width: auto; max-width: 100%; }
-.sx-product-body { min-width: 0; }
-.sx-product-logo img { width: min(100%, 130px); height: auto; }
-.sx-product-meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
-.sx-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-product); }
-.sx-benefits { list-style: none; margin: 12px 0 0; padding: 0; }
+/* 01 Brief: where the two cleaners sit in the floor story */
+.sx-steps { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 720px; margin: 0 0 0 48px; padding: 0; }
+.sx-steps li { min-width: 0; padding: 16px 18px; border: 1px solid var(--panel-line); border-radius: 12px; background: var(--paper); }
+.sx-steps p { margin: 4px 0 0; font-size: 15px; line-height: 1.5; }
+.sx-step-label { display: block; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--accent-strong); }
+.sx-link { margin: 20px 0 0 48px; }
+
+/* 02 Surface split: the two products face each other */
+.sx-versus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-left: 48px; border: 1px solid var(--panel-line); border-radius: 16px; overflow: hidden; background: var(--paper); }
+.sx-side { min-width: 0; padding: clamp(20px, 3vw, 32px); }
+.sx-side + .sx-side { border-left: 1px solid var(--panel-line); background: var(--panel); }
+.sx-surface-tag { display: flex; align-items: center; gap: 8px; margin: 0; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
+.sx-side-logo { margin: 16px 0 0; }
+.sx-side-logo img { width: min(100%, 170px); height: auto; }
+.sx-dot { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--accent-product); }
+.sx-benefits { list-style: none; margin: 16px 0 0; padding: 0; }
 .sx-benefits li { padding: 9px 0; border-top: 1px solid var(--pk-line); font-size: 14.5px; line-height: 1.4; }
+
+/* 03 Decisions */
+.sx-decisions { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 0 48px; padding: 0; }
+.sx-decision { min-width: 0; padding: 22px 22px 24px; border: 1px solid var(--panel-line); border-radius: 14px; background: var(--paper); }
+.sx-decision-no { font: 12px/1 Arial, sans-serif; letter-spacing: .8px; color: var(--accent-strong); }
+.sx-decision h3 { margin: 12px 0 0; font-size: 20px; font-weight: 400; line-height: 1.3; }
+.sx-decision p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
+
+/* 04 Process and 06 outcome: explicit placeholders until facts are supplied */
+.sx-process { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-left: 48px; }
+.sx-note-card { min-width: 0; margin: 0; padding: 22px; border: 1px solid var(--panel-line); border-radius: 14px; background: var(--panel); }
+.sx-note-card h3 { margin: 0; font-size: 18px; font-weight: 400; line-height: 1.3; }
+.sx-note-card p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
+.sx-todo { margin-left: 48px; max-width: 60ch; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
+.sx-todo-mark { padding: 1px 6px; border-radius: 4px; background: #fff1b8; color: #5b4a00; }
+
+.sx-pillars { margin-left: 48px; }
 
 /* Lightbox (native dialog, like the project dialog) */
 .sx-lightbox { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--paper); }
@@ -34,12 +57,15 @@
 .sx-lightbox-stage .icon-button { flex: 0 0 auto; }
 
 @media (max-width: 1000px) {
-  .sx-products { grid-template-columns: 1fr; }
+  .sx-decisions, .sx-process { grid-template-columns: 1fr; }
 }
 @media (max-width: 749px) {
   .sx-bottles { gap: 22px; }
   .sx-bottle img { width: min(100%, 180px); }
-  .sx-product { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: 14px; padding: 12px; }
+  .sx-steps, .sx-versus, .sx-decisions, .sx-process, .sx-link, .sx-todo, .sx-pillars { margin-left: 0; }
+  .sx-steps, .sx-versus { grid-template-columns: 1fr; }
+  .sx-side + .sx-side { border-left: 0; border-top: 1px solid var(--panel-line); }
+  .sx-decision { padding: 18px; }
   .sx-lightbox-inner { padding: 14px 12px 18px; }
   .sx-lightbox-stage { gap: 10px; }
 }

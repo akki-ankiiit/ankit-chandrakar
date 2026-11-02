@@ -19,6 +19,11 @@ export default function Contact({ visitor = false }) {
   return (
     <footer id="footer" className={`footer${visitor ? ' has-visitor' : ''}`}>
       {visitor && <img className="footer-visitor" src="/assets/footer-visitor.png" alt="" aria-hidden="true" />}
+      <div className="container footer-signoff">
+        <h2 className="signoff-title">That’s All Folks <span>(For Now)</span></h2>
+        <p className="signoff-lead">Coffee, collab, or chaos - take your pick! I’m up for all three.</p>
+        <p className="signoff-note">If something sparked your curiosity — let’s talk design, drama, or destinations.</p>
+      </div>
       <div className="container contact-grid">
         <Reveal className="contact-copy">
           <img className="contact-ink-doodle" src={imagery.companion} alt="" width="440" height="340" loading="lazy" />
