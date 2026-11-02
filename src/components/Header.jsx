@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { imagery, profile } from '../data/portfolio.js';
 import { Pill, Selection, SocialLinks } from './ui.jsx';
 
@@ -8,6 +8,30 @@ export default function Header({ page, onNavigate }) {
   const previousScroll = useRef(0);
   const menuButton = useRef(null);
   const mobileNav = useRef(null);
+  const header = useRef(null);
+
+  useLayoutEffect(() => {
+    const element = header.current;
+    if (!element) return;
+    const root = document.documentElement;
+    const property = '--site-header-height';
+    const previousValue = root.style.getPropertyValue(property);
+    const previousPriority = root.style.getPropertyPriority(property);
+    let publishedValue;
+    const updateHeight = () => {
+      publishedValue = `${element.offsetHeight}px`;
+      root.style.setProperty(property, publishedValue);
+    };
+    updateHeight();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateHeight) : null;
+    observer?.observe(element);
+    return () => {
+      observer?.disconnect();
+      if (root.style.getPropertyValue(property) !== publishedValue || root.style.getPropertyPriority(property)) return;
+      if (previousValue) root.style.setProperty(property, previousValue, previousPriority);
+      else root.style.removeProperty(property);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -60,7 +84,7 @@ export default function Header({ page, onNavigate }) {
   </>;
 
   return <>
-    <header className={`site-header ${hidden && !menuOpen ? 'is-hidden' : ''}`}>
+    <header ref={header} className={`site-header ${hidden && !menuOpen ? 'is-hidden' : ''}`}>
       <div className="announcement">{profile.announcement}</div>
       <div className="header-inner container">
         <a className="brand" href="/" aria-label={`${profile.brand} home`} onClick={(e) => navigate(e, 'home')}><Selection><img src={imagery.logo} width="54" height="55" alt={profile.brand} /></Selection></a>

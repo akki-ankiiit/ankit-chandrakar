@@ -1,0 +1,416 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Atlas, a product design case study about local project evidence for Tejas relationship managers."><title>Atlas — Local proof for field sales</title><style>@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-600-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-700-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-800-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('hind-400-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('hind-600-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('hind-700-normal.ttf') format('truetype');
+}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;font-display:swap;src:url('dm-sans-400-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:500;font-display:swap;src:url('dm-sans-500-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:600;font-display:swap;src:url('dm-sans-600-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;font-display:swap;src:url('dm-sans-700-normal.ttf') format('truetype');}
+:root{--ink:#282828;--muted:#65685e;--canvas:#f0eee5;--paper:#fdfdf5;--orange:#FA6A42;--sage:var(--paper);--line:#deded1;--scale:.7;--reading-scale:.4;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--canvas);font-family:'DM Sans',sans-serif}
+button{font:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+button{cursor:pointer}
+button:disabled{opacity:.35;cursor:default}
+.toolbar{height:68px;background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 26px;gap:16px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line)}
+.brand{font-weight:700;font-size:18px;white-space:nowrap}
+.brand span{color:var(--muted);font-size:14px;font-weight:400;margin-left:14px}
+.tools{display:flex;align-items:center;gap:8px}
+.tools button,.dialog-head button{border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit;padding:9px 13px;font-size:14px;white-space:nowrap}
+.tools button:hover,.dialog-head button:hover{background:#FA6A4214}
+.nav{display:flex;align-items:center;gap:9px;margin-left:12px}
+.tools .arrow{font-size:21px;padding:5px 12px;line-height:26px}
+.counter{font-variant-numeric:tabular-nums;min-width:55px;text-align:center;font-size:13px;color:var(--muted)}
+.progress-track{height:3px;background:var(--line);position:absolute;bottom:0;left:0;right:0}
+.progress{height:100%;width:0;background:var(--orange);transition:width .2s}
+#viewport{height:calc(100dvh - 68px);min-height:0;position:relative;overflow:hidden}
+.slides{width:100%;height:100%;position:relative}
+.slide{display:none;width:1600px;height:900px;overflow:hidden;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;background:var(--paper);color:var(--ink);border:1px solid #d5d3c8;border-radius:24px;box-shadow:0 8px 24px #2828280a}
+.slide.current{display:block}
+.slide.dark,.slide.sage{background:var(--paper);color:var(--ink)}
+.pos{position:absolute}
+.eyebrow{font-size:23px;font-weight:500;letter-spacing:.1px;margin:0 0 27px;color:var(--muted)}
+.eyebrow.orange{color:var(--orange)}
+h1,h2,h3,p,blockquote{margin:0}
+h1{font-size:145px;font-weight:700;line-height:1;letter-spacing:-8px}
+h2{font-size:66px;line-height:1.08;letter-spacing:-2.5px;font-weight:700}
+h3{font-size:31px;line-height:1.2;letter-spacing:-.6px;font-weight:700}
+p{font-size:29px;line-height:1.45;letter-spacing:-.25px;color:var(--muted)}
+.lead{font-size:34px;line-height:1.32;letter-spacing:-.7px;color:inherit}
+.large{font-size:80px;line-height:1.08;letter-spacing:-3.5px}
+.accent{color:var(--orange)}
+.rule{border:0;border-top:1px solid var(--line);margin:0}
+.support{font-size:24px;line-height:1.45}
+.caption{font-size:22px;line-height:1.4;color:var(--muted)}
+.compact h3{margin-bottom:10px}
+.compact p{font-size:26px;line-height:1.4}
+.flat-row{display:grid;grid-template-columns:58px 1fr;gap:16px;padding:25px 0;border-top:1px solid var(--line)}
+.flat-row .num{font-size:25px;font-weight:500;color:var(--orange);line-height:1.5}
+.flat-row h3{margin-bottom:8px}
+.flat-row p{font-size:26px}
+.device{padding:17px 19px;background:linear-gradient(138deg,#777 0%,#282828 3%,#171717 47%,#585858 94%,#202020 100%);border:1.5px solid #888;border-radius:39px;box-shadow:0 28px 60px #28282838,inset 0 0 0 3px #111;position:absolute;overflow:visible}
+.device::before{content:'';position:absolute;width:6px;height:6px;left:6px;top:50%;margin-top:-3px;border-radius:50%;background:#282828;box-shadow:inset 0 0 0 1.5px #111,0 0 0 1px #484848}
+.device .screen{overflow:hidden;border-radius:23px;line-height:0;background:var(--ink);display:block;width:100%;border:1px solid #111}
+.device img{display:block;width:100%;height:auto}
+.screen-button{display:block;padding:0;border:0;background:transparent;text-align:left;color:inherit}
+.shot{border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 24px 50px #28282820;background:var(--paper);line-height:0}
+.shot img{width:100%;height:auto;display:block}
+.zoomable{cursor:zoom-in}
+.image-note{font-size:23px;color:var(--muted)}
+.note-line{border-left:4px solid var(--orange);padding-left:22px}
+.contrast-quote{font-size:69px;line-height:1.14;letter-spacing:-2.5px;color:inherit}
+.insight-list>div{border-top:1px solid var(--line);padding:23px 0;display:grid;grid-template-columns:55px 1fr;gap:20px}
+.insight-list h3{font-size:38px;margin-bottom:10px}
+.insight-list p{font-size:26px}
+.flowline{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.flowline div{padding-top:24px;border-top:2px solid var(--line)}
+.flowline .num{font-size:24px;color:var(--orange);display:block;margin-bottom:18px}
+.flowline p{font-size:24px;margin-top:12px}
+.filter-list{display:grid;grid-template-columns:1fr 1fr;gap:22px 30px}
+.filter-list div{border-top:1px solid var(--line);padding-top:18px}
+.filter-list h3{font-size:27px;margin-bottom:7px}
+.filter-list p{font-size:23px;line-height:1.35}
+.proof-label{display:flex;gap:20px;align-items:flex-start}
+.proof-label span{font-size:24px;color:var(--orange);padding-top:2px}
+.proof-label h3{font-size:32px}
+.proof-label p{font-size:25px;margin-top:10px}
+.four-tabs{display:flex;gap:30px;border-top:1px solid var(--line);padding-top:22px;justify-content:space-between}
+.four-tabs span{font-size:28px;font-weight:500}
+.comparison{border-collapse:collapse;width:100%;text-align:left}
+.comparison th{font-size:23px;font-weight:500;color:var(--muted);padding:0 28px 22px 0}
+.comparison td{border-top:1px solid var(--line);padding:24px 34px 24px 0;font-size:29px;line-height:1.32;vertical-align:top}
+.comparison td:first-child{font-size:24px;color:var(--muted);width:25%}
+.comparison td:nth-child(2){width:33%}
+.comparison td:last-child{font-weight:500}
+.value-title{font-size:60px;line-height:1.1;letter-spacing:-2px}
+.metric-line{padding:18px 0;border-top:1px solid var(--line);font-size:24px;color:var(--muted)}
+.metric-line b{display:block;font-size:27px;color:inherit;margin-bottom:5px}
+.reading{overflow:auto;background:var(--canvas)}
+.reading #viewport{height:auto;overflow:visible;padding:28px 24px 40px}
+.reading .slides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;height:auto}
+.reading .slide{display:block!important;position:relative;left:0;top:0;transform:scale(var(--reading-scale));transform-origin:top left;margin:0;width:1600px;height:900px;zoom:normal;box-shadow:none}
+.reading .slide-wrap{display:block;min-width:0;width:calc(1600px * var(--reading-scale));height:calc(900px * var(--reading-scale));overflow:hidden}
+.slide-wrap{display:contents}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--paper);color:var(--ink);padding:0;max-width:none;width:min(1400px,94vw);box-shadow:0 30px 100px #28282840}
+dialog::backdrop{background:#282828b3;backdrop-filter:blur(7px)}
+.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 24px;border-bottom:1px solid var(--line)}
+.dialog-head h2{font-size:22px;letter-spacing:0;line-height:1.3}
+.dialog-actions{display:flex;gap:8px}
+.inspector-body{height:calc(90dvh - 80px);padding:24px;display:flex;justify-content:center;align-items:flex-start;overflow:auto;background:var(--paper)}
+.inspector-body img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.inspector-body.actual{display:block}
+.inspector-body.actual img{max-width:none;max-height:none}
+.index-grid{padding:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.index-item{border:1px solid var(--line);padding:18px;border-radius:8px;color:var(--ink);background:transparent;text-align:left;font-size:16px;line-height:1.4;display:flex;gap:16px}
+.index-item span{color:var(--orange)}
+.index-item:hover,.index-item[aria-current=page]{background:#FA6A421a;border-color:var(--orange)}
+.toolbar .minor{display:inline}
+.toolbar .kbd{font-size:12px;color:var(--muted);border:0}
+ @media(max-width:800px){.brand span,.toolbar .minor,.toolbar .kbd{display:none}
+.toolbar{padding:0 12px;height:60px}
+.tools{gap:5px}
+.tools button{font-size:12px;padding:8px}
+.nav{margin-left:3px;gap:3px}
+.tools .arrow{padding:4px 9px}
+.brand{font-size:16px}
+#viewport{height:calc(100dvh - 60px)}
+.index-grid{grid-template-columns:1fr 1fr}
+.dialog-head{padding:14px}
+.dialog-head h2{font-size:17px}
+.dialog-head button{font-size:12px;padding:8px}
+.reading .slides{grid-template-columns:1fr}
+.reading #viewport{padding:16px 12px}
+.inspector-body{padding:10px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}
+}
+@media print{@page{size:16in 9in;margin:0}
+html,body{background:#fff;width:1600px}
+.toolbar,dialog{display:none!important}
+#viewport,.reading #viewport{height:auto;overflow:visible;padding:0}
+.slides,.reading .slides{display:block}
+.slide-wrap,.reading .slide-wrap{display:contents}
+.slide,.reading .slide{display:block!important;position:relative;left:0;top:0;transform:none!important;box-shadow:none;margin:0;break-after:page;page-break-after:always;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.slide:last-child{break-after:auto}
+}
+
+/* Typography and navigation shared with Contractor Bhai. */
+html,body{background:var(--canvas);color:var(--ink);font-family:'DM Sans','Hind',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+button{border:0}
+h1,h2,h3{font-family:'Bricolage Grotesque','Hind',sans-serif}
+h1,h2{font-weight:700;line-height:1.06;letter-spacing:-2.6px}
+h1{letter-spacing:-5px}
+h2{font-size:68px}
+h3{font-weight:600}
+p{font-size:28px;line-height:1.5}
+.eyebrow{font-size:20px;font-weight:700;line-height:1.3;letter-spacing:0;margin-bottom:22px}
+.contrast-quote{font-family:'Bricolage Grotesque','Hind',sans-serif}
+#viewport{height:calc(100dvh - 90px)}
+#toolbar { position: fixed; z-index: 20; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: 24px; width: max-content; max-width: calc(100vw - 24px); height: 62px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 15px; background: var(--paper); color: var(--ink); box-shadow: 0 7px 24px #28282814; }
+.toolbar-center { display: flex; align-items: center; gap: 12px; }
+.toolbar-right { display: flex; align-items: center; gap: 7px; }
+.tool-button { display: inline-flex; align-items: center; justify-content: center; height: 42px; padding: 0 14px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--ink); font-size: 14px; line-height: 1; transition: background .15s; }
+.tool-button:hover { background: #FA6A4214; }
+.tool-button.arrow { width: 42px; padding: 0; font-size: 24px; }
+.tool-button[aria-pressed='true'] { background: #FA6A421a; border-color: var(--orange); color: var(--ink); }
+.counter { min-width: 60px; color: var(--muted); text-align: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+.progress-track { display: none; }
+.screen-reader { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+/* Enlarged source screens and slide contents. */
+dialog { border: 1px solid var(--line); border-radius: 20px; background: var(--paper); color: var(--ink); padding: 0; box-shadow: 0 30px 100px #28282840; }
+dialog::backdrop { background: #282828b3; }
+#inspector { width: min(1100px, 94vw); height: 92dvh; max-height: 1050px; }
+#inspector[open] { display:flex; flex-direction:column; }
+.dialog-head { height: 88px; padding: 16px 26px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.dialog-head h2 { color: var(--ink); font-size: 24px; line-height: 1.2; letter-spacing: -.5px; }
+.dialog-head p { color: var(--muted); font-size: 15px; margin-top: 6px; }
+.dialog-tools { display: flex; gap: 8px; flex: none; }
+.dialog-tools button, .index-close { background: var(--paper); color: var(--ink); border:1px solid var(--line); border-radius: 7px; padding: 10px 14px; font-size: 14px; }
+.dialog-tools button:hover, .index-close:hover { background: #FA6A4214; }
+.dialog-tools button[aria-pressed='true'] { background: #FA6A421a; color: var(--ink); box-shadow:inset 0 0 0 1px var(--orange); }
+.dialog-tools .close { background: var(--ink); color: var(--paper); }
+.dialog-tools .close:hover { background: #444; }
+.inspector-body { height: calc(100% - 88px); overflow: auto; padding: 30px; background: var(--paper); text-align: center; overscroll-behavior: contain; }
+.inspector-body img { width: auto; max-width: 100%; max-height: 100%; height: auto; display: block; margin: 0 auto; box-shadow: 0 14px 50px #28282817; }
+.inspector-body.actual { text-align: left; }
+.inspector-body.actual img { width: auto; max-width: none; max-height:none; margin: 0; }
+#slide-index { width: min(950px, 93vw); max-height: 86dvh; padding: 30px; }
+.index-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; }
+.index-head h2 { color: var(--ink); font-size: 31px; letter-spacing: -1px; }
+.index-grid { padding:0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.index-item { display: flex; align-items: center; gap: 17px; text-align: left; padding: 14px 17px; border:1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 8px; font-size: 16px; }
+.index-item:hover { background: #FA6A4214; }
+.index-item[aria-current='page'] { border-color:var(--orange); background: #FA6A421a; color: var(--ink); }
+.index-item span { color:inherit; font-variant-numeric: tabular-nums; font-size: 14px; }
+.index-note { color: var(--muted); font-size: 15px; line-height: 1.5; margin-top: 22px; }
+
+.dialog-head{height:88px}
+.dialog-head button{border:0}
+.inspector-body{display:flex;align-items:flex-start;justify-content:center;flex:1;min-height:0}
+.inspector-body.actual{display:block}
+.reading{background:var(--canvas)}
+.reading #viewport{padding:28px 24px 110px}
+@media(max-width:650px){
+ #viewport{height:calc(100dvh - 82px);padding:8px}
+ #toolbar{height:64px;bottom:11px;padding:8px;gap:8px;border-radius:12px}
+ .toolbar-center{gap:4px}
+.toolbar-right{gap:4px}
+ .tool-button{height:44px;padding:0 8px;font-size:12px}
+ .tool-button.arrow{width:40px;font-size:22px}
+ .counter{min-width:40px;font-size:12px}
+ #fullscreen{display:none}
+ .reading #viewport{padding:16px 12px 100px}
+  .dialog-head{height:auto;min-height:105px;flex:none;padding:16px;align-items:flex-start;flex-direction:column;gap:12px}
+ .dialog-head h2{font-size:20px}
+.dialog-head p{display:none}
+ .dialog-tools button{padding:7px 11px}
+ .inspector-body{height:calc(100% - 105px);padding:16px}
+ .index-grid{grid-template-columns:1fr}
+ #slide-index{padding:22px}
+.index-head h2{font-size:25px}
+}
+@media print{#toolbar,dialog{display:none!important}
+#viewport,.reading #viewport{height:auto;padding:0}
+}
+
+/* One paper-and-ink palette across every presentation theme. */
+.slide.sage{background:var(--sage)}
+.slide.dark{background:var(--paper);color:var(--ink)}
+.eyebrow.orange,.accent,.dark .eyebrow.orange,.dark .accent,.dark .num{color:var(--orange)}
+.slide h1,.slide h2,.slide h3{color:var(--ink)}
+.slide p,.comparison th,.comparison td:first-child{color:var(--muted)}
+.slide .lead,.slide .contrast-quote{color:var(--ink)}
+
+/* Supplied Atlas paths, with the wordmark in site ink directly on paper. */
+.atlas-brand{display:flex;align-items:center;width:348px;height:96px;line-height:0}
+.atlas-brand img{display:block;width:348px;height:96px;object-fit:contain}
+@media screen and (max-width:800px){
+ .reading #viewport{height:auto;padding:12px 10px 110px;overflow:visible}
+ .reading .slides{display:block;height:auto}
+ .reading .slide-wrap{width:100%;height:auto;overflow:visible;margin-bottom:16px}
+ .reading .slide{width:100%;height:auto;min-height:0;transform:none!important;position:relative;left:0;top:0;display:block!important;padding:20px;overflow:visible;scroll-margin-top:16px;border:1px solid #d5d3c8;border-radius:16px}
+ .reading .slide *{min-width:0;max-width:100%;overflow-wrap:break-word}
+ .reading .slide [style]{margin:0!important;gap:16px!important}
+ .reading .slide .pos,.reading .slide .device{position:static;left:auto!important;top:auto!important;width:100%!important;height:auto;transform:none!important}
+ .reading .slide .pos{display:flex;flex-direction:column;gap:16px}
+ .reading .slide> :not(:last-child){margin-bottom:24px!important}
+ .reading .slide :is(h1,h2,h3,p,.note-line){width:100%!important;height:auto}
+ .reading .slide h1{font-size:40px!important;line-height:1.1!important;letter-spacing:-1px!important}
+ .reading .slide h2{font-size:28px!important;line-height:1.15!important;letter-spacing:-.7px!important}
+ .reading .slide h3{font-size:20px!important;line-height:1.3!important;letter-spacing:-.2px!important}
+ .reading .slide p{font-size:16px!important;line-height:1.55!important;letter-spacing:0!important}
+ .reading .slide .eyebrow{font-size:13px!important;line-height:1.4!important;margin-bottom:0}
+ .reading .slide .lead,.reading .slide .contrast-quote{font-size:22px!important;line-height:1.4!important}
+ .reading .slide .atlas-brand{max-width:348px;background:transparent}
+ .reading .slide .atlas-brand img{width:100%;height:auto;object-fit:contain;background:transparent}
+ .reading .slide .device{padding:9px 10px;border-radius:24px;box-shadow:0 10px 24px #28282820}
+ .reading .slide .device .screen{border-radius:14px}
+ .reading .slide .shot{border-radius:12px!important;box-shadow:0 10px 24px #28282814}
+ .reading .slide img{height:auto}
+ .reading .slide .note-line{padding-left:16px;display:grid;gap:8px}
+ .reading .slide h3+p{margin-top:8px!important}
+ .reading .slide .compact h3{margin-bottom:8px}
+ .reading .slide .flat-row{grid-template-columns:28px minmax(0,1fr);gap:12px;padding:16px 0!important}
+ .reading .slide .insight-list>div{grid-template-columns:28px minmax(0,1fr);gap:12px;padding:16px 0}
+ .reading .slide .insight-list h3{margin-bottom:8px}
+ .reading .slide .num,.reading .slide .proof-label span{font-size:16px;line-height:1.5}
+ .reading .slide .proof-label{gap:12px}
+ .reading .slide .proof-label p{margin-top:8px}
+ .reading .slide .filter-list,.reading .slide .flowline{grid-template-columns:1fr;gap:16px}
+ .reading .slide .filter-list div,.reading .slide .flowline div{padding-top:16px}
+ .reading .slide .four-tabs{flex-wrap:wrap;gap:12px;padding-top:16px}
+ .reading .slide .four-tabs span{font-size:16px}
+ .reading .slide .comparison-wrap{display:block;overflow-x:auto;overscroll-behavior-x:contain}
+ .reading .slide .comparison{min-width:560px;max-width:none}
+ .reading .slide .comparison :is(th,td){font-size:16px;line-height:1.5;padding:16px 20px 16px 0}
+}
+</style><link rel="stylesheet" href="../presentation-shell.css"></head><body>
+<main id="viewport" aria-label="Atlas case study presentation"><div class="slides"><div class="slide-wrap"><section class="slide" data-title="Atlas: local proof for field sales">
+  <div class="pos" style="left:88px;top:99px;width:510px"><p class="eyebrow orange">Product design case study</p><h1 class="atlas-brand"><img data-asset="atlas-logo" alt="Atlas" width="348" height="96"></h1><p class="lead" style="margin-top:35px;font-size:46px;letter-spacing:-1.5px">Local proof for<br>field sales</p><p style="margin-top:28px;width:450px">An internal Tejas tool that helps relationship managers show where its products are already used.</p></div>
+  <div class="device" style="left:645px;top:149px;width:870px;transform:rotate(-3deg)"><button class="screen screen-button zoomable" data-inspect="map" aria-label="Inspect the Atlas map"><img data-asset="map" alt="Atlas satellite map with local project names and image previews"></button></div>
+</section></div>
+<div class="slide-wrap"><section class="slide dark" data-title="The sales challenge">
+  <div class="pos" style="left:90px;top:86px;width:1300px"><p class="eyebrow orange">The problem</p><h2 style="width:1200px">A product claim is hard<br>to trust on its own</h2></div>
+  <div class="pos" style="left:90px;top:365px;width:570px"><p class="lead">RMs explain product quality during sales visits. Customers and contractors still need a reason to believe it.</p><p style="margin-top:32px">The missing piece is a relevant example: someone they know, or a project close to them.</p></div>
+  <div class="pos" style="left:818px;top:365px;width:650px;border-top:2px solid var(--line);padding-top:30px"><p class="eyebrow" style="margin-bottom:24px">The question Atlas helps answer</p><p class="contrast-quote">Who around me<br>has used this<br><span class="accent">product?</span></p></div>
+</section></div>
+<div class="slide-wrap"><section class="slide sage" data-title="The insight behind Atlas">
+  <div class="pos" style="left:90px;top:84px;width:675px"><p class="eyebrow orange">The insight</p><h2 class="large">Familiar use<br>makes proof<br>more credible</h2><div class="note-line" style="margin-top:51px;width:585px"><h3 style="font-size:27px;margin-bottom:12px">What informed the direction</h3><p style="font-size:27px">A review of sales documents and conversations with contractors.</p></div></div>
+  <div class="pos insight-list" style="left:855px;top:194px;width:645px"><div><span class="num">01</span><div><h3>A familiar place</h3><p>A nearby project makes adoption easier to relate to.</p></div></div><div><span class="num">02</span><div><h3>A recognizable person</h3><p>A neighbour, relative, friend, or known local figure adds relevance.</p></div></div><div><span class="num">03</span><div><h3>Work they can see</h3><p>Project images and customer accounts support the conversation.</p></div></div></div>
+</section></div>
+<div class="slide-wrap"><section class="slide" data-title="The product response">
+  <div class="pos" style="left:88px;top:74px;width:1420px"><p class="eyebrow orange" style="margin-bottom:19px">The solution</p><h2>Put local references on a map</h2></div>
+  <div class="device" style="left:86px;top:235px;width:938px"><button class="screen screen-button zoomable" data-inspect="labels" aria-label="Inspect the Atlas map with compact project labels"><img data-asset="labels" alt="A map populated with owner names, locations and project statuses"></button></div>
+  <div class="pos" style="left:1100px;top:261px;width:405px"><h3 style="font-size:34px">Built for the visit</h3><p style="margin-top:19px;font-size:26px">An RM finds and shows relevant projects on an iPad during a visit. These screens use sample project data.</p><div class="flat-row" style="margin-top:28px;padding:18px 0"><span class="num">01</span><div><h3>Find a place</h3></div></div><div class="flat-row" style="padding:18px 0"><span class="num">02</span><div><h3>Narrow the references</h3></div></div><div class="flat-row" style="padding:18px 0"><span class="num">03</span><div><h3>Show the evidence</h3></div></div></div>
+</section></div>
+<div class="slide-wrap"><section class="slide" data-title="Search by place">
+  <div class="pos" style="left:88px;top:92px;width:480px"><p class="eyebrow orange">01 · Find local proof</p><h2>Start with<br>a place</h2><p style="margin-top:30px">Search a city, then narrow the conversation to a locality the customer recognizes.</p><div class="note-line" style="margin-top:38px"><h3 style="font-size:28px;margin-bottom:13px">Example</h3><p style="font-size:29px;color:var(--ink)">Swarnbhumi, Raipur</p></div></div>
+  <div class="device" style="left:628px;top:162px;width:888px"><button class="screen screen-button zoomable" data-inspect="locality" aria-label="Inspect place search in Atlas"><img data-asset="locality" alt="Atlas search populated with Raipur, Chhattisgarh above the project map"></button></div>
+
+</section></div>
+<div class="slide-wrap"><section class="slide sage" data-title="Filters for relevant references">
+  <div class="pos" style="left:88px;top:78px;width:1440px"><p class="eyebrow orange" style="margin-bottom:18px">02 · Narrow the references</p><h2>Find a reference that matters here</h2></div>
+  <div class="pos" style="left:88px;top:267px;width:560px"><p style="font-size:28px;margin-bottom:30px">Use the location, project, and people connected to the work to refine what appears on the map.</p><div class="filter-list"><div><h3>Area</h3><p>Localities and neighbourhoods</p></div><div><h3>Landmark owners</h3><p>People connected to known sites</p></div><div><h3>Landmark sites</h3><p>Recognizable local projects</p></div><div><h3>Contractor</h3><p>The person who executed the work</p></div><div><h3>Interior architect</h3><p>The designer connected to a project</p></div><div><h3>Religion</h3><p>Owner categories in the supplied design</p></div></div></div>
+  <button class="pos shot screen-button zoomable" style="left:715px;top:260px;width:790px" data-inspect="filter" aria-label="Inspect the filter panel"><img data-asset="filter-focus" alt="Expanded Atlas filter sidebar with religion, area, landmark owner and site categories"></button>
+
+</section></div>
+<div class="slide-wrap"><section class="slide dark" data-title="The project preview">
+  <div class="pos" style="left:88px;top:89px;width:495px"><p class="eyebrow orange">03 · Show the evidence</p><h2 style="font-size:62px">Preview a project<br>without leaving<br>the map</h2><p style="margin-top:29px">A project popup brings the owner, location, date, images, and a video preview into the conversation.</p><div style="margin-top:44px;border-top:1px solid var(--line);padding-top:25px"><h3 style="font-size:28px">Why this matters</h3><p style="font-size:27px;margin-top:13px">The RM can check relevance before opening the full project.</p></div></div>
+  <button class="pos shot screen-button zoomable" style="left:764px;top:80px;width:650px;border-color:var(--line)" data-inspect="popup" aria-label="Inspect the project popup and video preview"><img data-asset="popup-focus" alt="Video preview, Anita Deshmukh project card and project photos on the map"></button>
+</section></div>
+<div class="slide-wrap"><section class="slide" data-title="A complete project view">
+  <div class="pos" style="left:88px;top:75px;width:1420px"><p class="eyebrow orange" style="margin-bottom:18px">Project details</p><h2>Open a project, keep the context</h2><p style="margin-top:20px;width:1350px">One expanded view connects the overview, gallery, testimonials, and orders to the same project.</p></div>
+  <button class="pos shot screen-button zoomable" style="left:180px;top:280px;width:1240px;border-radius:24px" data-inspect="overview" aria-label="Inspect the expanded project view"><img data-asset="project-hero" alt="Expanded Swarnbhoomi Residency project with a customer video, interior photo and project navigation"></button>
+
+</section></div>
+<div class="slide-wrap"><section class="slide sage" data-title="Project overview">
+  <div class="pos" style="left:88px;top:84px;width:480px"><p class="eyebrow orange">Overview</p><h2 style="font-size:61px">Explain who<br>built it and<br>what was done</h2><p style="margin-top:29px">The RM has the context needed to explain why this project is a useful reference.</p></div>
+  <div class="pos" style="left:88px;top:530px;width:470px"><div class="proof-label"><span>01</span><div><h3>People</h3><p>Owner, contractor, and interior architect</p></div></div><div class="proof-label" style="margin-top:31px"><span>02</span><div><h3>Work and scale</h3><p>Site summary, area, work cohort, and historical order value</p></div></div></div>
+  <button class="pos shot screen-button zoomable" style="left:620px;top:240px;width:900px" data-inspect="overview" aria-label="Inspect key project information and order value"><img data-asset="overview-info" alt="Project key information fields and total order value in Atlas"></button>
+</section></div>
+<div class="slide-wrap"><section class="slide" data-title="Project gallery">
+  <div class="pos" style="left:88px;top:94px;width:450px"><p class="eyebrow orange">Gallery</p><h2>Let customers<br>see the work</h2><p style="margin-top:31px">Project photos make the reference concrete. The RM can show the spaces, finishes, and work associated with the site.</p><div class="note-line" style="margin-top:44px"><h3 style="font-size:28px;margin-bottom:13px">Design decision</h3><p style="font-size:27px">Keep project media inside the same view as the site details.</p></div></div>
+  <button class="pos shot screen-button zoomable" style="left:630px;top:87px;width:881px" data-inspect="gallery" aria-label="Inspect the Atlas project gallery"><img data-asset="gallery-grid" alt="Atlas gallery grid with construction, interior and finished project photographs"></button>
+</section></div>
+<div class="slide-wrap"><section class="slide dark" data-title="Customer testimonials">
+  <div class="pos" style="left:88px;top:91px;width:500px"><p class="eyebrow orange">Testimonials</p><h2 style="font-size:63px">Add the<br>customer’s<br>own account</h2><p style="margin-top:30px">Testimonial videos sit alongside the project evidence, so the RM can support a product explanation with a customer’s experience.</p></div>
+  <button class="pos shot screen-button zoomable" style="left:674px;top:151px;width:835px;border-color:var(--line)" data-inspect="video" aria-label="Inspect testimonial videos"><img data-asset="testimonial-grid" alt="Atlas testimonial view with video thumbnails from customers"></button>
+</section></div>
+<div class="slide-wrap"><section class="slide" data-title="Products and orders">
+  <div class="pos" style="left:88px;top:87px;width:500px"><p class="eyebrow orange">Orders</p><h2 style="font-size:62px">Connect the<br>project to the<br>products used</h2><p style="margin-top:29px">The order view ties the reference to the actual products recorded for the site.</p><div class="compact" style="margin-top:38px;border-top:1px solid var(--line);padding-top:24px"><h3>What the RM can show</h3><p>Product names and packs<br>Quantities dispatched<br>Historical order value</p></div></div>
+  <button class="pos shot screen-button zoomable" style="left:690px;top:93px;width:820px" data-inspect="orders" aria-label="Inspect product quantities and order value"><img data-asset="order-details" alt="Atlas orders view showing adhesive product packs, bag quantities and order value"></button>
+</section></div>
+<div class="slide-wrap"><section class="slide sage" data-title="What Atlas improves">
+  <div class="pos" style="left:88px;top:74px;width:1450px"><p class="eyebrow orange" style="margin-bottom:18px">Design value</p><h2>A more credible sales conversation</h2><p style="margin-top:25px;width:1400px;font-size:27px">The goal is greater sales confidence and higher conversion. Validate reference lookup time, evidence used during visits, and conversion after a visit. Conversion uplift has not been measured.</p></div>
+  <div class="pos comparison-wrap" style="left:88px;top:355px;width:1424px" tabindex="0" role="region" aria-label="Sales task comparison"><table class="comparison"><thead><tr><th>Sales task</th><th>The original gap</th><th>What Atlas provides</th></tr></thead><tbody><tr><td>Find a reference</td><td>Relevant examples are hard to surface during a visit.</td><td>Local projects on a searchable map</td></tr><tr><td>Make it relevant</td><td>A general sales claim lacks a familiar connection.</td><td>Area, people, and project filters</td></tr><tr><td>Support the claim</td><td>The RM’s explanation carries the conversation.</td><td>Project details, media, testimonials, and orders</td></tr></tbody></table></div>
+</section></div>
+</div></main>
+<nav id="toolbar" aria-label="Presentation controls"><div class="toolbar-center"><button class="tool-button arrow" id="previous" aria-label="Previous slide" title="Previous slide, Left arrow">←</button><span class="counter" id="counter" aria-live="polite">01 / 13</span><button class="tool-button arrow" id="next" aria-label="Next slide" title="Next slide, Right arrow">→</button><div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress"></div></div></div><div class="toolbar-right"><button class="tool-button" id="contents" title="Slide contents">Contents</button><button class="tool-button" id="all-slides" aria-pressed="false" title="Browse all slides">All slides</button><button class="tool-button" id="fullscreen" title="Toggle fullscreen">Fullscreen</button></div></nav>
+<dialog id="inspector" aria-labelledby="inspect-title"><header class="dialog-head"><div><h2 id="inspect-title">Atlas interface</h2><p>Original product UI. Zoom to inspect details.</p></div><div class="dialog-tools"><button id="fit-image" aria-pressed="true">Fit view</button><button id="actual-image" aria-pressed="false">100%</button><button class="close" id="close-inspector" aria-label="Close screen inspector">Close ×</button></div></header><div class="inspector-body"><img id="inspected-image" alt=""></div></dialog>
+<dialog id="slide-index" aria-labelledby="index-title"><div class="index-head"><h2 id="index-title">The story, slide by slide</h2><button class="index-close" id="close-index" aria-label="Close slide contents">Close ×</button></div><div class="index-grid" id="index-grid"></div></dialog>
+<script>const ASSETS={
+  "atlas-logo": "atlas-logo.svg",
+  "map": "map.webp",
+  "labels": "labels.webp",
+  "locality": "locality.webp",
+  "filter": "filter.webp",
+  "popup": "popup.webp",
+  "overview": "overview.webp",
+  "gallery": "gallery.webp",
+  "video": "video.webp",
+  "orders": "orders.webp",
+  "filter-focus": "filter-focus.webp",
+  "popup-focus": "popup-focus.webp",
+  "project-hero": "project-hero.webp",
+  "overview-info": "overview-info.webp",
+  "gallery-grid": "gallery-grid.webp",
+  "testimonial-grid": "testimonial-grid.webp",
+  "order-details": "order-details.webp"
+};const LABELS={"map":"Atlas map and project previews","labels":"Atlas map with compact project labels","locality":"Place search in Atlas","filter":"Atlas filters","popup":"Map popup and video preview","overview":"Project overview","gallery":"Project gallery","video":"Project testimonials","orders":"Project orders"};
+const $=s=>document.querySelector(s);const slides=[...document.querySelectorAll('.slide')];let current=0,reading=false,lastFocus=null;
+const requested=parseInt(location.hash.replace(/\D/g,''));if(Number.isFinite(requested))current=Math.max(0,Math.min(slides.length-1,requested-1));
+document.querySelectorAll('[data-asset]').forEach(img=>{img.src=ASSETS[img.dataset.asset];img.decoding='async';});
+const indexButtons=[];slides.forEach((slide,i)=>{const button=document.createElement('button');button.className='index-item';const number=document.createElement('span');number.textContent=String(i+1).padStart(2,'0');button.append(number,document.createTextNode(slide.dataset.title));button.onclick=()=>{$('#slide-index').close();if(reading&&innerWidth>800)setReading(false);show(i);};$('#index-grid').append(button);indexButtons.push(button);});
+function fit(){const mobile=innerWidth<=800;if(reading){if(mobile){document.documentElement.style.setProperty('--reading-scale',1);return;}const columns=2;const width=$('.slides').getBoundingClientRect().width;const gap=parseFloat(getComputedStyle($('.slides')).columnGap)||0;document.documentElement.style.setProperty('--reading-scale',Math.max(.01,(width-gap*(columns-1))/(1600*columns)));}else{const viewport=$('#viewport'),style=getComputedStyle(viewport);const width=viewport.clientWidth-(parseFloat(style.paddingLeft)||0)-(parseFloat(style.paddingRight)||0);const height=viewport.clientHeight-(parseFloat(style.paddingTop)||0)-(parseFloat(style.paddingBottom)||0);document.documentElement.style.setProperty('--scale',Math.max(.01,Math.min(width/1600,height/900)));}}
+function show(i,updateHash=true){current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,n)=>{s.classList.toggle('current',n===current);s.inert=!reading&&n!==current;if(!reading&&n!==current)s.setAttribute('aria-hidden','true');else s.removeAttribute('aria-hidden');});$('#counter').textContent=String(current+1).padStart(2,'0')+' / '+slides.length;$('#progress').style.width=(current+1)/slides.length*100+'%';$('#previous').disabled=current===0;$('#next').disabled=current===slides.length-1;indexButtons.forEach((b,n)=>{if(n===current)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});document.title=String(current+1).padStart(2,'0')+' · '+slides[current].dataset.title+' — Atlas';if(updateHash)history.replaceState(null,'','#slide-'+(current+1));if(reading)scrollToSlide(slides[current]);}
+// Scroll only this presentation, keeping the portfolio header and back link in place.
+function scrollToSlide(slide){const rect=slide.getBoundingClientRect();const offset=innerWidth<=800?16:Math.max(16,(innerHeight-rect.height)/2);window.scrollTo({top:rect.top+window.scrollY-offset,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});}
+function setReading(value){reading=value;document.body.classList.toggle('reading',reading);$('#all-slides').textContent=reading?'Slideshow':'All slides';$('#all-slides').setAttribute('aria-pressed',reading);fit();show(current);if(!reading)window.scrollTo(0,0);}
+$('#previous').onclick=()=>show(current-1);$('#next').onclick=()=>show(current+1);$('#all-slides').onclick=()=>setReading(!reading);$('#contents').onclick=()=>{$('#slide-index').showModal();};$('#close-index').onclick=()=>$('#slide-index').close();$('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{}};document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';fit();});window.addEventListener('resize',fit);window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace(/\D/g,''));if(Number.isFinite(n))show(n-1,false);});
+const inspector=$('#inspector'),inspectorBody=$('.inspector-body');function imageMode(actual){inspectorBody.classList.toggle('actual',actual);$('#fit-image').setAttribute('aria-pressed',!actual);$('#actual-image').setAttribute('aria-pressed',actual);inspectorBody.scrollTo(0,0);}document.addEventListener('click',e=>{const shot=e.target.closest('[data-inspect]');if(!shot)return;lastFocus=shot;const key=shot.dataset.inspect;$('#inspected-image').src=ASSETS[key];$('#inspected-image').alt=LABELS[key];$('#inspect-title').textContent=LABELS[key];imageMode(false);inspector.showModal();});$('#fit-image').onclick=()=>imageMode(false);$('#actual-image').onclick=()=>imageMode(true);$('#close-inspector').onclick=()=>inspector.close();inspector.addEventListener('close',()=>{if(lastFocus)lastFocus.focus({preventScroll:true});});[inspector,$('#slide-index')].forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}));
+document.addEventListener('keydown',e=>{
+  if(inspector.open||$('#slide-index').open||e.altKey||e.ctrlKey||e.metaKey||/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))return;
+  if(e.key==='p'||e.key==='P'){e.preventDefault();setReading(!reading);return;}
+  if(e.key==='Escape'&&reading){setReading(false);$('#all-slides').focus({preventScroll:true});return;}
+  // Keep native vertical scrolling and button activation in the reading view.
+  if(reading&&['ArrowDown','ArrowUp','PageDown','PageUp',' '].includes(e.key))return;
+  if(reading&&e.target.closest('.comparison-wrap')&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)||(e.key===' '&&e.target===document.body)){e.preventDefault();show(current+1);}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(current-1);}
+  if(e.key==='Home'){e.preventDefault();show(0);}
+  if(e.key==='End'){e.preventDefault();show(slides.length-1);}
+});
+let touchX=null,touchY=null;$('#viewport').addEventListener('touchstart',e=>{if(e.target.closest('button'))return;touchX=e.touches[0].clientX;touchY=e.touches[0].clientY;},{passive:true});$('#viewport').addEventListener('touchend',e=>{if(touchX===null||reading)return;const dx=e.changedTouches[0].clientX-touchX,dy=e.changedTouches[0].clientY-touchY;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.5)show(current+(dx<0?1:-1));touchX=null;touchY=null;},{passive:true});if(matchMedia('(max-width:800px) and (orientation:portrait)').matches)setReading(true);else{show(current,false);fit();}document.fonts.ready.then(fit);
+</script></body></html>

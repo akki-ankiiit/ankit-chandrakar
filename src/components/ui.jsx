@@ -2,8 +2,9 @@ import { useEffect, useRef } from 'react';
 import Icon from './Icon.jsx';
 import { profile } from '../data/portfolio.js';
 
-export function Selection({ children, className = '' }) {
-  return <span className={`selection ${className}`}>{children}<span className="selection-frame" aria-hidden="true">{['tl', 'tm', 'tr', 'ml', 'mr', 'bl', 'bm', 'br'].map((position) => <i key={position} className={position} />)}</span></span>;
+export function Selection({ children, className = '', as = 'span', ...props }) {
+  const Tag = as;
+  return <Tag {...props} className={`selection ${className}`}>{children}<span className="selection-frame" aria-hidden="true">{['tl', 'tm', 'tr', 'ml', 'mr', 'bl', 'bm', 'br'].map((position) => <i key={position} className={position} />)}</span></Tag>;
 }
 
 export function Pill({ children, href, onClick, type = 'button', className = '', disabled = false, ...props }) {

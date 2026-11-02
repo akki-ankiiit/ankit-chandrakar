@@ -1,0 +1,91 @@
+.thanq-guidelines {
+  width: 100%;
+  min-width: 0;
+  background: #fef9f7;
+  color: #292929;
+  --snap-line: #b64d2033;
+  --snap-panel: #fef9f7;
+  --snap-secondary: #71635d;
+  --snap-accent: #b64d20;
+  --snap-ink: #292929;
+}
+
+.thanq-guidelines-presentation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  row-gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  min-width: 0;
+  padding: calc(var(--site-header-height) + 8px) 16px 4px;
+  background: #fdfdf5;
+  overflow: hidden;
+}
+
+.thanq-guidelines-frame {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  min-height: 0;
+  margin-inline: auto;
+  border: 0;
+  background: #fdfdf5;
+}
+
+.thanq-guidelines-backbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  min-height: 44px;
+  margin-inline: auto;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.thanq-guidelines-gallery {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+  padding: 64px 32px;
+}
+
+.thanq-guidelines-gallery-heading {
+  margin-bottom: 32px;
+}
+
+.thanq-guidelines-gallery-heading p {
+  margin: 0 0 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.thanq-guidelines-gallery-heading h2 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+@media (max-width: 749px) {
+  .thanq-guidelines-presentation {
+    padding-inline: 12px;
+  }
+
+  .thanq-guidelines-gallery {
+    padding: 48px 20px;
+  }
+}

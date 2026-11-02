@@ -1,8 +1,8 @@
 /* The original sage-green palette, extended to the scrapbook case studies. */
-.project-cover > img { border-color: #a9b09755; border-radius: 4px; }
+.project-cover > :is(img, video) { border-color: #a9b09755; border-radius: 4px; }
 .project-cover { border-radius: 4px; }
-.portfolio-card:nth-child(2n) .portfolio-card-button:hover .project-cover > img { transform: translateY(-4px) rotate(.7deg); }
-.portfolio-card-button:hover .project-cover > img { transform: translateY(-4px) rotate(-.7deg); box-shadow: 3px 8px 17px #46513b15; }
+.portfolio-card:nth-child(2n) .portfolio-card-button:hover .project-cover > :is(img, video) { transform: translateY(-4px) rotate(.7deg); }
+.portfolio-card-button:hover .project-cover > :is(img, video) { transform: translateY(-4px) rotate(-.7deg); box-shadow: 3px 8px 17px #46513b15; }
 .project-open { background: var(--paper); border-color: #88957755; color: #60784b; }
 .portfolio-card-meta { font-size: 10px; letter-spacing: .4px; }
 .case-reading-progress { background: #aec989; }
@@ -42,6 +42,6 @@
   .case-contents { border-bottom-color: #c7ceb770; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .portfolio-card:nth-child(2n) .portfolio-card-button:hover .project-cover > img,
-  .portfolio-card-button:hover .project-cover > img { transform: none; }
+  .portfolio-card:nth-child(2n) .portfolio-card-button:hover .project-cover > :is(img, video),
+  .portfolio-card-button:hover .project-cover > :is(img, video) { transform: none; }
 }

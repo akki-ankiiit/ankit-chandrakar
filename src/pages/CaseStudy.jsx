@@ -3,7 +3,10 @@ import { Link, useParams } from 'react-router-dom';
 import { profile, projects } from '../data/portfolio.js';
 import { Pill } from '../components/ui.jsx';
 import Icon from '../components/Icon.jsx';
+import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import NotFound from './NotFound.jsx';
+import FigmaFilePage from './FigmaFilePage.jsx';
+import AgentsExperience from '../features/agents/AgentsExperience.jsx';
 import '../styles/case-study-route.css';
 
 function Presentation({ project }) {
@@ -65,7 +68,7 @@ function CaseStudyContent({ project }) {
     <article className="case-study-page page-enter" ref={article}>
       <div className="case-reading-progress" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
       <header className="case-hero case-container">
-        <div className="case-breadcrumb"><Link to="/#work" state={{ category: project.group, focusProject: project.id }}><Icon name="arrow" size={15} />Back to selected work</Link><span>PROJECT {String(index + 1).padStart(2, '0')} / {project.category.toUpperCase()}</span></div>
+        <div className="case-breadcrumb"><ProjectBackLink state={{ category: project.group, focusProject: project.id }} /><span>PROJECT {String(index + 1).padStart(2, '0')} / {project.category.toUpperCase()}</span></div>
         <div className="case-title-row"><div><p className="eyebrow">{project.caseStudy.eyebrow || 'From the design scrapbook'}</p><h1>{project.title}</h1><p className="case-subtitle">{project.subtitle}</p></div><div className="case-stamp"><Icon size={24} /><span>thoughtfully<br />put together.</span></div></div>
         <dl className="case-facts"><div><dt>My role</dt><dd>{project.role}</dd></div><div><dt>Scope</dt><dd>{project.scope}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>{project.sourceLabel ? 'Original publication' : 'Organization'}</dt><dd>{project.sourceLabel ? <a href={project.sourceUrl} target="_blank" rel="noreferrer">View on {project.sourceLabel} ↗</a> : project.client}</dd></div></dl>
         <figure className="case-cover"><img src={project.image} alt={`${project.title} — scrapbook cover illustration`} width="1200" height="850" fetchPriority="high" /><figcaption><span>From sketches to considered experiences.</span><span>Illustrated project cover</span></figcaption></figure>
@@ -97,7 +100,7 @@ function ShowcasePage({ project }) {
   return (
     <article className="showcase-page page-enter">
       <div className="case-container">
-        <Link className="showcase-back" to="/#work" state={{ category: project.group, focusProject: project.id }}><Icon name="arrow" size={15} />Back to selected work</Link>
+        <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
         <header className="showcase-header">
           <h1>{project.title}</h1>
           <p className="case-subtitle">{project.subtitle}</p>
@@ -115,6 +118,7 @@ function ShowcasePage({ project }) {
         </div>
         <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">{project.embedLinkLabel || 'Open the site in a new tab ↗'}</a>
       </section>
+      {project.id === 'mistribhai' && <AgentsExperience />}
     </article>
   );
 }
@@ -126,18 +130,11 @@ function StreamPage({ project }) {
   }, [project]);
 
   return (
-    <article className="stream-page page-enter">
+    <article className="stream-page page-enter" aria-label={`${project.title} case study`}>
       <div className="case-container">
-        <Link className="showcase-back" to="/#work" state={{ category: project.group, focusProject: project.id }}><Icon name="arrow" size={15} />Back to selected work</Link>
-        <header className="showcase-header">
-          <h1>{project.title}</h1>
-          <p className="case-subtitle">{project.subtitle}</p>
-        </header>
-        <dl className="stream-facts"><div><dt>Role</dt><dd>{project.role}</dd></div><div><dt>Scope</dt><dd>{project.scope}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>Client</dt><dd>{project.client}</dd></div></dl>
-        <figure className="showcase-cover"><img src={project.image} alt={`${project.title} — case study cover`} width="1032" height="740" fetchPriority="high" /></figure>
-        <p className="stream-intro">{project.description}</p>
+        <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
         <div className="stream-images">
-          {images.map((image) => <img key={image.src} src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />)}
+          {images.map((image, index) => <img key={image.src} src={image.src} alt={image.alt} width={image.width} height={image.height} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" />)}
         </div>
         {project.sourceUrl && <a className="text-link stream-source" href={project.sourceUrl} target="_blank" rel="noreferrer">View the original on {project.sourceLabel} ↗</a>}
       </div>
@@ -150,6 +147,7 @@ export default function CaseStudy() {
   const project = projects.find((item) => item.id === projectId);
   if (!project) return <NotFound title="This project isn’t in the folder." message="The case study you’re looking for may have moved, or it hasn’t been published yet. Browse the selected work to find your way back." />;
   if (project.stream) return <StreamPage key={project.id} project={project} />;
+  if (project.embedType === 'figma') return <FigmaFilePage key={project.id} project={project} />;
   if (project.embedUrl) return <ShowcasePage key={project.id} project={project} />;
   return <CaseStudyContent key={project.id} project={project} />;
 }

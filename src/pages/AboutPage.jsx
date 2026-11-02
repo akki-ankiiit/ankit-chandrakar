@@ -2,11 +2,28 @@ import { Link } from 'react-router-dom';
 import '../styles/about.css';
 import HeroArtwork from '../components/HeroArtwork.jsx';
 import { Pill, SocialLinks } from '../components/ui.jsx';
-import { artworks, education, experience, imagery, profile } from '../data/portfolio.js';
+import { imagery, profile } from '../data/portfolio.js';
 
 const galleryGroups = [
-  { number: '02', title: 'Colour & quiet', description: 'Selected artwork — a study in soft greens, a portrait in warm orange.', ids: ['goose', 'reena'] },
-  { number: '03', title: 'Character studies', description: 'Selected artwork — Zoey and Mira from K-Pop Demon Hunters.', ids: ['kdh-zoey', 'kdh-mira'] },
+  {
+    number: '02', kind: 'paintings', title: 'Digital paintings',
+    description: 'Familiar characters, a different palette. A little nostalgia, reimagined in colour.',
+    artworks: [
+      { file: 'nobita-shizuka', title: 'Nobita & Shizuka', medium: 'Digital painting', width: 1200, height: 1697, alt: 'Digital illustration of Nobita and Shizuka in traditional Indian clothing against a textured ochre background' },
+      { file: 'chutki-bheem', title: 'Chutki & Bheem', medium: 'Digital painting', width: 1200, height: 1697, alt: 'Digital illustration of Chutki and Bheem in red traditional clothing against a bright blue and green background' },
+    ],
+  },
+  {
+    number: '03', kind: 'sketchbook', title: 'From my sketchbook',
+    description: 'Loose lines, colour experiments, and characters taking shape. A few pages from my tablet.',
+    artworks: [
+      { file: 'deadpool-line-study', title: 'Deadpool / Lines', medium: 'Tablet sketch', width: 1200, height: 2053, alt: 'Tablet screen showing a black line drawing of Deadpool looking over his shoulder' },
+      { file: 'deadpool-colour-study', title: 'Deadpool / Colour', medium: 'Colour study', width: 1200, height: 2133, alt: 'Tablet screen showing a red and black drawing of Deadpool looking over his shoulder on a red canvas' },
+      { file: 'deadpool-crossed-arms', title: 'Deadpool / Character study', medium: 'Tablet sketch', width: 1200, height: 1969, alt: 'Tablet screen showing a line drawing of Deadpool with crossed arms and two sword handles behind his shoulders' },
+      { file: 'akki-character', title: 'Akki', medium: 'Digital drawing', width: 1200, height: 2133, alt: 'Tablet screen showing a cartoon boy in an orange cap, blue vest, and red shoes holding green banknotes, signed Akki' },
+      { file: 'po-panda', title: 'Po / Kung Fu Panda', medium: 'Digital drawing', width: 1200, height: 2053, alt: 'Tablet screen showing a black and white drawing of Po from Kung Fu Panda balancing on one leg with his paws raised' },
+    ],
+  },
 ];
 
 export default function AboutPage() {
@@ -42,77 +59,42 @@ export default function AboutPage() {
         </figure>
       </div>
 
-      <section className="about-page-background container" aria-labelledby="about-experience-title">
-        <div className="about-page-section-heading">
-          <div>
-            <p className="eyebrow">The path so far</p>
-            <h2 id="about-experience-title">Experience</h2>
-          </div>
-          <a className="text-link" href={profile.resume}>Full résumé <span aria-hidden="true">↗</span></a>
-        </div>
-        <ul className="about-page-experience">
-          {experience.map((job) => (
-            <li className="about-page-experience-row" key={job.company}>
-              <p className="about-page-period">{job.period}</p>
-              <h3>{job.company}</h3>
-              <p className="about-page-role">{job.role}</p>
-            </li>
-          ))}
-        </ul>
-        <div className="about-page-education" aria-labelledby="about-education-title">
-          <h2 id="about-education-title">Education</h2>
-          <div>
-            <p className="about-page-period">{education.period}</p>
-            <h3>{education.school}</h3>
-            <p className="about-page-role">{education.degree}</p>
-          </div>
-        </div>
-      </section>
-
       <section className="about-page-gallery" aria-labelledby="about-gallery-title">
         <div className="container">
-          <div className="about-page-section-heading">
-            <div>
+          <div className="about-page-studio-intro">
+            <div className="about-page-studio-copy">
               <p className="eyebrow">A visual collection</p>
-              <h2 id="about-gallery-title">A little more personality.</h2>
-            </div>
-            <p className="about-page-gallery-note">An illustrated introduction,<br />then a few selected artworks.</p>
-          </div>
-
-          <section className="about-page-gallery-group about-page-me" aria-labelledby="about-gallery-me">
-            <div className="about-page-group-heading">
-              <h3 id="about-gallery-me"><span>01 /</span> Me, illustrated</h3>
-              <p>A familiar face from this portfolio.</p>
+              <h2 id="about-gallery-title">A little more<br /><em>personality.</em></h2>
+              <p className="about-page-gallery-note">Away from the design files, I’m usually drawing. Here’s a little of that world — familiar faces, favourite characters, and ideas just for the joy of it.</p>
+              <p className="about-page-studio-note">Off the clock. Still making things.</p>
             </div>
             <figure className="about-page-portrait">
               <div className="about-page-portrait-mat">
                 <img src={imagery.portrait} alt="Illustrated designer wearing headphones and sketching at a desk" width="712" height="533" loading="lazy" decoding="async" />
               </div>
-              <figcaption><span>{profile.fullName}</span><span>Illustrated portrait</span></figcaption>
+              <figcaption><span><span className="about-page-print-index">01 /</span> Me, illustrated</span><span>A familiar face around here.</span></figcaption>
             </figure>
-          </section>
+          </div>
 
           {galleryGroups.map((group) => (
-            <section className="about-page-gallery-group" key={group.number} aria-labelledby={`about-gallery-${group.number}`}>
+            <section className={`about-page-gallery-group about-page-${group.kind}`} key={group.number} aria-labelledby={`about-gallery-${group.number}`}>
               <div className="about-page-group-heading">
-                <h3 id={`about-gallery-${group.number}`}><span>{group.number} /</span> {group.title}</h3>
+                <p className="about-page-group-index">{group.number} /</p>
+                <h3 id={`about-gallery-${group.number}`}>{group.title}</h3>
                 <p>{group.description}</p>
               </div>
               <div className="about-page-image-grid">
-                {group.ids.map((id) => {
-                  const artwork = artworks.find((item) => item.id === id);
-                  return (
-                    <figure key={artwork.id}>
-                      <img src={artwork.image} alt={`${artwork.title} — artwork`} width={artwork.width} height={artwork.height} loading="lazy" decoding="async" />
-                      <figcaption><span>{artwork.title}</span><span>Artwork · {artwork.year}</span></figcaption>
-                    </figure>
-                  );
-                })}
+                {group.artworks.map((artwork, index) => (
+                  <figure key={artwork.file}>
+                    <div className="about-page-print"><img src={`/assets/sketches/${artwork.file}.webp`} alt={artwork.alt} width={artwork.width} height={artwork.height} loading="lazy" decoding="async" /></div>
+                    <figcaption><span className="about-page-print-index">{group.number}.{String(index + 1).padStart(2, '0')}</span><span>{artwork.title}</span><span>{artwork.medium}</span></figcaption>
+                  </figure>
+                ))}
               </div>
             </section>
           ))}
           <div className="about-page-gallery-end">
-            <p>More from the visual collection.</p>
+            <p>A little curiosity goes a long way.</p>
             <Link className="text-link" to="/playtime">Explore Playtime <span aria-hidden="true">↗</span></Link>
           </div>
         </div>

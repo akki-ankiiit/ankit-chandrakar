@@ -1,0 +1,398 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Adhikaar, a contractor loyalty app for Kamdhenu Adhesive. A 20-slide product presentation covering points, rewards, portfolios, assets, memories and tools."><title>Adhikaar · Contractor loyalty app</title><style>@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-600-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-700-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  font-style: normal;
+  font-weight: 800;
+  font-stretch: normal;
+  font-display: swap;
+  src: url('bricolage-grotesque-800-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('hind-400-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('hind-600-normal.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('hind-700-normal.ttf') format('truetype');
+}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;font-display:swap;src:url('dm-sans-400-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:500;font-display:swap;src:url('dm-sans-500-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:600;font-display:swap;src:url('dm-sans-600-normal.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;font-display:swap;src:url('dm-sans-700-normal.ttf') format('truetype');}
+:root{--ink:#20211f;--muted:#4f4c47;--paper:#fffdf9;--accent:#ab3416;--bright:#fa6a42;--line:#d8cfc7;--scale:.7;--reading-scale:.4;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#f0eee5;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+body{overflow:hidden}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #ff9d7a;outline-offset:5px}
+button:disabled{opacity:.35;cursor:default}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;color:var(--ink)}
+h1{font-size:112px;line-height:1.03;letter-spacing:-5px;font-weight:700}
+h2{font-size:64px;line-height:1.08;letter-spacing:-2.5px;font-weight:700}
+h3{font-size:30px;line-height:1.18;letter-spacing:-.65px;font-weight:600}
+p{font-size:28px;line-height:1.47;color:var(--muted);letter-spacing:-.3px}
+.kicker{font-size:20px;font-weight:600;color:var(--accent);line-height:1.35;margin-bottom:20px;letter-spacing:0}
+.lead{font-size:40px;line-height:1.2;color:var(--ink);letter-spacing:-1.2px}
+.small{font-size:24px;line-height:1.45}
+.accent{color:var(--accent)}
+.pos{position:absolute}
+.slide{display:none;position:absolute;left:50%;top:50%;width:1600px;height:900px;overflow:hidden;background:var(--paper);color:var(--ink);transform:translate(-50%,-50%) scale(var(--scale));transform-origin:center;border:1px solid #cfcac0;border-radius:18px;box-shadow:0 8px 28px #30291e14}
+.slide.current{display:block}
+.slide.dark{background:#24231f;--ink:#fffdf9;--muted:#e4e0da;--accent:#ffb298;--line:#71695e}
+.slide.peach{background:#ffe9dc}
+.slide.orange{background:linear-gradient(135deg,#ae381c,#b83e20 65%,#a52e18);--ink:#fffdf9;--muted:#fff5ed;--accent:#ffe9dc;--line:#efac91}
+#viewport{height:calc(100dvh - 90px);position:relative;overflow:hidden;padding:24px 32px;box-sizing:border-box}
+.slides{height:100%;width:100%;position:relative}
+.slide-wrap{display:contents}
+.reading{overflow:auto;background:#f0eee5}
+.reading #viewport{height:auto;overflow:visible;padding:24px 24px 110px}
+.reading .slides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;height:auto}
+.reading .slide-wrap{display:block;min-width:0;width:calc(1600px * var(--reading-scale));height:calc(900px * var(--reading-scale));overflow:hidden}
+.reading .slide{display:block!important;left:0;top:0;position:relative;transform:scale(var(--reading-scale));transform-origin:top left}
+.mockup{position:absolute;display:block;padding:0;border:0;background:transparent;line-height:0;cursor:zoom-in}
+.mockup img{width:100%;height:auto;display:block;object-fit:contain}
+.shot{position:absolute;display:block;background:#fff;border:1px solid #d0c3b8;border-radius:20px;padding:0;overflow:hidden;line-height:0;cursor:zoom-in;box-shadow:0 22px 42px #4d291016}
+.shot img{width:100%;height:auto;display:block}
+.dark .shot{border-color:#71695e}
+.paper{border-radius:3px;box-shadow:0 24px 60px #2e211c30;border:1px solid #e1d6cc}
+.paper img{display:block;width:100%}
+.screen-button{padding:0;border:0;display:block;line-height:0;background:transparent;cursor:zoom-in}
+.bar-note{border-left:3px solid var(--accent);padding-left:24px}
+.bar-note h3{font-size:28px;margin-bottom:12px}
+.bar-note p{font-size:26px}
+.rows>div{border-top:1px solid var(--line);padding:24px 0;display:grid;grid-template-columns:52px 1fr;gap:15px}
+.num{font-size:23px;line-height:1.3;color:var(--accent);font-variant-numeric:tabular-nums}
+.rows h3{margin-bottom:10px}
+.rows p{font-size:25px}
+.trip-cost{font-family:'Bricolage Grotesque',sans-serif;font-size:95px;font-weight:600;letter-spacing:-3px;line-height:1.1;color:var(--ink)}
+.trip-cost span{font-size:28px;font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:0;margin-left:12px}
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:38px 36px}
+.feature-grid>div{border-top:1px solid var(--line);padding-top:19px}
+.feature-grid p{font-size:25px;margin-top:12px}
+.flat-columns{display:grid;grid-template-columns:repeat(3,1fr);gap:56px}
+.flat-columns>div{border-top:1px solid var(--line);padding-top:27px}
+.flat-columns h3{font-size:35px;margin:22px 0 16px}
+.flat-columns p{font-size:28px}
+.workflow>div{display:grid;grid-template-columns:62px 1fr;gap:20px;padding:23px 0;border-top:1px solid var(--line)}
+.workflow h3{font-size:30px}
+.workflow p{font-size:25px;margin-top:9px}
+.comparison{width:100%;border-collapse:collapse;text-align:left}
+.comparison th{font-size:22px;font-weight:500;color:var(--muted);padding:0 36px 23px 0}
+.comparison td{font-size:27px;line-height:1.35;vertical-align:top;border-top:1px solid var(--line);padding:25px 40px 25px 0;color:var(--muted)}
+.comparison td:first-child{width:25%;font-weight:600;color:var(--ink)}
+.comparison td:nth-child(2){width:34%;color:var(--ink)}
+.pill{display:inline-block;padding:10px 18px;border:1px solid var(--line);border-radius:50px;font-size:21px;color:var(--ink)}
+#toolbar{position:fixed;z-index:20;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:24px;width:max-content;max-width:calc(100vw - 24px);height:62px;padding:9px 12px;border:1px solid #71675e;border-radius:15px;background:#292722;color:#fffdf9;box-shadow:0 7px 24px #0003}
+.toolbar-center,.toolbar-right{display:flex;align-items:center}
+.toolbar-center{gap:12px}
+.toolbar-right{gap:7px}
+.tool-button{height:42px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #938374;border-radius:8px;background:transparent;color:#fffdf9;font-size:14px;line-height:1}
+.tool-button:hover{background:#494038}
+.tool-button.arrow{width:42px;padding:0;font-size:24px}
+.tool-button[aria-pressed=true]{background:#ffd7c5;border-color:#ffd7c5;color:#3b2117}
+.counter{min-width:60px;color:#fff;text-align:center;font-size:14px;font-variant-numeric:tabular-nums}
+.progress-track{display:none}
+dialog{border:1px solid #d5c7ba;border-radius:20px;background:#fffdf9;color:#20211f;padding:0;max-width:none;box-shadow:0 30px 100px #0006}
+dialog::backdrop{background:#171310df;backdrop-filter:blur(6px)}
+#inspector{width:min(1100px,94vw);height:92dvh;max-height:1050px}
+#inspector[open]{display:flex;flex-direction:column}
+.dialog-head{flex:none;min-height:88px;padding:16px 26px;border-bottom:1px solid #ded2c7;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.dialog-head h2{font-size:24px;line-height:1.2;letter-spacing:-.5px}
+.dialog-head p{font-size:15px;color:#51463d;margin-top:6px}
+.dialog-tools{display:flex;gap:8px;flex:none}
+.dialog-tools button,.index-close{border:0;background:#efe4d9;color:#3e2b21;border-radius:7px;padding:10px 14px;font-size:14px}
+.dialog-tools button:hover,.index-close:hover{background:#ead1c0}
+.dialog-tools button[aria-pressed=true]{background:#a73617;color:#fff}
+.dialog-tools .close{background:#342b25;color:#fff}
+.inspector-body{flex:1;min-height:0;overflow:auto;padding:30px;background:#eee7df;text-align:center;display:flex;align-items:flex-start;justify-content:center;overscroll-behavior:contain}
+.inspector-body img{max-width:100%;max-height:100%;width:auto;height:auto;display:block;margin:0 auto;object-fit:contain}
+.inspector-body.actual{display:block;text-align:left}
+.inspector-body.actual img{width:auto;max-width:none;max-height:none;margin:0}
+#slide-index{width:min(950px,93vw);max-height:86dvh;padding:30px}
+.index-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px}
+.index-head h2{font-size:31px;letter-spacing:-1px}
+.index-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.index-item{border:0;display:flex;align-items:center;gap:17px;text-align:left;padding:14px 17px;background:#f2e8dd;color:#38261b;border-radius:8px;font-size:16px;line-height:1.4}
+.index-item:hover{background:#f3d4c2}
+.index-item[aria-current=page]{background:#aa3717;color:#fff}
+.index-item span{font-size:14px;font-variant-numeric:tabular-nums}
+@media screen and (max-width:800px){#viewport{height:calc(100dvh - 82px);padding:16px 12px}
+.reading .slides{grid-template-columns:1fr}
+.reading #viewport{padding:16px 12px 100px}
+.reading .slide-wrap{width:100%;height:auto;overflow:visible}
+.reading .slide{position:static;width:100%;height:auto;transform:none;padding:24px 20px;overflow:visible;overflow-wrap:anywhere}
+.reading .slide>*+*{margin-top:24px}
+.reading .slide .pos{position:static!important;inset:auto!important;width:auto!important;max-width:100%;height:auto!important;margin:0!important;transform:none!important}
+.reading .slide .pos+.pos{margin-top:24px!important}
+.reading .slide .pos:empty{display:none}
+.reading .slide [style*="width"]:not(.mockup):not(.shot){width:auto!important;max-width:100%}
+.reading .slide [style*="margin"]{margin:0!important}
+.reading .slide p+p,.reading .slide h1+p,.reading .slide h2+p,.reading .slide h3+p{margin-top:16px!important}
+.reading .slide p,.reading .slide td,.reading .slide th,.reading .slide [style*="font-size"]{font-size:16px!important;line-height:1.5;letter-spacing:0}
+.reading .slide h1,.reading .slide h2{font-size:28px!important;line-height:1.15;letter-spacing:-.7px}
+.reading .slide h3{font-size:20px!important;line-height:1.25}
+.reading .slide .kicker{font-size:13px!important;margin-bottom:14px;letter-spacing:.03em}
+.reading .slide .lead{font-size:22px!important}
+.reading .slide .trip-cost{font-size:36px!important}
+.reading .slide .trip-cost span{font-size:16px;margin-left:8px}
+.reading .slide .flat-columns,.reading .slide .feature-grid{grid-template-columns:1fr;gap:24px}
+.reading .slide .flat-columns>div{padding-top:18px}
+.reading .slide .flat-columns h3{margin:12px 0}
+.reading .slide .rows>div,.reading .slide .workflow>div{grid-template-columns:30px minmax(0,1fr);gap:12px;padding:18px 0}
+.reading .slide .num{font-size:16px}
+.reading .slide .bar-note{padding-left:16px}
+.reading .slide .mockup,.reading .slide .shot{position:static!important;inset:auto!important;transform:none!important;width:min(100%,280px)!important;height:auto!important;margin:24px auto!important}
+.reading .slide .mockup img,.reading .slide .shot img{width:100%;height:auto;object-fit:contain}
+.reading .slide .comparison-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.reading .slide .comparison{min-width:640px;width:100%}
+.reading .slide .comparison th,.reading .slide .comparison td{padding:16px 20px 16px 0}
+}
+@media(max-width:650px){#viewport{height:calc(100dvh - 82px)}
+#toolbar{height:64px;bottom:11px;padding:8px;gap:8px;border-radius:12px}
+.toolbar-center,.toolbar-right{gap:4px}
+.tool-button{height:44px;padding:0 8px;font-size:12px}
+.tool-button.arrow{width:40px;font-size:22px}
+.counter{min-width:40px;font-size:12px}
+#fullscreen{display:none}
+.dialog-head{min-height:0;padding:16px;align-items:flex-start;flex-direction:column;gap:12px}
+.dialog-head h2{font-size:20px}
+.dialog-head p{display:none}
+.dialog-tools button{padding:7px 11px}
+.inspector-body{padding:16px}
+.index-grid{grid-template-columns:1fr}
+#slide-index{padding:22px}
+.index-head h2{font-size:25px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}
+}
+@media print{@page{size:1600px 900px;margin:0}
+html,body{background:white;width:1600px;overflow:visible}
+#toolbar,dialog{display:none!important}
+#viewport,.reading #viewport{height:auto;padding:0;overflow:visible}
+.slides,.reading .slides{display:block}
+.slide-wrap,.reading .slide-wrap{display:contents}
+.slide,.reading .slide{display:block!important;position:relative;left:0;top:0;transform:none!important;box-shadow:none;border:0;border-radius:0;margin:0;break-after:page;page-break-after:always;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+</style><link rel="stylesheet" href="../presentation-shell.css"></head>
+<body>
+<main id="viewport" aria-label="Adhikaar app presentation"><div class="slides"><div class="slide-wrap">
+<section class="slide " data-title="Adhikaar: a contractor loyalty app"><div class="pos" style="left:790px;top:0;width:810px;height:900px;background:#ffe4d4"></div><div class="pos" style="left:88px;top:101px;width:650px;"><p class="kicker">Contractor loyalty app</p><h1>Adhikaar</h1><p class="lead" style="font-size:49px;margin-top:34px">Points, portfolios<br>and rewards</p><p style="margin-top:34px;width:570px">A Kamdhenu Adhesive app that helps contractors track points, explore rewards, and present their work.</p></div><button class="mockup" style="left:1207.72px;top:161.32px;width:335.80px;transform:rotate(0deg)" data-inspect="tour" aria-label="Inspect tour"><img data-asset="tour" alt="Tour — supplied Adhikaar device mockup"></button><button class="mockup" style="left:785.08px;top:22.48px;width:446.20px;transform:rotate(0deg)" data-inspect="home" aria-label="Inspect home"><img data-asset="home" alt="Home — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide dark" data-title="The brief and product idea"><div class="pos" style="left:88px;top:84px;width:1400px;"><p class="kicker">The brief</p><h2 style="font-size:76px">Contractor loyalty, with tools<br>for their work</h2></div><div class="pos" style="left:88px;top:389px;width:1424px;"><div class="flat-columns"><div><span class="num">01</span><h3>Make rewards visible</h3><p>Adhesive purchases earn points. Contractors need to see their balance and what those points can unlock.</p></div><div><span class="num">02</span><h3>Help present their work</h3><p>Contractors need a practical way to turn site photos and project details into a portfolio they can share.</p></div><div><span class="num">03</span><h3>Keep it approachable</h3><p>The requirements called for a simple interface, with company support for photography, portfolios, and tour coordination.</p></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="The app at a glance"><button class="mockup" style="left:70.26px;top:26.56px;width:443.90px;transform:rotate(0deg)" data-inspect="home" aria-label="Inspect home"><img data-asset="home" alt="Home — supplied Adhikaar device mockup"></button><div class="pos" style="left:565px;top:88px;width:930px;"><p class="kicker">The product</p><h2 style="font-size:64px">One app for rewards<br>and everyday work</h2><p style="margin-top:28px">The home screen combines a visible points balance with shortcuts to the tools contractors use.</p></div><div class="pos" style="left:565px;top:421px;width:930px;"><div class="feature-grid"><div><h3>Points and rewards</h3><p>Balance, history, and experiences to redeem</p></div><div><h3>Project portfolio</h3><p>Submit work and share a prepared portfolio</p></div><div><h3>Marketing assets</h3><p>Product information and downloadable materials</p></div><div><h3>Memories and tools</h3><p>Photos, milestones, analytics, and coverage estimates</p></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Home and available points"><button class="mockup" style="left:122.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="home" aria-label="Inspect home"><img data-asset="home" alt="Home — supplied Adhikaar device mockup"></button><div class="pos" style="left:694px;top:94px;width:810px;"><p class="kicker">Home</p><h2 style="font-size:64px">The points balance<br>comes first</h2><p style="margin-top:28px">Available points and a nearby redemption action give the home screen a clear starting point.</p></div><div class="pos" style="left:694px;top:447px;width:810px;"><div class="rows"><div><span class="num">01</span><div><h3>Value at a glance</h3><p>The available balance has the strongest visual emphasis.</p></div></div><div><span class="num">02</span><div><h3>A nearby next step</h3><p>Redeem sits directly below the points total.</p></div></div><div><span class="num">03</span><div><h3>Recognizable shortcuts</h3><p>Icons and labels make the main features easy to find.</p></div></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Points history"><div class="pos" style="left:88px;top:97px;width:760px;"><p class="kicker">Points</p><h2 style="font-size:64px">A record of what came<br>in and what went out</h2><p style="margin-top:28px">The history view separates earned points, redeemed points, and the current balance.</p></div><div class="pos" style="left:88px;top:440px;width:760px;"><div class="rows"><div><span class="num">01</span><div><h3>A balance summary</h3><p>The three totals stay together at the top.</p></div></div><div><span class="num">02</span><div><h3>A transaction trail</h3><p>Invoice references and dates provide context for each entry.</p></div></div><div><span class="num">03</span><div><h3>Focused review</h3><p>Search and earned / redeemed filters narrow the record.</p></div></div></div></div><button class="mockup" style="left:1014.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="points-history" aria-label="Inspect points history"><img data-asset="points-history" alt="Points history — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide orange" data-title="Rewards and experiences"><div class="pos" style="left:88px;top:90px;width:785px;"><p class="kicker">Rewards</p><h2 style="font-size:68px">Purchases can become<br>gifts and experiences</h2><p style="margin-top:28px">Points from adhesive purchases can be redeemed for gifts, domestic tours, and international travel. Each experience shows its required points.</p></div><div class="pos" style="left:88px;top:450px;width:740px;"><div class="rows"><div><span class="num">01</span><div><h3>A visible point cost</h3><p>Compare the points required on each card.</p></div></div><div><span class="num">02</span><div><h3>A visual preview</h3><p>See the destination and experience category.</p></div></div><div><span class="num">03</span><div><h3>Details before claiming</h3><p>Open the offer to review what it includes.</p></div></div></div></div><button class="mockup" style="left:1018.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="tour" aria-label="Inspect tour"><img data-asset="tour" alt="Tour — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Tour details and inclusions"><div class="pos" style="left:88px;top:90px;width:800px;"><p class="kicker">Tours</p><h2 style="font-size:68px">The trip explained<br>before the claim</h2><p style="margin-top:28px">The Goa example brings the point cost, duration, itinerary, food, and stay into one detail view.</p></div><div class="pos" style="left:88px;top:470px;width:800px;"><p class="trip-cost">8,500<span>points</span></p><p style="margin-top:18px">Goa city tour · 3 nights and 4 days</p></div><div class="pos" style="left:88px;top:680px;width:800px;"><div class="feature-grid"><div><h3>Know the destination</h3><p>Explore places and planned activities.</p></div><div><h3>Know what’s included</h3><p>Review food and stay before claiming.</p></div></div></div><button class="mockup" style="left:1014.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="tour" aria-label="Inspect tour"><img data-asset="tour" alt="Tour — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide dark" data-title="Tour claim and relationship manager handoff"><button class="mockup" style="left:111.08px;top:22.48px;width:446.20px;transform:rotate(0deg)" data-inspect="tour" aria-label="Inspect tour"><img data-asset="tour" alt="Tour — supplied Adhikaar device mockup"></button><div class="pos" style="left:668px;top:83px;width:845px;"><p class="kicker">Tour redemption</p><h2 style="font-size:66px">Personal support<br>after a simple claim</h2><p style="margin-top:28px">The claim notifies the relationship manager, who contacts the contractor and coordinates the arrangements.</p></div><div class="pos" style="left:668px;top:451px;width:830px;"><div class="rows"><div><span class="num">01</span><div><h3>Contractor claims the tour</h3><p>The selected tour and its point cost define the request.</p></div></div><div><span class="num">02</span><div><h3>The RM receives the request</h3><p>A notification prompts the next step.</p></div></div><div><span class="num">03</span><div><h3>The RM coordinates</h3><p>The contractor has a contact person for the arrangements.</p></div></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Project portfolio"><div class="pos" style="left:88px;top:96px;width:610px;"><p class="kicker">Portfolio</p><h2 style="font-size:67px">A work portfolio<br>contractors can share</h2><p style="margin-top:28px">A contractor adds a project with basic information. The company helps turn that submission into a complete project portfolio.</p></div><div class="pos" style="left:88px;top:574px;width:570px;"><div class="bar-note"><h3>A practical starting point</h3><p>The app uses “Add Project” to begin. Existing site photos and a few project details are enough to start the submission.</p></div></div><button class="mockup" style="left:759.50px;top:58.00px;width:402.50px;transform:rotate(0deg)" data-inspect="add-photo" aria-label="Inspect add photo"><img data-asset="add-photo" alt="Add photo — supplied Adhikaar device mockup"></button><button class="mockup" style="left:1162.50px;top:58.00px;width:402.50px;transform:rotate(0deg)" data-inspect="project-overview" aria-label="Inspect project overview"><img data-asset="project-overview" alt="Project overview — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Adding a project: photo and location"><div class="pos" style="left:88px;top:92px;width:760px;"><p class="kicker">Portfolio submission · Step 1</p><h2 style="font-size:64px">A photo, a project name,<br>and a location</h2><p style="margin-top:28px">The first step asks for information the contractor can provide directly from the site.</p></div><div class="pos" style="left:88px;top:445px;width:760px;"><div class="rows"><div><span class="num">01</span><div><h3>Project photo</h3><p>Choose the camera, gallery, or a file already on the phone.</p></div></div><div><span class="num">02</span><div><h3>Project name</h3><p>Give the work an identifiable name.</p></div></div><div><span class="num">03</span><div><h3>Location</h3><p>Add the place so the company can follow up with context.</p></div></div></div></div><button class="mockup" style="left:1014.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="add-photo" aria-label="Inspect add photo"><img data-asset="add-photo" alt="Add photo — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Adding a project: project details"><div class="pos" style="left:88px;top:92px;width:800px;"><p class="kicker">Portfolio submission · Step 2</p><h2 style="font-size:64px">Project details in<br>familiar fields</h2><p style="margin-top:28px">Choice chips handle project type and status. The remaining fields collect the context needed to prepare the portfolio.</p></div><div class="pos" style="left:88px;top:460px;width:830px;"><div class="feature-grid"><div><h3>Type and status</h3><p>Residential, commercial, ongoing, or completed</p></div><div><h3>Size and client</h3><p>Built area and the client’s name</p></div><div><h3>Completion</h3><p>An expected completion date</p></div><div><h3>Description</h3><p>A short explanation of the work</p></div></div></div><button class="mockup" style="left:1024.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="add-status" aria-label="Inspect add status"><img data-asset="add-status" alt="Add status — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Company-assisted portfolio preparation"><div class="pos" style="left:88px;top:77px;width:1400px;"><p class="kicker">Behind the portfolio</p><h2 style="font-size:64px">Company-assisted portfolio creation</h2><p style="margin-top:28px">The contractor submits the starting information. Company teams handle the follow-up and preparation.</p></div><div class="pos" style="left:88px;top:340px;width:925px;"><div class="workflow"><div><span class="num">01</span><div><h3>Contractor submits the project</h3><p>Site photo, project identity, and initial details.</p></div></div><div><span class="num">02</span><div><h3>The company reviews the submission</h3><p>The information gives the team a starting point for follow-up.</p></div></div><div><span class="num">03</span><div><h3>The team documents the work</h3><p>A site visit adds photographs and further project information.</p></div></div><div><span class="num">04</span><div><h3>The company prepares the portfolio</h3><p>The finished project combines the contractor’s input with the collected material.</p></div></div></div></div><button class="shot" style="left:1149px;top:300px;width:350px;border-radius:3px" data-inspect="pdf-document" aria-label="Inspect pdf document"><img data-asset="pdf-document" alt="Pdf document detail from the Adhikaar design"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="The completed project overview"><div class="pos" style="left:88px;top:94px;width:805px;"><p class="kicker">Project detail</p><h2 style="font-size:68px">Every project has context</h2><p style="margin-top:28px">The finished view presents the project, its people, and the work carried out.</p></div><div class="pos" style="left:88px;top:390px;width:805px;"><p class="kicker">Example project</p><h3 style="font-size:39px">Evergreen Apartments</h3><p style="margin-top:17px">Architect · Swapnil Jaggi</p></div><div class="pos" style="left:88px;top:573px;width:805px;"><div class="rows"><div><span class="num">01</span><div><h3>The people behind the project</h3><p>Owner and architect information stay with the work.</p></div></div><div><span class="num">02</span><div><h3>Useful project facts</h3><p>Project type, built area, timeline, and amenities.</p></div></div></div></div><button class="mockup" style="left:1014.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="project-overview" aria-label="Inspect project overview"><img data-asset="project-overview" alt="Project overview — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Project gallery and products"><div class="pos" style="left:88px;top:93px;width:600px;"><p class="kicker">Project evidence</p><h2 style="font-size:65px">The work and<br>the materials</h2><p style="margin-top:28px">The gallery documents the spaces. Products used are recorded with their application.</p></div><div class="pos" style="left:88px;top:490px;width:600px;"><div class="rows"><div><span class="num">01</span><div><h3>K90 for big onyx marble</h3><p>The product sits beside the finished space.</p></div></div><div><span class="num">02</span><div><h3>K60 for vitrified tiles</h3><p>The application stays linked to the project.</p></div></div></div></div><button class="mockup" style="left:727.77px;top:71.12px;width:399.05px;transform:rotate(0deg)" data-inspect="project-gallery" aria-label="Inspect project gallery"><img data-asset="project-gallery" alt="Project gallery — supplied Adhikaar device mockup"></button><button class="mockup" style="left:1130.77px;top:71.12px;width:399.05px;transform:rotate(0deg)" data-inspect="project-products" aria-label="Inspect project products"><img data-asset="project-products" alt="Project products — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Downloadable portfolio PDF"><button class="shot" style="left:127px;top:81px;width:505px;border-radius:3px" data-inspect="pdf-document" aria-label="Inspect pdf document"><img data-asset="pdf-document" alt="Pdf document detail from the Adhikaar design"></button><div class="pos" style="left:770px;top:99px;width:738px;"><p class="kicker">Portfolio sharing</p><h2 style="font-size:64px">A portfolio ready<br>to download and share</h2><p style="margin-top:28px">The project’s share action leads to a prepared PDF. The contractor can download it and send it to prospective clients.</p></div><div class="pos" style="left:770px;top:472px;width:730px;"><div class="rows"><div><span class="num">01</span><div><h3>Open the project</h3><p>The finished project contains the prepared information.</p></div></div><div><span class="num">02</span><div><h3>Use the share action</h3><p>A PDF version brings the project into one document.</p></div></div><div><span class="num">03</span><div><h3>Download and send</h3><p>Share the document outside the app.</p></div></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Marketing assets library"><button class="mockup" style="left:122.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="marketing-assets" aria-label="Inspect marketing assets"><img data-asset="marketing-assets" alt="Marketing assets — supplied Adhikaar device mockup"></button><div class="pos" style="left:694px;top:94px;width:810px;"><p class="kicker">Marketing assets</p><h2 style="font-size:64px">Product information<br>within reach</h2><p style="margin-top:28px">Technical data sheets, brochures, branding, and promotional materials share one searchable library.</p></div><div class="pos" style="left:694px;top:447px;width:810px;"><div class="rows"><div><span class="num">01</span><div><h3>Search or filter</h3><p>Find a product or category.</p></div></div><div><span class="num">02</span><div><h3>Review the resource</h3><p>Open the information the task requires.</p></div></div><div><span class="num">03</span><div><h3>Download to share</h3><p>Keep a copy to use with clients.</p></div></div></div></div></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Memories and personal gallery"><div class="pos" style="left:88px;top:94px;width:610px;"><p class="kicker">Memories</p><h2 style="font-size:62px">A place for milestones<br>and shared moments</h2><p style="margin-top:28px">The app keeps photographs, events, tours, and milestones alongside the contractor’s work.</p></div><div class="pos" style="left:88px;top:472px;width:620px;"><div class="rows"><div><span class="num">01</span><div><h3>Gallery filters</h3><p>Browse moments by event or tour.</p></div></div><div><span class="num">02</span><div><h3>A short upload flow</h3><p>Add a photo, type, title, and date.</p></div></div><div><span class="num">03</span><div><h3>Milestone timeline</h3><p>Keep tiers and rewards with personal moments.</p></div></div></div></div><button class="mockup" style="left:763.68px;top:64.08px;width:400.20px;transform:rotate(0deg)" data-inspect="memories" aria-label="Inspect memories"><img data-asset="memories" alt="Memories — supplied Adhikaar device mockup"></button><button class="mockup" style="left:1166.68px;top:64.08px;width:400.20px;transform:rotate(0deg)" data-inspect="add-memory" aria-label="Inspect add memory"><img data-asset="add-memory" alt="Add memory — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide " data-title="Adhesive coverage calculator"><div class="pos" style="left:88px;top:92px;width:800px;"><p class="kicker">Coverage calculator</p><h2 style="font-size:65px">A guided<br>coverage estimate</h2><p style="margin-top:28px">The calculator gathers the inputs needed to estimate adhesive requirements for a site.</p></div><div class="pos" style="left:88px;top:505px;width:800px;"><div class="feature-grid"><div><h3>Product</h3><p>Choose the adhesive.</p></div><div><h3>Dimensions</h3><p>Enter tile and floor measurements.</p></div><div><h3>Thickness</h3><p>Add the adhesive bed height.</p></div><div><h3>Bag size</h3><p>Select the pack size.</p></div></div></div><button class="mockup" style="left:1014.90px;top:21.40px;width:448.50px;transform:rotate(0deg)" data-inspect="coverage-material" aria-label="Inspect coverage material"><img data-asset="coverage-material" alt="Coverage material — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide peach" data-title="Performance and points analytics"><div class="pos" style="left:88px;top:93px;width:600px;"><p class="kicker">Analytics</p><h2 style="font-size:65px">Progress beyond<br>the balance</h2><p style="margin-top:28px">Points earned, project activity, and progress toward tour rewards share one dashboard.</p></div><div class="pos" style="left:88px;top:466px;width:600px;"><div class="rows"><div><span class="num">01</span><div><h3>Activity in one view</h3><p>Leads, site visits, and completed work.</p></div></div><div><span class="num">02</span><div><h3>Points over time</h3><p>A monthly view of point growth.</p></div></div><div><span class="num">03</span><div><h3>Reward progress</h3><p>Progress toward the next tour.</p></div></div></div></div><button class="mockup" style="left:727.77px;top:71.12px;width:399.05px;transform:rotate(0deg)" data-inspect="analytics" aria-label="Inspect analytics"><img data-asset="analytics" alt="Analytics — supplied Adhikaar device mockup"></button><button class="mockup" style="left:1130.77px;top:71.12px;width:399.05px;transform:rotate(0deg)" data-inspect="analytics-detail" aria-label="Inspect analytics detail"><img data-asset="analytics-detail" alt="Analytics detail — supplied Adhikaar device mockup"></button></section>
+</div>
+<div class="slide-wrap">
+<section class="slide dark" data-title="The UX choices behind Adhikaar"><div class="pos" style="left:88px;top:80px;width:1400px;"><p class="kicker">Interface decisions</p><h2 style="font-size:64px">UX choices behind the interface</h2><p style="margin-top:28px">The design emphasizes recognizable actions, visible costs, short submissions, and company support.</p></div><div class="pos" style="left:88px;top:340px;width:1424px;"><table class="comparison"><thead><tr><th>Contractor task</th><th>Interface choice</th><th>Design intent</th></tr></thead><tbody><tr><td>Check reward value</td><td>Balance on home and point costs on rewards</td><td>Make the available value and the required points easy to compare.</td></tr><tr><td>Add a project</td><td>Two steps, upload choices, and selection chips</td><td>Organize the submission into familiar, manageable inputs.</td></tr><tr><td>Assess a tour</td><td>Itinerary, activities, food, and stay in one view</td><td>Give the contractor useful details before they make a claim.</td></tr><tr><td>Complete the next steps</td><td>Company portfolio support and RM tour follow-up</td><td>Keep the app action simple while people handle the coordination.</td></tr></tbody></table></div></section>
+</div></div></main>
+<nav id="toolbar" aria-label="Presentation controls"><div class="toolbar-center"><button class="tool-button arrow" id="previous" aria-label="Previous slide" title="Previous slide">←</button><span class="counter" id="counter" aria-live="polite">01 / 20</span><button class="tool-button arrow" id="next" aria-label="Next slide" title="Next slide">→</button><div class="progress-track" aria-hidden="true"><div id="progress"></div></div></div><div class="toolbar-right"><button class="tool-button" id="contents">Contents</button><button class="tool-button" id="all-slides" aria-pressed="false">All slides</button><button class="tool-button" id="fullscreen">Fullscreen</button></div></nav>
+<dialog id="inspector" aria-labelledby="inspect-title"><header class="dialog-head"><div><h2 id="inspect-title">Adhikaar app screen</h2><p>Your supplied mockup. Use 100% to inspect the original details.</p></div><div class="dialog-tools"><button id="fit-image" aria-pressed="true">Fit view</button><button id="actual-image" aria-pressed="false">100%</button><button class="close" id="close-inspector" aria-label="Close screen inspector">Close ×</button></div></header><div class="inspector-body"><img id="inspected-image" alt=""></div></dialog>
+<dialog id="slide-index" aria-labelledby="index-title"><div class="index-head"><h2 id="index-title">Explore Adhikaar</h2><button class="index-close" id="close-index" aria-label="Close slide contents">Close ×</button></div><div class="index-grid" id="index-grid"></div></dialog>
+<script>const ASSETS={
+  "analytics-detail": "analytics-detail.webp",
+  "add-memory": "add-memory.webp",
+  "add-photo": "add-photo.webp",
+  "add-status": "add-status.webp",
+  "analytics": "analytics.webp",
+  "points-history": "points-history.webp",
+  "memories": "memories.webp",
+  "project-overview": "project-overview.webp",
+  "marketing-assets": "marketing-assets.webp",
+  "home": "home.webp",
+  "coverage-material": "coverage-material.webp",
+  "project-products": "project-products.webp",
+  "tour": "tour.webp",
+  "project-gallery": "project-gallery.webp",
+  "pdf-document": "pdf-document.webp"
+};const LABELS={"analytics-detail":"Adhikaar \u00b7 Analytics detail","add-memory":"Adhikaar \u00b7 Add memory","add-photo":"Adhikaar \u00b7 Add photo","add-status":"Adhikaar \u00b7 Add status","analytics":"Adhikaar \u00b7 Analytics","points-history":"Adhikaar \u00b7 Points history","memories":"Adhikaar \u00b7 Memories","project-overview":"Adhikaar \u00b7 Project overview","marketing-assets":"Adhikaar \u00b7 Marketing assets","home":"Adhikaar \u00b7 Home","coverage-material":"Adhikaar \u00b7 Coverage material","project-products":"Adhikaar \u00b7 Project products","tour":"Adhikaar \u00b7 Tour","project-gallery":"Adhikaar \u00b7 Project gallery","pdf-document":"Adhikaar \u00b7 Pdf document"};
+const $=s=>document.querySelector(s);
+const slides=[...document.querySelectorAll('.slide')];
+const mobilePortrait=matchMedia('(max-width:800px) and (orientation:portrait)');
+let current=0,reading=mobilePortrait.matches,lastFocus=null;
+const requested=parseInt(location.hash.replace(/\D/g,''));
+if(Number.isFinite(requested))current=Math.max(0,Math.min(slides.length-1,requested-1));
+document.querySelectorAll('[data-asset]').forEach(img=>{img.decoding='async';img.src=ASSETS[img.dataset.asset];});
+$('#inspected-image').decoding='async';
+// Keep the supplied table intact, adding a native, keyboard-focusable scroll region.
+document.querySelectorAll('.comparison').forEach(table=>{
+  const wrapper=document.createElement('div');
+  wrapper.className='comparison-scroll';wrapper.tabIndex=0;
+  wrapper.setAttribute('role','region');
+  wrapper.setAttribute('aria-label','UX choices comparison table. Scroll horizontally to read all columns.');
+  table.before(wrapper);wrapper.append(table);
+});
+const indexButtons=[];
+slides.forEach((slide,i)=>{
+  const button=document.createElement('button');button.className='index-item';
+  const number=document.createElement('span');number.textContent=String(i+1).padStart(2,'0');
+  button.append(number,document.createTextNode(slide.dataset.title));
+  button.onclick=()=>{$('#slide-index').close();show(i);};
+  $('#index-grid').append(button);indexButtons.push(button);
+});
+function fit(){
+  if(reading){
+    const grid=$('.slides'),style=getComputedStyle(grid);
+    const columns=innerWidth<=800?1:2,gap=parseFloat(style.columnGap)||0;
+    document.documentElement.style.setProperty('--reading-scale',Math.max(.01,(grid.clientWidth-gap*(columns-1))/(1600*columns)));
+  }else{
+    const viewport=$('#viewport'),style=getComputedStyle(viewport);
+    const width=viewport.clientWidth-(parseFloat(style.paddingLeft)||0)-(parseFloat(style.paddingRight)||0);
+    const height=viewport.clientHeight-(parseFloat(style.paddingTop)||0)-(parseFloat(style.paddingBottom)||0);
+    document.documentElement.style.setProperty('--scale',Math.max(.01,Math.min(width/1600,height/900)));
+  }
+}
+function show(i,updateHash=true,scroll=true){
+  current=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((slide,n)=>{
+    slide.classList.toggle('current',n===current);slide.inert=!reading&&n!==current;
+    if(!reading&&n!==current)slide.setAttribute('aria-hidden','true');else slide.removeAttribute('aria-hidden');
+  });
+  $('#counter').textContent=String(current+1).padStart(2,'0')+' / '+slides.length;
+  $('#progress').style.width=(current+1)/slides.length*100+'%';
+  $('#previous').disabled=current===0;$('#next').disabled=current===slides.length-1;
+  indexButtons.forEach((button,n)=>{if(n===current)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
+  document.title=String(current+1).padStart(2,'0')+' · '+slides[current].dataset.title+' — Adhikaar';
+  if(updateHash)history.replaceState(null,'','#slide-'+(current+1));
+  if(reading&&scroll){
+    const heading=slides[current].querySelector('h1,h2');
+    const target=innerWidth<=800?(heading?.closest('.pos')||slides[current]):slides[current];
+    window.scrollTo({top:Math.max(0,window.scrollY+target.getBoundingClientRect().top-24),behavior:'instant'});
+  }
+}
+function setReading(value,updateHash=true,scroll=true){
+  reading=value;document.body.classList.toggle('reading',reading);
+  $('#all-slides').textContent=reading?'Slideshow':'All slides';
+  $('#all-slides').setAttribute('aria-pressed',String(reading));
+  fit();show(current,updateHash,scroll);if(!reading)window.scrollTo(0,0);
+}
+$('#previous').onclick=()=>show(current-1);$('#next').onclick=()=>show(current+1);$('#all-slides').onclick=()=>setReading(!reading);$('#contents').onclick=()=>{$('#slide-index').showModal();};$('#close-index').onclick=()=>$('#slide-index').close();$('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{}};document.addEventListener('fullscreenchange',()=>{$('#fullscreen').textContent=document.fullscreenElement?'Exit fullscreen':'Fullscreen';fit();});window.addEventListener('resize',fit);window.addEventListener('hashchange',()=>{const n=parseInt(location.hash.replace(/\D/g,''));if(Number.isFinite(n))show(n-1,false);});
+const inspector=$('#inspector'),inspectorBody=$('.inspector-body');
+function imageMode(actual){
+  inspectorBody.classList.toggle('actual',actual);
+  $('#fit-image').setAttribute('aria-pressed',String(!actual));
+  $('#actual-image').setAttribute('aria-pressed',String(actual));inspectorBody.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{
+  const shot=e.target.closest('[data-inspect]');if(!shot)return;
+  lastFocus=shot;const key=shot.dataset.inspect;
+  $('#inspected-image').src=ASSETS[key];$('#inspected-image').alt=LABELS[key];
+  $('#inspect-title').textContent=LABELS[key];imageMode(false);inspector.showModal();
+});
+$('#fit-image').onclick=()=>imageMode(false);$('#actual-image').onclick=()=>imageMode(true);
+$('#close-inspector').onclick=()=>inspector.close();
+inspector.addEventListener('close',()=>{if(lastFocus)lastFocus.focus({preventScroll:true});});
+[inspector,$('#slide-index')].forEach(dialog=>dialog.addEventListener('click',e=>{
+  if(e.target!==dialog)return;const r=dialog.getBoundingClientRect();
+  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();
+}));
+document.addEventListener('keydown',e=>{
+  if(e.defaultPrevented||document.querySelector('dialog[open]')||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;
+  if(e.target.closest('button,a,input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="button"],.comparison-scroll'))return;
+  if(e.key.toLowerCase()==='p'){e.preventDefault();setReading(!reading);return;}
+  if(e.key==='Escape'&&reading){setReading(false);return;}
+  if(reading&&['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key))return;
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();show(current+1);}
+  if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(current-1);}
+  if(e.key==='Home'){e.preventDefault();show(0);}
+  if(e.key==='End'){e.preventDefault();show(slides.length-1);}
+});
+let touchX=null,touchY=null;
+$('#viewport').addEventListener('touchstart',e=>{
+  touchX=null;touchY=null;if(reading||e.target.closest('button,.comparison-scroll'))return;
+  touchX=e.touches[0].clientX;touchY=e.touches[0].clientY;
+},{passive:true});
+$('#viewport').addEventListener('touchend',e=>{
+  if(touchX===null||reading)return;
+  const dx=e.changedTouches[0].clientX-touchX,dy=e.changedTouches[0].clientY-touchY;
+  if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.5)show(current+(dx<0?1:-1));
+  touchX=null;touchY=null;
+},{passive:true});
+mobilePortrait.addEventListener('change',e=>{if(e.matches&&!reading)setReading(true);});
+setReading(reading,false,Number.isFinite(requested));
+const initialSlide=current;
+Promise.all([document.fonts.ready,...Array.from(document.querySelectorAll('[data-asset]'),img=>img.decode().catch(()=>{}))]).then(()=>{
+  fit();
+  // A shared reading-mode slide must settle after the preceding screens gain height.
+  if(reading&&Number.isFinite(requested)&&current===initialSlide)show(current,false);
+});
+</script>
+</body></html>

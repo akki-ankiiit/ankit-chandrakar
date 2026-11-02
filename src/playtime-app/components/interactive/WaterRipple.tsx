@@ -4,10 +4,14 @@ export const WaterRipple = () => {
   return (
     <section className="w-full h-[100vh] bg-[var(--color-bg-primary)] flex flex-col items-center justify-center relative overflow-hidden">
 
-      {/* Fullscreen Water Ripple Background using the high-quality FBO component */}
+      {/* The moving image itself is refracted by the fluid shader. */}
       <div className="absolute inset-0 z-0">
         <WaterRippleImage 
-          src="/assets/water.png"
+          src="/assets/video/fluid-poster.webp"
+          videoSrc="/assets/video/fluid-web.mp4"
+          pointerStrength={2.7}
+          rippleIntensity={0.062}
+          clickStrength={3}
           fit="cover"
           autoRipples={false}
         />

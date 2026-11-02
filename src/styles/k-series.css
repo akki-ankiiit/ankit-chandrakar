@@ -2,7 +2,7 @@
 @font-face { font-family: 'Tiro Devanagari Hindi'; src: url('/assets/fonts/TiroDevanagariHindi-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0900-097F, U+1CD0-1CF9, U+200C-200D, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FF; }
 
 /* Native portfolio typography and a quiet cream/sage frame. */
-.ks-page { background: var(--paper); color: var(--ink); font-family: Henriette, Georgia, serif; padding-top: 148px; padding-bottom: 0; font-size: 17px; line-height: 1.7; }
+.ks-page { background: var(--paper); color: var(--ink); font-family: Henriette, Georgia, serif; padding-top: calc(var(--site-header-height) + 24px); padding-bottom: 0; font-size: 17px; line-height: 1.7; }
 .ks-page .ks-inner, .ks-page > .case-container { width: 100%; max-width: 1140px; padding-inline: 48px; margin-inline: auto; }
 .ks-page :focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 5px; }
 .ks-page figure { margin: 0; min-width: 0; }
@@ -127,7 +127,7 @@
   .ks-page .ks-supporting p { grid-template-columns: 1fr; gap: 8px; }
 }
 @media (max-width: 749px) {
-  .ks-page { padding-top: 132px; }
+  .ks-page { padding-top: calc(var(--site-header-height) + 20px); }
   .ks-page .ks-inner, .ks-page > .case-container { padding-inline: 7%; }
   .ks-page .ks-section { padding-block: 48px; }
   .ks-page .ks-section::before { left: 7%; right: 7%; }

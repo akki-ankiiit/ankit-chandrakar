@@ -1,0 +1,23 @@
+.project-back-link.project-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid #deded1;
+  border-radius: 50%;
+  background: #fdfdf5;
+  color: #282828;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.project-back-link.project-back-link svg { transform: rotate(180deg); }
+.project-back-link.project-back-link:hover { background: #efeedc; text-decoration: none; }
+.project-back-link.project-back-link:focus-visible { outline: 2px solid #282828; outline-offset: 3px; }

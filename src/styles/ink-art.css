@@ -36,8 +36,8 @@
 .work-flower { width: 74px; height: auto; aspect-ratio: 307 / 233; object-fit: contain; mix-blend-mode: multiply; margin-bottom: 15px; animation: none; transition: transform .35s; }
 .work-flower:hover { animation: none; transform: rotate(-7deg) translateY(-3px); }
 .project-cover { overflow: visible; }
-.project-cover > img { border-color: #b7c0a759; border-radius: 3px; }
-.portfolio-card-button:hover .project-cover > img { box-shadow: 3px 7px 17px #46513b10; }
+.project-cover > :is(img, video) { border-color: #b7c0a759; border-radius: 3px; }
+.portfolio-card-button:hover .project-cover > :is(img, video) { box-shadow: 3px 7px 17px #46513b10; }
 .experience-ink-doodle { display: block; width: 146px; height: auto; margin: 28px 0 0 32px; transform: rotate(-8deg); mix-blend-mode: multiply; opacity: .85; transition: transform .35s; }
 .experience-ink-doodle:hover { transform: rotate(-3deg) translateY(-3px); }
 .contact-copy { position: relative; }

@@ -2,6 +2,46 @@
 .nlb-loading { min-height: 100vh; background: var(--paper); }
 .nlb-page .case-breadcrumb { margin-bottom: 26px; }
 
+.nlb-page .nlb-video-wrapper {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  padding: 0 40px;
+}
+.nlb-page .nlb-video-frame {
+  position: relative;
+  width: min(100%, 360px, 40.5svh);
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 20px;
+}
+.nlb-page .nlb-video-media { display: block; width: 100%; height: auto; }
+.nlb-page .nlb-video-audio {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .65);
+  color: #fff;
+  cursor: pointer;
+}
+.nlb-page .nlb-video-audio:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+@media (max-width: 1000px) {
+  .nlb-page .nlb-video-wrapper { padding: 0 24px; }
+}
+
+@media (max-width: 700px) {
+  .nlb-page .nlb-video-wrapper { padding: 0 20px; }
+  .nlb-page .nlb-video-frame { border-radius: 16px; }
+}
+
 .nlb {
   --brand: #29bd8e;
   --canvas: var(--paper);

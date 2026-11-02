@@ -1,21 +1,22 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Component, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Canvas, events, useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
 import * as THREE from "three";
 import { useTexture } from "@react-three/drei";
 
 export interface WaterRippleImageProps {
   src: string;
+  videoSrc?: string;
   className?: string;
   fit?: "cover" | "contain" | "fill" | "center";
-  rippleIntensity?: number; // 0.3-0.8 multiplier
-  rippleSize?: number; // Controls initial disturbance radius (10-40px equivalent)
-  damping?: number; // 2.5-3.5 per second
-  waveSpeed?: number; // 300-500 pixels/second equivalent
-  wavelength?: number; // 60-80 pixels
-  pointerStrength?: number;
-  clickStrength?: number;
+  rippleIntensity?: number; // UV displacement gain; default .04
+  rippleSize?: number; // Wave-front footprint in viewport-height units; default .05
+  damping?: number; // Exponential decay per second; default .3
+  waveSpeed?: number; // Viewport heights per second; default .3
+  wavelength?: number; // Minimum crest width in UV units; default .009
+  pointerStrength?: number; // Default 1
+  clickStrength?: number; // Default 1.5
   autoRipples?: boolean;
-  rippleInterval?: number;
+  rippleInterval?: number; // Milliseconds; default 1400
   interactive?: boolean;
   trigger?: "hover" | "click" | "both";
   overlayColor?: string;
@@ -23,442 +24,328 @@ export interface WaterRippleImageProps {
 }
 
 const MAX_RIPPLES = 8;
+type Media = { source: string; texture: THREE.VideoTexture };
+
+function RendererLifecycle({ onFailure }: { onFailure: () => void }) {
+  const { gl } = useThree();
+  useEffect(() => {
+    const canvas = gl.domElement;
+    canvas.addEventListener("webglcontextlost", onFailure);
+    return () => canvas.removeEventListener("webglcontextlost", onFailure);
+  }, [gl, onFailure]);
+  return null;
+}
+
+// Canvas creation, texture loading and WebGL failures leave the DOM poster visible.
+class RendererBoundary extends Component<{ children: ReactNode; onFailure: () => void }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onFailure(); }
+  render() { return this.state.failed ? null : this.props.children; }
+}
 
 const RippleScene = ({
-  src,
-  fit,
-  rippleIntensity = 0.04,
-  rippleSize = 0.05,
-  damping = 0.3,
-  waveSpeed = 0.3,
-  wavelength = 0.009,
-  pointerStrength = 1.0,
-  clickStrength = 1.5,
-  autoRipples = false,
-  rippleInterval = 1400,
-  interactive = true,
-  trigger = "both",
-  overlayColor = "#000000",
-  overlayOpacity = 0.0,
-  isPaused,
-  reducedMotion,
-  onReady,
-}: WaterRippleImageProps & { isPaused: boolean; reducedMotion: boolean; onReady: () => void }) => {
-  const { viewport } = useThree();
-  const texture = useTexture(src);
-  const renderedTexture = useRef<THREE.Texture | null>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
-
-  // Ripple state tracking (x, y, startTime, strength)
-  const ripplesRef = useRef(new Array(MAX_RIPPLES).fill({ x: 0, y: 0, time: 0, strength: 0 }));
-  const rippleIndexRef = useRef(0);
-
-  const addRipple = (x: number, y: number, strength: number = 1.0) => {
-    if (reducedMotion) return;
-    const now = performance.now() / 1000;
-    const newRipples = [...ripplesRef.current];
-    newRipples[rippleIndexRef.current] = { x, y, time: now, strength };
-    ripplesRef.current = newRipples;
-    rippleIndexRef.current = (rippleIndexRef.current + 1) % MAX_RIPPLES;
+  src, fit = "cover", rippleIntensity = .04, rippleSize = .05, damping = .3,
+  waveSpeed = .3, wavelength = .009, pointerStrength = 1, clickStrength = 1.5,
+  autoRipples = false, rippleInterval = 1400, interactive = true, trigger = "both",
+  overlayColor = "#000000", overlayOpacity = 0, paused, media, onReady,
+}: WaterRippleImageProps & { paused: boolean; media: Media | null; onReady: (kind: string) => void }) => {
+  const { viewport, invalidate } = useThree();
+  const poster = useTexture(src);
+  const material = useRef<THREE.ShaderMaterial>(null);
+  const texture = media?.texture ?? poster;
+  const rendered = useRef<THREE.Texture | null>(null);
+  const ripples = useRef(Array.from({ length: MAX_RIPPLES }, () => ({ x: 0, y: 0, time: 0, strength: 0 })));
+  const index = useRef(0);
+  const pointer = useRef({ x: -1, y: -1, strength: 0, lastTime: 0, lastX: -1, lastY: -1 });
+  const position = useRef(new THREE.Vector2(-1, -1));
+  const velocity = useRef(new THREE.Vector2());
+  const resetPointer = () => {
+    pointer.current = { x: -1, y: -1, strength: 0, lastTime: 0, lastX: -1, lastY: -1 };
+    position.current.set(-1, -1);
+    velocity.current.set(0, 0);
   };
+  const uniforms = useMemo(() => ({
+    uTexture: { value: poster }, uVideo: { value: false },
+    uPositions: { value: new Float32Array(MAX_RIPPLES * 2) },
+    uParams: { value: new Float32Array(MAX_RIPPLES * 2) },
+    uTime: { value: 0 }, uIntensity: { value: rippleIntensity },
+    uWidth: { value: Math.max(wavelength, rippleSize * .35) },
+    uDamping: { value: damping }, uSpeed: { value: waveSpeed },
+    uAspect: { value: 1 }, uImageAspect: { value: 1 }, uFit: { value: 0 },
+    uMouse: { value: new THREE.Vector2(-1, -1) }, uVelocity: { value: new THREE.Vector2() },
+    uStrength: { value: 0 }, uOverlay: { value: new THREE.Color(overlayColor) },
+    uOpacity: { value: overlayOpacity },
+  }), [poster, rippleIntensity, rippleSize, wavelength, damping, waveSpeed, overlayColor, overlayOpacity]);
 
+  useLayoutEffect(() => {
+    if (!material.current) return;
+    // Fiber keeps its own stable uniform wrappers; mutate the material, not prop wrappers.
+    const u = material.current.uniforms as typeof uniforms;
+    if (poster.colorSpace !== THREE.SRGBColorSpace) {
+      poster.colorSpace = THREE.SRGBColorSpace;
+      poster.needsUpdate = true;
+    }
+    u.uTexture.value = texture;
+    u.uVideo.value = texture instanceof THREE.VideoTexture;
+    const image = texture.image as HTMLImageElement | HTMLVideoElement;
+    const width = image instanceof HTMLVideoElement ? image.videoWidth : image.naturalWidth || image.width;
+    const height = image instanceof HTMLVideoElement ? image.videoHeight : image.naturalHeight || image.height;
+    u.uImageAspect.value = width && height ? width / height : 1;
+    u.uAspect.value = viewport.width / viewport.height;
+    u.uFit.value = fit === "contain" ? 1 : fit === "fill" ? 2 : fit === "center" ? 3 : 0;
+    // Demand mode still needs a correctly fitted first frame and live preference updates.
+    if (paused) {
+      resetPointer();
+      ripples.current.forEach((ripple) => { ripple.strength = 0; });
+      u.uStrength.value = 0;
+      u.uParams.value.fill(0);
+    }
+    invalidate();
+  }, [poster, texture, uniforms, viewport.width, viewport.height, fit, paused, invalidate]);
+
+  const addRipple = (x: number, y: number, strength: number) => {
+    if (paused) return;
+    ripples.current[index.current] = { x, y, time: performance.now() / 1000, strength };
+    index.current = (index.current + 1) % MAX_RIPPLES;
+  };
   useEffect(() => {
-    if (!autoRipples || isPaused || reducedMotion) return;
-    const interval = setInterval(() => {
-      const rx = 0.2 + Math.random() * 0.6;
-      const ry = 0.2 + Math.random() * 0.6;
-      addRipple(rx, ry, clickStrength * (0.6 + Math.random() * 0.4));
-    }, rippleInterval);
-    return () => clearInterval(interval);
-  }, [autoRipples, rippleInterval, clickStrength, isPaused, reducedMotion]);
+    if (!autoRipples || paused) return;
+    const timer = setInterval(() => addRipple(.2 + Math.random() * .6, .2 + Math.random() * .6, clickStrength), rippleInterval);
+    return () => clearInterval(timer);
+  }, [autoRipples, paused, clickStrength, rippleInterval]);
 
-  // Handle pointer down (Click)
-  const handlePointerDown = (e: any) => {
-    if (!interactive || (trigger !== "click" && trigger !== "both")) return;
-    if (e.uv) {
-      let force = 1.0;
-      if (e.nativeEvent.pressure) force = e.nativeEvent.pressure * 2.0;
-      addRipple(e.uv.x, e.uv.y, clickStrength * force);
+  const move = (event: ThreeEvent<PointerEvent>) => {
+    if (paused || !interactive || trigger === "click" || !event.uv) return;
+    const { x, y } = event.uv;
+    const p = pointer.current;
+    if (p.x < 0) position.current.set(x, y);
+    p.x = x; p.y = y; p.strength = pointerStrength;
+    const now = performance.now();
+    const distance = Math.hypot((x - p.lastX) * viewport.aspect, y - p.lastY);
+    if (now - p.lastTime >= 45 && distance >= .012) {
+      addRipple(x, y, pointerStrength * .65);
+      p.lastTime = now; p.lastX = x; p.lastY = y;
     }
   };
-
-  // Handle pointer move (Hover) - for fluid sheer and ripples
-  const mouseInput = useRef({ x: -1, y: -1, strength: 0 });
-  const lastMousePos = useRef({ x: -1, y: -1 });
-  const mouseVelocity = useRef({ x: 0, y: 0 });
-  const lastHoverTime = useRef(0);
-
-  const handlePointerMove = (e: any) => {
-    if (!interactive || (trigger !== "hover" && trigger !== "both")) return;
-    if (e.uv) {
-      mouseInput.current = { x: e.uv.x, y: e.uv.y, strength: pointerStrength };
-
-      const now = performance.now();
-      if (now - lastHoverTime.current > 150) {
-        addRipple(e.uv.x, e.uv.y, pointerStrength * 0.3);
-        lastHoverTime.current = now;
-      }
-    }
+  const down = (event: ThreeEvent<PointerEvent>) => {
+    if (paused || !interactive || trigger === "hover" || !event.uv) return;
+    addRipple(event.uv.x, event.uv.y, clickStrength * Math.max(1, event.nativeEvent.pressure * 1.5));
   };
-
-  const uniforms = useMemo(() => {
-    // Initialize Float32Arrays for uniforms
-    const uRipplePositions = new Float32Array(MAX_RIPPLES * 2);
-    const uRippleParams = new Float32Array(MAX_RIPPLES * 2); // [time, strength]
-
-    return {
-      uTexture: { value: texture },
-      uRipplePositions: { value: uRipplePositions },
-      uRippleParams: { value: uRippleParams },
-      uCurrentTime: { value: 0 },
-      uRippleIntensity: { value: rippleIntensity },
-      uRippleSize: { value: rippleSize },
-      uDamping: { value: damping },
-      uWaveSpeed: { value: waveSpeed },
-      uWavelength: { value: wavelength },
-      uAspect: { value: 1.0 },
-      uImageAspect: { value: 1.0 },
-      uFit: { value: 0 },
-      uMouse: { value: new THREE.Vector2(-1, -1) },
-      uVelocity: { value: new THREE.Vector2(0, 0) },
-      uMouseStrength: { value: 0 },
-      uOverlayColor: { value: new THREE.Color(overlayColor) },
-      uOverlayOpacity: { value: overlayOpacity },
-    };
-  }, [texture, rippleIntensity, rippleSize, damping, waveSpeed, wavelength, overlayColor, overlayOpacity]);
-
-  useFrame(() => {
-    if (!materialRef.current || isPaused) return;
-
-    const now = performance.now() / 1000;
-    materialRef.current.uniforms.uCurrentTime.value = now;
-    materialRef.current.uniforms.uAspect.value = viewport.width / viewport.height;
-
-    if (texture && texture.image) {
-      const img = texture.image as any;
-      if (img.width && img.height) {
-        materialRef.current.uniforms.uImageAspect.value = img.width / img.height;
-      }
-    }
-
-    const fitMode = fit === "contain" ? 1 : fit === "fill" ? 2 : fit === "center" ? 3 : 0;
-    materialRef.current.uniforms.uFit.value = fitMode;
-
-    if (lastMousePos.current.x < 0) {
-      lastMousePos.current.x = mouseInput.current.x;
-      lastMousePos.current.y = mouseInput.current.y;
-    }
-
-    const prevX = lastMousePos.current.x;
-    const prevY = lastMousePos.current.y;
-
-    // Lerp factor of 0.08 creates roughly a 0.3s trailing delay at 60fps
-    lastMousePos.current.x = THREE.MathUtils.lerp(lastMousePos.current.x, mouseInput.current.x, 0.1);
-    lastMousePos.current.y = THREE.MathUtils.lerp(lastMousePos.current.y, mouseInput.current.y, 0.1);
-
-    const dx = lastMousePos.current.x - prevX;
-    const dy = lastMousePos.current.y - prevY;
-
-    mouseVelocity.current.x = THREE.MathUtils.lerp(mouseVelocity.current.x, dx, 0.5);
-    mouseVelocity.current.y = THREE.MathUtils.lerp(mouseVelocity.current.y, dy, 0.5);
-
-    // Pass the delayed trailing mouse position to the shader sheer
-    materialRef.current.uniforms.uMouse.value.set(lastMousePos.current.x, lastMousePos.current.y);
-    materialRef.current.uniforms.uVelocity.value.set(mouseVelocity.current.x, mouseVelocity.current.y);
-    materialRef.current.uniforms.uMouseStrength.value = mouseInput.current.strength;
-
-    if (mouseInput.current.strength > 0) {
-      mouseInput.current.strength = Math.max(0, mouseInput.current.strength - 0.05);
-    }
-
-    // Update ripple arrays
-    const posArray = materialRef.current.uniforms.uRipplePositions.value as Float32Array;
-    const paramArray = materialRef.current.uniforms.uRippleParams.value as Float32Array;
-
-    ripplesRef.current.forEach((ripple, i) => {
-      posArray[i * 2] = ripple.x;
-      posArray[i * 2 + 1] = ripple.y;
-      paramArray[i * 2] = ripple.time;
-      paramArray[i * 2 + 1] = ripple.strength;
+  useFrame((_, delta) => {
+    if (paused || !material.current) return;
+    const u = material.current.uniforms as typeof uniforms;
+    const dt = Math.max(delta, .001);
+    const p = pointer.current;
+    const oldX = position.current.x, oldY = position.current.y;
+    const response = 1 - Math.exp(-24 * dt);
+    position.current.x += (p.x - oldX) * response;
+    position.current.y += (p.y - oldY) * response;
+    const smoothVelocity = 1 - Math.exp(-18 * dt);
+    velocity.current.x += ((position.current.x - oldX) / Math.max(dt, .001) - velocity.current.x) * smoothVelocity;
+    velocity.current.y += ((position.current.y - oldY) / Math.max(dt, .001) - velocity.current.y) * smoothVelocity;
+    p.strength *= Math.exp(-4 * dt);
+    u.uTime.value = performance.now() / 1000;
+    u.uMouse.value.copy(position.current);
+    u.uVelocity.value.copy(velocity.current);
+    u.uStrength.value = p.strength;
+    ripples.current.forEach((ripple, i) => {
+      u.uPositions.value[i * 2] = ripple.x;
+      u.uPositions.value[i * 2 + 1] = ripple.y;
+      u.uParams.value[i * 2] = ripple.time;
+      u.uParams.value[i * 2 + 1] = ripple.strength;
     });
-
-    // Tell Three.js that the arrays have changed (if necessary)
-    // @ts-ignore
-    materialRef.current.uniforms.uRipplePositions.needsUpdate = true;
-    // @ts-ignore
-    materialRef.current.uniforms.uRippleParams.needsUpdate = true;
   });
-
-  const vertexShader = `
-    varying vec2 vUv;
-    void main() {
-      vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    uniform sampler2D uTexture;
-    uniform vec2 uRipplePositions[${MAX_RIPPLES}];
-    uniform vec2 uRippleParams[${MAX_RIPPLES}]; // x: startTime, y: strength
-    uniform float uCurrentTime;
-    
-    uniform float uRippleIntensity;
-    uniform float uRippleSize;
-    uniform float uDamping;
-    uniform float uWaveSpeed;
-    uniform float uWavelength;
-    
-    uniform float uAspect;
-    uniform float uImageAspect;
-    uniform int uFit;
-    
-    uniform vec2 uMouse;
-    uniform vec2 uVelocity;
-    uniform float uMouseStrength;
-    
-    uniform vec3 uOverlayColor;
-    uniform float uOverlayOpacity;
-    
-    varying vec2 vUv;
-
-    // Procedural sheer wake height function
-    float getSheerHeight(vec2 posUv) {
-        vec2 aspectUv = vec2(posUv.x * uAspect, posUv.y);
-        vec2 aspectCenter = vec2(uMouse.x * uAspect, uMouse.y);
-        vec2 delta = aspectUv - aspectCenter;
-        float dist = length(delta);
-        if (dist < 0.0001) return 0.0;
-        
-        vec2 vDir = normalize(uVelocity);
-        vec2 lineDir = -vDir; // Trail directly behind the cursor
-        
-        float along = dot(delta, lineDir);
-        float crossDist = length(delta - along * lineDir);
-        
-        float wakeShape;
-        if (along < 0.0) {
-            // Perfectly rounded leading tip (corner rounding ~40px)
-            wakeShape = exp(-dist * dist * 625.0);
-        } else {
-            // Smooth straight trail behind
-            wakeShape = exp(-crossDist * crossDist * 625.0);
-        }
-        
-        float wakeFalloff = exp(-max(0.0, along) * 6.0); // Fades out slowly behind
-        
-        return wakeShape * wakeFalloff;
-    }
-
-    // Aspect-aware UV mapping
-    vec2 getFitUv(vec2 uv) {
-      float screenRatio = uAspect;
-      float imageRatio = uImageAspect;
-      vec2 newUv = uv;
-      
-      if (uFit == 0) { // cover
-        if (screenRatio > imageRatio) {
-          newUv.y = (uv.y - 0.5) * (imageRatio / screenRatio) + 0.5;
-        } else {
-          newUv.x = (uv.x - 0.5) * (screenRatio / imageRatio) + 0.5;
-        }
-      } else if (uFit == 1) { // contain
-        if (screenRatio > imageRatio) {
-          newUv.x = (uv.x - 0.5) * (screenRatio / imageRatio) + 0.5;
-        } else {
-          newUv.y = (uv.y - 0.5) * (imageRatio / screenRatio) + 0.5;
-        }
-      } else if (uFit == 3) { // center
-          newUv = (uv - 0.5) * vec2(screenRatio, 1.0) + 0.5; 
+  return <mesh scale={[viewport.width, viewport.height, 1]} onPointerMove={move} onPointerDown={down}
+    onPointerOut={resetPointer} onPointerLeave={resetPointer} onPointerUp={resetPointer} onPointerCancel={resetPointer}
+    onAfterRender={() => {
+      if (rendered.current === texture) return;
+      rendered.current = texture;
+      onReady(media ? "video" : "poster");
+    }}>
+    <planeGeometry args={[1, 1]} />
+    <shaderMaterial ref={material} uniforms={uniforms} toneMapped={false} vertexShader={`
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }
+    `} fragmentShader={`
+      uniform sampler2D uTexture;
+      uniform bool uVideo;
+      uniform vec2 uPositions[${MAX_RIPPLES}], uParams[${MAX_RIPPLES}];
+      uniform float uTime, uIntensity, uWidth, uDamping, uSpeed, uAspect, uImageAspect, uStrength, uOpacity;
+      uniform int uFit;
+      uniform vec2 uMouse, uVelocity;
+      uniform vec3 uOverlay;
+      varying vec2 vUv;
+      vec2 fitUv(vec2 uv) {
+        float ratio = uAspect / uImageAspect;
+        if (uFit == 0) uv = (uv - .5) * vec2(min(ratio, 1.), min(1. / ratio, 1.)) + .5;
+        else if (uFit == 1) uv = (uv - .5) * vec2(max(ratio, 1.), max(1. / ratio, 1.)) + .5;
+        else if (uFit == 3) uv = (uv - .5) * vec2(uAspect, 1.) + .5;
+        return uv;
       }
-      return newUv;
-    }
-
-    void main() {
-      vec2 uv = vUv;
-      vec2 displacement = vec2(0.0);
-      float totalHeight = 0.0;
-      
-      // Calculate ripples
-      for(int i = 0; i < ${MAX_RIPPLES}; i++) {
-        float startTime = uRippleParams[i].x;
-        float strength = uRippleParams[i].y;
-        
-        if (startTime > 0.0 && strength > 0.0) {
-          float t = uCurrentTime - startTime;
-          
-          if (t > 0.0 && t < 8.0) { // Max lifespan extended for slow waves
-            // Correct distance for aspect ratio to make circles perfectly round
-            vec2 aspectUv = vec2(uv.x * uAspect, uv.y);
-            vec2 aspectCenter = vec2(uRipplePositions[i].x * uAspect, uRipplePositions[i].y);
-            
-            vec2 delta = aspectUv - aspectCenter;
-            float dist = length(delta);
-            
-            // Formula: amplitude(t) = amplitude0 * e^(-damping * t)
-            float amplitude = exp(-uDamping * t) * strength;
-            
-            // Normalized distance from the wave front
-            float d = (dist - uWaveSpeed * t) / uWavelength;
-            
-            // A perfectly smooth, single-pulse fluid wave (derivative of Gaussian)
-            // It creates exactly one crest and one trough, and never repeats.
-            float k = 5.0;
-            float wave = d * exp(-d * d * k) * 5.0;
-            
-            float height = wave * amplitude;
-            
-            // Analytical derivative for perfect refraction and specular normals
-            float deriv = (1.0 - 2.0 * k * d * d) * exp(-k * d * d) * 5.0 * amplitude / uWavelength;
-            
-            if (dist > 0.0001) {
-                vec2 dir = normalize(delta);
-                displacement -= dir * deriv * uRippleIntensity * 0.001;
-                totalHeight += height * uRippleIntensity;
+      float wake(vec2 uv) {
+        vec2 velocity = uVelocity * vec2(uAspect, 1.);
+        float speed = length(velocity);
+        if (speed < .0001) return 0.;
+        vec2 delta = (uv - uMouse) * vec2(uAspect, 1.);
+        vec2 direction = -velocity / speed;
+        float along = dot(delta, direction);
+        float crossDistance = length(delta - max(along, 0.) * direction);
+        return exp(-crossDistance * crossDistance / .0036) * exp(-max(along, 0.) * 8.);
+      }
+      void main() {
+        vec2 offset = vec2(0.);
+        for (int i = 0; i < ${MAX_RIPPLES}; i++) {
+          float t = uTime - uParams[i].x;
+          if (t > 0. && t < 8. && uParams[i].y > 0.) {
+            vec2 delta = (vUv - uPositions[i]) * vec2(uAspect, 1.);
+            float distance = length(delta);
+            float d = (distance - uSpeed * t) / uWidth;
+            // Outside the narrow crest the Gaussian is negligible; avoid costly exponentials.
+            if (abs(d) < 3.5) {
+              float slope = (1. - 2. * d * d) * exp(-d * d);
+              offset -= delta / max(distance, .0001) * slope * exp(-uDamping * t)
+                * uParams[i].y * uIntensity * .32 / vec2(uAspect, 1.);
             }
           }
         }
-      }
-      
-      // Calculate fluid sheer for mouse hover
-      float speed = length(uVelocity);
-      if (uMouseStrength > 0.0 && speed > 0.0001) {
-          float h = getSheerHeight(uv);
-          float eps = 0.002;
-          float hx = getSheerHeight(uv + vec2(eps, 0.0));
-          float hy = getSheerHeight(uv + vec2(0.0, eps));
-          
-          vec2 grad = vec2(hx - h, hy - h) / eps;
-          float sheerHeight = h * speed * 3.0 * uMouseStrength;
-          
-          // Using a proper multiplier (speed is tiny since it's UV per frame)
-          // Scaled to 2.0 (0.5x of previous 4.0) for a slower, subtler sheer
-          displacement -= grad * speed * 2.0 * uMouseStrength * uRippleIntensity;
-          totalHeight += sheerHeight * uRippleIntensity;
-      }
-      
-      // Calculate final UV with displacement
-      vec2 finalUv = getFitUv(uv + displacement);
-      finalUv = clamp(finalUv, 0.0, 1.0);
-      
-      // Sample texture with chromatic aberration offset based on displacement
-      vec2 uvR = getFitUv(uv + displacement * 1.1);
-      vec2 uvG = getFitUv(uv + displacement);
-      vec2 uvB = getFitUv(uv + displacement * 0.9);
-      
-      float r = texture2D(uTexture, clamp(uvR, 0.0, 1.0)).r;
-      float g = texture2D(uTexture, clamp(uvG, 0.0, 1.0)).g;
-      float b = texture2D(uTexture, clamp(uvB, 0.0, 1.0)).b;
-      
-      vec4 color = vec4(r, g, b, 1.0);
-      
-      // Specular highlight removed to keep pure fluid without white shine
-      
-      // Apply overlay
-      color.rgb = mix(color.rgb, uOverlayColor, uOverlayOpacity);
-      
-      gl_FragColor = color;
-    }
-  `;
-
-  return (
-    <mesh
-      scale={[viewport.width, viewport.height, 1]}
-      onPointerMove={handlePointerMove}
-      onPointerDown={handlePointerDown}
-      onAfterRender={() => {
-        if (renderedTexture.current !== texture) {
-          renderedTexture.current = texture;
-          onReady();
+        float speed = min(length(uVelocity), 1.5);
+        if (uStrength > .001 && speed > .0001) {
+          float h = wake(vUv);
+          vec2 gradient = vec2(wake(vUv + vec2(.002, 0.)) - h, wake(vUv + vec2(0., .002)) - h) / .002;
+          offset -= gradient * speed * uStrength * uIntensity * .025;
         }
-      }}
-    >
-      <planeGeometry args={[1, 1, 32, 32]} />
-      <shaderMaterial
-        ref={materialRef}
-        transparent={true}
-        uniforms={uniforms}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-      />
-    </mesh>
-  );
+        // Smoothly bound combined wakes, then fade at edges to prevent stretched clamp bands.
+        offset = offset / (1. + length(offset) / .035);
+        vec2 edge = smoothstep(vec2(0.), vec2(.07), vUv) * smoothstep(vec2(0.), vec2(.07), 1. - vUv);
+        offset *= edge.x * edge.y;
+        vec2 mapped = fitUv(vUv + offset);
+        vec3 color = texture2D(uTexture, clamp(mapped, .001, .999)).rgb;
+        if (uFit == 1 && (mapped.x < 0. || mapped.x > 1. || mapped.y < 0. || mapped.y > 1.)) discard;
+        // Video uploads use RGBA8; unlike sRGB image textures they need explicit decoding.
+        if (uVideo) color = sRGBTransferEOTF(vec4(color, 1.)).rgb;
+        gl_FragColor = vec4(mix(color, uOverlay, uOpacity), 1.);
+        #include <colorspace_fragment>
+      }
+    `} />
+  </mesh>;
 };
 
-export const WaterRippleImage = ({
-  src,
-  className,
-  fit = "cover",
-  rippleIntensity,
-  rippleSize,
-  damping,
-  waveSpeed,
-  wavelength,
-  pointerStrength,
-  clickStrength,
-  autoRipples = false,
-  rippleInterval = 1400,
-  interactive = true,
-  trigger = "both",
-  overlayColor = "#000000",
-  overlayOpacity = 0.0,
-}: WaterRippleImageProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [readySource, setReadySource] = useState<string | null>(null);
+export const WaterRippleImage = (props: WaterRippleImageProps) => {
+  const { src, videoSrc, className, fit = "cover" } = props;
+  const container = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [reduced, setReduced] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [media, setMedia] = useState<Media | null>(null);
+  const [ready, setReady] = useState({ source: "", kind: "poster" });
+  const [rendererFailed, setRendererFailed] = useState(false);
+  const [mediaFailed, setMediaFailed] = useState(false);
+  const failRenderer = useCallback(() => setRendererFailed(true), []);
+  const playback = useRef<() => void>(() => {});
+  const shouldPlay = useRef(false);
+  shouldPlay.current = active && !reduced && !rendererFailed;
+
   useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let visible = typeof IntersectionObserver === 'undefined';
-    const sync = () => {
-      setActive(visible && !document.hidden);
-      setReducedMotion(query.matches);
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = typeof IntersectionObserver === "undefined";
+    const sync = () => { setActive(visible && !document.hidden); setReduced(query.matches); };
+    const observer = typeof IntersectionObserver === "undefined" ? null : new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
+    if (container.current) observer?.observe(container.current);
+    query.addEventListener("change", sync);
+    document.addEventListener("visibilitychange", sync);
+    sync();
+    return () => { observer?.disconnect(); query.removeEventListener("change", sync); document.removeEventListener("visibilitychange", sync); };
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !videoSrc) return;
+    let disposed = false, blocked = false, pending = false, interrupted = false;
+    let texture: THREE.VideoTexture | null = null;
+    let frame: number | undefined;
+    setMedia(null);
+    setMediaFailed(false);
+    const bindFrame = () => {
+      if (disposed || video.readyState < 2 || !video.videoWidth || texture) return;
+      texture = new THREE.VideoTexture(video);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      setMedia({ source: videoSrc, texture });
     };
-    const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      sync();
-    });
-    if (containerRef.current) observer?.observe(containerRef.current);
-    query.addEventListener('change', sync);
-    document.addEventListener('visibilitychange', sync);
+    const decoded = () => {
+      if (video.requestVideoFrameCallback) {
+        if (frame === undefined) frame = video.requestVideoFrameCallback(() => { frame = undefined; bindFrame(); });
+      } else bindFrame();
+    };
+    const fail = () => {
+      if (disposed) return;
+      blocked = true; video.pause(); setMediaFailed(true);
+    };
+    const sync = () => {
+      if (disposed) return;
+      if (!shouldPlay.current || blocked) {
+        if (pending) interrupted = true;
+        video.pause();
+      } else if (video.paused && !pending) {
+        pending = true; interrupted = false;
+        video.play().then(() => {
+          // An old source/StrictMode session must not pause the replacement session.
+          // Its own cleanup has already stopped playback and released the source.
+          if (disposed) return;
+          if (!shouldPlay.current || blocked) video.pause();
+        }).catch((error: unknown) => {
+          if (disposed) return;
+          // Only an interrupted AbortError is eligible for one reconciliation.
+          if (!(error instanceof DOMException) || error.name !== "AbortError" || !interrupted) fail();
+        }).finally(() => {
+          const reconcile = interrupted && !blocked;
+          pending = false; interrupted = false;
+          if (!disposed && reconcile && shouldPlay.current) sync();
+        });
+      }
+    };
+    playback.current = sync;
+    video.addEventListener("loadeddata", decoded);
+    video.addEventListener("error", fail);
+    video.src = videoSrc;
+    video.load();
     sync();
     return () => {
-      observer?.disconnect();
-      query.removeEventListener('change', sync);
-      document.removeEventListener('visibilitychange', sync);
+      disposed = true;
+      playback.current = () => {};
+      video.removeEventListener("loadeddata", decoded);
+      video.removeEventListener("error", fail);
+      if (frame !== undefined) video.cancelVideoFrameCallback(frame);
+      texture?.dispose();
+      video.pause(); video.removeAttribute("src"); video.load();
     };
-  }, []);
-  return (
-    <div ref={containerRef} className={className} aria-busy={readySource !== src} data-water-ready={readySource === src} style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', backgroundImage: `url("${src}")`, backgroundSize: fit === 'fill' ? '100% 100%' : fit === 'center' ? 'auto' : fit, backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
-      <Canvas
-        frameloop={active && !reducedMotion ? 'always' : 'demand'}
-        camera={{ position: [0, 0, 1] }}
-        gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-        dpr={Math.max(1, Math.min(2, window.devicePixelRatio))} // Limit DPR for performance
-      >
-        <Suspense fallback={null}>
-        <RippleScene
-          src={src}
-          fit={fit}
-          rippleIntensity={rippleIntensity}
-          rippleSize={rippleSize}
-          damping={damping}
-          waveSpeed={waveSpeed}
-          wavelength={wavelength}
-          pointerStrength={pointerStrength}
-          clickStrength={clickStrength}
-          autoRipples={autoRipples}
-          rippleInterval={rippleInterval}
-          interactive={interactive}
-          trigger={trigger}
-          overlayColor={overlayColor}
-          overlayOpacity={overlayOpacity}
-          isPaused={!active}
-          reducedMotion={reducedMotion}
-          onReady={() => setReadySource(src)}
-        />
-        </Suspense>
-      </Canvas>
-    </div>
-  );
+  }, [videoSrc]);
+  useEffect(() => { playback.current(); }, [active, reduced, rendererFailed]);
+
+  const currentMedia = !reduced && !mediaFailed && media?.source === videoSrc ? media : null;
+  const paused = !active || reduced || rendererFailed;
+  return <div ref={container} className={className} aria-busy={!rendererFailed && ready.source !== src}
+    data-water-ready={rendererFailed || ready.source === src} data-fluid-media={rendererFailed ? "fallback" : ready.kind}
+    data-fluid-active={active} data-fluid-frameloop={paused ? "demand" : "always"}
+    style={{ width: "100%", height: "100%", position: "relative", overflow: "hidden", touchAction: "pan-y", backgroundImage: `url("${src}")`, backgroundSize: fit === "fill" ? "100% 100%" : fit === "center" ? "auto" : fit, backgroundPosition: "center", backgroundRepeat: "no-repeat" }}>
+    {videoSrc && <video ref={videoRef} data-fluid-video muted loop playsInline preload="metadata" hidden aria-hidden="true" />}
+    <RendererBoundary onFailure={failRenderer}>
+      {!rendererFailed && <Canvas frameloop={paused ? "demand" : "always"} camera={{ position: [0, 0, 1] }}
+        style={{ touchAction: "pan-y" }} gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+        dpr={Math.max(1, Math.min(1.5, window.devicePixelRatio))}
+        fallback={<span hidden />} onCreated={({ gl }) => { gl.domElement.style.touchAction = "pan-y"; }} events={(state) => ({
+          ...events(state),
+          // offsetX/Y can be retargeted to the shadow host. Client coordinates stay reliable.
+          compute: (event, current) => {
+            const rect = current.gl.domElement.getBoundingClientRect();
+            current.pointer.set((event.clientX - rect.left) / rect.width * 2 - 1, -(event.clientY - rect.top) / rect.height * 2 + 1);
+            current.raycaster.setFromCamera(current.pointer, current.camera);
+          },
+        })}>
+        <RendererLifecycle onFailure={failRenderer} />
+        <Suspense fallback={null}><RippleScene {...props} paused={paused} media={currentMedia}
+          onReady={(kind) => setReady({ source: src, kind })} /></Suspense>
+      </Canvas>}
+    </RendererBoundary>
+  </div>;
 };

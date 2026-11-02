@@ -1,7 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/case-study-route.css';
 import '../styles/neostra-logo-book.css';
-import { Link } from 'react-router-dom';
+import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import Icon from '../components/Icon.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { neostraMeta } from '../data/neostra-meta.js';
@@ -13,6 +13,7 @@ const brandFonts =
 export default function NeostraLogoBook() {
   usePageMeta(neostraMeta);
   const bookRef = useRef(null);
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -53,10 +54,32 @@ export default function NeostraLogoBook() {
     <article className="case-study-page nlb-page">
       <div className="case-container">
         <div className="case-breadcrumb">
-          <Link to="/#work" state={{ category: 'brand-design' }}>
-            <Icon name="arrow" size={15} />Back to selected work
-          </Link>
+          <ProjectBackLink state={{ category: 'brand-design' }} label="Back to Brand Design" />
           <span>BRAND IDENTITY / NEOSTRA</span>
+        </div>
+      </div>
+      <div className="nlb-video-wrapper">
+        <div className="nlb-video-frame">
+          <video
+            className="nlb-video-media"
+            src="/assets/video/Neo_Video.mp4"
+            width={720}
+            height={1280}
+            aria-label="Neostra brand animation"
+            muted={muted}
+            autoPlay
+            loop
+            playsInline
+            preload="metadata"
+          />
+          <button
+            className="nlb-video-audio"
+            type="button"
+            aria-label={muted ? 'Unmute video' : 'Mute video'}
+            onClick={() => setMuted((value) => !value)}
+          >
+            <Icon name={muted ? 'muted' : 'volume'} size={20} />
+          </button>
         </div>
       </div>
       <div className="nlb" ref={bookRef} dangerouslySetInnerHTML={{ __html: bookHtml }} />

@@ -61,7 +61,6 @@ export const imagery = {
 export const categories = [
   { id: 'case-studies', label: 'Case Studies', folder: '/assets/imagery/folder-beige.webp' },
   { id: 'websites', label: 'Websites', folder: '/assets/imagery/folder-slate.webp' },
-  { id: 'apps', label: 'Product design', folder: '/assets/imagery/folder-green.webp' },
   { id: 'design-systems', label: 'Design Systems', folder: '/assets/imagery/folder-terracotta.webp' },
   { id: 'packaging-designs', label: 'Packaging designs', folder: '/assets/imagery/folder-brown.webp' },
   { id: 'brand-design', label: 'Brand Design', folder: '/assets/imagery/folder-plum.webp' },
@@ -133,7 +132,7 @@ const existingProjects = [
     client: 'Patcorn Drymix', category: 'Business Products', group: 'products', year: '2025 — Present',
     image: asset('project-tejas.webp'), visualType: 'concept',
     role: 'Design Consultant', scope: 'Multi-product strategy & delivery',
-    description: 'Designed and launched five internal business products serving sales teams, contractors, dealers, and operations. The Tejas ecosystem brings Chiraag, Tejas Captain, ContractorBhai, MistriBhai, and Adhikar together through shared product standards.',
+    description: 'Designed and launched five internal business products serving sales teams, contractors, dealers, and operations. The Tejas ecosystem brings Chiraag, Tejas Captain, ContractorBhai, Helix.labs, and Adhikar together through shared product standards.',
     highlights: ['Led UX strategy and product design across all five products.', 'Worked with business leadership on product vision, journeys, workflows, and feature roadmaps.', 'Established reusable components and supported the ecosystem with branding, websites, presentations, and product identities.'],
     tags: ['Construction technology', 'Business workflows', 'Product strategy'],
   },
@@ -183,10 +182,10 @@ const existingProjects = [
   })),
   ...[
     { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.', appCover: optimizedCover('Adhikar') },
-    { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Tools for contractors, built into the Tejas ecosystem.' },
-    { id: 'mistribhai', title: 'MistriBhai', subtitle: 'A workflow app from the Tejas ecosystem.' },
+    { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Every relationship. A little more personal.', href: '/work/contractorbhai' },
+    { id: 'mistribhai', title: 'Helix.labs', subtitle: 'A workflow app from the Tejas ecosystem.', embedUrl: 'https://helixlab-one.vercel.app/projects', thumbnailVideo: { src: '/assets/video/Helix-clean.mp4', width: 1120, height: 800, poster: '/assets/video/Helix-clean-poster.webp' } },
   ].map((project) => ({
-    ...project, client: 'Tejas', category: 'Internal App', group: 'apps', year: '2025 — Present',
+    ...project, client: 'Tejas', category: 'Internal App', group: project.id === 'mistribhai' ? 'websites' : 'products', year: '2025 — Present',
     role: 'Design Consultant', scope: 'Product design within the Tejas ecosystem',
     description: `${project.title} is one of the internal business products designed and launched as part of the Tejas ecosystem.`,
     highlights: ['Designed the product experience within the shared Tejas standards.', 'Built on the reusable components used across the ecosystem.'],
@@ -212,6 +211,27 @@ const existingProjects = [
     highlights: ['Created 200+ reusable components as part of Neostra’s product design.', 'Defined scalable interaction patterns and accessibility guidelines.', 'Documented standards and reviewed implementation quality with engineering.'],
     tags: ['Component architecture', 'Accessibility', 'DesignOps'],
   },
+  ...[
+    {
+      section: 'DSAR',
+      embedUrl: 'https://embed.figma.com/design/ga0hmHb684QwqMCtH3PoAA/-Neostra_DSAR_?node-id=2614-2&embed-host=share',
+      fileUrl: 'https://www.figma.com/design/ga0hmHb684QwqMCtH3PoAA/-Neostra_DSAR_?node-id=2614-2&t=dIAjoHN0tN0YnrPV-1',
+    },
+    {
+      section: 'CPMP',
+      embedUrl: 'https://embed.figma.com/design/KJ1Dc0jkNsM6XetA5heLBy/-Neostra_CPMP_?node-id=2487-5539&embed-host=share',
+      fileUrl: 'https://www.figma.com/design/KJ1Dc0jkNsM6XetA5heLBy/-Neostra_CPMP_?node-id=2487-5539&t=1G9wGlZHkDzY5JYa-1',
+    },
+  ].map(({ section, embedUrl, fileUrl }) => ({
+    id: `neostra-${section.toLowerCase()}`, title: `Neostra : ${section}`, subtitle: `${section} design system.`,
+    embedType: 'figma', embedUrl, fileUrl, embedLabel: 'Figma design system',
+    client: 'Nyusta', category: 'Design System', group: 'systems', year: '2024 — Present',
+    image: asset('project-neostra-system.webp'), visualType: 'original',
+    role: 'Lead Product Designer', scope: `${section} design system`,
+    description: `Explore the Neostra ${section} design system in its original Figma file. Pan and zoom in the viewer, or open the file in Figma for a closer look.`,
+    highlights: [`Dedicated ${section} design-system folder within Neostra.`],
+    tags: ['Neostra', section],
+  })),
   {
     id: 'tejas-system', title: 'One Tejas, many touchpoints', subtitle: 'A common foundation for a growing ecosystem.',
     client: 'Patcorn Drymix', category: 'Product & Brand System', group: 'systems', year: '2025 — Present',
@@ -224,20 +244,46 @@ const existingProjects = [
 ];
 
 const cardThumbnails = {
-  neostra: optimizedCover('Neo', 1032, 740),
+  neostra: {
+    image: '/assets/Neostra_Brand.png',
+    imageWidth: 1481,
+    imageHeight: 1062,
+  },
   yesbot: optimizedCover('YesBot'),
   cryptotax: optimizedCover('CryptoTaxx'),
   tejas: '/assets/thumbnails/case-study-tejas.webp',
-  thanq: '/assets/thumbnails/case-study-thanq.webp',
+  thanq: {
+    image: '/assets/ThanQ.png',
+    imageWidth: 1481,
+    imageHeight: 1062,
+  },
   'neostra-system': optimizedCover('Neo', 1032, 740),
+  'neostra-dsar': {
+    image: '/assets/DSAR.png',
+    imageWidth: 1481,
+    imageHeight: 1062,
+  },
+  'neostra-cpmp': {
+    image: '/assets/CPMP.png',
+    imageWidth: 1481,
+    imageHeight: 1062,
+  },
   blackspace: '/assets/thumbnails/website-blackspace-hero.webp',
   'azure-interiors': optimizedCover('azure', 1032, 740),
   atlas: optimizedCover('Atlas', 1032, 740),
   'golf-mill': '/assets/thumbnails/website-the-golf-mill-hero.webp',
 
   adhikar: '/assets/thumbnails/case-study-tejas.webp',
-  contractorbhai: '/assets/thumbnails/case-study-tejas.webp',
-  mistribhai: '/assets/thumbnails/case-study-tejas.webp',
+  contractorbhai: {
+    image: '/assets/contractorbhai_thumbnail.png',
+    imageWidth: 1481,
+    imageHeight: 1062,
+  },
+  mistribhai: {
+    image: '/assets/video/Helix-clean-poster.webp',
+    imageWidth: 1120,
+    imageHeight: 800,
+  },
 };
 
 export const projects = [...existingProjects.map((project) => ({ ...project, ...behanceEnrichment[project.id] })), ...behanceProjects].map((project) => ({
@@ -255,7 +301,7 @@ export const projects = [...existingProjects.map((project) => ({ ...project, ...
 
 export const experience = [
   { company: 'Nyusta', role: 'Lead Product Designer', period: 'Nov 2024 — Present', location: 'Bengaluru', description: 'Led end-to-end product design for Neostra, a privacy management platform, and delivered UX/UI, branding, design systems, websites, and digital experiences for The Golf Mill, ThanQ, Blackspace, and multiple client projects, driving scalable, user-centric solutions across diverse industries.' },
-  { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including MistriBhai, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
+  { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including Helix.labs, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
   { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — May 2026', location: 'Raipur', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
   { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Gurgaon', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
 

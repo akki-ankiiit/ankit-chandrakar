@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/case-study-route.css';
 import '../styles/packaging-case.css';
 import '../styles/k-series.css';
-import { Link } from 'react-router-dom';
+import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { PkPager } from '../components/packaging/CaseParts.jsx';
 import { Back, Front } from '../components/k-series/Interactive.jsx';
@@ -23,7 +23,7 @@ export default function KSeriesCaseStudy() {
 
   return <article className="case-study-page pk-page ks-page">
     <header className="ks-hero ks-inner">
-      <nav className="ks-breadcrumb" aria-label="Case study"><Link to="/#work" state={workState}>← Back to selected work</Link></nav>
+      <nav className="ks-breadcrumb" aria-label="Case study"><ProjectBackLink state={workState} /></nav>
       <div className="ks-hero-layout">
         <figure className="ks-hero-photo">
           {pic(portrait.key, portrait.alt, { loading: 'eager', fetchPriority: 'high', sizes: '(max-width: 419px) 86vw, (max-width: 749px) 360px, (max-width: 1000px) calc((100vw - 102px) / 2), 390px' })}
@@ -49,7 +49,7 @@ export default function KSeriesCaseStudy() {
     </Section>
     <Section id="ks-role" eyebrow="07 / My role" title="From field research to the final bag" lede="Ankit Chandrakar / Lead Product Designer">
       <ul className="ks-role">{role.map((item) => <li key={item}>{item}</li>)}</ul>
-      <Link className="ks-text-link ks-back-work" to="/#work" state={workState}>← Back to selected work</Link>
+      <ProjectBackLink className="ks-back-work" state={workState} />
     </Section>
     <PkPager current={kSeriesCard.id} />
   </article>;

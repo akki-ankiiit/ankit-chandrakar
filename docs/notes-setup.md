@@ -64,7 +64,7 @@ These are the notes/contact feature files and integration points, including supp
 | `tests/backend/portfolio-api_test.ts` | Handler/provider/Auth boundary tests. |
 | `tests/backend/database_test.ts` | PGlite migration, constraints, privileges, bootstrap and transactional/outbox tests. |
 | `supabase/tests/portfolio_security.test.sql` | Full local Supabase pgTAP security/integration suite. |
-| `tests/notes.spec.js`, `playwright.config.js` | Mocked browser scenarios across five viewports, dedicated strict-port Vite server and `PLAYWRIGHT_PORT` override. |
+| `tests/e2e/notes.spec.js`, `playwright.config.js` | Mocked browser scenarios across five viewports, dedicated strict-port Vite server and `PLAYWRIGHT_PORT` override. |
 | `vercel.json`, `public/_redirects` | SPA direct-entry rewrites for Vercel and Netlify/Cloudflare Pages. |
 | `README.md`, `docs/notes-setup.md` | Entry-point documentation and this runbook. |
 
@@ -320,7 +320,7 @@ Run and record results yourself; the commands below are instructions, not report
 ```sh
 npm run build
 npm run lint
-npx eslint src/App.jsx src/components/Header.jsx src/components/Contact.jsx src/components/SubmissionForm.jsx src/components/Turnstile.jsx src/lib/supabase.js src/lib/portfolio-api.js src/pages/Notes.jsx src/pages/AdminNotes.jsx tests/notes.spec.js playwright.config.js
+npx eslint src/App.jsx src/components/Header.jsx src/components/Contact.jsx src/components/SubmissionForm.jsx src/components/Turnstile.jsx src/lib/supabase.js src/lib/portfolio-api.js src/pages/Notes.jsx src/pages/AdminNotes.jsx tests/e2e/notes.spec.js playwright.config.js
 deno test --config supabase/deno.json --allow-read tests/backend
 deno check --config supabase/deno.json supabase/functions/portfolio-api/index.ts
 deno lint --config supabase/deno.json supabase/functions/portfolio-api tests/backend

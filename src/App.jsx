@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -18,12 +18,16 @@ const ShineXCrystalXCaseStudy = lazy(() => import('./pages/ShineXCrystalXCaseStu
 const AboutPage = lazy(() => import('./pages/AboutPage.jsx'));
 const Playtime = lazy(() => import('./pages/Playtime.jsx'));
 const NeostraLogoBook = lazy(() => import('./pages/NeostraLogoBook.jsx'));
+const ContractorBhaiCaseStudy = lazy(() => import('./pages/ContractorBhaiCaseStudy.jsx'));
+const AtlasCaseStudy = lazy(() => import('./pages/AtlasCaseStudy.jsx'));
+const AdhikarCaseStudy = lazy(() => import('./pages/AdhikarCaseStudy.jsx'));
+const ThanQGuidelines = lazy(() => import('./pages/ThanQGuidelines.jsx'));
 // Notes temporarily disabled.
 // const Notes = lazy(() => import('./pages/Notes.jsx'));
 // const AdminNotes = lazy(() => import('./pages/AdminNotes.jsx'));
 
 // Maps project group → Work tab category ID
-const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'apps', systems: 'design-systems' };
+const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'case-studies', systems: 'design-systems' };
 
 // Commit restoration only once the destination's code and CSS are ready.
 function RouteScrollRestoration({ restoration }) {
@@ -145,10 +149,15 @@ export default function App() {
           <Route path="/admin/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading sign-in…</p>}><AdminNotes /></Suspense>} />
           */}
           <Route path="/playtime" element={<Playtime />} />
+          <Route path="/agents" element={<Navigate to="/work/mistribhai#agents" replace />} />
           <Route path="/work/kamdhenu-k-series" element={<KSeriesCaseStudy />} />
           <Route path="/work/bondure" element={<BondureCaseStudy />} />
           <Route path="/work/shinex-crystalx" element={<ShineXCrystalXCaseStudy />} />
           <Route path="/work/neostra" element={<NeostraLogoBook />} />
+          <Route path="/work/contractorbhai" element={<ContractorBhaiCaseStudy />} />
+          <Route path="/work/atlas-brand" element={<AtlasCaseStudy />} />
+          <Route path="/work/adhikar-brand" element={<AdhikarCaseStudy />} />
+          <Route path="/work/thanq" element={<ThanQGuidelines />} />
           <Route path="/work/:projectId" element={<CaseStudy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

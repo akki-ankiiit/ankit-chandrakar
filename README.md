@@ -1,84 +1,86 @@
 # Ankit Chandrakar — Product Design Portfolio
 
-A personal React + Vite portfolio with the original sage-green palette, supplied ink-character artwork, illustrated graph-paper thumbnails, and dedicated case-study pages.
+React 19 + Vite portfolio with a project gallery, dedicated case studies and brand presentations, a design desk, and interactive Playtime experiments. Styling combines the portfolio's sage-and-paper theme with isolated Tailwind styles for Playtime.
 
-## Run
+## Getting started
+
+Use Node.js 22.12+ and npm. Run commands from the repository root:
 
 ```sh
-npm install
+npm ci
 npm run dev
-npm run build
-npm run preview
 ```
 
-Use the local URL printed by Vite. The development preview for this session runs at **http://localhost:5188**.
+Open the URL printed by Vite. `predev` and `prebuild` run the local asset check automatically. Public backend configuration is optional for the currently active routes; `.env.example` documents the paused Notes feature's browser settings.
 
-## Edit your portfolio
+## Routes and features
 
-| Content | File |
+| Route | Content |
 | --- | --- |
-| Identity, contact details, links, projects, experience, skills | `src/data/portfolio.js` |
-| Main page sections | `src/components/` |
-| Typography, spacing, personal layout rules | `src/styles/portfolio.css` |
-| Sage-green theme and case-study styling | `src/styles/sage-theme.css`, `src/styles/case-study.css` |
-| Dedicated case-study page | `src/pages/CaseStudy.jsx` |
-| Behance case-study chapters and source content | `src/data/case-studies.js`, `src/data/behance-media.json` |
-| Global colors and font declarations | `src/styles/index.css` |
-| Original supplied hero artwork | `public/assets/newlogo/image.png` |
-| Optimized hero artwork and ink portrait | `public/assets/ankit/ink-hero.webp`, `public/assets/ankit/ink-portrait.webp` |
-| Interactive hero illustration | `src/components/HeroArtwork.jsx` |
-| Ink-art layout and blending | `src/styles/ink-art.css` |
-| Local project thumbnails and Notion presentation slides | `public/assets/ankit/` |
-| Search and social metadata | `index.html` |
+| `/` | Introduction, categorized project gallery, experience, and impact |
+| `/about` | About page |
+| `/desk` | Design desk and creator resources |
+| `/playtime` | Interactive galleries, flipbook, Fluid water ripple, dock, and Pocket Vibes player |
+| `/work/:projectId` | Project case studies, website showcases, and brand presentations |
+| `/agents` | Legacy redirect to `/work/mistribhai#agents` |
 
-To use your own photo, put it in `public/assets/ankit/` and change `imagery.portrait` in `portfolio.js`. The current portrait is an ink cutout from the supplied character artwork, not a photograph of Ankit. The original uploaded image and your custom logo are preserved in `public/assets/newlogo/`.
+Dedicated presentations include Kamdhenu K-Series, Bondure, ShineX CrystalX, Neostra, ContractorBhai, Atlas, Adhikar, and ThanQ. Other project URLs use the shared case-study page. Unknown routes show the not-found page.
 
-The hero uses the supplied image, with responsive WebP sizes, soft edge masks, and multiply blending. Its sketchbook link opens the projects, the thought button cycles through design notes, and focus mode pauses the ambient animation and pointer movement. These controls support keyboard and touch; motion respects the visitor's reduced-motion preference.
+**Notes is temporarily paused:** `/notes`, `/admin/notes`, and Notes navigation are disabled. The feature source, Supabase backend, and skipped browser suite remain available for restoration. The footer currently prepares a `mailto:` draft in the visitor's configured email app; the visitor sends it there. It does not submit contact messages to Supabase. See [Notes setup](docs/notes-setup.md) for the retained backend implementation and restoration setup.
 
-## Project content and images
+## Project structure
 
-The gallery contains **16 projects**, organized into Products, Websites, and Systems. Every thumbnail links to a shareable page at `/work/project-id`, including `/work/yesbot` and `/work/cryptotax`.
-
-- **Résumé:** Neostra, the Tejas ecosystem, Kamdhenu digital experiences, and the Neostra/Tejas design systems.
-- **Notion work history:** ThanQ research.
-- **Original Notion presentation:** CryptoTax, YesBot.ai, JD Institute of Fashion Technology, LionLabNFTs, StreetSnap.co, ElectraWheeler, and Acetech.
-- **Behance:** the complete YesBot.ai and CryptoTax presentations, plus CypherWallet, IPL ’24, Code For Community, LionLabNFT, StreetSnap.co, and ElectraWheeler. Sixty original Behance images are stored locally.
-
-All 16 thumbnails are locally generated black-ink compositions on graph paper, with project-specific drawings, comic callouts, crosshatching, and small sage accents. Four additional book, headphones, sneaker, and robot illustrations carry the drawing style through the page. They are illustrative covers, **not production screenshots**. Original Behance and Notion visuals retain their published colors inside the case studies.
-
-To extend a case study, edit its `caseStudy` object in `src/data/case-studies.js`. Each presentation chapter has an `id`, `title`, `description`, and `images` array. Images use local paths and explicit dimensions. Projects without published screens have an editable overview based on the supplied résumé.
-
-The supplied résumé takes precedence over the older Notion profile for current roles and employment dates. The two concurrent current roles are retained as supplied. Website projects with limited source material have deliberately brief descriptions, without invented results.
-
-### Regenerate assets
-
-```sh
-npm run assets:generate  # Prepare the supplied hero, portrait, 16 ink covers, and supporting doodles
-npm run assets:check     # Verify every local project image and the résumé
-npm run resume:build     # Regenerate the downloadable résumé PDF
+```text
+src/
+  App.jsx           Routes and shared page shell
+  components/       Portfolio sections and shared UI
+  pages/            Route pages and dedicated case studies
+  data/             Portfolio content, project metadata, and image manifests
+  hooks/            React hooks
+  lib/              Shared helpers, metadata tags, and paused backend clients
+  agents/           Embedded Agents experience support
+  features/         Feature-specific components
+  playtime-app/     Interactive experiments and their section wrappers
+  styles/           Portfolio, case-study, and Playtime styles
+public/             Served assets, résumé, and static presentations
+scripts/            Asset preparation, imports, checks, and résumé generation
+tests/e2e/          Playwright specs: agents, playtime, presentation-shell, notes
+tests/backend/      Deno handler and database tests for the paused backend
+supabase/           Backend functions, migrations, and security tests
+docs/               Setup and maintenance guides
 ```
 
-The PDF is a reformatted résumé summary built from the supplied information; it is not the original uploaded PDF. You can replace `public/ankit-chandrakar-resume.pdf` with your preferred résumé.
+Edit identity, contact details, gallery projects, experience, and skills in `src/data/portfolio.js`. Shared case-study content lives in `src/data/case-studies.js`; dedicated presentations also use their own pages and data files. `src/styles/index.css` is the portfolio stylesheet entry point. Playtime's `src/styles/playtime-app.css` is loaded into a shadow root by `src/pages/Playtime.jsx`.
 
-`npm run assets:behance` reimports the published Behance images. `scripts/import-notion.mjs` can reimport the 13 original Notion slides. Normal development and production use local files. The `predev` and `prebuild` scripts check asset availability before starting. Earlier reference assets are retained for design reference; the personal site does not use the old identity, portrait, artwork, client logos, or videos.
+Search/social metadata comes from `index.html`, page metadata in `src/data/`, and `src/hooks/usePageMeta.js`. The pure helper in `src/lib/pageMetaTags.js` is shared with Vite's static case-study HTML generation.
 
-## Notes and contact messages
+## Scripts and checks
 
-`/notes` is a moderated guestbook; `/admin/notes` is the owner's password-login dashboard. The footer sends private messages through a Supabase Edge Function with Turnstile protection and durable Resend notifications, without opening an email app. Notes remain private until approved; visitor email addresses are never included in the public wall response.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start Vite with the asset precheck |
+| `npm run build` | Check assets and build production output to `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run test:e2e` | Run browser specs from `tests/e2e/` |
+| `npm run assets:check` | Check required local assets |
+| `npm run assets:optimize` | Run the asset optimization script |
+| `npm run assets:generate` | Generate ink-art derivatives |
+| `npm run assets:behance` | Import Behance presentation images |
+| `npm run resume:build` | Generate the downloadable résumé PDF |
 
-Follow **[Notes and contact setup](docs/notes-setup.md)** for local setup, owner provisioning, database/security design, environment variables, email/domain configuration, tests, deployment order, and live delivery verification. Public configuration starts in `.env.example`; backend secrets start in `supabase/secrets.example`.
-
-## Checks
+Install Chromium before the first browser-test run:
 
 ```sh
+npx playwright install chromium
 npm run lint
-npx playwright install chromium  # First browser-test run only
 npm run test:e2e
 ```
 
-Browser tests cover image loading, viewport overflow, gallery categories, direct case-study URLs, chapter navigation, source images, browser history, mobile navigation, résumé download, contact validation, and reduced-motion behavior.
+Playwright starts its own strict-port Vite server on port `5189`; override with `PLAYWRIGHT_PORT` when needed. Five viewport projects cover desktop, mobile, compact mobile, tablet, and small desktop. Active suites cover the embedded Agents experience, Playtime behavior, and presentation controls/layouts. The Notes suite is intentionally skipped while the feature is paused. Backend test commands and configuration are documented in [Notes setup](docs/notes-setup.md) and [the backend README](supabase/README.md). These commands describe how to verify the project; they are not a record of passing checks or live integrations.
 
-## Deploy
+Asset generators and importers are maintenance tasks: inspect their inputs and output paths before running them. Regular development uses the checked-in served assets.
 
-Deploy `dist/` after `npm run build`. Case studies use `/work/:projectId` and the Design desk uses `/desk`. Netlify/Cloudflare Pages fallback rules are included in `public/_redirects`; Vercel rules are in `vercel.json`. On another host, serve `index.html` for those application routes so direct links and refreshes work. All images, fonts, and résumé files are served locally.
-# portfolio
+## Deployment
+
+Build with `npm run build` and deploy `dist/`. Vite also generates route-specific HTML for selected case studies so link previews receive their metadata without JavaScript. SPA fallback rules are in `vercel.json` and `public/_redirects`; other hosts need equivalent fallbacks for direct application-route visits and refreshes. Some Playtime content uses external fonts and YouTube, so those interactions require network access.

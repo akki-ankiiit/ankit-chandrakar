@@ -1,0 +1,97 @@
+{
+  "rec1": {
+    "src": "/assets/ContractorBhai/rec1.webp",
+    "width": 804,
+    "height": 1748
+  },
+  "bsent": {
+    "src": "/assets/ContractorBhai/bsent.webp",
+    "width": 804,
+    "height": 1932
+  },
+  "rec_muslim": {
+    "src": "/assets/ContractorBhai/rec_muslim.webp",
+    "width": 804,
+    "height": 2624
+  },
+  "remind": {
+    "src": "/assets/ContractorBhai/remind.webp",
+    "width": 804,
+    "height": 2094
+  },
+  "prof3": {
+    "src": "/assets/ContractorBhai/prof3.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "fest": {
+    "src": "/assets/ContractorBhai/fest.webp",
+    "width": 804,
+    "height": 1932
+  },
+  "prof6": {
+    "src": "/assets/ContractorBhai/prof6.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "diw_ctrl": {
+    "src": "/assets/ContractorBhai/diw_ctrl.webp",
+    "width": 804,
+    "height": 1804
+  },
+  "sent": {
+    "src": "/assets/ContractorBhai/sent.webp",
+    "width": 804,
+    "height": 2648
+  },
+  "prof1": {
+    "src": "/assets/ContractorBhai/prof1.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "diw_top": {
+    "src": "/assets/ContractorBhai/diw_top.webp",
+    "width": 804,
+    "height": 1500
+  },
+  "prof0": {
+    "src": "/assets/ContractorBhai/prof0.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "prof5": {
+    "src": "/assets/ContractorBhai/prof5.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "bday": {
+    "src": "/assets/ContractorBhai/bday.webp",
+    "width": 804,
+    "height": 1723
+  },
+  "rec_all": {
+    "src": "/assets/ContractorBhai/rec_all.webp",
+    "width": 804,
+    "height": 1748
+  },
+  "dash": {
+    "src": "/assets/ContractorBhai/dash.webp",
+    "width": 804,
+    "height": 1900
+  },
+  "prof4": {
+    "src": "/assets/ContractorBhai/prof4.webp",
+    "width": 804,
+    "height": 1700
+  },
+  "def": {
+    "src": "/assets/ContractorBhai/def.webp",
+    "width": 250,
+    "height": 164
+  },
+  "prof2": {
+    "src": "/assets/ContractorBhai/prof2.webp",
+    "width": 804,
+    "height": 1700
+  }
+}

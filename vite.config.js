@@ -6,7 +6,11 @@ import { fileURLToPath, URL } from 'node:url';
 import { bondureMeta } from './src/data/bondure-meta.js';
 import { neostraMeta } from './src/data/neostra-meta.js';
 import { shinexMeta } from './src/data/shinex-meta.js';
-import { pageMetaTags } from './src/hooks/pageMetaTags.js';
+import { contractorBhaiMeta } from './src/data/contractorbhai-meta.js';
+import { atlasMeta } from './src/data/atlas-meta.js';
+import { adhikarMeta } from './src/data/adhikar-meta.js';
+import { thanqMeta } from './src/data/thanq-meta.js';
+import { pageMetaTags } from './src/lib/pageMetaTags.js';
 
 const escape = (value) => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -45,6 +49,6 @@ function caseStudyStaticPages(metas) {
 }
 
 export default defineConfig({
-  plugins: [tailwindcss(), react(), caseStudyStaticPages([bondureMeta, shinexMeta, neostraMeta])],
+  plugins: [tailwindcss(), react(), caseStudyStaticPages([bondureMeta, shinexMeta, neostraMeta, contractorBhaiMeta, atlasMeta, thanqMeta, adhikarMeta])],
   resolve: { alias: { '@': fileURLToPath(new URL('./src/playtime-app', import.meta.url)) } },
 });

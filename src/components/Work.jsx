@@ -7,27 +7,46 @@ import { shinexCard } from '../data/shinex-crystalx.js';
 import { Reveal, Selection } from './ui.jsx';
 import Icon from './Icon.jsx';
 import ProjectDialog from './ProjectDialog.jsx';
+import useMediaQuery from '../hooks/useMediaQuery.js';
 
 const pick = (ids) => ids.map((id) => projects.find((project) => project.id === id)).filter(Boolean);
 
 const packagingItems = [kSeriesCard, bondureCard, shinexCard, ...designProjects.filter((project) => project.id !== bondureCard.id)];
 
 function ProjectCard({ project, index, onOpen }) {
+  const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const [videoFailed, setVideoFailed] = useState(false);
   const isDialogProject = !project.href && Boolean(project.locked || (!project.caseStudy?.chapters?.length && !project.embedUrl));
 
   const cardInner = (
     <>
       <Selection className="project-cover">
-        <img
-          src={project.thumbnail || project.image}
-          srcSet={project.thumbnailSrcSet}
-          sizes={project.thumbnailSrcSet ? '(max-width: 539px) 84vw, (max-width: 749px) calc(44vw - 9px), (max-width: 999px) calc(50vw - 60px), 440px' : undefined}
-          alt={`${project.title} — case study cover`}
-          width={project.imageWidth || 1200}
-          height={project.imageHeight || 850}
-          loading="lazy"
-          decoding="async"
-        />
+        {project.thumbnailVideo && !reduceMotion && !videoFailed ? (
+          <video
+            src={project.thumbnailVideo.src}
+            width={project.thumbnailVideo.width}
+            height={project.thumbnailVideo.height}
+            poster={project.thumbnailVideo.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            onError={() => setVideoFailed(true)}
+          />
+        ) : (
+          <img
+            src={project.thumbnail || project.image}
+            srcSet={project.thumbnailSrcSet}
+            sizes={project.thumbnailSrcSet ? '(max-width: 539px) 84vw, (max-width: 749px) calc(44vw - 9px), (max-width: 999px) calc(50vw - 60px), 440px' : undefined}
+            alt={`${project.title} — case study cover`}
+            width={project.imageWidth || 1200}
+            height={project.imageHeight || 850}
+            loading="lazy"
+            decoding="async"
+          />
+        )}
         <span className="project-open">
           <Icon name="arrow" size={20} />
         </span>
@@ -96,26 +115,23 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
   const getCategoryData = (catId) => {
     switch (catId) {
       case 'case-studies':
+      default:
         return {
           topline: 'From user research and architecture to scalable enterprise workflows',
-          items: pick(['cryptotax', 'yesbot']),
+          items: pick(['contractorbhai', 'adhikar', 'atlas', 'cryptotax', 'yesbot']).map((project) => (
+            project.id === 'atlas' ? { ...project, href: '/work/atlas-brand' }
+              : project.id === 'adhikar' ? { ...project, ...project.appCover, href: '/work/adhikar-brand' } : project
+          )),
         };
       case 'websites':
         return {
           topline: 'Editorial web design, responsive e-commerce, and digital brand experiences',
-          items: pick(['blackspace', 'azure-interiors', 'atlas', 'golf-mill']),
-        };
-      case 'apps':
-        return {
-          topline: 'Enterprise platforms, conversational AI workspaces, and mobile interfaces',
-          items: pick(['adhikar', 'contractorbhai', 'mistribhai', 'thanq']).map((project) => (
-            project.appCover ? { ...project, ...project.appCover } : project
-          )),
+          items: pick(['mistribhai', 'blackspace', 'azure-interiors', 'golf-mill']),
         };
       case 'design-systems':
         return {
           topline: 'Reusable component libraries, design tokens, and multi-product standards',
-          items: pick(['neostra-system']),
+          items: pick(['neostra-system', 'neostra-dsar', 'neostra-cpmp']),
         };
       case 'packaging-designs':
         return {
@@ -125,12 +141,9 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
       case 'brand-design':
         return {
           topline: 'Brand identities, visual languages, and expressions across products',
-          items: pick(['neostra', 'tejas', 'thanq', 'atlas', 'adhikar']),
-        };
-      default:
-        return {
-          topline: 'From user research and architecture to scalable enterprise workflows',
-          items: pick(['cryptotax', 'yesbot']),
+          items: pick(['neostra', 'thanq']).map((project) => (
+            project.id === 'thanq' ? { ...project, href: '/work/thanq' } : project
+          )),
         };
     }
   };

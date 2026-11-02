@@ -8,7 +8,7 @@ import sharp from 'sharp';
 // Run: node scripts/build-social-preview.mjs
 // Requires ffmpeg on PATH (or FFMPEG=/path/to/ffmpeg); never overwrites the source.
 const root = fileURLToPath(new URL('../', import.meta.url));
-const source = path.join(root, 'public/assets/web-thumbnail.gif');
+const source = path.join(root, 'source-assets/web-thumbnail.gif');
 const gif = path.join(root, 'public/assets/social-preview.gif');
 const jpg = path.join(root, 'public/assets/social-preview.jpg');
 const metadata = await sharp(source).metadata();

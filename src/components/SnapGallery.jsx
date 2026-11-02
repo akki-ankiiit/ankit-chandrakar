@@ -1,51 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { animate, motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
+import '../styles/snap-gallery.css';
 
 const MotionButton = motion.button;
 const MotionDiv = motion.div;
 
-// Snap carousel ported from the Playtime experiment: cards fan out from the centre, drag or click to snap,
-// and each snap plays a short mechanical tick.
+// Cards fan out from the centre; drag, click or use the arrow keys to snap.
 const ITEM_WIDTH = 200;
 
-let audioCtx = null;
-
-function playTick() {
-  try {
-    if (!audioCtx) {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return;
-      audioCtx = new AudioContextClass();
-    }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    const now = audioCtx.currentTime;
-    const click = audioCtx.createOscillator();
-    const clickGain = audioCtx.createGain();
-    click.connect(clickGain);
-    clickGain.connect(audioCtx.destination);
-    click.type = 'square';
-    click.frequency.setValueAtTime(600, now);
-    click.frequency.exponentialRampToValueAtTime(50, now + 0.02);
-    clickGain.gain.setValueAtTime(0.4, now);
-    clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
-    click.start();
-    click.stop(now + 0.02);
-
-    const ping = audioCtx.createOscillator();
-    const pingGain = audioCtx.createGain();
-    ping.connect(pingGain);
-    pingGain.connect(audioCtx.destination);
-    ping.type = 'triangle';
-    ping.frequency.setValueAtTime(2000, now);
-    ping.frequency.exponentialRampToValueAtTime(100, now + 0.02);
-    pingGain.gain.setValueAtTime(0.3, now);
-    pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
-    ping.start();
-    ping.stop(now + 0.02);
-  } catch {
-    // Audio is optional; ignore failures.
-  }
+function fitCardSize(item, limits) {
+  const width = Number.isFinite(item.width) && item.width > 0 ? item.width : 240;
+  const height = Number.isFinite(item.height) && item.height > 0 ? item.height : 300;
+  const scale = Math.min(limits.maxWidth / width, limits.maxHeight / height);
+  return { width: width * scale, height: height * scale };
 }
 
 // Signed distance (in scroll space) between the current scroll position and a card's resting position.
@@ -57,12 +24,13 @@ function wrappedDiff(scroll, index, total) {
   return wrapped;
 }
 
-function SnapCard({ item, index, total, scrollX, onSelect }) {
+function SnapCard({ item, size, offset, index, total, scrollX, onSelect, active, canOpen }) {
+  const { width, height } = size;
   const x = useTransform(scrollX, (value) => {
     const diff = wrappedDiff(value, index, total);
     const dist = Math.abs(diff / ITEM_WIDTH);
     const sign = Math.sign(diff);
-    return dist <= 1 ? sign * dist * 220 : sign * (220 + (dist - 1) * 45);
+    return dist <= 1 ? sign * dist * offset : sign * (offset + (dist - 1) * 45);
   });
 
   const scale = useTransform(scrollX, (value) => {
@@ -84,31 +52,55 @@ function SnapCard({ item, index, total, scrollX, onSelect }) {
     <MotionButton
       type="button"
       className="sx-snap-card"
-      style={{ x, scale, opacity, zIndex }}
+      style={{ width, height, marginLeft: -width / 2, marginTop: -height / 2, x, scale, opacity, zIndex }}
       onClick={() => onSelect(index)}
       data-index={index}
-      aria-label={`Open post ${index + 1}: ${item.alt}`}
+      aria-label={`${active ? (canOpen ? 'Open image' : 'Selected image') : 'Select image'} ${index + 1}: ${item.alt}`}
+      aria-current={active ? 'true' : undefined}
     >
       <img src={item.src} alt="" width={item.width} height={item.height} draggable={false} loading="lazy" decoding="async" />
     </MotionButton>
   );
 }
 
-export default function SnapGallery({ items, onOpen }) {
+export default function SnapGallery({ items, onOpen, ariaLabel = 'ShineX social posts' }) {
   const total = items.length;
   const totalWidth = total * ITEM_WIDTH;
   const scrollX = useMotionValue(0);
   const activeRef = useRef(0);
   const [active, setActive] = useState(0);
   const controls = useAnimation();
+  const stageRef = useRef(null);
+  const [stageSize, setStageSize] = useState({ width: 408, height: 500 });
+  const limits = useMemo(() => ({
+    maxWidth: Math.min(360, Math.max(1, stageSize.width - 48)),
+    maxHeight: Math.min(420, Math.max(1, stageSize.height - 64)),
+  }), [stageSize]);
+  const sizes = useMemo(() => items.map((item) => fitCardSize(item, limits)), [items, limits]);
+  const activeSize = sizes[active] ?? sizes[0] ?? { width: 0, height: 0 };
+  const frameWidth = activeSize.width + 24;
+  const frameHeight = activeSize.height + 24;
+
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const measure = () => {
+      const { width, height } = stage.getBoundingClientRect();
+      setStageSize((previous) => previous.width === width && previous.height === height ? previous : { width, height });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(stage);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => scrollX.on('change', (value) => {
+    if (!total) return;
     const normalized = ((-value % totalWidth) + totalWidth) % totalWidth;
     const closest = Math.round(normalized / ITEM_WIDTH) % total;
     if (closest !== activeRef.current) {
       activeRef.current = closest;
       setActive(closest);
-      playTick();
       controls.start({ scale: [1, 0.98, 1], transition: { duration: 0.2, ease: 'easeOut' } });
     }
   }), [scrollX, controls, totalWidth, total]);
@@ -129,7 +121,7 @@ export default function SnapGallery({ items, onOpen }) {
   };
 
   const onSelect = (index) => {
-    if (index === activeRef.current) onOpen(index);
+    if (index === activeRef.current) onOpen?.(index);
     else snapToIndex(index);
   };
 
@@ -143,22 +135,37 @@ export default function SnapGallery({ items, onOpen }) {
     }
   };
 
+  if (!total) return null;
+
   return (
-    <div className="sx-snap" tabIndex={0} role="region" aria-roledescription="carousel" aria-label="ShineX social posts" onKeyDown={onKeyDown}>
-      <div className="sx-snap-stage">
+    <div className="sx-snap" tabIndex={0} role="region" aria-roledescription="carousel" aria-label={ariaLabel} onKeyDown={onKeyDown}>
+      <div className="sx-snap-stage" ref={stageRef}>
         <MotionDiv className="sx-snap-track" onPan={onPan} onPanEnd={onPanEnd}>
           {items.map((item, index) => (
-            <SnapCard key={item.number} item={item} index={index} total={total} scrollX={scrollX} onSelect={onSelect} />
+            <SnapCard key={item.id ?? item.number ?? item.src} item={item} size={sizes[index]} offset={limits.maxWidth * 0.65 + 60} index={index} total={total} scrollX={scrollX} onSelect={onSelect} active={index === active} canOpen={Boolean(onOpen)} />
           ))}
         </MotionDiv>
-        <MotionDiv className="sx-snap-frame" animate={controls} aria-hidden="true">
+        <MotionDiv
+          className="sx-snap-frame"
+          style={{ width: frameWidth, height: frameHeight, marginLeft: -frameWidth / 2, marginTop: -frameHeight / 2 }}
+          animate={controls}
+          aria-hidden="true"
+        >
           <span className="tl" /><span className="tr" /><span className="bl" /><span className="br" />
         </MotionDiv>
       </div>
-      <p className="sx-snap-caption" aria-live="polite">
-        <span>{active + 1} / {total}</span>
-        {items[active].alt}
-      </p>
+      <div className="sx-snap-footer">
+        <button type="button" className="sx-snap-nav" aria-label="Previous image" onClick={() => snapToIndex((activeRef.current - 1 + total) % total)} disabled={total < 2}>
+          <span aria-hidden="true">←</span>
+        </button>
+        <p className="sx-snap-caption" aria-live="polite" aria-atomic="true">
+          <span>{active + 1} / {total}</span>
+          {items[active].alt}
+        </p>
+        <button type="button" className="sx-snap-nav" aria-label="Next image" onClick={() => snapToIndex((activeRef.current + 1) % total)} disabled={total < 2}>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </div>
   );
 }

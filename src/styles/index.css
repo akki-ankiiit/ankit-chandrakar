@@ -12,9 +12,9 @@
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Regular.otf') format('opentype'); font-weight: 100 900; font-style: normal; font-display: swap; }
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Italic.otf') format('opentype'); font-weight: 100 900; font-style: italic; font-display: swap; }
 
-:root { font-family: Henriette, Georgia, serif; color: #282828; background: #fdfdf5; font-synthesis: none; --paper: #fdfdf5; --beige: #efeedc; --ink: #282828; --forest: #343831; --accent: #c5de9b; --accent-strong: #60784b; --green: var(--accent); --muted: #7c7b70; --gold: #8c6a49; --ease: cubic-bezier(.22, 1, .36, 1); }
+:root { font-family: Henriette, Georgia, serif; color: #282828; background: #fdfdf5; font-synthesis: none; --site-header-height: 134px; --paper: #fdfdf5; --beige: #efeedc; --ink: #282828; --forest: #343831; --accent: #c5de9b; --accent-strong: #60784b; --green: var(--accent); --muted: #7c7b70; --gold: #8c6a49; --ease: cubic-bezier(.22, 1, .36, 1); }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 115px; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height) + 16px); }
 body { margin: 0; min-width: 320px; -webkit-font-smoothing: antialiased; }
 body, a, button { cursor: url('/assets/cursor-round.svg') 6 6, auto; }
 a:hover, button:hover { cursor: url('/assets/cursor-hover.svg') 8 8, pointer; }
@@ -57,7 +57,7 @@ main:focus { outline: none; }
 .previous svg { transform: rotate(180deg); }
 
 @media (max-width: 749px) {
-  html { scroll-padding-top: 108px; }
+  :root { --site-header-height: 119px; }
   .container { padding-inline: 8%; }
   .pill { font-size: 14px; padding: 10px 14px; }
   .selection-frame { display: none; }

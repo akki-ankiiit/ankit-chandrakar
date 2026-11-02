@@ -12,12 +12,7 @@
 .hero-stats strong { font-size: 28px; font-weight: 400; line-height: 1; letter-spacing: -.5px; }
 .hero-stats span { font-size: 11px; line-height: 1.45; color: #73766a; }
 .stats-note { margin-top: 13px; font-size: 10px; color: #85897c; font-style: italic; }
-.designer-illustration { width: 100%; height: auto; overflow: visible; }
 .hero-art { aspect-ratio: 520 / 460; }
-.floating-note { animation: note-float 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
-.note-two { animation-delay: -3s; }
-.illustration-spark { transform-origin: 326px 62px; animation: slow-spark 12s ease-in-out infinite; }
-.sketch-path { stroke-dasharray: 4 6; animation: sketch-travel 30s linear infinite; }
 .about { padding-block: 56px; }
 .about-inner { max-width: 880px; grid-template-columns: 340px 1fr; gap: 52px; align-items: center; }
 .portrait-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; }
@@ -51,8 +46,8 @@
 .portfolio-card { min-width: 0; animation: card-in .5s var(--ease) both; animation-delay: var(--card-delay); }
 .portfolio-card-button { display: flex; flex-direction: column; width: 100%; text-align: left; height: 100%; }
 .project-cover { display: block; width: 100%; border-radius: 9px; }
-.project-cover > img { width: 100%; height: auto; aspect-ratio: 1200 / 850; object-fit: cover; border: 1px solid #34383138; border-radius: 9px; transition: transform .55s var(--ease), box-shadow .4s; background: var(--beige); }
-.portfolio-card-button:hover .project-cover > img { transform: translateY(-4px) rotate(-.4deg); box-shadow: 0 7px 16px #34383110; }
+.project-cover > :is(img, video) { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 850; object-fit: cover; border: 1px solid #34383138; border-radius: 9px; transition: transform .55s var(--ease), box-shadow .4s; background: var(--beige); }
+.portfolio-card-button:hover .project-cover > :is(img, video) { transform: translateY(-4px) rotate(-.4deg); box-shadow: 0 7px 16px #34383110; }
 .project-open { position: absolute; right: 13px; bottom: 13px; display: grid; place-items: center; width: 34px; height: 34px; background: var(--paper); border: 1px solid #34383145; border-radius: 50%; opacity: 0; transform: translateY(5px); transition: opacity .25s, transform .25s; }
 .portfolio-card-button:hover .project-open, .portfolio-card-button:focus-visible .project-open { opacity: 1; transform: translateY(0); }
 .project-open svg { transform: rotate(-35deg); }
@@ -119,10 +114,6 @@
 .contact-form textarea { min-height: 108px; }
 .phone-link { display: inline-block; font-size: 12px; color: #757c69; margin-top: 8px; }
 .contact-copy .colophon { font-size: 10px; margin-top: 20px; }
-
-@keyframes note-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
-@keyframes slow-spark { 0%, 80%, 100% { rotate: 0deg; } 90% { rotate: 90deg; } }
-@keyframes sketch-travel { to { stroke-dashoffset: -160; } }
 
 @media (min-width: 750px) and (max-width: 950px) {
   .hero-grid { gap: 16px; }
@@ -208,8 +199,7 @@
   .portfolio-card-button > p { font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .floating-note, .illustration-spark, .sketch-path { animation: none; }
-  .portfolio-card-button:hover .project-cover > img { transform: none; }
+  .portfolio-card-button:hover .project-cover > :is(img, video) { transform: none; }
   .page-enter, .hero-copy, .hero-art, .gallery-transition, .portfolio-card, .project-dialog[open] { animation: none !important; opacity: 1; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
 }

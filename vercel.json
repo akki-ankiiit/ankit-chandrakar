@@ -6,6 +6,9 @@
     { "source": "/about", "destination": "/index.html" },
     { "source": "/desk", "destination": "/index.html" },
     { "source": "/playtime", "destination": "/index.html" },
+    { "source": "/:legacyAgents([aA][gG][eE][nN][tT][sS])", "destination": "/index.html" },
+    { "source": "/work/atlas-brand", "destination": "/work/atlas-brand/index.html" },
+    { "source": "/work/adhikar-brand", "destination": "/work/adhikar-brand/index.html" },
     { "source": "/work/:path*", "destination": "/index.html" }
   ]
 }

@@ -1,0 +1,170 @@
+/* Runtime-only, scoped overrides for the original 1920 × 1080 document. */
+.tq-presentation {
+  --tq-ember: #f05513;
+  --tq-ink: #292929;
+  --tq-cream: #fef9f7;
+  --tq-shell-paper: #fdfdf5;
+  --tq-shell-ink: #282828;
+  --tq-shell-line: #deded1;
+  --tq-toolbar-reserve: 60px;
+  height: 100%;
+  overflow: hidden;
+  scroll-behavior: auto;
+}
+
+.tq-presentation body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.tq-presentation .bar { display: none !important; }
+
+@media screen {
+  .tq-presentation,
+  .tq-presentation body { background: var(--tq-shell-paper); }
+
+  .tq-presentation .deck {
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: calc(100% - var(--tq-toolbar-reserve) - env(safe-area-inset-bottom, 0px));
+    margin: 0;
+    padding: 18px 4px 2px;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .tq-presentation .frame {
+    box-sizing: border-box;
+    display: none;
+    width: var(--tq-slide-width);
+    height: auto;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    scroll-margin: 16px;
+  }
+
+  .tq-presentation .frame.tq-current { display: block; }
+
+  .tq-presentation.tq-reading .deck {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: start;
+    align-items: start;
+    padding: 18px max(12px, calc((100% - 1440px) / 2));
+    gap: 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .tq-presentation.tq-reading .frame { display: block; width: 100%; }
+  .tq-presentation.tq-reading .frame.tq-current { outline: 2px solid var(--tq-ember); outline-offset: 2px; }
+}
+
+.tq-presentation #tq-toolbar {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: max-content;
+  max-width: calc(100% - 16px);
+  height: 44px;
+  padding: 5px;
+  border: 1px solid var(--tq-shell-line);
+  border-radius: 9px;
+  background: var(--tq-shell-paper);
+  color: var(--tq-shell-ink);
+  box-shadow: 0 2px 8px #2828280a;
+}
+
+.tq-presentation .tq-toolbar-center,
+.tq-presentation .tq-toolbar-right { display: flex; align-items: center; }
+.tq-presentation .tq-toolbar-center,
+.tq-presentation .tq-toolbar-right { gap: 3px; }
+
+.tq-presentation .tq-tool-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--tq-shell-ink);
+  font: 400 12px/1 var(--lato);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.tq-presentation .tq-tool-button:hover:not(:disabled),
+.tq-presentation .tq-tool-button[aria-pressed='true'] { background: #efeedc; border-color: var(--tq-shell-line); color: var(--tq-shell-ink); }
+.tq-presentation .tq-tool-button:disabled { opacity: .5; cursor: default; }
+.tq-presentation .tq-tool-button.tq-arrow { width: 32px; padding: 0; font-size: 20px; }
+.tq-presentation #tq-counter { min-width: 44px; color: #65685e; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; }
+.tq-presentation :is(.tq-tool-button, .tq-index-item):focus-visible { outline: 2px solid var(--tq-shell-ink); outline-offset: 1px; }
+
+.tq-presentation #tq-slide-index {
+  width: min(950px, calc(100% - 24px));
+  max-height: 86dvh;
+  margin: auto;
+  padding: 30px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #d8d0c6;
+  border-radius: 20px;
+  background: var(--tq-cream);
+  color: var(--tq-ink);
+  box-shadow: 0 30px 100px #0005;
+}
+
+.tq-presentation #tq-slide-index::backdrop { background: #292929db; }
+.tq-presentation .tq-index-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 26px; }
+.tq-presentation .tq-index-head h2 { font: 600 31px/1.2 var(--jos); letter-spacing: -1px; }
+.tq-presentation #tq-close-index { min-height: 44px; border-color: #d8d0c6; background: #f1eae2; color: var(--tq-ink); }
+.tq-presentation #tq-close-index:hover { background: #ead2c6; }
+.tq-presentation .tq-index-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.tq-presentation .tq-index-item { display: flex; align-items: center; gap: 17px; min-height: 48px; padding: 14px 17px; border: 0; border-radius: 8px; background: #f1eae2; color: var(--tq-ink); font: 400 16px/1.4 var(--lato); text-align: left; cursor: pointer; }
+.tq-presentation .tq-index-item:hover { background: #ead2c6; }
+.tq-presentation .tq-index-item[aria-current='page'] { background: var(--tq-ink); color: var(--tq-cream); box-shadow: inset 4px 0 var(--tq-ember); }
+.tq-presentation .tq-index-item span { font-size: 14px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 650px), (pointer: coarse) {
+  .tq-presentation { --tq-toolbar-reserve: 72px; }
+  .tq-presentation #tq-toolbar { height: 56px; }
+  .tq-presentation .tq-tool-button { height: 44px; }
+  .tq-presentation .tq-tool-button.tq-arrow { width: 44px; }
+}
+
+@media (max-width: 650px) {
+  .tq-presentation #tq-toolbar { gap: 4px; }
+  .tq-presentation .tq-toolbar-center,
+  .tq-presentation .tq-toolbar-right { gap: 2px; }
+  .tq-presentation .tq-tool-button { padding-inline: 6px; }
+  .tq-presentation .tq-tool-button.tq-arrow { padding: 0; }
+  .tq-presentation #tq-counter { min-width: 40px; }
+  .tq-presentation #tq-fullscreen { display: none; }
+  .tq-presentation.tq-reading .deck { grid-template-columns: minmax(0, 1fr); padding: 12px; gap: 12px; }
+  .tq-presentation #tq-slide-index { padding: 22px; }
+  .tq-presentation .tq-index-head h2 { font-size: 25px; }
+  .tq-presentation .tq-index-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tq-presentation .tq-tool-button { transition: none; }
+}
+
+@media print {
+  .tq-presentation, .tq-presentation body { height: auto; overflow: visible; }
+  .tq-presentation #tq-toolbar, .tq-presentation #tq-slide-index { display: none !important; }
+  .tq-presentation .deck { display: block; width: 1920px; height: auto; margin: 0; padding: 0; overflow: visible; }
+  .tq-presentation .frame { display: block !important; width: 1920px; height: 1080px; outline: none; }
+}

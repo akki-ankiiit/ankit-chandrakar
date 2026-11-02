@@ -74,7 +74,7 @@
 .resource-card:hover .resource-link svg { transform: translateX(3px); }
 
 @media (min-width: 1300px) { .hero { background-size: min(100%, 1500px) auto; } }
-@media (max-width: 900px) and (min-width: 750px) { .container { padding-inline: 35px; }.desktop-nav { gap: 23px; }.hero h1 { font-size: 36px; }.hero-socials { gap: 12px; }.hero-socials .social-links { gap: 12px; }.about-inner { max-width: 650px; gap: 36px; } }
+@media (max-width: 900px) and (min-width: 750px) { .container { padding-inline: 35px; }.desktop-nav { gap: 16px; }.hero h1 { font-size: 36px; }.hero-socials { gap: 12px; }.hero-socials .social-links { gap: 12px; }.about-inner { max-width: 650px; gap: 36px; } }
 @media (max-width: 749px) {
   .header-inner { height: 76px; }.announcement { min-height: 42px; font-size: 12px; }.brand img { height: 34px; width: auto; max-width: 90px; }
   .desktop-nav { display: none; }.menu-toggle { display: flex; position: relative; flex-direction: column; align-items: center; justify-content: center; width: 40px; height: 40px; gap: 4px; }

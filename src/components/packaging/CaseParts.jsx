@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Icon from '../Icon.jsx';
+import ProjectBackLink from '../ProjectBackLink.jsx';
 import { packagingNeighbours } from '../../data/packaging.js';
 
 // Shared building blocks for the packaging case studies, so all three share one hierarchy:
@@ -9,7 +10,7 @@ export function PkHero({ crumb, client, title, subtitle, facts, children }) {
   return (
     <header className="pk-hero case-container">
       <div className="case-breadcrumb">
-        <Link to="/#work" state={{ category: 'packaging-designs' }}><Icon name="arrow" size={15} />Back to selected work</Link>
+        <ProjectBackLink state={{ category: 'packaging-designs' }} label="Back to Packaging Designs" />
         <span>{crumb}</span>
       </div>
       <p className="pk-client">{client}</p>

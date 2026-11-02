@@ -2,5 +2,9 @@
 /desk /index.html 200
 /playtime /index.html 200
 /about /index.html 200
+/agents /index.html 200
+/agents/ /index.html 200
+/Agents /index.html 200
+/Agents/ /index.html 200
 /notes /index.html 200
 /admin/notes /index.html 200

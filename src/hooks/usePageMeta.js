@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { pageMetaTags } from './pageMetaTags.js';
+import { pageMetaTags } from '../lib/pageMetaTags.js';
 
 // Sets the tab title and the description / Open Graph / Twitter tags for one page, and puts the previous values back on leave.
 function setMeta(name, value) {
