@@ -9,7 +9,7 @@ const length = (value) => Array.from(value).length;
 const controls = /[\u0000-\u001f\u007f]/;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function SubmissionForm({ kind = 'note', autoFocus = false, onCancel }) {
+export default function SubmissionForm({ kind = 'note', autoFocus = false, compact = false, onCancel }) {
   const isNote = kind === 'note';
   const ready = isNote ? backendConfigured : submissionsConfigured;
   const prefix = useId();
@@ -64,7 +64,7 @@ export default function SubmissionForm({ kind = 'note', autoFocus = false, onCan
       if (!result.success) throw new Error('Submission failed');
       if (controller.signal.aborted) return;
       setStatus('success');
-      setFeedback(isNote ? 'Thanks for leaving a note! Your message has been submitted and is awaiting approval.' : 'Your message has been sent. Thanks for reaching out!');
+      setFeedback(isNote ? "Thanks for the note! It's waiting for approval." : 'Your message has been sent. Thanks for reaching out!');
       setValues({ name: '', email: '', subject: '', message: '', botcheck: '' });
       attempt.current = null;
     } catch (error) {
@@ -78,19 +78,19 @@ export default function SubmissionForm({ kind = 'note', autoFocus = false, onCan
       if (!controller.signal.aborted && !isNote) { setToken(''); setResetKey((value) => value + 1); }
     }
   };
-  const field = (name, label, max, type = 'text', required = true) => <label className="submission-field" htmlFor={`${prefix}-${name}`}>
+  const field = (name, label, max, type = 'text', required = true, placeholder) => <label className="submission-field" htmlFor={`${prefix}-${name}`}>
     <span id={`${prefix}-${name}-label`}>{label}</span>
-    <input id={`${prefix}-${name}`} name={name} type={type} value={values[name]} onChange={update} required={required} maxLength={max * 2} autoComplete={name === 'name' ? 'name' : name === 'email' ? 'email' : 'off'} aria-labelledby={`${prefix}-${name}-label`} aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `${prefix}-${name}-error` : undefined} />
+    <input id={`${prefix}-${name}`} name={name} placeholder={placeholder} type={type} value={values[name]} onChange={update} required={required} maxLength={max * 2} autoComplete={name === 'name' ? 'name' : name === 'email' ? 'email' : 'off'} aria-labelledby={`${prefix}-${name}-label`} aria-invalid={Boolean(errors[name])} aria-describedby={errors[name] ? `${prefix}-${name}-error` : undefined} />
     {errors[name] && <span className="field-error" id={`${prefix}-${name}-error`}>{errors[name]}</span>}
   </label>;
-  const noteMessage = <label className="submission-field" htmlFor={`${prefix}-message`}><span id={`${prefix}-message-label`}>{isNote ? 'Your note' : 'Your message'}</span><textarea id={`${prefix}-message`} name="message" rows={isNote ? 5 : 4} placeholder={isNote ? 'Say something...' : undefined} value={values.message} onChange={update} required maxLength={isNote ? 1000 : 10000} aria-labelledby={`${prefix}-message-label`} aria-invalid={Boolean(errors.message)} aria-describedby={`${prefix}-counter${errors.message ? ` ${prefix}-message-error` : ''}`} />
+  const noteMessage = <label className="submission-field" htmlFor={`${prefix}-message`}><span id={`${prefix}-message-label`}>{isNote ? 'Your note' : 'Your message'}</span><textarea id={`${prefix}-message`} name="message" rows={isNote ? (compact ? 2 : 5) : 4} placeholder={isNote ? 'Say something...' : undefined} value={values.message} onChange={update} required maxLength={isNote ? 1000 : 10000} aria-labelledby={`${prefix}-message-label`} aria-invalid={Boolean(errors.message)} aria-describedby={`${prefix}-counter${errors.message ? ` ${prefix}-message-error` : ''}`} />
         <span className="character-count" id={`${prefix}-counter`} aria-live="polite">{length(values.message)} / {isNote ? 500 : 5000}</span>
         {errors.message && <span className="field-error" id={`${prefix}-message-error`}>{errors.message}</span>}
       </label>;
-  return <form ref={formRef} onSubmit={submit} className={`submission-form contact-form ${isNote ? 'note-form' : 'message-form'}`} noValidate aria-label={isNote ? 'Leave a note' : 'Send a message'}>
+  return <form ref={formRef} onSubmit={submit} className={`submission-form contact-form ${isNote ? 'note-form' : 'message-form'}${compact ? ' is-compact' : ''}`} noValidate onKeyDown={(event) => { if (event.key === 'Escape' && onCancel && status !== 'sending') { event.stopPropagation(); onCancel(); } }} aria-label={isNote ? 'Leave a note' : 'Send a message'}>
     <fieldset disabled={status === 'sending'}>
       {isNote ? noteMessage : null}
-      <div className="contact-fields">{field('name', 'Your name', 100)}{field('email', isNote ? 'Email (optional, kept private)' : 'Your email', 254, 'email', !isNote)}</div>
+      <div className="contact-fields">{field('name', 'Your name', 100, 'text', true, isNote ? 'Your name' : undefined)}{field('email', isNote ? 'Email (optional, kept private)' : 'Your email', 254, 'email', !isNote, isNote ? 'Email (optional)' : undefined)}</div>
       {!isNote && field('subject', 'Subject', 150)}
       {!isNote && noteMessage}
       <input type="text" name="botcheck" className="honeypot" value={values.botcheck} onChange={update} tabIndex={-1} autoComplete="off" aria-hidden="true" />
@@ -98,7 +98,7 @@ export default function SubmissionForm({ kind = 'note', autoFocus = false, onCan
     {!ready && <p className="configuration-notice">{isNote ? 'Notes' : 'Message delivery'} is not configured yet. Submissions are currently unavailable. Please check back later.</p>}
     {!isNote && <Turnstile action="portfolio-message" onToken={setToken} resetKey={resetKey} />}
     <div className="form-bottom"><Pill type="submit" disabled={!ready || (!isNote && !token) || status === 'sending'}>{status === 'sending' ? 'Sending…' : isNote ? 'Post' : 'Send Message'}</Pill>{onCancel && <button type="button" className="text-link note-cancel" onClick={onCancel} disabled={status === 'sending'}>{status === 'success' ? 'Close' : 'Cancel'}</button>}</div>
-    <p className={`form-status ${status}`} role="status" aria-live="polite">{feedback}</p>
+        <p className={`form-status ${status}`} role="status" aria-live="polite">{feedback}</p>
     {hint && <p className="security-help submission-hint" role="status" aria-live="polite">{hint}</p>}
   </form>;
 }

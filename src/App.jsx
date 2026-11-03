@@ -123,7 +123,7 @@ export default function App() {
     else if (page === 'about') document.title = 'About — Ankit Chandrakar';
     else if (page === 'notes') document.title = 'Notes — Ankit Chandrakar';
     else if (page === 'admin-notes') document.title = 'Private notes — Ankit Chandrakar';
-    else if (page !== 'case') document.title = page === 'hub' ? 'Design desk — Ankit Chandrakar' : 'Ankit Chandrakar — Lead Product Designer';
+    else if (page !== 'case') document.title = page === 'hub' ? 'Design desk — Ankit Chandrakar' : homeMeta.title;
   }, [page]);
 
   const onNavigate = (destination) => {
