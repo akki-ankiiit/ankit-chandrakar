@@ -44,7 +44,7 @@ async function openConfigured(page, path = '/notes') {
 }
 async function fillNote(page, text = 'Thanks for the inspiration.') {
   const form = page.getByRole('form', { name: 'Leave a note', exact: true });
-  if (!await form.isVisible()) await page.getByRole('button', { name: 'New note', exact: true }).click();
+  if (!await form.isVisible()) await page.getByRole('button', { name: 'Add a note', exact: true }).click();
   await form.getByLabel('Your name').fill('Grace Visitor');
   await form.getByLabel('Your note').fill(text);
   return form;
@@ -86,7 +86,7 @@ test('Notes has editorial copy, accessible navigation and truthful configuration
   await page.route('**/functions/v1/portfolio-api', (route) => { requests += 1; return json(route, { notes: [], hasMore: false }); });
   await mockTurnstile(page);
   await page.goto('/notes');
-  await expect(page.getByRole('heading', { name: 'Leave a Note', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Leave a little love.', exact: true })).toBeVisible();
   await expect(page.locator('h1')).toHaveCount(1);
   const video = page.getByLabel('Animated illustration for the Notes page', { exact: true });
   await expect(video).toBeVisible();
@@ -97,14 +97,15 @@ test('Notes has editorial copy, accessible navigation and truthful configuration
   await expect.poll(() => video.evaluate((element) => element.paused)).toBe(true);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect.poll(() => video.evaluate((element) => !element.paused)).toBe(true);
-  await expect(page.getByText("A little space for thoughts, feedback, or a hello. I'd love to hear from you.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Thoughts, vibes, or just a quick hello. I'm all ears.", { exact: true })).toBeVisible();
   await expect(page.getByText('Every note is reviewed before publication. Your email stays private.')).toBeVisible();
   const state = await config(page);
   if (!state.backendConfigured) {
     await expect(page.getByText('The notes wall is not connected yet.', { exact: false })).toBeVisible();
     expect(requests).toBe(0);
   } else await expect(page.getByText('No published notes yet.', { exact: false })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'New note', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Add a note', exact: true })).toBeVisible();
+  await expect(page.getByRole('form', { name: 'Leave a note', exact: true })).toBeHidden();
   if (!state.submissionsConfigured) await expect(page.getByRole('button', { name: 'Send Message', exact: true })).toBeDisabled();
   await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -143,7 +144,7 @@ test('public wall paginates, refreshes approvals and renders only public fields 
   await expect(page.locator('.public-note')).toHaveCount(2);
   await expect(page.locator('.notes-wall')).not.toContainText('private@example.com');
   refreshed = true;
-  await page.getByRole('button', { name: 'Refresh notes' }).click();
+  await page.reload();
   await expect(page.getByText('A newly approved note.')).toBeVisible();
   await expect(page.locator('.public-note')).toHaveCount(1);
 });
@@ -160,25 +161,45 @@ test('unconfigured admin offers no sign-in or private data requests', async ({ p
   expect(requests).toBe(0);
 });
 
-test('New note card opens the composer in place, focuses the message and needs no CAPTCHA', async ({ page }) => {
+test('Add a note tile expands in the grid, keeps its draft on cancel/Escape, and needs no CAPTCHA', async ({ page }) => {
   await page.route('**/functions/v1/portfolio-api', (route) => json(route, { notes: [note], hasMore: false }));
   await openConfigured(page);
   await expect(page.getByText(note.message)).toBeVisible();
-  const card = page.getByRole('button', { name: 'New note', exact: true });
-  await expect(card).toBeVisible();
-  await card.click();
   const form = page.getByRole('form', { name: 'Leave a note', exact: true });
+  const tile = page.getByRole('button', { name: 'Add a note', exact: true });
+  await expect(page.getByRole('button', { name: 'Refresh notes' })).toHaveCount(0);
+  await expect(form).toBeHidden();
+  await expect(tile).toHaveAttribute('aria-expanded', 'false');
+  // The tile lives in the hero, not in the notes grid.
+  await expect(page.locator('.notes-hero .note-tile')).toHaveCount(1);
+  await tile.click();
   await expect(form.getByLabel('Your note')).toBeFocused();
   await expect(form.getByPlaceholder('Say something...')).toBeVisible();
+  await expect(form.getByPlaceholder('Your name')).toBeVisible();
+  await expect(form.getByPlaceholder('Email (optional)')).toBeVisible();
   await expect(form.getByText('0 / 500', { exact: true })).toBeVisible();
   await expect(form.getByRole('button', { name: 'Post', exact: true })).toBeEnabled();
-  await expect(form.getByRole('button', { name: 'Retry security check' })).toHaveCount(0);
   const widgets = await page.evaluate(() => [...(window.__captchaWidgets?.values() ?? [])].map((widget) => widget.options.action));
   expect(widgets).not.toContain('portfolio-note');
-  await expect(page.getByText(note.message)).toBeVisible();
+  await form.getByLabel('Your note').fill('A draft I do not want to lose');
   await form.getByRole('button', { name: 'Cancel', exact: true }).click();
-  await expect(card).toBeFocused();
+  await expect(form).toBeHidden();
+  await expect(tile).toBeFocused();
+  await tile.click();
+  await expect(form.getByLabel('Your note')).toHaveValue('A draft I do not want to lose');
+  await expect(form.getByLabel('Your note')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(form).toBeHidden();
+  await expect(page.getByText(note.message)).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+});
+
+test('empty wall keeps the Add a note tile and a short invitation', async ({ page }) => {
+  await page.route('**/functions/v1/portfolio-api', (route) => json(route, { notes: [], hasMore: false }));
+  await openConfigured(page);
+  await expect(page.getByText('No published notes yet.', { exact: false })).toBeVisible();
+  await page.getByRole('button', { name: 'Add a note', exact: true }).click();
+  await expect(page.getByRole('form', { name: 'Leave a note', exact: true })).toBeVisible();
 });
 
 test('note validation, double-submit protection, retained retry UUID and exact success', async ({ page }) => {
@@ -209,7 +230,7 @@ test('note validation, double-submit protection, retained retry UUID and exact s
   release();
   await expect(form.getByText('Something went wrong. Please try again.', { exact: true })).toBeVisible();
   await form.getByRole('button', { name: 'Post', exact: true }).click();
-  await expect(form.getByText('Thanks for leaving a note! Your message has been submitted and is awaiting approval.', { exact: true })).toBeVisible();
+  await expect(form.getByText("Thanks for the note! It's waiting for approval.", { exact: true })).toBeVisible();
   expect(submissions).toHaveLength(2);
   expect(submissions[0].idempotencyKey).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
   expect(submissions[1].idempotencyKey).toBe(submissions[0].idempotencyKey);
@@ -364,7 +385,7 @@ test('empty and whitespace-only notes are blocked and the live limit caps at 500
     return json(route, { success: true });
   });
   await openConfigured(page);
-  await page.getByRole('button', { name: 'New note', exact: true }).click();
+  await page.getByRole('button', { name: 'Add a note', exact: true }).click();
   const form = page.getByRole('form', { name: 'Leave a note', exact: true });
   const submit = form.getByRole('button', { name: 'Post', exact: true });
   const name = form.getByLabel('Your name');
@@ -392,7 +413,7 @@ test('empty and whitespace-only notes are blocked and the live limit caps at 500
   await expect(text).toHaveValue('🌱'.repeat(500));
   await expect(form.getByText('500 / 500', { exact: true })).toBeVisible();
   await submit.click();
-  await expect(form.locator('.form-status')).toHaveText('Thanks for leaving a note! Your message has been submitted and is awaiting approval.');
+  await expect(form.locator('.form-status')).toHaveText("Thanks for the note! It's waiting for approval.");
   expect(submissions).toHaveLength(1);
   expect(submissions[0].name).toBe('Valid Visitor');
   expect(Array.from(submissions[0].message)).toHaveLength(500);

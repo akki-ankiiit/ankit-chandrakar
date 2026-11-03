@@ -186,23 +186,21 @@ export default function AdminNotes() {
   };
 
   return <div className="admin-notes-page container">
-    <header className="notes-intro"><p className="notes-eyebrow">Private correspondence</p><h1>Notes & messages</h1><p>Review the visitors’ book and your private inbox.</p></header>
-    {!backendConfigured ? <p className="configuration-notice">The admin connection is not configured yet. Sign-in is unavailable.</p> : authLoading ? <p role="status">Restoring your session…</p> : !session ? <section className="admin-login" aria-labelledby="admin-login-heading"><h2 id="admin-login-heading">Owner sign in</h2><p>Use your manually provisioned owner account.</p><form className="contact-form submission-form" onSubmit={login}><label>Email<input name="email" type="email" autoComplete="username" maxLength={254} required disabled={signingIn} /></label><label>Password<input name="password" type="password" autoComplete="current-password" required disabled={signingIn} /></label><Pill type="submit" disabled={signingIn}>{signingIn ? 'Signing in…' : 'Sign in'}</Pill></form>{authError && <p role="alert">{authError}</p>}</section> : <>
-      <div className="admin-toolbar"><Pill onClick={logout}>Sign out</Pill>{!denied && <Pill onClick={() => load()} disabled={loading || acting}>Refresh inbox</Pill>}</div>
+    <header className="admin-header"><div className="admin-heading"><p className="notes-eyebrow">Private correspondence</p><h1>Notes & messages</h1><p>Review the visitors’ book and your private inbox.</p></div>{session && backendConfigured && !authLoading && <div className="admin-toolbar"><Pill onClick={logout}>Sign out</Pill>{!denied && <Pill onClick={() => load()} disabled={loading || acting}>Refresh inbox</Pill>}</div>}</header>
+    {!backendConfigured ? <p className="configuration-notice">The admin connection is not configured yet. Sign-in is unavailable.</p> : authLoading ? <p role="status">Restoring your session…</p> : !session ? <section className="admin-login" aria-labelledby="admin-login-heading"><h2 id="admin-login-heading">Owner sign in</h2><p>Use your manually provisioned owner account.</p><form className="contact-form submission-form" onSubmit={login}><label><span>Email</span><input name="email" type="email" autoComplete="username" maxLength={254} required disabled={signingIn} /></label><label><span>Password</span><input name="password" type="password" autoComplete="current-password" required disabled={signingIn} /></label><Pill type="submit" disabled={signingIn}>{signingIn ? 'Signing in…' : 'Sign in'}</Pill></form>{authError && <p className="admin-error" role="alert">{authError}</p>}</section> : <>
       {error && <div className="admin-error" role="alert"><p>{error}</p>{!denied && <Pill onClick={() => load()} disabled={loading || acting}>Retry inbox</Pill>}</div>}
       {!denied && <>
         <div className="admin-tabs" role="group" aria-label="Inbox folders">{tabs.map((item) => <button key={item} type="button" aria-pressed={tab === item} disabled={acting || loading} onClick={() => { if (item !== tab) { cancelRequests(); setRows([]); setTab(item); } }}>{item} <span>{item === 'messages' ? `${countsKnown ? counts.unread : '—'} unread` : countsKnown ? counts[item] : '—'}</span></button>)}</div>
         <p className="admin-arrival" role="status" aria-live="polite">{arrival}</p>
-        <p role="status" aria-live="polite">{notice}</p>
+        <p className="admin-notice" role="status" aria-live="polite">{notice}</p>
         <div className="admin-notifications"><p>Notification failures: {countsKnown ? failures : 'unavailable'}. Retries send due notifications only; some may be in backoff or expired.</p><Pill onClick={() => act('retry-notifications', {})} disabled={acting || loading}>Retry notifications</Pill></div>
         {loading && <p role="status">Loading inbox…</p>}
-        {!loading && !error && rows.length === 0 && <p className="notes-empty">No {tab === 'messages' ? 'messages' : `${tab} notes`} here.</p>}
+        {!loading && !error && rows.length === 0 && <p className="admin-empty">No {tab === 'messages' ? 'messages' : `${tab} notes`} here.</p>}
         <section aria-label={`${tab} entries`} className="admin-entries">{rows.map((row) => <article className="admin-entry" key={row.id}>
-          <header><h2>{row.name}</h2><span>{row.status} · {formatDate(row.created_at)}</span></header>
-          {row.email && <p className="admin-email">{row.email}</p>}
+          <header><div><h2>{row.name}</h2>{row.email && <p className="admin-email">{row.email}</p>}</div><div className="admin-meta"><span className={`admin-status is-${row.status}`}>{row.status}</span><time>{formatDate(row.created_at)}</time></div></header>
           {tab === 'messages' && <h3>{row.subject}</h3>}
           <p className="note-content">{row.message}</p>
-          {row.approved_at && <p>Approved {formatDate(row.approved_at)}</p>}
+          {row.approved_at && <p className="admin-approved">Approved {formatDate(row.approved_at)}</p>}
           <div className="admin-entry-actions">{tab === 'messages' ? <>
             <Pill disabled={acting || loading} onClick={() => act('update-message', { id: row.id, status: row.status === 'unread' ? 'read' : 'unread' })}>{row.status === 'unread' ? 'Mark read' : 'Mark unread'}</Pill>
             {row.status !== 'archived' && <Pill disabled={acting || loading} onClick={() => act('update-message', { id: row.id, status: 'archived' }, 'Archive this message? It will remain in your private inbox as archived.')}>Archive</Pill>}
@@ -212,7 +210,7 @@ export default function AdminNotes() {
             <Pill className="destructive-action" disabled={acting || loading} onClick={() => act('delete-note', { id: row.id }, 'Permanently delete this note? This cannot be undone.')}>Delete</Pill>
           </>}</div>
         </article>)}</section>
-        {hasMore && <Pill onClick={() => load(true)} disabled={loading || acting}>Load more entries</Pill>}
+        {hasMore && <div className="notes-more"><Pill onClick={() => load(true)} disabled={loading || acting}>Load more entries</Pill></div>}
       </>}
     </>}
   </div>;
