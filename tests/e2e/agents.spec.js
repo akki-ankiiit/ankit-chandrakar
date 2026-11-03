@@ -297,7 +297,7 @@ test('legacy route variants redirect to the embedded anchor without horizontal o
     await expect(page).toHaveTitle('Helix.labs — Ankit Chandrakar');
     await expect.poll(() => anchorOffset(page)).toBeLessThan(3);
   }
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://ankitchandrakar.in/assets/social-preview.gif');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://ankit.devs.surf/assets/social-preview.jpg');
   expect(await page.locator('.agents-page').evaluate((element) => {
     return parseFloat(getComputedStyle(element).paddingTop);
   })).toBe(page.viewportSize().width < 750 ? 24 : 32);
