@@ -55,9 +55,12 @@ Deno.test("submission validation trims, normalizes email, preserves multiline te
   equal([value.name, value.email, value.message, value.subject], ["Ada", "ada@example.com", "Hello!", null]);
   equal(validateSubmission({ ...input, email: "   " }, "note").email, null);
   equal(validateSubmission({ ...input, message: "😀".repeat(500) }, "note").message.length, 1000);
-  for (const changed of [{ message: "a".repeat(501) }, { name: "a".repeat(101) }, { email: "a@b" }, { message: "\u0000bad" }, { name: "a\nb" }, { idempotencyKey: "invalid" }, { botcheck: "bot" }, { botcheck: undefined }, { captchaToken: "" }, { message: "  " }, { name: 123 }]) {
+  for (const changed of [{ message: "a".repeat(501) }, { name: "a".repeat(101) }, { email: "a@b" }, { message: "\u0000bad" }, { name: "a\nb" }, { idempotencyKey: "invalid" }, { botcheck: "bot" }, { botcheck: undefined }, { message: "  " }, { name: 123 }]) {
     await rejects(() => validateSubmission({ ...input, ...changed }, "note"), 400);
   }
+  // Notes need no CAPTCHA token; private messages still do.
+  equal(validateSubmission({ ...input, captchaToken: undefined }, "note").captchaToken, "");
+  await rejects(() => validateSubmission({ ...input, subject: "Hi", captchaToken: "" }, "message"), 400);
   const contact = { ...input, subject: "  Hi  ", message: "line 1\nline 2" };
   equal(validateSubmission(contact, "message").subject, "Hi");
   equal(validateSubmission({ ...contact, subject: "s".repeat(150), message: "m".repeat(5000) }, "message").message.length, 5000);
@@ -167,13 +170,24 @@ Deno.test("submissions always consume durable rate before CAPTCHA, including no-
   let submitCalls = 0;
   const fetcher = (async () => { captchaCalls++; return new Response("{}"); }) as typeof fetch;
   const handler = createHandler(repository({ consumeRate: async () => false, submit: async () => { submitCalls++; return { outcome: "created" }; } }), config, fetcher);
-  equal((await handler(request({ action: "submit-note", ...input }))).status, 429);
+  equal((await handler(request({ action: "submit-message", ...input, subject: "Hi" }))).status, 429);
   equal([captchaCalls, submitCalls], [0, 0]);
-  const missingIp = await handler(request({ action: "submit-note", ...input }, { "x-forwarded-for": "" }));
+  const missingIp = await handler(request({ action: "submit-message", ...input, subject: "Hi" }, { "x-forwarded-for": "" }));
   equal(missingIp.status, 403);
   const noOrigin = createHandler(repository({ submit: async () => { submitCalls++; return { outcome: "created" }; } }), config, fetcher);
-  equal((await noOrigin(request({ action: "submit-note", ...input }))).status, 403);
+  equal((await noOrigin(request({ action: "submit-message", ...input, subject: "Hi" }))).status, 403);
   equal(submitCalls, 0); equal(captchaCalls, 1);
+});
+
+Deno.test("notes are accepted without CAPTCHA and never call the verification provider", async () => {
+  let captchaCalls = 0;
+  let submitted = 0;
+  const fetcher = (async () => { captchaCalls++; return new Response("{}"); }) as typeof fetch;
+  const handler = createHandler(repository({ submit: async () => { submitted++; return { outcome: "created" }; } }), config, fetcher);
+  const { captchaToken: _omit, ...noToken } = input;
+  const response = await handler(request({ action: "submit-note", ...noToken }, { Origin: "https://portfolio.example" }));
+  equal(response.status, 200);
+  equal([captchaCalls, submitted], [0, 1]);
 });
 
 Deno.test("duplicate key replay succeeds; content conflict is 409; outbox/provider failure never loses accepted submission", async () => {
