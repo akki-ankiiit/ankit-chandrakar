@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import SubmissionForm from '../components/SubmissionForm.jsx';
 import HeroArtwork from '../components/HeroArtwork.jsx';
+import Icon from '../components/Icon.jsx';
 import { Pill } from '../components/ui.jsx';
 import { backendConfigured } from '../lib/supabase.js';
 import { formatDate, portfolioApi } from '../lib/portfolio-api.js';
@@ -13,6 +14,8 @@ export default function Notes() {
   const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(backendConfigured);
   const [error, setError] = useState('');
+  const [composing, setComposing] = useState(false);
+  const newNoteButton = useRef(null);
   const offset = useRef(0);
   const request = useRef(null);
   const busy = useRef(false);
@@ -48,14 +51,18 @@ export default function Notes() {
       </div>
     </section>
     <div className="container notes-content">
-    <section className="notes-compose" aria-label="Write a note"><div><span className="notes-flourish" aria-hidden="true">✳</span><h2>A few words,<br />a little connection.</h2><p>Something that resonated? An idea to share? Leave it here.</p></div><SubmissionForm /></section>
     <section className="notes-wall" aria-labelledby="notes-wall-heading">
-      <div className="notes-wall-heading"><div><p className="notes-eyebrow">From the visitors’ book</p><h2 id="notes-wall-heading">Notes left here</h2></div><Pill onClick={() => load()} disabled={loading || !backendConfigured}>Refresh notes</Pill></div>
+      <div className="notes-wall-heading"><div><p className="notes-eyebrow">A small exchange</p><h2 id="notes-wall-heading">Notes left here</h2></div><Pill onClick={() => load()} disabled={loading || !backendConfigured}>Refresh notes</Pill></div>
       {!backendConfigured && <p className="configuration-notice">The notes wall is not connected yet. Approved notes will appear here once it is configured.</p>}
       {loading && <p role="status">Loading notes…</p>}
       {error && <div role="alert"><p>{error}</p><Pill onClick={() => load(failedMore.current)} disabled={loading}>Retry notes</Pill></div>}
       {backendConfigured && !loading && !error && notes.length === 0 && <p className="notes-empty">No published notes yet. Yours could be the first — after a little review.</p>}
-      <div className="notes-list">{notes.map((note) => <article className="public-note" key={note.id}><p className="note-content">{note.message}</p><footer><span className="note-initials" aria-hidden="true">{String(note.name || '?').trim().split(/\s+/).slice(0, 2).map((part) => Array.from(part)[0]).join('').toLocaleUpperCase()}</span><div><h3>{note.name}</h3><span>{formatDate(note.approved_at)}</span></div></footer></article>)}</div>
+      <div className="notes-list">
+        {composing
+          ? <div className="notes-composer"><SubmissionForm autoFocus onCancel={() => { setComposing(false); requestAnimationFrame(() => newNoteButton.current?.focus()); }} /></div>
+          : <button type="button" ref={newNoteButton} className="note-new" onClick={() => setComposing(true)}><Icon name="plus" size={16} /><span>New note</span></button>}
+        {notes.map((note) => <article className="public-note" key={note.id}><p className="note-content">{note.message}</p><footer><h3>{note.name}</h3><span>{formatDate(note.approved_at)}</span></footer></article>)}
+      </div>
       {hasMore && <div className="notes-more"><Pill onClick={() => load(true)} disabled={loading}>Load more notes</Pill></div>}
     </section>
     </div>

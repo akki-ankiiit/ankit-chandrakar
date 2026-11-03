@@ -125,7 +125,8 @@ export function validateSubmission(body: Record<string, unknown>, kind: "note" |
     kind, name: text(body, "name", 100), email: email || null,
     message: text(body, "message", kind === "note" ? 500 : 5000, false, true),
     subject: kind === "message" ? text(body, "subject", 150) : null,
-    captchaToken: text(body, "captchaToken", 2048), idempotencyKey: uuid(body.idempotencyKey),
+    // Notes are moderated (always pending) and rate-limited; only private messages require CAPTCHA.
+    captchaToken: text(body, "captchaToken", 2048, kind === "note"), idempotencyKey: uuid(body.idempotencyKey),
   };
 }
 export function pagination(body: Record<string, unknown>, defaultLimit: number): { offset: number; limit: number } {
@@ -276,7 +277,7 @@ export function createHandler(repo: Repository, config: Config, fetcher: typeof 
         const ip = clientIp(request, config);
         const ipHash = await keyedHash(config.hashSecret, "ip", ip);
         if (!await repo.consumeRate(ipHash)) throw new ApiError(429, "Too many submissions. Please try again in ten minutes.");
-        await verifyCaptcha(value, ip, config, fetcher);
+        if (value.kind === "message") await verifyCaptcha(value, ip, config, fetcher);
         const hash = await keyedHash(config.hashSecret, "content", JSON.stringify([value.kind, value.name, value.email, value.subject, value.message]));
         const result = await repo.submit(value, hash);
         if (result.outcome === "conflict") throw new ApiError(409, "This submission was already received, or its request ID was reused. Please wait before trying again.");
