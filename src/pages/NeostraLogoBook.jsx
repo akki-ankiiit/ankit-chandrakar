@@ -4,6 +4,7 @@ import '../styles/neostra-logo-book.css';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import Icon from '../components/Icon.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
+import useInView from '../hooks/useInView.js';
 import { neostraMeta } from '../data/neostra-meta.js';
 import bookHtml from '../data/neostra-logo-book.html?raw';
 
@@ -14,6 +15,7 @@ export default function NeostraLogoBook() {
   usePageMeta(neostraMeta);
   const bookRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const [videoRef, videoInView] = useInView('300px');
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -60,18 +62,31 @@ export default function NeostraLogoBook() {
       </div>
       <div className="nlb-video-wrapper">
         <div className="nlb-video-frame">
-          <video
-            className="nlb-video-media"
-            src="/assets/video/Neo_Video.mp4"
-            width={720}
-            height={1280}
-            aria-label="Neostra brand animation"
-            muted={muted}
-            autoPlay
-            loop
-            playsInline
-            preload="metadata"
-          />
+          {videoInView ? (
+            <video
+              className="nlb-video-media"
+              src="/assets/video/Neo_Video.mp4"
+              poster="/assets/video/Neo_Video-poster.webp"
+              width={720}
+              height={1280}
+              aria-label="Neostra brand animation"
+              muted={muted}
+              autoPlay
+              loop
+              playsInline
+              preload="metadata"
+            />
+          ) : (
+            <img
+              ref={videoRef}
+              className="nlb-video-media"
+              src="/assets/video/Neo_Video-poster.webp"
+              width={720}
+              height={1280}
+              alt="Neostra brand animation"
+              decoding="async"
+            />
+          )}
           <button
             className="nlb-video-audio"
             type="button"

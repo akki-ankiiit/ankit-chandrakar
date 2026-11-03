@@ -91,7 +91,7 @@ export default function Playtime() {
             </div>
           </div>
           <div className="hero-art">
-            <HeroArtwork videoSrc="/assets/skating-desk-paper.mp4" />
+            <HeroArtwork videoSrc="/assets/skating-desk-paper.mp4" poster="/assets/skating-desk-paper-poster.webp" />
           </div>
         </div>
       </section>

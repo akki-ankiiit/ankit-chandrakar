@@ -1,6 +1,6 @@
 {
   "portfolio-card": {
-    "src": "/assets/Kseries.png",
+    "src": "/assets/Kseries.webp",
     "width": 1482,
     "height": 1062
   },
@@ -135,7 +135,7 @@
     "height": 1050
   },
   "sunil-portrait": {
-    "src": "/assets/sunil.png",
+    "src": "/assets/sunil.webp",
     "width": 690,
     "height": 776
   },

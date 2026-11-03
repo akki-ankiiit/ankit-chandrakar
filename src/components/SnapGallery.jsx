@@ -58,7 +58,7 @@ function SnapCard({ item, size, offset, index, total, scrollX, onSelect, active,
       aria-label={`${active ? (canOpen ? 'Open image' : 'Selected image') : 'Select image'} ${index + 1}: ${item.alt}`}
       aria-current={active ? 'true' : undefined}
     >
-      <img src={item.src} alt="" width={item.width} height={item.height} draggable={false} loading="lazy" decoding="async" />
+      <img src={item.thumb || item.src} alt="" width={item.width} height={item.height} draggable={false} loading="lazy" decoding="async" />
     </MotionButton>
   );
 }

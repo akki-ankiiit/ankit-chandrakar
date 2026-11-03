@@ -40,6 +40,11 @@ test('Helix embeds Agents below its website, preserves its title and restores th
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix.labs');
   await expect(page.getByRole('heading', { level: 2, name: 'Agents, with personality.', exact: true })).toBeVisible();
   await expect(page).toHaveTitle('Helix.labs — Ankit Chandrakar');
+  const facade = page.locator('.showcase-site .showcase-embed-facade');
+  if (await facade.count()) {
+    await facade.click();
+    await page.locator('#agents').evaluate((element) => element.scrollIntoView({ behavior: 'instant' }));
+  }
   const iframe = page.locator('.showcase-site iframe');
   await expect(iframe).toHaveAttribute('src', 'https://helixlab-one.vercel.app/projects');
   expect(await page.locator('#agents').evaluate((element) => {

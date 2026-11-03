@@ -6,6 +6,7 @@ import { bondureCard } from '../data/bondure.js';
 import { shinexCard } from '../data/shinex-crystalx.js';
 import { Reveal, Selection } from './ui.jsx';
 import Icon from './Icon.jsx';
+import useInView from '../hooks/useInView.js';
 import ProjectDialog from './ProjectDialog.jsx';
 import useMediaQuery from '../hooks/useMediaQuery.js';
 
@@ -16,25 +17,38 @@ const packagingItems = [kSeriesCard, bondureCard, shinexCard, ...designProjects.
 function ProjectCard({ project, index, onOpen }) {
   const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [videoFailed, setVideoFailed] = useState(false);
+  const [videoRef, videoInView] = useInView('300px');
   const isDialogProject = !project.href && Boolean(project.locked || (!project.caseStudy?.chapters?.length && !project.embedUrl));
 
   const cardInner = (
     <>
       <Selection className="project-cover">
         {project.thumbnailVideo && !reduceMotion && !videoFailed ? (
-          <video
-            src={project.thumbnailVideo.src}
-            width={project.thumbnailVideo.width}
-            height={project.thumbnailVideo.height}
-            poster={project.thumbnailVideo.poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            onError={() => setVideoFailed(true)}
-          />
+          videoInView ? (
+            <video
+              src={project.thumbnailVideo.src}
+              width={project.thumbnailVideo.width}
+              height={project.thumbnailVideo.height}
+              poster={project.thumbnailVideo.poster}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-hidden="true"
+              onError={() => setVideoFailed(true)}
+            />
+          ) : (
+            <img
+              ref={videoRef}
+              src={project.thumbnailVideo.poster}
+              alt={`${project.title} — case study cover`}
+              width={project.thumbnailVideo.width}
+              height={project.thumbnailVideo.height}
+              loading="lazy"
+              decoding="async"
+            />
+          )
         ) : (
           <img
             src={project.thumbnail || project.image}

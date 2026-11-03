@@ -7,7 +7,7 @@ const kSeriesRaster = Object.values(kSeries).map((image) => image.src).filter((s
 
 const bondure = JSON.parse(await readFile('src/data/bondure-images.json', 'utf8'));
 const bondureRaster = Object.values(bondure).map((image) => image.src);
-const bondureOriginals = [...['Bondure.png', 'Wallstark.png', 'Screed.png'].map((name) => `/assets/Bondure/${name}`), '/assets/Bondure.png'];
+const bondureOriginals = [...['Bondure.png', 'Wallstark.png', 'Screed.png'].map((name) => `/assets/Bondure/${name}`), '/assets/Bondure.webp'];
 
 const shinex = JSON.parse(await readFile('src/data/shinex-images.json', 'utf8'));
 const shinexRaster = Object.values(shinex).map((image) => image.src);

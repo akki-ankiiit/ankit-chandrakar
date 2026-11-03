@@ -44,7 +44,7 @@ export default function Notes() {
           <p className="hero-introduction notes-description">A little space for thoughts, feedback, or a hello. I'd love to hear from you.</p>
           <p className="notes-review">Every note is reviewed before publication. Your email stays private.</p>
         </div>
-        <div className="hero-art"><HeroArtwork videoSrc="/assets/notes.mp4" ariaLabel="Animated illustration for the Notes page" /></div>
+        <div className="hero-art"><HeroArtwork videoSrc="/assets/notes.mp4" poster={null} ariaLabel="Animated illustration for the Notes page" /></div>
       </div>
     </section>
     <div className="container notes-content">

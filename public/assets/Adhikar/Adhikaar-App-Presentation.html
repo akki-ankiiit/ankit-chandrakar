@@ -290,7 +290,7 @@ const mobilePortrait=matchMedia('(max-width:800px) and (orientation:portrait)');
 let current=0,reading=mobilePortrait.matches,lastFocus=null;
 const requested=parseInt(location.hash.replace(/\D/g,''));
 if(Number.isFinite(requested))current=Math.max(0,Math.min(slides.length-1,requested-1));
-document.querySelectorAll('[data-asset]').forEach(img=>{img.decoding='async';img.src=ASSETS[img.dataset.asset];});
+document.querySelectorAll('[data-asset]').forEach(img=>{img.loading='lazy';img.decoding='async';img.src=ASSETS[img.dataset.asset];});
 $('#inspected-image').decoding='async';
 // Keep the supplied table intact, adding a native, keyboard-focusable scroll region.
 document.querySelectorAll('.comparison').forEach(table=>{

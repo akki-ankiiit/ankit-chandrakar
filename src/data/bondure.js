@@ -16,7 +16,7 @@ export const bondureCard = {
   client: 'TEJAS',
   category: 'PACKAGING & IDENTITY',
   title: 'BONDURE',
-  image: '/assets/Bondure.png',
+  image: '/assets/Bondure.webp',
   subtitle: 'Three bags, three colours and one family: packaging and identity for a new brand by Tejas.',
 };
 

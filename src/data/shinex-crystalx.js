@@ -40,7 +40,7 @@ export const products = [
     surface: 'Tile',
     image: images['shinex'],
     alt: 'ShineX Advanced Tile & Floor Cleaner, 1 L bottle with a red cap',
-    logo: { src: '/assets/TileCleaner/ShineX.svg', width: 686, height: 348, alt: 'ShineX logo' },
+    logo: { src: '/assets/TileCleaner/ShineX-logo.webp', width: 686, height: 348, alt: 'ShineX logo' },
     accent: brand.red,
     benefits: ['10x powerful stain removal', 'Professional heavy-duty cleaning', 'Instant shine, spotless finish'],
   },
@@ -50,7 +50,7 @@ export const products = [
     surface: 'Marble',
     image: images['crystalx'],
     alt: 'CrystalX Marble & Stone Cleaner, 1 L bottle with a red cap',
-    logo: { src: '/assets/TileCleaner/CrystalX.svg', width: 621, height: 285, alt: 'CrystalX logo' },
+    logo: { src: '/assets/TileCleaner/CrystalX-logo.webp', width: 621, height: 285, alt: 'CrystalX logo' },
     accent: brand.blue,
     benefits: ['Streak-free mirror shine', 'pH balanced formulation', 'Cleans, restores and protects', 'Safe for all Italian marble and granite'],
   },
@@ -120,7 +120,7 @@ export const posts = [
 ].map((alt, index) => {
   const number = String(index + 1).padStart(2, '0');
   const image = images[`post-${number}`];
-  return { number, src: image.src, width: image.width, height: image.height, alt };
+  return { number, src: image.src, thumb: image.src.replace('/smc/', '/smc/thumbs/'), width: image.width, height: image.height, alt };
 });
 
 export const role = ['Product naming', 'ShineX and CrystalX logos', 'Bottle label design', 'Benefit icons and badges', '22-post social campaign'];

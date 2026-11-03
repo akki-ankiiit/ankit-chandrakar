@@ -49,8 +49,8 @@ export const profile = {
 export const imagery = {
   logo: '/assets/newlogo/navbar-logo.svg',
   mark: asset('monogram.svg'),
-  hero: '/assets/newlogo/image.png',
-  heroSmall: '/assets/newlogo/image.png',
+  hero: '/assets/newlogo/image.webp',
+  heroSmall: '/assets/newlogo/image.webp',
   portrait: '/assets/optimized/image_6.webp',
   headphones: asset('ink-headphones.svg'),
   sketchbook: asset('ink-sketchbook.svg'),
@@ -85,7 +85,7 @@ export const designProjects = [
     client: 'BONDURE',
     category: 'PACKAGING DESIGN',
     title: 'BONDURE',
-    image: '/assets/Bondure.png',
+    image: '/assets/Bondure.webp',
     locked: true,
     year: 'Coming soon',
     role: 'Packaging Designer',
@@ -245,7 +245,7 @@ const existingProjects = [
 
 const cardThumbnails = {
   neostra: {
-    image: '/assets/Neostra_Brand.png',
+    image: '/assets/Neostra_Brand.webp',
     imageWidth: 1481,
     imageHeight: 1062,
   },
@@ -253,18 +253,18 @@ const cardThumbnails = {
   cryptotax: optimizedCover('CryptoTaxx'),
   tejas: '/assets/thumbnails/case-study-tejas.webp',
   thanq: {
-    image: '/assets/ThanQ.png',
+    image: '/assets/ThanQ.webp',
     imageWidth: 1481,
     imageHeight: 1062,
   },
   'neostra-system': optimizedCover('Neo', 1032, 740),
   'neostra-dsar': {
-    image: '/assets/DSAR.png',
+    image: '/assets/DSAR.webp',
     imageWidth: 1481,
     imageHeight: 1062,
   },
   'neostra-cpmp': {
-    image: '/assets/CPMP.png',
+    image: '/assets/CPMP.webp',
     imageWidth: 1481,
     imageHeight: 1062,
   },
@@ -275,7 +275,7 @@ const cardThumbnails = {
 
   adhikar: '/assets/thumbnails/case-study-tejas.webp',
   contractorbhai: {
-    image: '/assets/contractorbhai_thumbnail.png',
+    image: '/assets/contractorbhai_thumbnail.webp',
     imageWidth: 1481,
     imageHeight: 1062,
   },

@@ -19,7 +19,7 @@ export default function ProjectDialog({ project, onClose, onPrevious, onNext, po
     <dialog ref={ref} className="project-dialog" aria-labelledby="project-title" onCancel={(event) => { event.preventDefault(); onClose(); }} onClick={(event) => { if (event.target === ref.current) onClose(); }} onKeyDown={(event) => { if (event.key === 'ArrowLeft') onPrevious(); if (event.key === 'ArrowRight') onNext(); }}>
       <div className="dialog-inner">
         <button className="dialog-close icon-button" onClick={onClose} aria-label="Close project"><Icon name="close" size={20} /></button>
-        <div className="dialog-image" key={project.id}><img src={project.image} alt={project.title} width="1200" height="850" /></div>
+        <div className="dialog-image" key={project.id}><img src={project.image} alt={project.title} width="1200" height="850" loading="lazy" decoding="async" /></div>
         <div className="dialog-copy">
           <div className="dialog-topline"><p className="eyebrow">{project.category}</p><span className="project-count">{String(position + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</span></div>
           <h2 id="project-title">{project.title}</h2>

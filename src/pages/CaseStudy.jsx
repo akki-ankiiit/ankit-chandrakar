@@ -9,6 +9,19 @@ import FigmaFilePage from './FigmaFilePage.jsx';
 import AgentsExperience from '../features/agents/AgentsExperience.jsx';
 import '../styles/case-study-route.css';
 
+// Live third-party sites are heavy and slow to load, so they mount only when the visitor asks for them.
+function LiveEmbed({ src, title, label }) {
+  const [active, setActive] = useState(false);
+  if (active) return <iframe src={src} title={title} referrerPolicy="strict-origin-when-cross-origin" />;
+  let host = '';
+  try { host = new URL(src).hostname.replace(/^www\./, ''); } catch { host = src; }
+  return (
+    <button type="button" className="showcase-preview showcase-embed-facade" onClick={() => setActive(true)} aria-label={`Load live preview of ${title}`}>
+      <span className="showcase-preview-caption"><strong>Load live preview</strong><small>{label || host}</small></span>
+    </button>
+  );
+}
+
 function Presentation({ project }) {
   const chapters = project.caseStudy.chapters;
   const [active, setActive] = useState(0);
@@ -114,7 +127,7 @@ function ShowcasePage({ project }) {
           {project.embedPreview ? <a className="showcase-preview" href={project.embedUrl} target="_blank" rel="noopener noreferrer">
             <img src={project.embedPreview.src} alt={project.embedPreview.alt} width={project.embedPreview.width} height={project.embedPreview.height} decoding="async" />
             <span className="showcase-preview-caption"><strong>{project.embedLinkLabel || 'Open the site in a new tab ↗'}</strong>{project.embedPreview.note && <small>{project.embedPreview.note}</small>}</span>
-          </a> : <iframe src={project.embedUrl} title={`${project.title} — ${project.embedLabel || 'live website'}`} loading="lazy" referrerPolicy="strict-origin-when-cross-origin" />}
+          </a> : <LiveEmbed src={project.embedUrl} title={`${project.title} — ${project.embedLabel || 'live website'}`} label={project.embedLabel} />}
         </div>
         <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">{project.embedLinkLabel || 'Open the site in a new tab ↗'}</a>
       </section>

@@ -3,6 +3,7 @@ import useMediaQuery from '../hooks/useMediaQuery.js';
 
 export default function HeroArtwork({
   videoSrc = '/assets/herovideo-hero-paper.mp4',
+  poster = '/assets/herovideo-hero-paper-poster.webp',
   ariaLabel = 'Animated illustration of a young designer waving, with a backpack, sketchbook, and sneakers',
 }) {
   const stage = useRef(null);
@@ -47,11 +48,13 @@ export default function HeroArtwork({
           ref={video}
           className="ink-hero-image"
           src={videoSrc}
-          width="848"
-          height="1072"
+          poster={poster}
+          width="720"
+          height="910"
           muted
           loop
           playsInline
+          preload="auto"
           autoPlay
           aria-label={ariaLabel}
         />

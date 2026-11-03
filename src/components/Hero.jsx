@@ -23,7 +23,7 @@ export default function Hero({ isHub = false, onNavigate }) {
             </>
           )}
         </div>
-        <div className="hero-art"><HeroArtwork videoSrc={isHub ? '/assets/design-desk-paper.mp4' : undefined} ariaLabel={isHub ? 'Animated illustration of a young designer holding design and software logo blocks' : undefined} /></div>
+        <div className="hero-art"><HeroArtwork videoSrc={isHub ? '/assets/design-desk-paper.mp4' : undefined} poster={isHub ? '/assets/design-desk-paper-poster.webp' : undefined} ariaLabel={isHub ? 'Animated illustration of a young designer holding design and software logo blocks' : undefined} /></div>
       </div>
     </section>
   );

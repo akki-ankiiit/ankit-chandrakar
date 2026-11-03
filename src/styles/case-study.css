@@ -192,3 +192,8 @@
   .stream-facts { gap: 12px 28px; }
   .stream-intro { font-size: 15px; margin: 32px 0 40px; }
 }
+
+/* Click-to-load live embeds: a button styled like the static preview, with no iframe until requested. */
+.showcase-embed-facade { border: 0; padding: 0; margin: 0; width: 100%; height: 100%; cursor: pointer; font: inherit; color: inherit; text-align: inherit; background: #f7f3eb; }
+.showcase-embed-facade:hover .showcase-preview-caption { background: #fffdf8; border-color: #8b6b50; }
+.showcase-embed-facade:focus-visible { outline: 3px solid #8b6b50; outline-offset: -4px; }
