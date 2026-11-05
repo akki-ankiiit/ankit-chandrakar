@@ -118,7 +118,7 @@ function ShowcasePage({ project }) {
         </div>
         <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">{project.embedLinkLabel || 'Open the site in a new tab ↗'}</a>
       </section>
-      {project.id === 'mistribhai' && <AgentsExperience />}
+      {project.id === 'helix' && <AgentsExperience />}
     </article>
   );
 }

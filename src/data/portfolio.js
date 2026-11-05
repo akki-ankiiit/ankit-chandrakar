@@ -179,9 +179,9 @@ const existingProjects = [
   ...[
     { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.', appCover: optimizedCover('Adhikar') },
     { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Every relationship. A little more personal.', href: '/work/contractorbhai' },
-    { id: 'mistribhai', title: 'Helix.labs', subtitle: 'A workflow app from the Tejas ecosystem.', embedUrl: 'https://helixlab-one.vercel.app/projects', thumbnailVideo: { src: '/assets/video/Helix-clean.mp4', width: 1120, height: 800, poster: '/assets/video/Helix-clean-poster.webp' } },
+    { id: 'helix', title: 'Helix.labs', subtitle: 'A workflow app from the Tejas ecosystem.', embedUrl: 'https://helixlab-one.vercel.app/projects', thumbnailVideo: { src: '/assets/video/Helix-clean.mp4', width: 1120, height: 800, poster: '/assets/video/Helix-clean-poster.webp' } },
   ].map((project) => ({
-    ...project, client: 'Tejas', category: 'Internal App', group: project.id === 'mistribhai' ? 'websites' : 'products', year: '2025 — Present',
+    ...project, client: 'Tejas', category: 'Internal App', group: project.id === 'helix' ? 'websites' : 'products', year: '2025 — Present',
     role: 'Design Consultant', scope: 'Product design within the Tejas ecosystem',
     description: `${project.title} is one of the internal business products designed and launched as part of the Tejas ecosystem.`,
     highlights: ['Designed the product experience within the shared Tejas standards.', 'Built on the reusable components used across the ecosystem.'],
@@ -275,7 +275,7 @@ const cardThumbnails = {
     imageWidth: 1481,
     imageHeight: 1062,
   },
-  mistribhai: {
+  helix: {
     image: '/assets/video/Helix-clean-poster.webp',
     imageWidth: 1120,
     imageHeight: 800,

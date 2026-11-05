@@ -22,7 +22,7 @@ Open the URL printed by Vite. `predev` and `prebuild` run the local asset check 
 | `/desk` | Design desk and creator resources |
 | `/playtime` | Interactive galleries, flipbook, Fluid water ripple, dock, and Pocket Vibes player |
 | `/work/:projectId` | Project case studies, website showcases, and brand presentations |
-| `/agents` | Legacy redirect to `/work/mistribhai#agents` |
+| `/agents` | Legacy redirect to `/work/helix#agents` |
 
 Dedicated presentations include Kamdhenu K-Series, Bondure, ShineX CrystalX, Neostra, ContractorBhai, Atlas, Adhikar, and ThanQ. Other project URLs use the shared case-study page. Unknown routes show the not-found page.
 

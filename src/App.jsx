@@ -22,6 +22,7 @@ const ContractorBhaiCaseStudy = lazy(() => import('./pages/ContractorBhaiCaseStu
 const AtlasCaseStudy = lazy(() => import('./pages/AtlasCaseStudy.jsx'));
 const AdhikarCaseStudy = lazy(() => import('./pages/AdhikarCaseStudy.jsx'));
 const ThanQGuidelines = lazy(() => import('./pages/ThanQGuidelines.jsx'));
+const Resume = lazy(() => import('./pages/Resume.jsx'));
 const Notes = lazy(() => import('./pages/Notes.jsx'));
 const AdminNotes = lazy(() => import('./pages/AdminNotes.jsx'));
 
@@ -81,7 +82,7 @@ export default function App() {
   if (restoration.current.key !== location.key) {
     restoration.current = { key: location.key, restoring: true, saved: scrollPositions.current.get(location.key) };
   }
-  const page = location.pathname === '/notes' ? 'notes' : location.pathname === '/admin/notes' ? 'admin-notes' : location.pathname === '/desk' ? 'hub' : location.pathname === '/about' ? 'about' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
+  const page = location.pathname === '/notes' ? 'notes' : location.pathname === '/admin/notes' ? 'admin-notes' : location.pathname === '/desk' ? 'hub' : location.pathname === '/about' ? 'about' : location.pathname === '/resume' ? 'resume' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
   usePageMeta(homeMeta, page === 'home');
 
   useEffect(() => {
@@ -121,6 +122,7 @@ export default function App() {
     if (page === 'not-found') document.title = 'Page not found — Ankit Chandrakar';
     else if (page === 'playtime') document.title = 'Playtime — Ankit Chandrakar';
     else if (page === 'about') document.title = 'About — Ankit Chandrakar';
+    else if (page === 'resume') document.title = 'My Resume — Ankit Chandrakar';
     else if (page === 'notes') document.title = 'Notes — Ankit Chandrakar';
     else if (page === 'admin-notes') document.title = 'Private notes — Ankit Chandrakar';
     else if (page !== 'case') document.title = page === 'hub' ? 'Design desk — Ankit Chandrakar' : homeMeta.title;
@@ -148,8 +150,10 @@ export default function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading notes…</p>}><Notes /></Suspense>} />
           <Route path="/admin/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading sign-in…</p>}><AdminNotes /></Suspense>} />
+          <Route path="/resume" element={<Resume />} />
           <Route path="/playtime" element={<Playtime />} />
-          <Route path="/agents" element={<Navigate to="/work/mistribhai#agents" replace />} />
+          <Route path="/agents" element={<Navigate to="/work/helix#agents" replace />} />
+          <Route path="/work/mistribhai" element={<Navigate to="/work/helix" replace />} />
           <Route path="/work/kamdhenu-k-series" element={<KSeriesCaseStudy />} />
           <Route path="/work/bondure" element={<BondureCaseStudy />} />
           <Route path="/work/shinex-crystalx" element={<ShineXCrystalXCaseStudy />} />
