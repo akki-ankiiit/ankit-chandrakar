@@ -14,8 +14,8 @@ import { PocketPlayerSection } from "./components/sections/PocketPlayerSection";
 // import { TypewriterSection } from "./components/sections/TypewriterSection";
 
 const WaterRipple = lazy(() => import('./components/interactive/WaterRipple').then(module => ({ default: module.WaterRipple })));
-const GlobeGallerySection = lazy(() => import('./components/sections/GlobeGallerySection').then(module => ({ default: module.GlobeGallerySection })));
-const TunnelGallerySection = lazy(() => import('./components/sections/TunnelGallerySection').then(module => ({ default: module.TunnelGallerySection })));
+// const GlobeGallerySection = lazy(() => import('./components/sections/GlobeGallerySection').then(module => ({ default: module.GlobeGallerySection })));
+// const TunnelGallerySection = lazy(() => import('./components/sections/TunnelGallerySection').then(module => ({ default: module.TunnelGallerySection })));
 
 function App() {
   useEffect(() => {
@@ -81,10 +81,10 @@ function App() {
         <DeferredExperiment id="works" label="Project carousel" height="max(90vh, 692px)" background="#f4f4f4"><SnapCarousel /></DeferredExperiment>
         <DeferredExperiment id="flipbook" label="Flipbook" height="max(100vh, 776px)" background="#e5e5e5"><Flipbook /></DeferredExperiment>
         <DeferredExperiment id="water-ripple" label="Water ripple"><WaterRipple /></DeferredExperiment>
-        <DeferredExperiment id="tunnel-gallery" label="Tunnel gallery" background="#000"><TunnelGallerySection /></DeferredExperiment>
+        {/* <DeferredExperiment id="tunnel-gallery" label="Tunnel gallery" background="#000"><TunnelGallerySection /></DeferredExperiment> */}
         <DeferredExperiment id="memory-gallery" label="Memory gallery" background="#400000"><MemoryGallerySection /></DeferredExperiment>
         <DeferredExperiment id="dot-field" label="Dot field" background="#002BFF"><DotBackgroundSection /></DeferredExperiment>
-        <DeferredExperiment id="globe-gallery" label="Globe gallery" background="#fff"><GlobeGallerySection /></DeferredExperiment>
+        {/* <DeferredExperiment id="globe-gallery" label="Globe gallery" background="#fff"><GlobeGallerySection /></DeferredExperiment> */}
         <DeferredExperiment id="dock" label="Dock" height="60vh" background="#0a0a0b"><DockSection /></DeferredExperiment>
       </main>
     </div>
