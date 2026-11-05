@@ -33,7 +33,7 @@ export const brief = {
   linkLabel: 'See how the same team launched Kamdhenu Adhesive →',
 };
 
-// Early directions: fill in name, what it tried and why it was set aside. Placeholders stay visible until supplied.
+// Early directions: fill in name, what it tried and why it was set aside. Sections stay hidden until real text replaces the TODO_USER placeholders.
 export const ideas = {
   heading: 'Three directions before one system.',
   lede: 'TODO_USER: One-line summary of the early directions, before the family system.',
@@ -78,7 +78,7 @@ export const system = {
   ],
 };
 
-// Kamdhenu Group HQ details: fill in each step from the brief, review and approval. Placeholders stay visible until supplied.
+// Kamdhenu Group HQ details: fill in each step from the brief, review and approval. Sections stay hidden until real text replaces the TODO_USER placeholders.
 export const hq = {
   heading: 'Built to the Kamdhenu HQ brief.',
   lede: 'Tejas is from the team behind Kamdhenu Adhesive, so the work followed the Kamdhenu Group HQ details before it was implemented.',

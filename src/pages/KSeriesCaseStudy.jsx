@@ -14,15 +14,6 @@ import { kSeriesCard, kSeriesHero, kSeriesImages, kSeriesMeta, kSeriesPath, reco
 const cover = kSeriesImages['k90-front'];
 const meta = { ...kSeriesMeta, path: kSeriesPath, imageWidth: cover.width, imageHeight: cover.height, imageAlt: 'K-Series K90 front of pack' };
 const workState = { category: 'packaging-designs', focusProject: kSeriesCard.id };
-const chapters = [
-  { id: 'ks-approval', label: 'Approval' },
-  { id: 'ks-problem', label: 'The problem' },
-  { id: 'ks-research', label: 'Research' },
-  { id: 'ks-naming', label: 'Naming' },
-  { id: 'ks-front', label: 'Front of pack' },
-  { id: 'ks-back', label: 'Back of pack' },
-  { id: 'ks-results', label: 'Results' },
-];
 
 export default function KSeriesCaseStudy() {
   usePageMeta(meta);
@@ -35,16 +26,13 @@ export default function KSeriesCaseStudy() {
         <Approval />
       </Section>
       <p className="ks-eyebrow">Kamdhenu Adhesive / Packaging & naming</p>
-      <h1>{kSeriesHero.title}</h1>
+      <h1 className="sr-only">{kSeriesHero.title}</h1>
       <p className="ks-hero-subtitle">{kSeriesHero.subtitle}</p>
       <div className="ks-range-overview" aria-labelledby="ks-range-title">
         <div className="ks-overview-heading"><h2 id="ks-range-title">The finished range</h2><p>One grade, one colour, one job.</p></div>
         <Shelf />
       </div>
       <dl className="ks-facts">{kSeriesHero.facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{label === 'Outcome' ? '₹1–1.5 Cr to ₹20 Cr a year' : value}</dd></div>)}</dl>
-      <nav className="ks-chapters" aria-label="Chapters">
-        {chapters.map((chapter, index) => <a key={chapter.id} href={`#${chapter.id}`}><span>{String(index + 1).padStart(2, '0')}</span>{chapter.label}</a>)}
-      </nav>
     </header>
     <Problem />
     <Listening />

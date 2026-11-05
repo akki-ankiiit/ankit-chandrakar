@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../styles/about.css';
 import HeroArtwork from '../components/HeroArtwork.jsx';
-import { Pill, SocialLinks } from '../components/ui.jsx';
+import { Pill, Selection, SocialLinks } from '../components/ui.jsx';
+import { recognition } from '../data/k-series.js';
 import { imagery, profile } from '../data/portfolio.js';
 
 const galleryGroups = [
@@ -45,19 +46,32 @@ export default function AboutPage() {
       </section>
 
       <figure className="about-page-team-photo container">
-        <img src="/assets/optimized/TeamNyusta.webp" alt="The Nyusta team gathered beside an outdoor pool" width="1920" height="1080" loading="lazy" decoding="async" />
+        <Selection><img src="/assets/optimized/TeamNyusta.webp" alt="The Nyusta team gathered beside an outdoor pool" width="1920" height="1280" loading="lazy" decoding="async" /></Selection>
         <figcaption>Me &amp; Team Nyusta</figcaption>
       </figure>
 
       <div className="about-page-photo-pair container">
         <figure>
-          <img src="/assets/packaging/K-Series/me-and-sunil.webp" alt="Ankit Chandrakar with Sunil Agrawal" width="900" height="1200" loading="lazy" decoding="async" />
+          <Selection><img src="/assets/packaging/K-Series/me-and-sunil.webp" alt="Ankit Chandrakar with Sunil Agrawal" width="900" height="1200" loading="lazy" decoding="async" /></Selection>
           <figcaption>Me &amp; Sunil Agrawal</figcaption>
         </figure>
-        <figure>
-          <img src="/assets/packaging/K-Series/signed-brochure.webp" alt="K-Series brochure signed by Sunil Agrawal" width="1400" height="1050" loading="lazy" decoding="async" />
-          <figcaption>Signed by Sunil Agrawal</figcaption>
-        </figure>
+        <div className="about-page-sunil-stack">
+          <figure className="about-page-sunil-portrait">
+            <Selection><img src="/assets/sunil.webp" alt={recognition.profile.alt} width="690" height="776" loading="lazy" decoding="async" /></Selection>
+            <span className="about-page-sunil-tape" aria-hidden="true" />
+          </figure>
+          <figure>
+            <Selection><img src="/assets/packaging/K-Series/signed-brochure.webp" alt="K-Series brochure signed by Sunil Agrawal" width="1400" height="1050" loading="lazy" decoding="async" /></Selection>
+            <figcaption>Signed by Sunil Agrawal</figcaption>
+          </figure>
+        </div>
+        <aside className="about-page-sunil-card" aria-labelledby="about-sunil-name">
+          <h3 id="about-sunil-name">{recognition.profile.name}</h3>
+          <p className="about-page-sunil-role">{recognition.profile.role}</p>
+          <p className="about-page-sunil-bio">{recognition.profile.bio}</p>
+          <p className="about-page-sunil-quote">All the best for Adhesives.</p>
+          <Pill href="/work/kamdhenu-k-series" className="about-page-sunil-cta">Open K-Series project</Pill>
+        </aside>
       </div>
 
       <section className="about-page-gallery" aria-labelledby="about-gallery-title">
@@ -71,7 +85,7 @@ export default function AboutPage() {
             </div>
             <figure className="about-page-portrait">
               <div className="about-page-portrait-mat">
-                <img src={imagery.portrait} alt="Illustrated designer wearing headphones and sketching at a desk" width="712" height="533" loading="lazy" decoding="async" />
+                <Selection><img src={imagery.portrait} alt="Illustrated designer wearing headphones and sketching at a desk" width="712" height="533" loading="lazy" decoding="async" /></Selection>
               </div>
               <figcaption><span><span className="about-page-print-index">01 /</span> Me, illustrated</span><span>A familiar face around here.</span></figcaption>
             </figure>
@@ -87,7 +101,7 @@ export default function AboutPage() {
               <div className="about-page-image-grid">
                 {group.artworks.map((artwork, index) => (
                   <figure key={artwork.file}>
-                    <div className="about-page-print"><img src={`/assets/sketches/${artwork.file}.webp`} alt={artwork.alt} width={artwork.width} height={artwork.height} loading="lazy" decoding="async" /></div>
+                    <div className="about-page-print"><Selection><img src={`/assets/sketches/${artwork.file}.webp`} alt={artwork.alt} width={artwork.width} height={artwork.height} loading="lazy" decoding="async" /></Selection></div>
                     <figcaption><span className="about-page-print-index">{group.number}.{String(index + 1).padStart(2, '0')}</span><span>{artwork.title}</span><span>{artwork.medium}</span></figcaption>
                   </figure>
                 ))}

@@ -1,4 +1,4 @@
-import { Reveal } from './ui.jsx';
+import { Reveal, Selection } from './ui.jsx';
 import { impactCapabilities } from '../data/capabilities.js';
 import {
   ProductThinkingIcon,
@@ -32,18 +32,18 @@ export default function Impact() {
       <div className="container">
         <Reveal className="impact-intro">
           <p className="eyebrow">How I work</p>
-          <h2 id="impact-title">How I create impact.</h2>
+          <h2 id="impact-title">How I create impact</h2>
         </Reveal>
         <ul className="impact-grid" role="list">
           {impactCapabilities.map((capability, index) => {
             const Icon = icons[capability.id];
             return (
-              <li key={capability.id} className="impact-cell">
+              <Selection as="li" key={capability.id} className="impact-cell">
                 <Reveal className="impact-cell-body" delay={index * 40}>
                   <span className="impact-icon-wrap"><Icon /></span>
                   <h3>{capability.title}</h3>
                 </Reveal>
-              </li>
+              </Selection>
             );
           })}
         </ul>

@@ -12,8 +12,8 @@ export function Pill({ children, href, onClick, type = 'button', className = '',
   return <Selection className={`pill-wrap ${className}`}><Tag className="pill" href={href} onClick={onClick} type={href ? undefined : type} disabled={href ? undefined : disabled} {...props}><Icon size={12} /><span>{children}</span></Tag></Selection>;
 }
 
-export function SocialLinks({ className = '' }) {
-  return <div className={`social-links ${className}`}>{profile.socials.map((social) => <a key={social.name} href={social.url} target="_blank" rel="noreferrer" aria-label={`${social.name} (opens in a new tab)`}><Icon name={social.icon} size={17} /></a>)}</div>;
+export function SocialLinks({ className = '', children }) {
+  return <div className={`social-links ${className}`}>{profile.socials.map((social) => <a key={social.name} href={social.url} target="_blank" rel="noreferrer" aria-label={`${social.name} (opens in a new tab)`}><Icon name={social.icon} size={17} /></a>)}{children}</div>;
 }
 
 export function Reveal({ children, className = '', delay = 0 }) {

@@ -40,7 +40,7 @@ export default function FigmaFilePage({ project }) {
       <ProjectBackLink state={{ category: 'design-systems', focusProject: project.id }} label="Back to Design Systems" />
       <header className="figma-file-toolbar">
         <div className="figma-file-heading">
-          <h1 id="figma-file-title">{project.title}</h1>
+          <h1 id="figma-file-title" className="sr-only">{project.title}</h1>
           <p>{project.embedLabel}</p>
         </div>
         <div className="figma-file-actions">

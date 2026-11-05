@@ -1,3 +1,5 @@
+/* Same typewriter face as the Typewriter section's ink (Special Elite, Apache-2.0). */
+@font-face { font-family: 'TW Special Elite'; src: url('/assets/fonts/typewriter/special-elite-latin-400-normal.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 .notes-page { padding-bottom: 56px; }
 .admin-notes-page { padding-top: 190px; padding-bottom: 56px; }
 .notes-eyebrow { color: var(--accent-strong); font-size: 13px; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 16px; }
@@ -24,14 +26,54 @@
 .notes-wall-heading { margin-bottom: 20px; }
 .notes-wall h2 { font-size: 34px; font-weight: 400; }
 /* Uniform grid: equal-width cards, equal height per row, author pinned to the card bottom. */
-.notes-list { margin-top: 8px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-/* .selection supplies the site's hover frame (same as folders and thumbnails). */
-.public-note.selection { display: flex; flex-direction: column; gap: 0; min-height: 160px; padding: 22px; border: 1px solid var(--forest); border-radius: 8px; background: var(--paper); transition: background .25s; }
-.public-note:hover { background: #fffffa; }
+.notes-list { margin-top: 8px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+/* Published note = paper ticket. Perforations are semicircles cut out of the paper with a CSS mask (no images, no extra elements):
+   four edge masks are intersected, and `round` stretches the tiles so every edge gets a whole number of evenly spaced holes. */
+.public-note.selection { display: flex; }
+.public-note-ticket { display: flex; flex: 1 1 auto; min-width: 0; filter: drop-shadow(0 1px 2px #28282820) drop-shadow(0 10px 18px #2828281c); transition: transform .35s var(--ease), filter .35s var(--ease); }
+.public-note:hover .public-note-ticket { transform: translateY(-3px); filter: drop-shadow(0 1px 1px #28282818) drop-shadow(0 12px 18px #2828281c); }
+.public-note-ticket__paper {
+  --hole: 5px; --pitch: 22px;
+  display: flex; flex: 1 1 auto; min-width: 0; min-height: 270px; /* compact portrait; grows with long notes */
+  /* Vintage pastel paper, top to bottom: fine grain, soft mottling, a few foxing specks, an aged vignette, then the card's pastel. */
+  --paper-top: #f7ecdc; --paper-bottom: #efdcc2;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .38 0 0 0 0 .30 0 0 0 0 .20 0 0 0 .20 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .40 0 0 0 0 .22 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23m)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .20 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23f)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 17% 81%, #96693a24 0 1.5px, #0000 2.5px),
+    radial-gradient(circle at 83% 22%, #96693a1c 0 1px, #0000 2px),
+    radial-gradient(circle at 64% 91%, #96693a1a 0 1.2px, #0000 2.4px),
+    radial-gradient(ellipse at 50% 45%, #0000 52%, #8a5e2c1c 100%),
+    linear-gradient(180deg, var(--paper-top) 0%, var(--paper-bottom) 100%);
+  background-blend-mode: multiply, multiply, multiply, normal, normal, normal, normal, normal;
+  mask:
+    radial-gradient(circle at 0 50%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / 100% var(--pitch) no-repeat round,
+    radial-gradient(circle at 100% 50%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / 100% var(--pitch) no-repeat round,
+    radial-gradient(circle at 50% 0, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / var(--pitch) 100% round no-repeat,
+    radial-gradient(circle at 50% 100%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / var(--pitch) 100% round no-repeat;
+  mask-composite: intersect;
+  -webkit-mask:
+    radial-gradient(circle at 0 50%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / 100% var(--pitch) no-repeat round,
+    radial-gradient(circle at 100% 50%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / 100% var(--pitch) no-repeat round,
+    radial-gradient(circle at 50% 0, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / var(--pitch) 100% round no-repeat,
+    radial-gradient(circle at 50% 100%, #0000 var(--hole), #000 calc(var(--hole) + .6px)) 0 0 / var(--pitch) 100% round no-repeat;
+  -webkit-mask-composite: source-in;
+}
+/* Each ticket gets its own pastel, repeating every six. */
+.public-note:nth-child(6n+1) .public-note-ticket__paper { --paper-top: #f9ede0; --paper-bottom: #f1dcc6; } /* peach cream */
+.public-note:nth-child(6n+2) .public-note-ticket__paper { --paper-top: #e9f0dc; --paper-bottom: #d9e5c6; } /* sage */
+.public-note:nth-child(6n+3) .public-note-ticket__paper { --paper-top: #e3edf3; --paper-bottom: #cfdfea; } /* dusty blue */
+.public-note:nth-child(6n+4) .public-note-ticket__paper { --paper-top: #efe7f4; --paper-bottom: #ddd0e9; } /* lavender */
+.public-note:nth-child(6n+5) .public-note-ticket__paper { --paper-top: #faf1cf; --paper-bottom: #f1e3ac; } /* butter */
+.public-note:nth-child(6n+6) .public-note-ticket__paper { --paper-top: #f8e6e8; --paper-bottom: #efcfd4; } /* blush */
+/* Padding keeps text well clear of the perforations. */
+.public-note-ticket__content { display: flex; flex: 1 1 auto; flex-direction: column; min-width: 0; padding: 26px 22px 22px; color: #252525; }
 .note-content { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 16px; line-height: 1.6; margin-bottom: 20px; }
-.public-note footer { display: flex; flex-direction: column; gap: 2px; margin-top: auto; padding-top: 14px; border-top: 1px solid #34383120; }
-.public-note h3 { font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
-.public-note footer span { font-size: 12px; line-height: 1.4; color: var(--muted); }
+.public-note .note-content { font-size: 14.5px; line-height: 1.55; margin-bottom: 16px; font-family: 'TW Special Elite', 'Courier New', monospace; }
+.public-note footer { display: flex; flex-direction: column; gap: 2px; margin-top: auto; padding-top: 12px; border-top: 1px dashed #5a40262e; }
+.public-note h3 { font-size: 13.5px; line-height: 1.4; overflow-wrap: anywhere; font-family: 'TW Special Elite', 'Courier New', monospace; }
+.public-note footer span { font-size: 12px; line-height: 1.4; color: #574f40; font-family: 'TW Special Elite', 'Courier New', monospace; }
 /* Loading / error / empty states share one rhythm: 14px between text and action, 20px below. */
 .notes-state { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 20px; font-size: 16px; line-height: 1.6; color: #606957; }
 .notes-state p { margin: 0; }
@@ -41,7 +83,31 @@
 .note-new { display: inline-flex; align-items: center; gap: 10px; min-height: 60px; min-width: 240px; padding: 16px 28px; justify-content: center; border: 1px dashed var(--forest); border-radius: 8px; background: transparent; font-size: 17px; color: var(--forest); transition: background .25s, box-shadow .25s; }
 .note-new[hidden], .note-tile-form[hidden] { display: none; }
 .note-new:hover { background: var(--beige); box-shadow: 2px 3px 0 #34383118; }
-.note-tile-form { padding: 18px; border: 1px dashed var(--forest); border-radius: 8px; background: var(--beige); animation: tile-open .3s var(--ease); }
+.note-tile-form { animation: tile-open .3s var(--ease); }
+/* Same perforated ticket shape as Published notes, in vintage off-white letter paper. */
+.note-tile-form .public-note-ticket__paper { min-height: 300px; --paper-top: #fbf7ec; --paper-bottom: #f2e9d3; }
+.note-tile-form .public-note-ticket__content { padding: 30px 28px 22px; position: relative; z-index: 1; }
+/* Heavier letter-paper texture for the composer: fine fibres, dense grain and a faint ruled wash, drawn under the text. */
+.note-tile-form .public-note-ticket__paper { position: relative; isolation: isolate; }
+.note-tile-form .public-note-ticket__paper::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; mix-blend-mode: multiply;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .28 0 0 0 0 .18 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='120'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.004 .09' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .31 0 0 0 0 .18 0 0 0 .10 0'/%3E%3C/filter%3E%3Crect width='400' height='120' filter='url(%23f)'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 30% 20%, #ffffff55 0, #0000 60%);
+}
+.note-tile-form .submission-form { flex: 1; }
+/* Clean composer card: no ruled lines, just a roomy note area and two underlined fields. */
+.note-tile-form .is-compact .contact-fields { grid-template-columns: 1fr 1fr; gap: 16px; }
+.note-tile-form .is-compact.submission-form.contact-form, .note-tile-form .is-compact fieldset { gap: 14px; }
+.note-tile-form .submission-form input, .note-tile-form .submission-form textarea { width: 100%; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #3a3226; font-family: 'TW Special Elite', 'Courier New', monospace; font-size: 15px; outline: none; }
+.note-tile-form .submission-form input { height: 34px; border-bottom: 1px solid #b9a67f80; transition: border-color .2s; }
+.note-tile-form .submission-form.is-compact textarea { height: 110px; min-height: 0; padding: 4px 0 8px; line-height: 1.6; resize: none; border-bottom: 1px solid #b9a67f80; }
+.note-tile-form .submission-form input::placeholder, .note-tile-form .submission-form textarea::placeholder { color: #8b7b5c; }
+.note-tile-form .submission-form input:focus, .note-tile-form .submission-form textarea:focus { border-bottom-color: #7a6238; }
+.note-tile-form .submission-form input[aria-invalid="true"], .note-tile-form .submission-form textarea[aria-invalid="true"] { border-bottom-color: #963f34; }
+.note-tile-form .character-count { margin-top: 6px; color: #7a6c52; }
+.note-tile-form .form-bottom { margin-top: 4px; padding-top: 4px; }
 @keyframes tile-open { from { opacity: 0; transform: translateY(-6px); } }
 .is-compact.submission-form.contact-form { gap: 8px; }
 .is-compact fieldset { gap: 8px; }
@@ -107,8 +173,9 @@
   .desktop-nav .nav-link { font-size: 14px; }
   .desktop-nav .pill { padding-inline: 12px; }
 }
+@media (max-width: 1099px) { .notes-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 819px) { .notes-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
-@media (max-width: 559px) { .notes-list { grid-template-columns: minmax(0, 1fr); } .public-note.selection { min-height: 0; padding: 18px 20px; } }
+@media (max-width: 559px) { .notes-list { grid-template-columns: minmax(0, 1fr); } .public-note-ticket__paper { min-height: 180px; } .public-note-ticket__content { padding: 24px 22px 20px; } }
 @media (max-width: 899px) { .admin-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 749px) { .note-new { width: 100%; } }
 @media (max-width: 420px) { .is-compact .contact-fields { grid-template-columns: 1fr; } }
@@ -120,11 +187,12 @@
   .admin-notifications { align-items: flex-start; flex-direction: column; }
   .admin-entry > header { flex-direction: column; }
   .admin-meta { flex-direction: row; align-items: center; gap: 12px; }
-    .notes-wall h2 { font-size: 29px; }
+  .notes-wall h2 { font-size: 29px; }
   .submission-form .contact-fields { grid-template-columns: 1fr; gap: 16px; }
   .submission-form input, .submission-form textarea { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .public-note-ticket, .public-note:hover .public-note-ticket { transition: none; transform: none; }
     .notes-page *, .admin-notes-page *, .submission-form * { scroll-behavior: auto; transition: none; animation: none; }
 }
 /* Turnstile's flexible widget needs a 300px minimum content width. */

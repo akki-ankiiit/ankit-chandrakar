@@ -5,6 +5,10 @@ import { test, expect } from '@playwright/test';
 // VITE_SUPABASE_ANON_KEY=sb_publishable_browser_test_key
 // VITE_TURNSTILE_SITE_KEY=browser-test-site-key
 // All API, Auth and CAPTCHA traffic below is mocked; no deployment is required.
+// The footer message form (email sending) is switched off. Flip this when it returns to re-enable its tests.
+const FOOTER_FORM = false;
+const contactTest = FOOTER_FORM ? test : test.skip;
+
 const note = { id: 'note-1', name: 'Ada Visitor', message: 'A thoughtful little corner of the web.', approved_at: '2026-10-30T12:00:00Z' };
 const pending = { ...note, email: 'private@example.com', status: 'pending', approved_at: null, created_at: '2026-10-30T12:00:00Z' };
 const message = { id: 'message-1', name: 'Lin Visitor', email: 'lin@example.com', subject: 'A collaboration', message: 'Let’s make something.', status: 'unread', created_at: '2026-10-31T12:00:00Z' };
@@ -106,8 +110,9 @@ test('Notes has editorial copy, accessible navigation and truthful configuration
   } else await expect(page.getByText('No published notes yet.', { exact: false })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Add a note', exact: true })).toBeVisible();
   await expect(page.getByRole('form', { name: 'Leave a note', exact: true })).toBeHidden();
-  if (!state.submissionsConfigured) await expect(page.getByRole('button', { name: 'Send Message', exact: true })).toBeDisabled();
-  await expect(page.locator('a[href^="mailto:"]')).toHaveCount(0);
+  if (!FOOTER_FORM) await expect(page.locator('#footer form')).toHaveCount(0);
+  else if (!state.submissionsConfigured) await expect(page.getByRole('button', { name: 'Send Message', exact: true })).toBeDisabled();
+  await expect(page.locator('form a[href^="mailto:"]')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   const menu = page.getByRole('button', { name: 'Open menu', exact: true });
   if (await menu.isVisible()) {
@@ -119,8 +124,8 @@ test('Notes has editorial copy, accessible navigation and truthful configuration
     await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Notes', exact: true })).toHaveAttribute('href', '/notes');
   }
   expect(browserErrors).toEqual([]);
-  await page.getByRole('button', { name: 'Send Message', exact: true }).scrollIntoViewIfNeeded();
-  await expect(page.locator('.contact-form-wrap')).toHaveClass(/is-visible/);
+  await page.locator('#footer').scrollIntoViewIfNeeded();
+  await expect(page.locator('#footer').getByRole('link', { name: 'Leave a note', exact: true })).toBeVisible();
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
   const screenshot = testInfo.outputPath('notes-layout.png');
   await page.screenshot({ path: screenshot, fullPage: true, animations: 'disabled' });
@@ -241,7 +246,7 @@ test('note validation, double-submit protection, retained retry UUID and exact s
   await expect(form.getByLabel('Your note')).toHaveValue('');
 });
 
-test('contact sends subject and validated private message via backend', async ({ page }) => {
+contactTest('contact sends subject and validated private message via backend', async ({ page }) => {
   let sent;
   await page.route('**/functions/v1/portfolio-api', (route) => {
     const body = route.request().postDataJSON();
@@ -310,27 +315,29 @@ for (const { status, serverMessage, feedback } of submissionErrors) {
     await expect(noteForm.getByText(feedback, { exact: true })).toBeVisible();
     await expect(noteForm.getByLabel('Your note')).toHaveValue('Thanks for the inspiration.');
 
-    const form = await fillContact(page);
-    for (let attempt = 0; attempt < 2; attempt += 1) {
+    if (FOOTER_FORM) {
+      const form = await fillContact(page);
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        await form.getByRole('button', { name: 'Send Message', exact: true }).click();
+        await expect.poll(() => contacts.length).toBe(attempt + 1);
+        await expect(form.locator('.form-status')).toHaveText('Something went wrong. Please try again.');
+        await expect(form.locator('.submission-hint')).toHaveText(feedback);
+        await expect(form.getByRole('button', { name: 'Send Message', exact: true })).toBeEnabled();
+        await expect(form.getByLabel('Your message')).toHaveValue('Hello from a visitor.');
+      }
+      expect(contacts[1].idempotencyKey).toBe(contacts[0].idempotencyKey);
+      expect(contacts[1].captchaToken).not.toBe(contacts[0].captchaToken);
+      await form.getByLabel('Subject', { exact: true }).fill('A new question');
+      await expect(form.locator('.submission-hint')).toHaveCount(0);
       await form.getByRole('button', { name: 'Send Message', exact: true }).click();
-      await expect.poll(() => contacts.length).toBe(attempt + 1);
-      await expect(form.locator('.form-status')).toHaveText('Something went wrong. Please try again.');
-      await expect(form.locator('.submission-hint')).toHaveText(feedback);
-      await expect(form.getByRole('button', { name: 'Send Message', exact: true })).toBeEnabled();
-      await expect(form.getByLabel('Your message')).toHaveValue('Hello from a visitor.');
+      await expect(form.locator('.form-status')).toHaveText('Your message has been sent. Thanks for reaching out!');
+      expect(contacts[2].idempotencyKey).not.toBe(contacts[1].idempotencyKey);
+      await expect(form.locator('.submission-hint')).toHaveCount(0);
     }
-    expect(contacts[1].idempotencyKey).toBe(contacts[0].idempotencyKey);
-    expect(contacts[1].captchaToken).not.toBe(contacts[0].captchaToken);
-    await form.getByLabel('Subject', { exact: true }).fill('A new question');
-    await expect(form.locator('.submission-hint')).toHaveCount(0);
-    await form.getByRole('button', { name: 'Send Message', exact: true }).click();
-    await expect(form.locator('.form-status')).toHaveText('Your message has been sent. Thanks for reaching out!');
-    expect(contacts[2].idempotencyKey).not.toBe(contacts[1].idempotencyKey);
-    await expect(form.locator('.submission-hint')).toHaveCount(0);
   });
 }
 
-test('repeating an accepted contact message shows a conflict instead of pretending it was delivered again', async ({ page }) => {
+contactTest('repeating an accepted contact message shows a conflict instead of pretending it was delivered again', async ({ page }) => {
   const contacts = [];
   await page.route('**/functions/v1/portfolio-api', (route) => {
     const body = route.request().postDataJSON();
@@ -368,11 +375,13 @@ test('unknown submission error text is never rendered in either form', async ({ 
   const noteForm = await fillNote(page);
   await noteForm.getByRole('button', { name: 'Post', exact: true }).click();
   await expect(noteForm.locator('.form-status')).toHaveText('Please check your submission and try again.');
-  const form = await fillContact(page);
-  status = 500;
-  await form.getByRole('button', { name: 'Send Message', exact: true }).click();
-  await expect(form.locator('.form-status')).toHaveText('Something went wrong. Please try again.');
-  await expect(form.locator('.submission-hint')).toHaveCount(0);
+  if (FOOTER_FORM) {
+    const form = await fillContact(page);
+    status = 500;
+    await form.getByRole('button', { name: 'Send Message', exact: true }).click();
+    await expect(form.locator('.form-status')).toHaveText('Something went wrong. Please try again.');
+    await expect(form.locator('.submission-hint')).toHaveCount(0);
+  }
   await expect(page.getByText('Private provider credentials and database exception', { exact: false })).toHaveCount(0);
 });
 
@@ -580,4 +589,25 @@ test('safe polling announces counts without replacing entries in the current vie
   await expect(page.getByText('1 new pending note. 1 new unread message. Refresh to load the latest entries.', { exact: true })).toBeVisible();
   await expect(page.getByText(pending.message, { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: /pending 2/i })).toBeVisible();
+});
+
+test('footer is a simple centred column with a Leave a note button and no message form', async ({ page }) => {
+  await page.route('**/functions/v1/portfolio-api', (route) => json(route, { notes: [], hasMore: false }));
+  await page.goto('/about');
+  const footer = page.locator('#footer');
+  await footer.scrollIntoViewIfNeeded();
+  await expect(footer.locator('form')).toHaveCount(0);
+  await expect(footer.getByRole('link', { name: 'Email me', exact: true })).toHaveAttribute('href', /^mailto:/);
+  await expect(footer.locator('.ft-socials a')).toHaveCount(3);
+  const centred = await footer.evaluate((element) => {
+    const middle = innerWidth / 2;
+    return [...element.querySelectorAll('.ft-inner h2, .ft-actions, .ft-socials, .ft-colophon')].every((node) => {
+      const box = node.getBoundingClientRect();
+      return Math.abs((box.left + box.right) / 2 - middle) < 2;
+    });
+  });
+  expect(centred).toBe(true);
+  await footer.getByRole('link', { name: 'Leave a note', exact: true }).click();
+  await expect(page).toHaveURL(/\/notes$/);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

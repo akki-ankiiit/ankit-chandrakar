@@ -9,6 +9,7 @@ export default function Icon({ name = 'star', size = 18, ...props }) {
     star: <path d="M12 1.5c1.1 6.3 4.2 9.4 10.5 10.5-6.3 1.1-9.4 4.2-10.5 10.5C10.9 16.2 7.8 13.1 1.5 12 7.8 10.9 10.9 7.8 12 1.5Z" fill="currentColor" stroke="none" />,
     books: <><path d="M4 20V8h4v12M10 20V4h4v16M17 20l-2-11 4-.7 2 11M2 21h20" /><path d="M5 11h2M11 7h2" /></>,
     arrow: <><path d="M5 12h14M13 6l6 6-6 6" /></>,
+    mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7 8.5 6.5L20.5 7" /></>,
     plus: <path d="M12 5v14M5 12h14" />,
     close: <path d="m6 6 12 12M6 18 18 6" />,
     play: <path d="m9 5 11 7-11 7Z" fill="currentColor" stroke="none" />,

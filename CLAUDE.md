@@ -58,3 +58,7 @@ Never claim that a build, test, animation, or browser interaction succeeded unle
 - Keep delegated tasks focused.
 - Avoid unnecessary parallel agents and repeated codebase exploration.
 - Optimize for the cost of a verified, correct result rather than the number of agent calls.
+
+## Named Effects
+
+- **outline-box**: the hover frame from the `Selection` component in `src/components/ui.jsx` (`.selection-frame` in `src/styles/index.css`). A thin gradient border with eight handles fades in on hover. Pills, thumbnails, folder images and the "How I create impact" cards use it. When asked to use "outline-box", wrap the element in `<Selection>` rather than writing custom hover borders or outlines.

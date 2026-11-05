@@ -52,7 +52,6 @@ function Presentation({ project }) {
 }
 
 function CaseStudyContent({ project }) {
-  const [progress, setProgress] = useState(0);
   const article = useRef(null);
   const hasPresentation = project.caseStudy.chapters.length > 0;
   const index = projects.findIndex((item) => item.id === project.id);
@@ -63,15 +62,9 @@ function CaseStudyContent({ project }) {
     const description = document.querySelector('meta[name="description"]');
     const previous = description?.content;
     if (description) description.content = project.description;
-    const update = () => {
-      if (!article.current) return;
-      const rect = article.current.getBoundingClientRect();
-      setProgress(Math.max(0, Math.min(1, -rect.top / Math.max(1, rect.height - window.innerHeight))));
+    return () => {
+      if (description && previous) description.content = previous;
     };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
-    return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update); if (description && previous) description.content = previous; };
   }, [project]);
 
   const contributionNumber = project.embedUrl ? '05' : '04';
@@ -79,10 +72,9 @@ function CaseStudyContent({ project }) {
 
   return (
     <article className="case-study-page page-enter" ref={article}>
-      <div className="case-reading-progress" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
       <header className="case-hero case-container">
         <div className="case-breadcrumb"><ProjectBackLink state={{ category: project.group, focusProject: project.id }} /><span>PROJECT {String(index + 1).padStart(2, '0')} / {project.category.toUpperCase()}</span></div>
-        <div className="case-title-row"><div><p className="eyebrow">{project.caseStudy.eyebrow || 'From the design scrapbook'}</p><h1>{project.title}</h1><p className="case-subtitle">{project.subtitle}</p></div><div className="case-stamp"><Icon size={24} /><span>thoughtfully<br />put together.</span></div></div>
+        <div className="case-title-row"><div><p className="eyebrow">{project.caseStudy.eyebrow || 'From the design scrapbook'}</p><h1 className="sr-only">{project.title}</h1><p className="case-subtitle">{project.subtitle}</p></div><div className="case-stamp"><Icon size={24} /><span>thoughtfully<br />put together.</span></div></div>
         <dl className="case-facts"><div><dt>My role</dt><dd>{project.role}</dd></div><div><dt>Scope</dt><dd>{project.scope}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>{project.sourceLabel ? 'Original publication' : 'Organization'}</dt><dd>{project.sourceLabel ? <a href={project.sourceUrl} target="_blank" rel="noreferrer">View on {project.sourceLabel} ↗</a> : project.client}</dd></div></dl>
         <figure className="case-cover"><img src={project.image} alt={`${project.title} — scrapbook cover illustration`} width="1200" height="850" fetchPriority="high" /><figcaption><span>From sketches to considered experiences.</span><span>Illustrated project cover</span></figcaption></figure>
       </header>
@@ -114,13 +106,8 @@ function ShowcasePage({ project }) {
     <article className="showcase-page page-enter">
       <div className="case-container">
         <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
-        <header className="showcase-header">
-          <h1>{project.title}</h1>
-          <p className="case-subtitle">{project.subtitle}</p>
-        </header>
-        {project.context?.length > 0 && <div className="showcase-context">
-          {project.context.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-        </div>}
+        {/* The page opens straight on the embed: no visible title, tagline or intro. The title stays for screen readers. */}
+        <h1 className="sr-only">{project.title}</h1>
       </div>
       <section className="showcase-site" aria-label={`${project.title} — ${project.embedLabel || 'live website'}`}>
         <div className="showcase-frame">
@@ -136,6 +123,9 @@ function ShowcasePage({ project }) {
   );
 }
 
+// Stacked case-study slides fill the case container (max ~1044px), so phones and small windows can use the 1000px copy.
+const STREAM_SIZES = '(min-width: 1140px) 1044px, 100vw';
+
 function StreamPage({ project }) {
   const images = project.caseStudy.chapters.flatMap((chapter) => chapter.images);
   useEffect(() => {
@@ -147,7 +137,7 @@ function StreamPage({ project }) {
       <div className="case-container">
         <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
         <div className="stream-images">
-          {images.map((image, index) => <img key={image.src} src={image.src} alt={image.alt} width={image.width} height={image.height} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" />)}
+          {images.map((image, index) => <img key={image.src} src={image.src} srcSet={image.srcSet} sizes={image.srcSet ? STREAM_SIZES : undefined} alt={image.alt} width={image.width} height={image.height} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" />)}
         </div>
         {project.sourceUrl && <a className="text-link stream-source" href={project.sourceUrl} target="_blank" rel="noreferrer">View the original on {project.sourceLabel} ↗</a>}
       </div>

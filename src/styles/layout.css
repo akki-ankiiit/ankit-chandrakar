@@ -1,5 +1,10 @@
 .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 30; background: var(--paper); border-bottom: 1px solid var(--beige); transition: transform .65s var(--ease); }
 .site-header.is-hidden { transform: translateY(-105%); }
+/* Project reading progress: pinned to the navbar's bottom edge; moves to the screen top while the navbar is hidden. */
+.reading-progress { position: fixed; top: var(--site-header-height, 134px); left: 0; right: 0; height: 3px; z-index: 31; overflow: hidden; pointer-events: none; transition: top .65s var(--ease); }
+.reading-progress.is-header-hidden { top: 0; }
+.reading-progress-fill { height: 100%; background: var(--accent-strong); transform: scaleX(0); transform-origin: left; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .reading-progress { transition: none; } }
 .announcement { display: flex; justify-content: center; align-items: center; min-height: 47px; padding: 12px 20px; background: var(--forest); color: var(--paper); font-size: 12.8px; text-align: center; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 86px; }
 .brand { display: inline-flex; align-items: center; }

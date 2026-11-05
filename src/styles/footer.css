@@ -1,0 +1,38 @@
+@import './flower-trail.css'; /* cursor flower trail, shared with the Playtime page */
+/* Footer: one centred column, read top to bottom:
+   the ask, two ways in (Leave a note / Email me), elsewhere (socials + phone), sign-off. */
+.footer.ft { position: relative; padding-block: 72px 0; background: var(--beige); }
+.ft-inner { position: relative; z-index: 1; }
+.ft-inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.ft-inner h2 { max-width: 560px; margin: 0; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.15; letter-spacing: -.7px; text-wrap: balance; }
+.ft-lede { max-width: 420px; margin: 14px 0 0; font-size: 16px; line-height: 1.6; color: #4f5a43; }
+
+.ft-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+/* Leave a note is the green primary; Email me is the quieter outline twin. */
+.ft-actions .pill { min-height: 44px; padding-inline: 20px; font-size: 15px; }
+.ft-secondary .pill { background: transparent; }
+.ft-secondary .pill:hover { background: #fffffa; }
+
+.ft-elsewhere { display: flex; flex-direction: column; align-items: center; gap: 10px; width: min(360px, 100%); margin-top: 38px; padding-top: 26px; border-top: 1px solid #34383122; }
+.ft-socials { display: flex; justify-content: center; align-items: center; gap: 26px; margin: 0; padding: 0; list-style: none; }
+.ft-socials a { display: grid; place-items: center; width: 44px; height: 44px; color: var(--forest); transition: color .2s, transform .3s var(--ease); }
+.ft-socials a:hover { color: var(--accent-strong); transform: translateY(-3px); }
+.ft-socials a:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; border-radius: 50%; }
+.ft-phone { font-size: 14px; color: #5f664f; transition: color .2s; }
+.ft-phone:hover { color: var(--ink); }
+
+.ft-colophon { margin: 34px 0 0; font-size: 12px; color: var(--muted); }
+
+/* Landscape band: full width, the hills sit on the footer's bottom edge and the sky melts into the beige. */
+.ft-landscape { display: block; width: 100%; height: clamp(220px, 27vw, 460px); margin-top: calc(-1 * clamp(60px, 11vw, 170px)); object-fit: cover; object-position: 50% 100%; pointer-events: none; user-select: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #0000000a 6%, #0000002e 16%, #00000075 28%, #000000b8 40%, #000000e6 50%, #000 62%); mask-image: linear-gradient(to bottom, transparent 0, #0000000a 6%, #0000002e 16%, #00000075 28%, #000000b8 40%, #000000e6 50%, #000 62%); }
+
+@media (max-width: 749px) {
+  .footer.ft { padding-block: 52px 0; }
+  .ft-socials { gap: 18px; }
+  .ft-elsewhere { margin-top: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ft-socials a { transition: color .2s; }
+  .ft-socials a:hover { transform: none; }
+}

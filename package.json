@@ -10,6 +10,8 @@
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
     "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.typewriter.json",
+    "test:typewriter": "playwright test tests/e2e/typewriter.spec.js",
     "test:e2e": "playwright test",
     "assets:optimize": "node scripts/optimize-assets.mjs",
     "assets:generate": "node scripts/generate-ink-art.mjs",
@@ -48,6 +50,7 @@
     "globals": "^16.3.0",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
+    "typescript": "~5.9",
     "vite": "^7.1.5"
   }
 }

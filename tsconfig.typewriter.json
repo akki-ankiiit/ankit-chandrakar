@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "types": []
+  },
+  "include": [
+    "src/playtime-app/components/typewriter/**/*.ts",
+    "src/playtime-app/components/typewriter/**/*.tsx",
+    "src/playtime-app/components/sections/TypewriterSection.tsx",
+    "src/playtime-app/hooks/useMechanicalCarriage.ts",
+    "src/playtime-app/hooks/useTypewriterAudio.ts",
+    "src/playtime-app/hooks/useTypewriter.ts",
+    "src/playtime-app/lib/typewriter/**/*.ts"
+  ]
+}

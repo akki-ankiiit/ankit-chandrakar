@@ -1,0 +1,12 @@
+/* Cursor flower trail (the overlay rendered by <ImageTrail variant="flower" />).
+   Shared by the footer (document CSS) and the Playtime app (shadow-root CSS). The overlay fills its
+   parent, is clipped to it, never intercepts clicks, and switches off for touch and reduced motion. */
+.ft-flowers { position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none; }
+.ft-flower { position: absolute; top: 0; left: 0; width: 64px; height: 64px; opacity: 0; pointer-events: none; will-change: transform, opacity; }
+.ft-flower-petals { fill: var(--ft-petal, #CB7951); }
+.ft-flower-core { fill: var(--ft-core, #DDBAA0); }
+@media (pointer: coarse) { .ft-flowers { display: none; } }
+@media (prefers-reduced-motion: reduce) { .ft-flowers { display: none; } }
+
+/* Playtime "flower trail" section: the flowers sit above the centred illustration. */
+.flower-trail-section .ft-flowers { z-index: 20; }

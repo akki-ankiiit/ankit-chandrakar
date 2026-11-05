@@ -101,7 +101,6 @@ export const MemoryGallerySection = () => {
             >
               welcome
             </h2>
-            <span className="absolute top-0 right-0 text-4xl md:text-5xl font-light leading-none">+</span>
           </div>
           <h2
             className="text-6xl md:text-5xl lg:text-5xl tracking-tight leading-[0.85] mt-1 md:mt-1 italic"
