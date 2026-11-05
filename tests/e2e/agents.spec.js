@@ -3,7 +3,7 @@ import { getOrbColour, hexToRgb } from '../../src/agents/orb-palette.js';
 
 const names = ['Helix', 'Iris', 'Atlas', 'Terra', 'Echo', 'Vega', 'Ledger', 'Lumen', 'Weave', 'Batch', 'Probe', 'Delta', 'Guard', 'Quill'];
 const states = ['working', 'searching', 'solving', 'listening', 'connecting', 'weaving', 'composing', 'breathing', 'shaping'];
-const agentsURL = '/work/mistribhai#agents';
+const agentsURL = '/work/helix#agents';
 const canvasImage = (canvas) => canvas.evaluate((element) => element.toDataURL());
 const anchorOffset = (page) => page.locator('#agents').evaluate((element) => Math.abs(
   element.getBoundingClientRect().top - parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) - parseFloat(getComputedStyle(element).scrollMarginTop)
@@ -292,7 +292,7 @@ test('preview activity and motion controls are interactive, with live reduced-mo
 test('legacy route variants redirect to the embedded anchor without horizontal overflow', async ({ page }) => {
   for (const url of ['/agents', '/agents/', '/Agents', '/Agents/']) {
     await page.goto(url);
-    await expect(page).toHaveURL(/\/work\/mistribhai#agents$/);
+    await expect(page).toHaveURL(/\/work\/helix#agents$/);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix.labs');
     await expect(page).toHaveTitle('Helix.labs — Ankit Chandrakar');
     await expect.poll(() => anchorOffset(page)).toBeLessThan(3);
@@ -346,7 +346,7 @@ test('legacy redirect replaces its history entry and cleans up an open studio on
     history.pushState({}, '', '/Agents/');
     dispatchEvent(new PopStateEvent('popstate'));
   });
-  await expect(page).toHaveURL(/\/work\/mistribhai#agents$/);
+  await expect(page).toHaveURL(/\/work\/helix#agents$/);
   await page.getByRole('button', { name: 'Customize Helix', exact: true }).click();
   await page.goBack();
   await expect(page).toHaveURL(/\/about$/);

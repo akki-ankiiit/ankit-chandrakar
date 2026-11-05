@@ -179,9 +179,9 @@ const existingProjects = [
   ...[
     { id: 'adhikar', title: 'Adhikar', subtitle: 'A business tool from the Tejas ecosystem.', appCover: optimizedCover('Adhikar') },
     { id: 'contractorbhai', title: 'ContractorBhai', subtitle: 'Every relationship. A little more personal.', href: '/work/contractorbhai' },
-    { id: 'mistribhai', title: 'Helix.labs', subtitle: 'A workflow app from the Tejas ecosystem.', embedUrl: 'https://helixlab-one.vercel.app/projects', thumbnailVideo: { src: '/assets/video/Helix-clean.mp4', width: 1120, height: 800, poster: '/assets/video/Helix-clean-poster.webp' } },
+    { id: 'helix', title: 'Helix.labs', subtitle: 'A workflow app from the Tejas ecosystem.', embedUrl: 'https://helixlab-one.vercel.app/projects', thumbnailVideo: { src: '/assets/video/Helix-clean.mp4', width: 1120, height: 800, poster: '/assets/video/Helix-clean-poster.webp' } },
   ].map((project) => ({
-    ...project, client: 'Tejas', category: 'Internal App', group: project.id === 'mistribhai' ? 'websites' : 'products', year: '2025 — Present',
+    ...project, client: 'Tejas', category: 'Internal App', group: project.id === 'helix' ? 'websites' : 'products', year: '2025 — Present',
     role: 'Design Consultant', scope: 'Product design within the Tejas ecosystem',
     description: `${project.title} is one of the internal business products designed and launched as part of the Tejas ecosystem.`,
     highlights: ['Designed the product experience within the shared Tejas standards.', 'Built on the reusable components used across the ecosystem.'],
@@ -275,7 +275,7 @@ const cardThumbnails = {
     imageWidth: 1481,
     imageHeight: 1062,
   },
-  mistribhai: {
+  helix: {
     image: '/assets/video/Helix-clean-poster.webp',
     imageWidth: 1120,
     imageHeight: 800,
@@ -297,8 +297,7 @@ export const projects = [...existingProjects.map((project) => ({ ...project, ...
 
 export const experience = [
   { company: 'Nyusta', role: 'Lead Product Designer', period: 'Nov 2024 — Present', location: 'Bengaluru', description: 'Led end-to-end product design for Neostra, a privacy management platform, and delivered UX/UI, branding, design systems, websites, and digital experiences for The Golf Mill, ThanQ, Blackspace, and multiple client projects, driving scalable, user-centric solutions across diverse industries.' },
-  { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including Helix.labs, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
-  { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — May 2026', location: 'Raipur', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
+  { company: 'Tejas', role: 'Design Consultant', period: 'Sep 2025 — Present', location: 'Raipur', description: 'Designed and launched five internal business products at Patcorn Drymix for the Tejas ecosystem, including Helix.labs, ContractorBhai, Adhikar, and Chiraag. Defined a unified design system, led product and brand experiences, and designed websites, sales-enablement assets, and workflows for dealer engagement, contractor loyalty, and business operations.' },
   { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Gurgaon', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
   { company: 'WhatCode', role: 'Design Intern', period: 'Jul 2023 — May 2024', location: 'Navi Mumbai', description: 'My first internship. Designed for client projects including StreetSnap.co, JD Institute, CypherBlockChain, CryptoTax, CreatorPe, AceTech, and YesBot.ai, learning the craft hands-on and sharpening my skills.' },
 ];
