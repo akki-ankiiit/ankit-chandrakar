@@ -29,11 +29,7 @@ export const profile = {
   philosophy: 'A little structure for the complex. A little personality for the everyday.',
   contact: 'Have a complex product challenge, a new idea, or a team that cares about good design? Send me a note. Let’s make something thoughtful together.',
   companies: ['Nyusta', 'Patcorn Drymix', 'Kamdhenu Group', 'WhatCode'],
-  stats: [
-    { value: '30+', label: 'enterprise workflows', context: 'Neostra' },
-    { value: '200+', label: 'reusable components', context: 'Neostra' },
-    { value: '10+', label: 'business products', context: 'Tejas ecosystem' },
-  ],
+  stats: [],
   socials: [
     { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/in/ankit-chandrakar-001akki/' },
     { name: 'Behance', icon: 'behance', url: 'https://www.behance.net/ankitchandrakar1' },

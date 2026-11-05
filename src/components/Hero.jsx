@@ -17,9 +17,11 @@ export default function Hero({ isHub = false, onNavigate }) {
             <a className="text-link" href="#work" onClick={(event) => { event.preventDefault(); onNavigate('work'); }}>Explore my projects ↗</a>
           ) : (
             <>
-              <div className="hero-stats" aria-label="Selected project scope">
-                {profile.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
-              </div>
+              {profile.stats.length > 0 && (
+                <div className="hero-stats" aria-label="Selected project scope">
+                  {profile.stats.map((stat) => <div key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}
+                </div>
+              )}
             </>
           )}
         </div>
