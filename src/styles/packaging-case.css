@@ -6,21 +6,21 @@
 /* Hero */
 .pk-hero .case-breadcrumb { margin-bottom: 36px; }
 .pk-hero .case-breadcrumb > span { color: var(--pk-soft); font-size: 10px; }
-.pk-client { font: 11px/1.4 Arial, sans-serif; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-strong); }
-.pk-hero h1 { margin-top: 12px; font-size: clamp(38px, 5vw, 56px); line-height: 1.05; letter-spacing: -1.4px; }
+.pk-client { font: 12px/1.4 Henriette, Georgia, serif; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-strong); }
+.pk-hero h1 { margin-top: 12px; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -1px; }
 .pk-subtitle { max-width: 54ch; margin-top: 14px; font-size: 18px; line-height: 1.55; color: #4f5a43; }
 .pk-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: 30px 0 0; padding: 18px 0; border-block: 1px solid var(--pk-line); }
 .pk-facts div { min-width: 0; }
-.pk-facts dt { font: 10px/1.5 Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; color: var(--pk-soft); }
+.pk-facts dt { font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: 1px; text-transform: uppercase; color: var(--pk-soft); }
 .pk-facts dd { margin: 4px 0 0; font-size: 15px; line-height: 1.4; color: var(--ink); }
 .pk-hero-art { margin-top: 40px; }
 
 /* Sections */
 .pk-story { padding-top: 24px; }
-.pk-section { padding: 64px 0; border-top: 1px solid var(--pk-line); scroll-margin-top: 140px; }
+.pk-section { padding: 48px 0; border-top: 1px solid var(--pk-line); scroll-margin-top: 140px; }
 .pk-story > .pk-section:first-child { border-top: 0; }
 .pk-head { display: grid; grid-template-columns: 48px minmax(0, 1fr); margin-bottom: 28px; }
-.pk-no { padding-top: 8px; font: 12px/1.4 Arial, sans-serif; letter-spacing: .8px; color: var(--accent-strong); font-variant-numeric: tabular-nums; }
+.pk-no { padding-top: 8px; font: 12px/1.4 Henriette, Georgia, serif; letter-spacing: .8px; color: var(--accent-strong); font-variant-numeric: tabular-nums; }
 .pk-head h2 { font-size: 28px; line-height: 1.2; letter-spacing: -.5px; text-wrap: balance; }
 .pk-head p { grid-column: 2; max-width: 60ch; margin-top: 6px; font-size: 16px; line-height: 1.6; color: #4f5a43; }
 
@@ -38,18 +38,18 @@
 /* Outcome figure, shared by K-Series and BONDURE */
 .pk-figure { margin: 0; font-size: clamp(52px, 7vw, 84px); line-height: .95; letter-spacing: -2px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .pk-figure small { margin-left: .1em; font-size: .5em; letter-spacing: -1px; color: var(--accent-strong); }
-.pk-figure-label { margin-top: 12px; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
+.pk-figure-label { margin-top: 12px; font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
 
 /* Role */
 .pk-role { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; margin: 0; padding: 0; }
-.pk-role li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 14px 0; border-top: 1px solid var(--pk-line); font-size: 15px; line-height: 1.45; }
+.pk-role li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 16px 0; border-top: 1px solid var(--pk-line); font-size: 15px; line-height: 1.45; }
 .pk-role svg { flex-shrink: 0; color: var(--accent-strong); }
 
 /* Previous / next */
 .pk-pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding-block: 32px 48px; border-top: 1px solid var(--pk-line); }
 .pk-pager-link { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .pk-pager-link.is-next { align-items: flex-end; text-align: right; }
-.pk-pager-label { font: 10px/1.5 Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; color: var(--pk-soft); }
+.pk-pager-label { font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: 1px; text-transform: uppercase; color: var(--pk-soft); }
 .pk-pager-title { display: flex; align-items: center; gap: 12px; font-size: 24px; line-height: 1.2; letter-spacing: -.4px; }
 .pk-pager-title svg { flex-shrink: 0; color: var(--accent-strong); transition: transform .25s; }
 .pk-pager-link.is-previous svg { transform: rotate(180deg); }
@@ -64,7 +64,7 @@
   .pk-subtitle { font-size: 16px; }
   .pk-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
   .pk-hero-art { margin-top: 28px; }
-  .pk-section { padding: 48px 0; }
+  .pk-section { padding: 40px 0; }
   .pk-head { grid-template-columns: 1fr; margin-bottom: 22px; }
   .pk-no { padding-top: 0; margin-bottom: 6px; }
   .pk-head h2 { font-size: 24px; }

@@ -15,6 +15,9 @@ export default defineConfig({
     { name: 'compact-mobile', use: { ...devices['Desktop Chrome'], viewport: { width: 320, height: 740 }, isMobile: true, hasTouch: true } },
     { name: 'tablet', use: { ...devices['Desktop Chrome'], viewport: { width: 768, height: 1024 }, hasTouch: true } },
     { name: 'small-desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1024, height: 900 } } },
+    // Typewriter cross-browser runs: only the typewriter spec, so the rest of the suite is unchanged.
+    { name: 'firefox-typewriter', testMatch: /typewriter\.spec\.js/, use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 1000 } } },
+    { name: 'webkit-typewriter', testMatch: /typewriter\.spec\.js/, use: { ...devices['Desktop Safari'], viewport: { width: 1440, height: 1000 } } },
   ],
   webServer: { command: `npm run dev -- --port ${port} --strictPort`, url: baseURL, reuseExistingServer: false },
 });

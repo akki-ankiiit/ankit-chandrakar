@@ -9,18 +9,15 @@ import { bondureCard, bondureHero, bondureImages as img, bondureMeta, brief, hq,
 
 const pic = (key, alt, props = {}) => <img src={img[key].src} width={img[key].width} height={img[key].height} alt={alt} decoding="async" {...props} />;
 const accent = (product) => ({ '--accent-product': product.accent });
-const todo = (text) => (text.startsWith('TODO_USER') ? <mark className="bd-todo">{text}</mark> : text);
+// Placeholder copy ('TODO_USER…') is never shown: sections and items appear only once real text is supplied.
+const filled = (text) => Boolean(text) && !text.startsWith('TODO_USER');
+const ideaItems = ideas.items.filter((idea) => filled(idea.name) && filled(idea.text) && filled(idea.setAside));
+const hqSteps = hq.steps.filter((step) => filled(step.text));
+const hasIdeas = ideaItems.length > 0;
+// Sequential chapter numbers that skip any hidden section.
+const sectionIds = ['bd-brief', ...(hasIdeas ? ['bd-ideas'] : []), 'bd-logo', 'bd-system', 'bd-hq', 'bd-details', 'bd-results'];
+const num = (id) => String(sectionIds.indexOf(id) + 1).padStart(2, '0');
 const [, figurePrefix, figureDigits, figureUnit] = results.figure.match(/^(\D*)(\d+)(.*)$/);
-
-const chapters = [
-  { id: 'bd-brief', label: 'The brief' },
-  { id: 'bd-ideas', label: 'Ideas explored' },
-  { id: 'bd-logo', label: 'The wordmark' },
-  { id: 'bd-system', label: 'One family' },
-  { id: 'bd-hq', label: 'Kamdhenu HQ' },
-  { id: 'bd-details', label: 'Details on the bag' },
-  { id: 'bd-results', label: 'Outcome' },
-];
 
 function Bags() {
   return (
@@ -34,21 +31,9 @@ function Bags() {
   );
 }
 
-function ChapterIndex() {
-  return (
-    <nav className="bd-index" aria-label="Chapters">
-      <ol>
-        {chapters.map((chapter, index) => (
-          <li key={chapter.id}><a href={`#${chapter.id}`}><span>{String(index + 1).padStart(2, '0')}</span>{chapter.label}</a></li>
-        ))}
-      </ol>
-    </nav>
-  );
-}
-
 function Brief() {
   return (
-    <PkSection id="bd-brief" number="01" title={brief.heading} lede={brief.lede}>
+    <PkSection id="bd-brief" number={num('bd-brief')} title={brief.heading} lede={brief.lede}>
       <p className="pk-callout"><strong>The challenge:</strong> {brief.challenge}</p>
       <Link className="text-link pk-link" to={kSeriesCard.href}>{brief.linkLabel}</Link>
     </PkSection>
@@ -56,15 +41,16 @@ function Brief() {
 }
 
 function Ideas() {
+  if (!hasIdeas) return null;
   return (
-    <PkSection id="bd-ideas" number="02" title={ideas.heading} lede={todo(ideas.lede)}>
+    <PkSection id="bd-ideas" number={num('bd-ideas')} title={ideas.heading} lede={filled(ideas.lede) ? ideas.lede : undefined}>
       <ol className="bd-ideas">
-        {ideas.items.map((idea, index) => (
-          <li key={index} className="bd-idea">
+        {ideaItems.map((idea, index) => (
+          <li key={idea.name} className="bd-idea">
             <span className="bd-idea-no">Direction {index + 1}</span>
-            <h3>{todo(idea.name)}</h3>
-            <p>{todo(idea.text)}</p>
-            <p className="bd-idea-set-aside"><b>Set aside.</b> {todo(idea.setAside)}</p>
+            <h3>{idea.name}</h3>
+            <p>{idea.text}</p>
+            <p className="bd-idea-set-aside"><b>Set aside.</b> {idea.setAside}</p>
           </li>
         ))}
       </ol>
@@ -74,7 +60,7 @@ function Ideas() {
 
 function Logo() {
   return (
-    <PkSection id="bd-logo" number="03" title={logo.heading} lede={logo.lede}>
+    <PkSection id="bd-logo" number={num('bd-logo')} title={logo.heading} lede={logo.lede}>
       <div className="bd-logo-panel pk-panel">
         {pic('logo', 'BONDURE wordmark logo', { className: 'bd-logo-main', loading: 'lazy' })}
         {pic('tejas', 'Tejas company logo', { className: 'bd-logo-tejas', loading: 'lazy' })}
@@ -85,7 +71,7 @@ function Logo() {
 
 function System() {
   return (
-    <PkSection id="bd-system" number="04" title={system.heading} lede={system.lede}>
+    <PkSection id="bd-system" number={num('bd-system')} title={system.heading} lede={system.lede}>
       <ul className="bd-cards" role="list">
         {products.map((product) => (
           <li key={product.id} className="bd-card" style={accent(product)}>
@@ -109,23 +95,23 @@ function System() {
 
 function Hq() {
   return (
-    <PkSection id="bd-hq" number="05" title={hq.heading} lede={hq.lede}>
-      <ol className="bd-hq-steps">
-        {hq.steps.map((step, index) => (
+    <PkSection id="bd-hq" number={num('bd-hq')} title={hq.heading} lede={hq.lede} className={hqSteps.length ? '' : 'bd-hq-only'}>
+      {hqSteps.length > 0 && <ol className="bd-hq-steps">
+        {hqSteps.map((step, index) => (
           <li key={step.title} className="bd-hq-step">
             <span className="bd-idea-no">Step {index + 1}</span>
             <h3>{step.title}</h3>
-            <p>{todo(step.text)}</p>
+            <p>{step.text}</p>
           </li>
         ))}
-      </ol>
+      </ol>}
     </PkSection>
   );
 }
 
 function Details() {
   return (
-    <PkSection id="bd-details" number="06" title="Details that carry across the range." lede="Roof accents, four promises and proof at the bottom. The same details appear on all three bags.">
+    <PkSection id="bd-details" number={num('bd-details')} title="Details that carry across the range." lede="Roof accents, four promises and proof at the bottom. The same details appear on all three bags.">
       <div className="bd-details">
         <div className="bd-detail pk-panel">
           <h3>{notes.roof.title}</h3>
@@ -150,7 +136,7 @@ function Details() {
 
 function Results() {
   return (
-    <PkSection id="bd-results" number="07" title={results.heading} lede={results.lede}>
+    <PkSection id="bd-results" number={num('bd-results')} title={results.heading} lede={results.lede}>
       <div className="bd-result pk-panel">
         <div>
           <p className="pk-figure"><span className="sr-only">{results.figure}</span><span aria-hidden="true">{figurePrefix}{figureDigits}<small>{figureUnit.trim()}</small></span></p>
@@ -171,7 +157,6 @@ export default function BondureCaseStudy() {
         <Bags />
       </PkHero>
       <div className="case-container pk-story">
-        <ChapterIndex />
         <Brief />
         <Ideas />
         <Logo />
@@ -179,7 +164,7 @@ export default function BondureCaseStudy() {
         <Hq />
         <Details />
         <Results />
-        <PkRole id="bd-role" number="08" items={role} />
+        <PkRole id="bd-role" number={String(sectionIds.length + 1).padStart(2, '0')} items={role} />
       </div>
       <PkPager current={bondureCard.id} />
     </article>

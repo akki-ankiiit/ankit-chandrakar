@@ -1,6 +1,6 @@
 /* Shared snap carousel. Route palettes can override the --snap-* tokens. */
 .sx-snap { position: relative; min-width: 0; width: 100%; margin-top: 8px; outline: none; }
-.sx-snap-stage { position: relative; width: 100%; height: clamp(380px, 55vw, 500px); overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; }
+.sx-snap-stage { position: relative; isolation: isolate; width: 100%; height: clamp(380px, 55vw, 500px); overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; }
 .sx-snap-stage:active { cursor: grabbing; }
 .sx-snap:focus-visible, .sx-snap-card:focus-visible, .sx-snap-nav:focus-visible { outline: 2px solid var(--snap-accent, var(--forest, #6a8154)); outline-offset: 4px; }
 .sx-snap-track { position: absolute; inset: 0; }

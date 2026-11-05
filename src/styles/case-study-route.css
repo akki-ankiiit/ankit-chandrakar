@@ -1,7 +1,6 @@
 @import './case-study.css';
 
 /* Route-local palette overrides follow the base case-study rules. */
-.case-reading-progress { background: #aec989; }
 .case-breadcrumb > a, .case-facts dd, .case-contents nav a,
 .case-lead, .case-approach p, .case-contributions li { color: #6c765f; }
 .case-breadcrumb > span, .case-facts dt, .case-contents > p,

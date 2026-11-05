@@ -1,0 +1,128 @@
+[
+  {
+    "src": "/assets/yesbot/slide-01.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/yesbot/slide-01-1000.webp 1000w, /assets/yesbot/slide-01.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-02.webp",
+    "width": 2000,
+    "height": 1718,
+    "srcSet": "/assets/yesbot/slide-02-1000.webp 1000w, /assets/yesbot/slide-02.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-03.webp",
+    "width": 2000,
+    "height": 1786,
+    "srcSet": "/assets/yesbot/slide-03-1000.webp 1000w, /assets/yesbot/slide-03.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-04.webp",
+    "width": 2000,
+    "height": 2682,
+    "srcSet": "/assets/yesbot/slide-04-1000.webp 1000w, /assets/yesbot/slide-04.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-05.webp",
+    "width": 2000,
+    "height": 1718,
+    "srcSet": "/assets/yesbot/slide-05-1000.webp 1000w, /assets/yesbot/slide-05.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-06.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/yesbot/slide-06-1000.webp 1000w, /assets/yesbot/slide-06.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-07.webp",
+    "width": 2000,
+    "height": 4194,
+    "srcSet": "/assets/yesbot/slide-07-1000.webp 1000w, /assets/yesbot/slide-07.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-08.webp",
+    "width": 2000,
+    "height": 2759,
+    "srcSet": "/assets/yesbot/slide-08-1000.webp 1000w, /assets/yesbot/slide-08.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-09.webp",
+    "width": 2000,
+    "height": 2271,
+    "srcSet": "/assets/yesbot/slide-09-1000.webp 1000w, /assets/yesbot/slide-09.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-10.webp",
+    "width": 2000,
+    "height": 3261,
+    "srcSet": "/assets/yesbot/slide-10-1000.webp 1000w, /assets/yesbot/slide-10.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-11.webp",
+    "width": 2000,
+    "height": 4543,
+    "srcSet": "/assets/yesbot/slide-11-1000.webp 1000w, /assets/yesbot/slide-11.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-12.webp",
+    "width": 2000,
+    "height": 8880,
+    "srcSet": "/assets/yesbot/slide-12-1000.webp 1000w, /assets/yesbot/slide-12.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-13.webp",
+    "width": 2000,
+    "height": 4529,
+    "srcSet": "/assets/yesbot/slide-13-1000.webp 1000w, /assets/yesbot/slide-13.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-14.webp",
+    "width": 2000,
+    "height": 1800,
+    "srcSet": "/assets/yesbot/slide-14-1000.webp 1000w, /assets/yesbot/slide-14.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-15.webp",
+    "width": 2000,
+    "height": 9291,
+    "srcSet": "/assets/yesbot/slide-15-1000.webp 1000w, /assets/yesbot/slide-15.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-16.webp",
+    "width": 2000,
+    "height": 1800,
+    "srcSet": "/assets/yesbot/slide-16-1000.webp 1000w, /assets/yesbot/slide-16.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-17.webp",
+    "width": 2000,
+    "height": 4606,
+    "srcSet": "/assets/yesbot/slide-17-1000.webp 1000w, /assets/yesbot/slide-17.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-18.webp",
+    "width": 2000,
+    "height": 6293,
+    "srcSet": "/assets/yesbot/slide-18-1000.webp 1000w, /assets/yesbot/slide-18.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-19.webp",
+    "width": 2000,
+    "height": 14173,
+    "srcSet": "/assets/yesbot/slide-19-1000.webp 1000w, /assets/yesbot/slide-19.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-20.webp",
+    "width": 2000,
+    "height": 4369,
+    "srcSet": "/assets/yesbot/slide-20-1000.webp 1000w, /assets/yesbot/slide-20.webp 2000w"
+  },
+  {
+    "src": "/assets/yesbot/slide-21.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/yesbot/slide-21-1000.webp 1000w, /assets/yesbot/slide-21.webp 2000w"
+  }
+]

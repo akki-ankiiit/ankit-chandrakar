@@ -304,7 +304,7 @@ export const experience = [
   { company: 'Tejas', role: 'Design Consultant', period: 'May 2026 — Present', location: 'Navi Mumbai', description: 'Designed digital products across the Tejas ecosystem, including Helix.labs, ContractorBhai, Adhikar, and Chiraag, alongside scalable design systems, websites, branding, marketing campaigns, and sales enablement assets to strengthen dealer engagement, contractor loyalty, and business operations.' },
   { company: 'Patcorn Drymix Pvt. Ltd.', role: 'Design Consultant', period: 'Sep 2025 — May 2026', location: 'Raipur', description: 'Designed and launched five internal business products, defined a unified design system, and led product and brand experiences for the Tejas ecosystem.' },
   { company: 'Kamdhenu Group', role: 'Junior Product Designer', period: 'May 2024 — Nov 2024', location: 'Gurgaon', description: 'Designed dealer-engagement, contractor-loyalty, and business interfaces, with supporting websites, campaigns, branding, and sales-enablement assets.' },
-
+  { company: 'WhatCode', role: 'Design Intern', period: 'Jul 2023 — May 2024', location: 'Navi Mumbai', description: 'My first internship. Designed for client projects including StreetSnap.co, JD Institute, CypherBlockChain, CryptoTax, CreatorPe, AceTech, and YesBot.ai, learning the craft hands-on and sharpening my skills.' },
 ];
 
 export const education = { degree: 'B.Tech · Computer Science & Engineering', school: 'Government Engineering College Raipur', period: 'July 2020 — May 2024' };

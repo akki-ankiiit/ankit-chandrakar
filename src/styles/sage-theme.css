@@ -4,8 +4,7 @@
 .portfolio-card:nth-child(2n) .portfolio-card-button:hover .project-cover > :is(img, video) { transform: translateY(-4px) rotate(.7deg); }
 .portfolio-card-button:hover .project-cover > :is(img, video) { transform: translateY(-4px) rotate(-.7deg); box-shadow: 3px 8px 17px #46513b15; }
 .project-open { background: var(--paper); border-color: #88957755; color: #60784b; }
-.portfolio-card-meta { font-size: 10px; letter-spacing: .4px; }
-.case-reading-progress { background: #aec989; }
+.portfolio-card-meta { font-size: 12px; letter-spacing: .5px; }
 .case-breadcrumb > a, .case-facts dd, .case-contents nav a,
 .case-lead, .case-approach p, .case-contributions li { color: #6c765f; }
 .case-breadcrumb > span, .case-facts dt, .case-contents > p,
@@ -38,7 +37,7 @@
 .case-next .eyebrow { color: #93a07f; }
 .case-next img { border-color: #c5ceb3; }
 @media (max-width: 749px) {
-  .portfolio-card-meta { font-size: 9px; }
+  .portfolio-card-meta { font-size: 12px; }
   .case-contents { border-bottom-color: #c7ceb770; }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -34,7 +34,10 @@ export const DotBackground = () => {
     let dots: Dot[] = [];
     let cols = 0;
     let rows = 0;
-    let animationFrameId: number;
+    let animationFrameId = 0;
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let reducedMotion = motionQuery.matches;
+    let inView = true;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -78,7 +81,13 @@ export const DotBackground = () => {
       mouse.current.targetY = -1000;
     };
 
-    window.addEventListener("resize", resize);
+    const onResize = () => {
+      resize();
+      // Redraw once when the loop is idle (reduced motion or off screen); a running loop already redraws.
+      if (!animationFrameId) animationFrameId = requestAnimationFrame(render);
+    };
+
+    window.addEventListener("resize", onResize);
     canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
 
@@ -156,13 +165,35 @@ export const DotBackground = () => {
         ctx.fill();
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      animationFrameId = shouldRun() ? requestAnimationFrame(render) : 0;
     };
+
+    // Animate only while the canvas is on screen, the tab is visible, and motion is not reduced.
+    // Under reduced motion the first render draws one static frame and stops.
+    const shouldRun = () => inView && !document.hidden && !reducedMotion;
+    const resumeIfNeeded = () => {
+      if (!animationFrameId && shouldRun()) animationFrameId = requestAnimationFrame(render);
+    };
+    const onVisibility = () => resumeIfNeeded();
+    const onMotionChange = () => {
+      reducedMotion = motionQuery.matches;
+      resumeIfNeeded();
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      resumeIfNeeded();
+    });
+    observer.observe(canvas);
+    document.addEventListener("visibilitychange", onVisibility);
+    motionQuery.addEventListener("change", onMotionChange);
 
     render();
 
     return () => {
-      window.removeEventListener("resize", resize);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+      motionQuery.removeEventListener("change", onMotionChange);
+      window.removeEventListener("resize", onResize);
       canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);

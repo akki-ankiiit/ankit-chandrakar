@@ -28,6 +28,19 @@ export default function HeroArtwork({
     return () => cancelAnimationFrame(animationFrame.current);
   }, [reduceMotion]);
 
+  // Decoding a looping video while it is scrolled out of view wastes CPU and battery; pause it until it returns.
+  useEffect(() => {
+    const node = stage.current;
+    if (!node || typeof IntersectionObserver !== 'function') return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!video.current) return;
+      if (!entry.isIntersecting) video.current.pause();
+      else if (!reduceMotion) video.current.play().catch(() => {});
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reduceMotion]);
+
   const onPointerMove = (event) => {
     if (reduceMotion || event.pointerType !== 'mouse') return;
     const bounds = stage.current.getBoundingClientRect();

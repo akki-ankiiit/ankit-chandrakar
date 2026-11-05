@@ -14,7 +14,7 @@ export function PkHero({ crumb, client, title, subtitle, facts, children }) {
         <span>{crumb}</span>
       </div>
       <p className="pk-client">{client}</p>
-      <h1>{title}</h1>
+      <h1 className="sr-only">{title}</h1>
       <p className="pk-subtitle">{subtitle}</p>
       <dl className="pk-facts">
         {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}

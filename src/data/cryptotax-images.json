@@ -1,0 +1,122 @@
+[
+  {
+    "src": "/assets/cryptotax/slide-01.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/cryptotax/slide-01-1000.webp 1000w, /assets/cryptotax/slide-01.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-02.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/cryptotax/slide-02-1000.webp 1000w, /assets/cryptotax/slide-02.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-03.webp",
+    "width": 2000,
+    "height": 1227,
+    "srcSet": "/assets/cryptotax/slide-03-1000.webp 1000w, /assets/cryptotax/slide-03.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-04.webp",
+    "width": 2000,
+    "height": 1125,
+    "srcSet": "/assets/cryptotax/slide-04-1000.webp 1000w, /assets/cryptotax/slide-04.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-05.webp",
+    "width": 2000,
+    "height": 1227,
+    "srcSet": "/assets/cryptotax/slide-05-1000.webp 1000w, /assets/cryptotax/slide-05.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-06.webp",
+    "width": 2000,
+    "height": 1227,
+    "srcSet": "/assets/cryptotax/slide-06-1000.webp 1000w, /assets/cryptotax/slide-06.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-07.webp",
+    "width": 2000,
+    "height": 3815,
+    "srcSet": "/assets/cryptotax/slide-07-1000.webp 1000w, /assets/cryptotax/slide-07.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-08.webp",
+    "width": 2000,
+    "height": 1464,
+    "srcSet": "/assets/cryptotax/slide-08-1000.webp 1000w, /assets/cryptotax/slide-08.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-09.webp",
+    "width": 2000,
+    "height": 4088,
+    "srcSet": "/assets/cryptotax/slide-09-1000.webp 1000w, /assets/cryptotax/slide-09.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-10.webp",
+    "width": 2000,
+    "height": 1982,
+    "srcSet": "/assets/cryptotax/slide-10-1000.webp 1000w, /assets/cryptotax/slide-10.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-11.webp",
+    "width": 2000,
+    "height": 2697,
+    "srcSet": "/assets/cryptotax/slide-11-1000.webp 1000w, /assets/cryptotax/slide-11.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-12.webp",
+    "width": 2000,
+    "height": 5785,
+    "srcSet": "/assets/cryptotax/slide-12-1000.webp 1000w, /assets/cryptotax/slide-12.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-13.webp",
+    "width": 2000,
+    "height": 1631,
+    "srcSet": "/assets/cryptotax/slide-13-1000.webp 1000w, /assets/cryptotax/slide-13.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-14.webp",
+    "width": 2000,
+    "height": 3028,
+    "srcSet": "/assets/cryptotax/slide-14-1000.webp 1000w, /assets/cryptotax/slide-14.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-15.webp",
+    "width": 2000,
+    "height": 5964,
+    "srcSet": "/assets/cryptotax/slide-15-1000.webp 1000w, /assets/cryptotax/slide-15.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-16.webp",
+    "width": 2000,
+    "height": 9680,
+    "srcSet": "/assets/cryptotax/slide-16-1000.webp 1000w, /assets/cryptotax/slide-16.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-17.webp",
+    "width": 2000,
+    "height": 5978,
+    "srcSet": "/assets/cryptotax/slide-17-1000.webp 1000w, /assets/cryptotax/slide-17.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-18.webp",
+    "width": 2000,
+    "height": 10544,
+    "srcSet": "/assets/cryptotax/slide-18-1000.webp 1000w, /assets/cryptotax/slide-18.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-19.webp",
+    "width": 2000,
+    "height": 4096,
+    "srcSet": "/assets/cryptotax/slide-19-1000.webp 1000w, /assets/cryptotax/slide-19.webp 2000w"
+  },
+  {
+    "src": "/assets/cryptotax/slide-20.webp",
+    "width": 2000,
+    "height": 6768,
+    "srcSet": "/assets/cryptotax/slide-20-1000.webp 1000w, /assets/cryptotax/slide-20.webp 2000w"
+  }
+]

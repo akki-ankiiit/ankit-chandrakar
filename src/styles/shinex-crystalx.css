@@ -7,31 +7,31 @@
 .sx-bottle img { width: min(100%, 240px); height: auto; filter: drop-shadow(0 14px 16px #28282826); }
 .sx-bottle:first-child img { transform: rotate(-2deg); transform-origin: 50% 100%; }
 .sx-bottle:last-child img { transform: rotate(2deg); transform-origin: 50% 100%; }
-.sx-surface { display: inline-block; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--surface, var(--accent-product)); padding: 4px 12px; border: 1px solid currentColor; border-radius: 20px; background: var(--paper); }
+.sx-surface { display: inline-block; font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: .8px; text-transform: uppercase; color: var(--surface, var(--accent-product)); padding: 4px 12px; border: 1px solid currentColor; border-radius: 20px; background: var(--paper); }
 @keyframes sx-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 
 /* 01 Brief: where the two cleaners sit in the floor story */
 .sx-steps { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 720px; margin: 0 0 0 48px; padding: 0; }
 .sx-steps li { min-width: 0; padding: 16px 18px; border: 1px solid var(--panel-line); border-radius: 12px; background: var(--paper); }
 .sx-steps p { margin: 4px 0 0; font-size: 15px; line-height: 1.5; }
-.sx-step-label { display: block; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--accent-strong); }
+.sx-step-label { display: block; font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: .8px; text-transform: uppercase; color: var(--accent-strong); }
 .sx-link { margin: 20px 0 0 48px; }
 
 /* 02 Surface split: the two products face each other */
 .sx-versus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-left: 48px; border: 1px solid var(--panel-line); border-radius: 16px; overflow: hidden; background: var(--paper); }
 .sx-side { min-width: 0; padding: clamp(20px, 3vw, 32px); }
 .sx-side + .sx-side { border-left: 1px solid var(--panel-line); background: var(--panel); }
-.sx-surface-tag { display: flex; align-items: center; gap: 8px; margin: 0; font: 11px/1.5 Arial, sans-serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
+.sx-surface-tag { display: flex; align-items: center; gap: 8px; margin: 0; font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: .8px; text-transform: uppercase; color: var(--pk-soft); }
 .sx-side-logo { margin: 16px 0 0; }
 .sx-side-logo img { width: min(100%, 170px); height: auto; }
 .sx-dot { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--accent-product); }
 .sx-benefits { list-style: none; margin: 16px 0 0; padding: 0; }
-.sx-benefits li { padding: 9px 0; border-top: 1px solid var(--pk-line); font-size: 14.5px; line-height: 1.4; }
+.sx-benefits li { padding: 12px 0; border-top: 1px solid var(--pk-line); font-size: 14.5px; line-height: 1.4; }
 
 /* 03 Decisions */
 .sx-decisions { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 0 48px; padding: 0; }
 .sx-decision { min-width: 0; padding: 22px 22px 24px; border: 1px solid var(--panel-line); border-radius: 14px; background: var(--paper); }
-.sx-decision-no { font: 12px/1 Arial, sans-serif; letter-spacing: .8px; color: var(--accent-strong); }
+.sx-decision-no { font: 12px/1 Henriette, Georgia, serif; letter-spacing: .8px; color: var(--accent-strong); }
 .sx-decision h3 { margin: 12px 0 0; font-size: 20px; font-weight: 400; line-height: 1.3; }
 .sx-decision p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
 
@@ -41,7 +41,6 @@
 .sx-note-card h3 { margin: 0; font-size: 18px; font-weight: 400; line-height: 1.3; }
 .sx-note-card p { margin: 8px 0 0; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
 .sx-todo { margin-left: 48px; max-width: 60ch; font-size: 15px; line-height: 1.55; color: var(--pk-soft); }
-.sx-todo-mark { padding: 1px 6px; border-radius: 4px; background: #fff1b8; color: #5b4a00; }
 
 .sx-pillars { margin-left: 48px; }
 
@@ -51,7 +50,7 @@
 .sx-lightbox-inner { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 18px 24px 26px; box-sizing: border-box; }
 .sx-lightbox-top { display: flex; justify-content: space-between; align-items: center; min-height: 36px; }
 .sx-lightbox .icon-button { background: var(--paper); color: var(--ink); }
-.sx-counter { font: 12px/1.5 Arial, sans-serif; letter-spacing: .8px; color: var(--paper); }
+.sx-counter { font: 12px/1.5 Henriette, Georgia, serif; letter-spacing: .8px; color: var(--paper); }
 .sx-lightbox-stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; gap: 16px; padding-block: 14px; }
 .sx-lightbox-stage img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; min-width: 0; object-fit: contain; border-radius: 4px; }
 .sx-lightbox-stage .icon-button { flex: 0 0 auto; }

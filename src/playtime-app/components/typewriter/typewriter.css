@@ -1,0 +1,63 @@
+/* Vintage typewriter components. Sizes and colours come from props via inline styles / --tw-ink. */
+.tw-editor, .tw-display { position: relative; width: 100%; color: var(--tw-ink, #403B36); }
+.tw-sheet { position: relative; width: 100%; overflow: hidden; }
+.tw-sheet.has-shadow { box-shadow: 0 1px 2px rgba(60, 48, 30, .16), 0 10px 26px rgba(60, 48, 30, .14), inset 0 0 0 1px rgba(120, 100, 70, .1), inset 0 0 40px rgba(150, 120, 70, .08); border-radius: 2px; }
+.tw-paper { position: absolute; top: 0; left: 0; display: block; pointer-events: none; }
+/* Multiply: the ink sinks into the sheet instead of floating above it. */
+.tw-ink { position: absolute; top: 0; left: 0; display: block; pointer-events: none; mix-blend-mode: multiply; }
+
+.tw-input { position: absolute; margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; color: transparent; caret-color: transparent; resize: none; overflow: visible; outline: none; white-space: pre-wrap; overflow-wrap: break-word; word-break: normal; letter-spacing: 0; font-kerning: none; font-variant-ligatures: none; font-feature-settings: "liga" 0, "kern" 0; tab-size: 4; -webkit-text-size-adjust: 100%; }
+.tw-input::selection { background: transparent; color: transparent; }
+.tw-input::placeholder { color: #8F8980; opacity: .75; }
+.tw-input.tw-fallback { color: var(--tw-ink, #403B36); caret-color: var(--tw-ink, #403B36); }
+.tw-fallback-text { margin: 0; white-space: pre-wrap; color: var(--tw-ink, #403B36); }
+
+
+.tw-caret { position: absolute; width: 2px; background: var(--tw-ink, #403B36); opacity: .35; pointer-events: none; border-radius: 1px; mix-blend-mode: multiply; }
+.tw-caret.is-live { opacity: .9; animation: tw-blink 1.1s steps(1, end) infinite; }
+@keyframes tw-blink { 0%, 55% { opacity: .9; } 56%, 100% { opacity: 0; } }
+
+.tw-controls { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: center; margin-top: 18px; }
+.tw-controls button { padding: 8px 4px; min-height: 40px; background: none; border: 0; border-bottom: 1px dashed #34383155; font-family: "TW Courier Prime", "Courier New", monospace; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: #343831; cursor: pointer; }
+.tw-controls button:hover:not(:disabled) { border-bottom-style: solid; }
+.tw-controls button:disabled { opacity: .4; cursor: default; }
+.tw-controls button:focus-visible { outline: 2px solid #60784b; outline-offset: 3px; }
+
+.tw-sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (prefers-reduced-motion: reduce) { .tw-caret.is-live { animation: none; opacity: .9; } }
+
+/* Paper feed: the writing layers move as one unit; the sheet clips them. */
+.pf-root { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.pf-stage { position: absolute; inset: 0; pointer-events: auto; }
+/* Curved paper: soft edge falloff and a faint highlight. Overlay only, so cursor mapping is unchanged. */
+.pf-curve { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
+  background:
+    linear-gradient(90deg, rgba(90, 70, 40, calc(var(--pf-curve, .5) * .16)) 0%, rgba(90, 70, 40, 0) 16%, rgba(90, 70, 40, 0) 84%, rgba(90, 70, 40, calc(var(--pf-curve, .5) * .16)) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, calc(var(--pf-curve, .5) * .18)) 0%, rgba(255, 255, 255, 0) 30%, rgba(60, 45, 25, calc(var(--pf-curve, .5) * .1)) 100%); }
+
+/* Mechanical carriage: rail and capsule sit above the paper, outside the paper-feed transform. */
+.tw-editor .mr-carriage { position: relative; width: 100%; margin-bottom: 12px; }
+.mr-rail { pointer-events: none; overflow: visible; filter: drop-shadow(0 2px 1.5px rgba(20, 18, 14, .3)); }
+.mr-capsule { position: absolute; left: 0; top: 0; pointer-events: none; will-change: transform; }
+.mr-capsule-svg { display: block; overflow: visible; filter: drop-shadow(0 3px 2.5px rgba(20, 18, 14, .34)); transition: filter .2s ease; }
+.mr-capsule.is-returning .mr-capsule-svg { filter: drop-shadow(0 5px 4px rgba(20, 18, 14, .26)); }
+.mr-hammer.is-striking { animation: mr-strike var(--mr-strike-ms, 48ms) cubic-bezier(.4, 0, .6, 1) both; }
+@keyframes mr-strike { 0% { transform: translateY(0); } 40% { transform: translateY(2.5px); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .mr-hammer.is-striking { animation: none; } }
+
+/* Sound settings: small, quiet, beneath the controls. */
+.tw-sound { display: flex; flex-wrap: wrap; gap: 10px 22px; justify-content: center; align-items: center; margin-top: 10px; font-family: "TW Courier Prime", "Courier New", monospace; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: #343831; }
+.tw-sound label { display: inline-flex; align-items: center; gap: 8px; }
+.tw-sound input[type="range"] { width: 120px; accent-color: #60784b; }
+.tw-sound input:disabled, .tw-sound input:disabled + span { opacity: .45; }
+.tw-sound input:focus-visible { outline: 2px solid #60784b; outline-offset: 3px; }
+
+/* Contained writing area: the machine row is fixed; only the paper scrolls. */
+.tw-viewport { position: relative; display: flex; flex-direction: column; width: 100%; min-height: 0; overflow: hidden; }
+.tw-carriage-row { flex: none; }
+.tw-scroll { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-gutter: stable; -webkit-overflow-scrolling: touch;  /* Soft edges: scrolled lines dissolve at the top and bottom of the window instead of ending on a hard line. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%); }
+.tw-scroll-end { height: 28px; }
+/* Focus frame drawn over the whole writing area, so the scroll region's clipping cannot cut it. */
+.tw-viewport:focus-within::after { content: ""; position: absolute; inset: 0; border: 2px solid #60784b; border-radius: 4px; pointer-events: none; opacity: .75; }

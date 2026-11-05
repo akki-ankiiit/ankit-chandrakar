@@ -11,7 +11,14 @@ import { kSeriesCard } from '../data/k-series.js';
 import { approval, decisions, explored, idea, outcome, pillars, posts, products, range, role, shinexCard, shinexHero, shinexMeta, socialIntro } from '../data/shinex-crystalx.js';
 
 const accent = (product) => ({ '--accent-product': product.accent });
-const todo = (text) => (text.startsWith('TODO_USER') ? <mark className="sx-todo-mark">{text}</mark> : text);
+// Placeholder copy ('TODO_USER…') is never shown: sections and cards appear only once real text is supplied.
+const filled = (text) => Boolean(text) && !text.startsWith('TODO_USER');
+const processCards = [explored, approval].filter((card) => filled(card.text));
+const hasProcess = processCards.length > 0;
+const hasOutcome = filled(outcome.text);
+// Sequential chapter numbers that skip any hidden section.
+const sectionIds = ['sx-idea', 'sx-surface', 'sx-decisions', ...(hasProcess ? ['sx-process'] : []), 'sx-social', ...(hasOutcome ? ['sx-outcome'] : [])];
+const num = (id) => String(sectionIds.indexOf(id) + 1).padStart(2, '0');
 
 function Bottles() {
   return (
@@ -28,7 +35,7 @@ function Bottles() {
 
 function Idea() {
   return (
-    <PkSection id="sx-idea" number="01" title={idea.heading} lede={idea.lede}>
+    <PkSection id="sx-idea" number={num('sx-idea')} title={idea.heading} lede={idea.lede}>
       <ol className="sx-steps" aria-label="Where these cleaners sit in the floor story">
         {idea.steps.map((step) => <li key={step.label}><span className="sx-step-label">{step.label}</span><p>{step.text}</p></li>)}
       </ol>
@@ -39,7 +46,7 @@ function Idea() {
 
 function Range() {
   return (
-    <PkSection id="sx-surface" number="02" title={range.heading} lede={range.lede}>
+    <PkSection id="sx-surface" number={num('sx-surface')} title={range.heading} lede={range.lede}>
       <div className="sx-versus">
         {products.map((product) => (
           <article key={product.id} className="sx-side" style={accent(product)}>
@@ -59,7 +66,7 @@ function Range() {
 
 function Decisions() {
   return (
-    <PkSection id="sx-decisions" number="03" title="Four decisions that shaped the design." lede="What we chose, and what each choice had to solve on the shelf.">
+    <PkSection id="sx-decisions" number={num('sx-decisions')} title="Four decisions that shaped the design." lede="What we chose, and what each choice had to solve on the shelf.">
       <ol className="sx-decisions" role="list">
         {decisions.map((item, index) => (
           <li key={item.title} className="sx-decision">
@@ -74,26 +81,26 @@ function Decisions() {
 }
 
 function Process() {
+  if (!hasProcess) return null;
   return (
-    <PkSection id="sx-process" number="04" title="From first ideas to an approved direction." lede="The route the range took before it reached the shelf.">
+    <PkSection id="sx-process" number={num('sx-process')} title="From first ideas to an approved direction." lede="The route the range took before it reached the shelf.">
       <div className="sx-process">
-        <article className="sx-note-card">
-          <h3>{explored.heading}</h3>
-          <p>{todo(explored.text)}</p>
-        </article>
-        <article className="sx-note-card">
-          <h3>{approval.heading}</h3>
-          <p>{todo(approval.text)}</p>
-        </article>
+        {processCards.map((card) => (
+          <article className="sx-note-card" key={card.heading}>
+            <h3>{card.heading}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))}
       </div>
     </PkSection>
   );
 }
 
 function Outcome() {
+  if (!hasOutcome) return null;
   return (
-    <PkSection id="sx-outcome" number="06" title={outcome.heading}>
-      <p className="sx-note-card sx-todo">{todo(outcome.text)}</p>
+    <PkSection id="sx-outcome" number={num('sx-outcome')} title={outcome.heading}>
+      <p className="sx-note-card sx-todo">{outcome.text}</p>
     </PkSection>
   );
 }
@@ -170,7 +177,7 @@ function SocialGallery() {
 
 function Social() {
   return (
-    <PkSection id="sx-social" number="05" title={socialIntro.heading} lede={socialIntro.lede} className="sx-social">
+    <PkSection id="sx-social" number={num('sx-social')} title={socialIntro.heading} lede={socialIntro.lede} className="sx-social">
       <ul className="pk-points sx-pillars" role="list" aria-label="How the posts are grouped">
         {pillars.map((pillar) => <li key={pillar.title}><b>{pillar.title}</b><span>{pillar.text}</span></li>)}
       </ul>
@@ -194,7 +201,7 @@ export default function ShineXCrystalXCaseStudy() {
         <Process />
         <Social />
         <Outcome />
-        <PkRole id="sx-role" number="07" items={role} />
+        <PkRole id="sx-role" number={String(sectionIds.length + 1).padStart(2, '0')} items={role} />
       </div>
       <PkPager current={shinexCard.id} />
     </article>

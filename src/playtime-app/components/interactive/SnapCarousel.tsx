@@ -280,8 +280,8 @@ export const SnapCarousel: React.FC = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.15 }}
             >
-              <p className="text-[10px] tracking-[0.2em] text-[#888] uppercase mb-2">{activeItem.subtitle}</p>
-              <p className="text-sm tracking-[0.1em] text-[#111] font-bold uppercase">{activeItem.title}</p>
+              <p className="carousel-caption-meta">{activeItem.subtitle}</p>
+              <p className="carousel-caption-title">{activeItem.title}</p>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -304,8 +304,8 @@ export const SnapCarousel: React.FC = () => {
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.15 }}
             >
-              <p className="text-[10px] tracking-[0.2em] text-[#888] mb-2">{activeItem.year}</p>
-              <p className="text-[10px] tracking-[0.2em] text-[#111] font-bold uppercase">{activeItem.subtitle}</p>
+              <p className="carousel-caption-meta">{activeItem.year}</p>
+              <p className="carousel-caption-title">{activeItem.subtitle}</p>
             </motion.div>
           </AnimatePresence>
         </div>

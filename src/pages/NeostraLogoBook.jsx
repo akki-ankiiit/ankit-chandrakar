@@ -5,6 +5,7 @@ import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import Icon from '../components/Icon.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import useInView from '../hooks/useInView.js';
+import useMediaQuery from '../hooks/useMediaQuery.js';
 import { neostraMeta } from '../data/neostra-meta.js';
 import bookHtml from '../data/neostra-logo-book.html?raw';
 
@@ -16,6 +17,20 @@ export default function NeostraLogoBook() {
   const bookRef = useRef(null);
   const [muted, setMuted] = useState(true);
   const [videoRef, videoInView] = useInView('300px');
+  const playerRef = useRef(null);
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+
+  // Play the brand animation only while it is on screen; keep it still for reduced-motion visitors.
+  useEffect(() => {
+    const node = playerRef.current;
+    if (!node || typeof IntersectionObserver !== 'function') return undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || reducedMotion) node.pause();
+      else node.play().catch(() => {});
+    }, { threshold: 0.25 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [videoInView, reducedMotion]);
 
   useEffect(() => {
     const link = document.createElement('link');
@@ -64,6 +79,7 @@ export default function NeostraLogoBook() {
         <div className="nlb-video-frame">
           {videoInView ? (
             <video
+              ref={playerRef}
               className="nlb-video-media"
               src="/assets/video/Neo_Video.mp4"
               poster="/assets/video/Neo_Video-poster.webp"
@@ -71,7 +87,7 @@ export default function NeostraLogoBook() {
               height={1280}
               aria-label="Neostra brand animation"
               muted={muted}
-              autoPlay
+              autoPlay={!reducedMotion}
               loop
               playsInline
               preload="metadata"

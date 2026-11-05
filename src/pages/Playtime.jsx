@@ -84,7 +84,7 @@ export default function Playtime() {
             <p className="hero-introduction">A place to make things move, test ideas, and enjoy the process.</p>
             <div className="hero-socials">
               <Pill onClick={() => {
-                const target = hostRef.current?.shadowRoot?.querySelector('#pocket-vibes') || hostRef.current;
+                const target = hostRef.current?.shadowRoot?.querySelector('#flower-trail') || hostRef.current;
                 if (target) scrollToTarget(target);
               }}>Start playing</Pill>
               <SocialLinks />

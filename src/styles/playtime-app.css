@@ -14,6 +14,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "./flower-trail.css";
+@import "../playtime-app/components/typewriter/typewriter.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -142,13 +144,35 @@
   text-transform: uppercase;
 }
 
-.pocket-vibes-heading h2 {
+.pocket-vibes-heading h2,
+.flower-trail-heading h2 {
   margin: 0;
   font-family: Georgia, serif;
   font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+/* Section headings across Playtime use the same type as "Pocket Vibes". Unlayered, so it beats the Tailwind font-sans utilities. */
+.playtime-app h2 { margin: 0; font-family: Georgia, serif; font-size: 20px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Image trail subtitle and project carousel captions: Pocket Vibes serif and letter-spacing, smaller sizes. */
+.playtime-app .trail-subtitle { margin: 16px 0 0; font-family: Georgia, serif; font-size: 14px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: #5a5a5a; }
+.playtime-app .carousel-caption-meta { margin: 0 0 8px; font-family: Georgia, serif; font-size: 10px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: #76685f; }
+.playtime-app .carousel-caption-title { margin: 0; font-family: Georgia, serif; font-size: 14px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: #1a1a1a; }
+
+/* "Shiva-Shakti" title: pinned to the top of the flower trail section, same type as "Pocket Vibes". */
+.flower-trail-heading {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding-inline: 16px;
+  color: #302a26;
+  text-align: center;
+  pointer-events: none;
 }
 
 .pocket-vibes-composition {
@@ -199,6 +223,10 @@
 
   .pocket-vibes-heading {
     margin-bottom: 48px;
+  }
+
+  .flower-trail-heading {
+    top: 56px;
   }
 
   .pocket-vibes-composition {
@@ -327,3 +355,10 @@ html.lenis, html.lenis body {
     @apply font-sans; 
   } 
 }
+
+/* Typewriter section */
+.typewriter-section { padding: 112px 16px 120px; background: #F7F7F7; color: #302a26; }
+.typewriter-heading { margin-bottom: 56px; text-align: center; }
+.typewriter-heading p { margin: 0 0 8px; color: #76685f; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; }
+.typewriter-stack { display: flex; flex-direction: column; gap: 48px; width: min(760px, 100%); margin-inline: auto; }
+@media (max-width: 749px) { .typewriter-section { padding: 80px 12px 88px; } .typewriter-heading { margin-bottom: 36px; } .typewriter-stack { gap: 32px; } }

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { animate, motion, useAnimation, useMotionValue, useTransform } from 'framer-motion';
+import { animate, motion, MotionConfig, useAnimation, useMotionValue, useTransform } from 'framer-motion';
 import '../styles/snap-gallery.css';
 
 const MotionButton = motion.button;
@@ -138,6 +138,7 @@ export default function SnapGallery({ items, onOpen, ariaLabel = 'ShineX social 
   if (!total) return null;
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="sx-snap" tabIndex={0} role="region" aria-roledescription="carousel" aria-label={ariaLabel} onKeyDown={onKeyDown}>
       <div className="sx-snap-stage" ref={stageRef}>
         <MotionDiv className="sx-snap-track" onPan={onPan} onPanEnd={onPanEnd}>
@@ -167,5 +168,6 @@ export default function SnapGallery({ items, onOpen, ariaLabel = 'ShineX social 
         </button>
       </div>
     </div>
+    </MotionConfig>
   );
 }

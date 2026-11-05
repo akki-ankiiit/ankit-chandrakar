@@ -56,7 +56,7 @@ export default function Notes() {
           <p className="notes-review">Every note is reviewed before publication. Your email stays private.</p>
           <div ref={tile} className={`note-tile${composing ? ' is-open' : ''}`}>
             <button type="button" ref={addButton} className="note-new" onClick={openComposer} aria-expanded={composing} aria-controls="note-composer" hidden={composing}><Icon name="plus" size={20} /><span>Add a note</span></button>
-            <div id="note-composer" className="note-tile-form" hidden={!composing}><SubmissionForm compact onCancel={closeComposer} /></div>
+            <div id="note-composer" className="note-tile-form" hidden={!composing}><div className="public-note-ticket"><div className="public-note-ticket__paper"><div className="public-note-ticket__content"><SubmissionForm compact onCancel={closeComposer} /></div></div></div></div>
           </div>
         </div>
         <div className="hero-art"><HeroArtwork videoSrc="/assets/notes.mp4" poster={null} ariaLabel="Animated illustration for the Notes page" /></div>
@@ -69,7 +69,7 @@ export default function Notes() {
       {loading && <p className="notes-state" role="status">Loading notes…</p>}
       {error && <div className="notes-state" role="alert"><p>{error}</p><Pill onClick={() => load(failedMore.current)} disabled={loading}>Retry notes</Pill></div>}
       {notes.length > 0 && <div className="notes-list">
-        {notes.map((note) => <Selection as="article" className="public-note" key={note.id}><p className="note-content">{note.message}</p><footer><h3>{note.name}</h3><span>{formatDate(note.approved_at)}</span></footer></Selection>)}
+        {notes.map((note) => <Selection as="article" className="public-note" key={note.id}><div className="public-note-ticket"><div className="public-note-ticket__paper"><div className="public-note-ticket__content"><p className="note-content">{note.message}</p><footer><h3>{note.name}</h3><span>{formatDate(note.approved_at)}</span></footer></div></div></div></Selection>)}
       </div>}
       {backendConfigured && !loading && !error && notes.length === 0 && <p className="notes-empty">No published notes yet. Yours could be the first — after a little review.</p>}
       {hasMore && <div className="notes-more"><Pill onClick={() => load(true)} disabled={loading}>Load more notes</Pill></div>}

@@ -1,4 +1,12 @@
 import media from './behance-media.json' with { type: 'json' };
+import cryptotaxSlides from './cryptotax-images.json' with { type: 'json' };
+import yesbotSlides from './yesbot-images.json' with { type: 'json' };
+
+// Full slide decks stored locally (see scripts/optimize-slides.mjs), in slide order, stacked without gaps.
+const deck = (title, slides) => [{
+  id: 'slides', title, description: `The complete ${title}, slide by slide.`,
+  images: slides.map((image, index) => ({ ...image, alt: `${title} — slide ${index + 1} of ${slides.length}` })),
+}];
 
 // Slide numbers preserve the order of the original Behance presentations.
 const chapter = (source, id, title, description, numbers) => ({
@@ -19,12 +27,7 @@ export const behanceEnrichment = {
         { title: 'Build a shared language', text: 'A DM Sans-based visual system, component library, and wireframes establish consistency before the high-fidelity desktop and mobile screens.' },
       ],
       takeaway: 'The work connects a complex collection of AI-support capabilities through a common visual language and explicit user flows. The original presentation below documents the decisions and interface explorations.',
-      chapters: [
-        chapter('case-study-01', 'discovery', 'Discovery & research', 'The original project introduction, approach, survey, competitive analysis, and personas.', [1, 2, 3, 4, 5, 6, 7]),
-        chapter('case-study-01', 'foundations', 'Flows & foundations', 'User flows, typography, colors, and the shared component library.', [8, 9, 10]),
-        chapter('case-study-01', 'wireframes', 'Wireframes', 'Low-fidelity explorations of the workspace and website.', [11, 12]),
-        chapter('case-study-01', 'interfaces', 'Final interfaces', 'Desktop workspace, dashboard, website, pricing, mobile, tablet, and presentation mockups.', [13, 14, 15, 16, 17, 18, 19, 20, 21]),
-      ],
+      chapters: deck('YesBot.ai case study', yesbotSlides),
     },
   },
   cryptotax: {
@@ -38,12 +41,7 @@ export const behanceEnrichment = {
         { title: 'Design for everyday clarity', text: 'Raleway typography, a restrained turquoise palette, and shared interface patterns carry through desktop, pricing, marketing, and mobile explorations.' },
       ],
       takeaway: 'The design exploration organizes fragmented financial information around recognizable tasks: connect a wallet, understand activity, and review tax information. The full source material is preserved in the chapters below.',
-      chapters: [
-        chapter('case-study-02', 'discovery', 'Context & discovery', 'Project context, the problem, proposed solutions, and the design process.', [1, 2, 3, 4, 5, 6]),
-        chapter('case-study-02', 'research', 'Research', 'Questions, interview insights, survey findings, personas, and competitive analysis.', [7, 8, 9, 10, 12, 13]),
-        chapter('case-study-02', 'foundations', 'System & wireframes', 'Typography, colors, user flows, and low-fidelity product and website layouts.', [11, 14, 15, 16]),
-        chapter('case-study-02', 'interfaces', 'Final interfaces', 'The product, marketing website, pricing page, and mobile explorations.', [17, 18, 19, 20]),
-      ],
+      chapters: deck('CryptoTax case study', cryptotaxSlides),
     },
   },
   lionlab: {

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { imagery, profile } from '../data/portfolio.js';
 import { Pill, Selection, SocialLinks } from './ui.jsx';
+import ReadingProgress from './ReadingProgress.jsx';
 
 export default function Header({ page, onNavigate }) {
   const [hidden, setHidden] = useState(false);
@@ -90,6 +91,7 @@ export default function Header({ page, onNavigate }) {
         <button ref={menuButton} className={`menu-toggle ${menuOpen ? 'is-open' : ''}`} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}><span /><span /><span /></button>
       </div>
     </header>
+    <ReadingProgress active={page === 'case'} headerHidden={hidden && !menuOpen} />
     <nav ref={mobileNav} id="mobile-navigation" className={`mobile-nav ${menuOpen ? 'is-open' : ''}`} aria-label="Mobile navigation" inert={!menuOpen}>
       <div className="mobile-nav-content">{links}<SocialLinks /><p className="mobile-note">Complex problems. Thoughtful products.<br />A little care in every detail.</p></div>
     </nav>
