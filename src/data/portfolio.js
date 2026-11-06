@@ -166,7 +166,7 @@ const existingProjects = [
   })),
   ...[
     { id: 'blackspace', title: 'Blackspace', subtitle: 'A bold, dark-mode web presence.', category: 'Website Design', embedUrl: 'https://www.blackspace.media/', context: ['Blackspace is a creative studio in Bengaluru, established in 2023, making content, film and brand work.', 'The team writes, shoots, cuts and ships content campaigns, scripts, edits and brand work, with AI handling much of the preparation.', 'The website puts that process front and centre: work, services and contact sit in a single bold interface, with playful cards that show each stage of a project.'] },
-    { id: 'azure-interiors', title: 'Azure Interiors', subtitle: 'A calm, elegant home for interior design.', category: 'Website Design', embedUrl: 'https://azure-interior.vercel.app/' },
+    // { id: 'azure-interiors', title: 'Azure Interiors', subtitle: 'A calm, elegant home for interior design.', category: 'Website Design', embedUrl: 'https://azure-interior.vercel.app/' },
     { id: 'atlas', title: 'Atlas', subtitle: 'A warm, exploratory web experience.', category: 'Website Design' },
     { id: 'golf-mill', title: 'The Golf Mill', subtitle: 'Tee times and the game, a click away.', category: 'Website Design', embedUrl: 'https://thegolfmill.in/' },
   ].map((project) => ({
@@ -265,7 +265,7 @@ const cardThumbnails = {
     imageHeight: 1062,
   },
   blackspace: '/assets/thumbnails/website-blackspace-hero.webp',
-  'azure-interiors': optimizedCover('azure', 1032, 740),
+  // 'azure-interiors': optimizedCover('azure', 1032, 740),
   atlas: optimizedCover('Atlas', 1032, 740),
   'golf-mill': '/assets/thumbnails/website-the-golf-mill-hero.webp',
 

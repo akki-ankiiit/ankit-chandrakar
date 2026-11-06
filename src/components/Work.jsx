@@ -140,7 +140,7 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
       case 'websites':
         return {
           topline: 'Editorial web design, responsive e-commerce, and digital brand experiences',
-          items: pick(['helix', 'blackspace', 'azure-interiors', 'golf-mill']),
+          items: pick(['helix', 'blackspace', /* 'azure-interiors', */ 'golf-mill']),
         };
       case 'design-systems':
         return {
