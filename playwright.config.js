@@ -19,5 +19,5 @@ export default defineConfig({
     { name: 'firefox-typewriter', testMatch: /typewriter\.spec\.js/, use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 1000 } } },
     { name: 'webkit-typewriter', testMatch: /typewriter\.spec\.js/, use: { ...devices['Desktop Safari'], viewport: { width: 1440, height: 1000 } } },
   ],
-  webServer: { command: `npm run dev -- --port ${port} --strictPort`, url: baseURL, reuseExistingServer: false },
+  webServer: { command: `npm run dev -- --port ${port} --strictPort`, url: baseURL, reuseExistingServer: true },
 });

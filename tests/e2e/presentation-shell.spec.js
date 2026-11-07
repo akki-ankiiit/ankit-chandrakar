@@ -14,6 +14,12 @@ for (const [name, route] of studies) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(route);
     const isThanQ = name === 'ThanQ';
+    if (!isThanQ) {
+      await expect(page.locator('h1')).toHaveText(name);
+      await expect(page.locator('.cb-presentation')).toHaveCount(0);
+      await page.locator('.cb-reading-presentation > summary').press('Enter');
+      await page.locator('.cb-presentation').scrollIntoViewIfNeeded();
+    }
     const prefix = isThanQ ? 'tq-' : '';
     const frame = page.frameLocator(isThanQ ? '.thanq-guidelines-frame' : '.cb-presentation');
     const control = (id) => frame.locator(`#${prefix}${id}`);
@@ -29,11 +35,11 @@ for (const [name, route] of studies) {
     await expect(back).toHaveCSS('border-radius', '50%');
     expect(await back.evaluate((element) => element.clientWidth === element.clientHeight)).toBe(true);
 
-    expect(await page.locator(isThanQ ? '.thanq-guidelines-presentation' : '.cb-page').evaluate((element) => {
+    expect(await page.locator(isThanQ ? '.thanq-guidelines-presentation' : '.cb-page').evaluate((element, isThanQ) => {
       const header = document.querySelector('.site-header').getBoundingClientRect();
       const frame = element.querySelector('iframe').getBoundingClientRect();
-      return element.getBoundingClientRect().bottom <= innerHeight + 1 && frame.top >= header.bottom + 28;
-    })).toBe(true);
+      return isThanQ ? element.getBoundingClientRect().bottom <= innerHeight + 1 && frame.top >= header.bottom + 28 : frame.width <= innerWidth && frame.height >= 420 && getComputedStyle(element).height !== '100dvh';
+    }, isThanQ)).toBe(true);
 
     const bounds = await frame.locator('body').evaluate((_, { isThanQ, prefix }) => {
       const slide = document.querySelector(isThanQ ? '.frame.tq-current' : '.slide.current').getBoundingClientRect();
@@ -56,7 +62,7 @@ for (const [name, route] of studies) {
     expect(bounds.centered).toBe(true);
     expect(bounds.buttonHeight).toBeLessThanOrEqual(44);
     expect(bounds.paddingTop).toBeGreaterThanOrEqual(16);
-    if (testInfo.project.name === 'desktop') expect(bounds.slideWidth).toBeGreaterThan(1100);
+    if (testInfo.project.name === 'desktop') expect(bounds.slideWidth).toBeGreaterThan(isThanQ ? 1100 : 800);
 
     await expect(control('previous')).toBeDisabled();
     await control('next').click();

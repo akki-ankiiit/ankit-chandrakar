@@ -1,6 +1,7 @@
 import { access, readFile, stat } from 'node:fs/promises';
 import sharp from 'sharp';
 import { artworks, categories, designProjects, imagery, profile, projects } from '../src/data/portfolio.js';
+import { projectOverviews } from '../src/data/project-overviews.js';
 
 const kSeries = JSON.parse(await readFile('src/data/k-series-images.json', 'utf8'));
 const kSeriesRaster = Object.values(kSeries).map((image) => image.src).filter((src) => /\.(webp|png|jpe?g)$/.test(src));
@@ -28,6 +29,7 @@ const images = new Set([
   ...(designProjects || []).flatMap((proj) => [proj.image, proj.thumbnail].filter(Boolean)),
   ...projects.flatMap((project) => [project.image, ...project.caseStudy.chapters.flatMap((chapter) => chapter.images.map((image) => image.src))]),
   ...projects.map((project) => project.thumbnailVideo?.poster).filter(Boolean),
+  ...Object.values(projectOverviews).flatMap((project) => [project.image, ...project.sections.flatMap((section) => (section.figures || []).flatMap((figure) => [figure.src, ...(figure.srcSet || '').split(',').map((candidate) => candidate.trim().split(' ')[0]).filter(Boolean)]))]),
 ]);
 const thumbnailVideos = new Set(projects.map((project) => project.thumbnailVideo?.src).filter(Boolean));
 const missing = [];

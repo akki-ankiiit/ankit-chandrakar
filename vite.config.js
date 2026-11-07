@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, rm } from 'node:fs/promises';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -11,6 +11,7 @@ import { atlasMeta } from './src/data/atlas-meta.js';
 import { adhikarMeta } from './src/data/adhikar-meta.js';
 import { thanqMeta } from './src/data/thanq-meta.js';
 import { pageMetaTags } from './src/lib/pageMetaTags.js';
+import { projectMetas } from './src/data/project-meta.js';
 
 const escape = (value) => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -38,6 +39,7 @@ function caseStudyStaticPages(metas) {
       const html = await readFile('dist/index.html', 'utf8');
       for (const meta of metas) {
         let page = html.replace(/<title>[\s\S]*?<\/title>/, () => `<title>${escape(meta.title)}</title>`);
+        page = page.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${escape(new URL(meta.path, meta.siteUrl).href)}" />`);
         for (const [name, content] of pageMetaTags(meta, meta.siteUrl)) {
           page = setMeta(page, name, content);
         }
@@ -48,7 +50,30 @@ function caseStudyStaticPages(metas) {
   };
 }
 
+// The owner supplied this assessment under public/ for this local review.
+// Retain the source file but exclude private review material from serving/build output.
+function privateReviewMaterial() {
+  const denyPrivateFiles = (server) => {
+    server.middlewares.use((request, response, next) => {
+      let path;
+      try { path = decodeURIComponent((request.url || '').split('?')[0]).replaceAll('\\', '/'); } catch { return next(); }
+      if (/\/ankit-remote-job-report\.pdf\/?$/i.test(path) || /\/docs\/private(?:\/|$)/i.test(path)) {
+        response.statusCode = 404;
+        response.end('Not found');
+        return;
+      }
+      next();
+    });
+  };
+  return {
+    name: 'private-review-material',
+    configureServer: denyPrivateFiles,
+    configurePreviewServer: denyPrivateFiles,
+    async closeBundle() { await rm('dist/ankit-remote-job-report.pdf', { force: true }); },
+  };
+}
+
 export default defineConfig({
-  plugins: [tailwindcss(), react(), caseStudyStaticPages([bondureMeta, shinexMeta, neostraMeta, contractorBhaiMeta, atlasMeta, thanqMeta, adhikarMeta])],
+  plugins: [tailwindcss(), react(), privateReviewMaterial(), caseStudyStaticPages([bondureMeta, shinexMeta, neostraMeta, contractorBhaiMeta, atlasMeta, thanqMeta, adhikarMeta, ...Object.values(projectMetas).filter((meta) => !['/work/contractorbhai', '/work/atlas-brand', '/work/adhikar-brand'].includes(meta.path))])],
   resolve: { alias: { '@': fileURLToPath(new URL('./src/playtime-app', import.meta.url)) } },
 });

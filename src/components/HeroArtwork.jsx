@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useMediaQuery from '../hooks/useMediaQuery.js';
 
 export default function HeroArtwork({
@@ -10,6 +10,7 @@ export default function HeroArtwork({
   const video = useRef(null);
   const animationFrame = useRef(null);
   const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
+  const [paused, setPaused] = useState(false);
 
   const resetPosition = () => {
     cancelAnimationFrame(animationFrame.current);
@@ -19,14 +20,14 @@ export default function HeroArtwork({
   };
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (reduceMotion || paused) {
       resetPosition();
       video.current?.pause();
     } else {
       video.current?.play().catch(() => {});
     }
     return () => cancelAnimationFrame(animationFrame.current);
-  }, [reduceMotion]);
+  }, [reduceMotion, paused]);
 
   // Decoding a looping video while it is scrolled out of view wastes CPU and battery; pause it until it returns.
   useEffect(() => {
@@ -35,14 +36,14 @@ export default function HeroArtwork({
     const observer = new IntersectionObserver(([entry]) => {
       if (!video.current) return;
       if (!entry.isIntersecting) video.current.pause();
-      else if (!reduceMotion) video.current.play().catch(() => {});
+      else if (!reduceMotion && !paused) video.current.play().catch(() => {});
     });
     observer.observe(node);
     return () => observer.disconnect();
-  }, [reduceMotion]);
+  }, [reduceMotion, paused]);
 
   const onPointerMove = (event) => {
-    if (reduceMotion || event.pointerType !== 'mouse') return;
+    if (reduceMotion || paused || event.pointerType !== 'mouse') return;
     const bounds = stage.current.getBoundingClientRect();
     const x = (event.clientX - bounds.left) / bounds.width - 0.5;
     const y = (event.clientY - bounds.top) / bounds.height - 0.5;
@@ -68,10 +69,11 @@ export default function HeroArtwork({
           loop
           playsInline
           preload="auto"
-          autoPlay
+          autoPlay={!reduceMotion && !paused}
           aria-label={ariaLabel}
         />
       </div>
+      {!reduceMotion && <button className="hero-motion-control" type="button" onClick={() => setPaused(!paused)}>{paused ? 'Play illustration' : 'Pause illustration'}</button>}
     </div>
   );
 }

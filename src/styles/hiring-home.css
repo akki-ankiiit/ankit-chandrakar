@@ -1,0 +1,64 @@
+/* Hiring clarity within the existing cream, sage, and serif visual language. */
+.site-header.is-hidden:focus-within { transform: translateY(0); }
+.site-header:focus-within { transition: none; }
+.nav-more { position: relative; }
+.nav-more > summary { cursor: pointer; list-style: none; }
+.nav-more > summary::-webkit-details-marker { display: none; }
+.nav-more > summary::before { content: '+'; display: inline-block; width: 16px; }
+.nav-more[open] > summary::before { content: '−'; }
+.nav-more-links { position: absolute; right: 0; top: calc(100% + 12px); display: flex; flex-direction: column; gap: 10px; min-width: 170px; padding: 18px 22px; border: 1px solid #c8ccba; border-radius: 6px; background: var(--paper); box-shadow: 0 8px 24px #34383112; }
+.nav-more-links .nav-link { white-space: nowrap; }
+.nav-more:not([open]) > .nav-more-links { display: none; }
+
+.hero.hero-compact.hiring-hero { padding-top: calc(var(--site-header-height) + 30px); padding-bottom: 30px; }
+.hiring-hero .hero-grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, .8fr); gap: 24px; }
+.hiring-hero .hero-copy { max-width: 580px; }
+.hero-name { margin-bottom: 15px; font-size: 17px; color: var(--forest); }
+.hero.hero-compact.hiring-hero h1 { max-width: 570px; font-size: clamp(32px, 3.4vw, 43px); line-height: 1.16; letter-spacing: -1px; margin-bottom: 17px; }
+.hero.hero-compact.hiring-hero .hero-introduction { max-width: 490px; font-size: 16px; color: #535b4b; }
+.hero-availability, .about-availability { margin-top: 14px; max-width: 500px; font-size: 13px; line-height: 1.6; color: #535b4b; }
+.hiring-hero .hero-socials { flex-wrap: wrap; gap: 13px; margin: 23px 0 17px; }
+.hiring-hero .pill { min-height: 44px; }
+.hero-resume .pill { background: transparent; }
+.hero-resume .pill:hover { background: var(--beige); }
+.hero-email { display: inline-block; font-size: 13px; overflow-wrap: anywhere; line-height: 1.7; }
+.hero.hero-compact.hiring-hero .hero-art { width: 100%; max-width: 245px; margin: 0; justify-self: center; }
+.hiring-hero .ink-hero { padding: 0; }
+.hero-motion-control { display: block; margin: 8px auto 0; padding: 6px 8px; min-height: 32px; color: #535b4b; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
+.hiring-hero + .work-section { padding-top: 30px; }
+
+.work-intro { max-width: 560px; margin-inline: auto; }
+.work-panel:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 6px; }
+.card-evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin: 15px 0 0; padding-top: 12px; border-top: 1px solid #34383120; font-size: 12px; line-height: 1.5; }
+.card-evidence dt { color: #626b57; font-size: 11px; margin-bottom: 3px; }
+.card-evidence dd { margin: 0; color: var(--forest); }
+.supporting-work { margin-top: 46px; padding-top: 28px; border-top: 1px solid #34383120; }
+.supporting-work > h3 { font-size: 25px; }
+.supporting-work > p { font-size: 14px; line-height: 1.6; color: #626b57; margin: 9px 0 24px; }
+.contact-email { margin-top: 18px; overflow-wrap: anywhere; max-width: 100%; line-height: 1.7; }
+.footer-page-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 22px; margin-top: 30px; font-size: 13px; }
+.footer-page-links a { text-decoration: underline; text-underline-offset: 4px; padding-block: 6px; }
+
+@media (max-width: 749px) {
+  .mobile-nav.is-open { transition-property: transform; }
+  .mobile-nav .mobile-nav-content { padding-top: calc(var(--site-header-height) + 28px); gap: 18px; }
+  .mobile-nav .pill-wrap { margin-top: 0; }
+  .mobile-nav .nav-more-links { position: static; box-shadow: none; border: 0; background: transparent; min-width: 0; padding: 12px 0 0 20px; gap: 8px; }
+  .mobile-nav .nav-more-links .nav-link { font-size: 21px; }
+  .hero.hero-compact.hiring-hero { padding-top: calc(var(--site-header-height) + 25px); padding-bottom: 15px; }
+  .hiring-hero .hero-grid { grid-template-columns: 1fr; gap: 12px; }
+  .hiring-hero .hero-copy { max-width: 500px; }
+  .hero-name { margin-bottom: 12px; font-size: 16px; }
+  .hero.hero-compact.hiring-hero h1 { font-size: clamp(30px, 7.7vw, 38px); max-width: 470px; }
+  .hero.hero-compact.hiring-hero .hero-introduction { font-size: 15px; }
+  .hero-availability { margin-inline: auto; }
+  .hiring-hero .hero-socials { gap: 12px; margin-block: 20px 14px; }
+  .hero.hero-compact.hiring-hero .hero-art { max-width: 105px; }
+  .hiring-hero + .work-section { padding-top: 24px; }
+  .card-evidence { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Avoid inherited visibility transitions delaying keyboard focus in the overlay. */
+  .mobile-nav, .mobile-nav * { transition: none !important; }
+}

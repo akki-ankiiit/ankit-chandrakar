@@ -1,19 +1,22 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
+import ProjectOverview from '../components/ProjectOverview.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { adhikarMeta } from '../data/adhikar-meta.js';
 import { applyPresentationBackground } from '../lib/presentationBackground.js';
 import '../styles/contractorbhai.css';
 import '../styles/adhikar-case-study.css';
+import '../styles/cb-reading-page.css';
 
 const returnState = { category: 'case-studies', focusProject: 'adhikar' };
 
 function handlePresentationLoad(event) {
-  applyPresentationBackground(event, '#f0eee5');
+  applyPresentationBackground(event, '#fdfdf5');
 }
 
 export default function AdhikarCaseStudy() {
   const page = useRef(null);
+  const [presentationOpen, setPresentationOpen] = useState(false);
   usePageMeta(adhikarMeta);
 
   useLayoutEffect(() => {
@@ -29,17 +32,26 @@ export default function AdhikarCaseStudy() {
   }, []);
 
   return (
-    <section ref={page} className="cb-page adhikar-page" aria-label="Adhikaar case study">
+    <section ref={page} className="cb-page cb-reading-page adhikar-page" aria-label="Adhikar case study">
       <nav className="cb-backbar" aria-label="Case study navigation">
         <ProjectBackLink state={returnState} label="Back to Case Studies" />
       </nav>
-      <iframe
-        className="cb-presentation"
-        src="/assets/Adhikar/Adhikaar-App-Presentation.html"
-        title="Adhikaar — interactive app presentation"
-        onLoad={handlePresentationLoad}
-        allowFullScreen
-      />
+      <ProjectOverview projectId="adhikar" />
+      <details className="cb-reading-presentation" onToggle={(event) => setPresentationOpen(event.currentTarget.open)}>
+        <summary>Explore the original presentation</summary>
+        <div className="cb-reading-presentation__intro">
+          <p>Browse slides, open the contents, or inspect the original screens.</p>
+          <a href="/assets/Adhikar/Adhikaar-App-Presentation.html" target="_blank" rel="noopener noreferrer">Open standalone presentation ↗</a>
+        </div>
+        {presentationOpen && <iframe
+          className="cb-presentation"
+          src="/assets/Adhikar/Adhikaar-App-Presentation.html"
+          title="Adhikar — interactive app presentation"
+          onLoad={handlePresentationLoad}
+          loading="lazy"
+          allowFullScreen
+        />}
+      </details>
     </section>
   );
 }

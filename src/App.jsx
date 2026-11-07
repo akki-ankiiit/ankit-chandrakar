@@ -28,6 +28,15 @@ const AdminNotes = lazy(() => import('./pages/AdminNotes.jsx'));
 
 // Maps project group → Work tab category ID
 const groupToCategory = { products: 'case-studies', websites: 'websites', apps: 'case-studies', systems: 'design-systems' };
+const pageDescriptions = {
+  about: { title: 'About — Ankit Chandrakar · Product Designer', description: 'Product design experience across enterprise privacy, business workflows, AI-assisted prototypes, and design systems. Meet Ankit Chandrakar.' },
+  resume: { title: 'Résumé — Ankit Chandrakar · Product Designer', description: 'View or download Ankit Chandrakar’s résumé: product design across enterprise privacy, SaaS, design systems, and AI-assisted prototypes.' },
+  hub: { title: 'Design desk — Ankit Chandrakar', description: 'Ankit’s design practice, tools, and places to explore more of the work.' },
+  playtime: { title: 'Playtime — Ankit Chandrakar', description: 'Interactive experiments in motion, visual craft, and creative coding by Ankit Chandrakar.' },
+  notes: { title: 'Notes — Ankit Chandrakar', description: 'Leave Ankit a note or start a conversation about product design.' },
+  'admin-notes': { title: 'Private notes — Ankit Chandrakar', description: 'Private notes sign-in.' },
+  'not-found': { title: 'Page not found — Ankit Chandrakar', description: 'Find your way back to Ankit Chandrakar’s selected product design work, résumé, and contact information.' },
+};
 
 // Commit restoration only once the destination's code and CSS are ready.
 function RouteScrollRestoration({ restoration }) {
@@ -83,7 +92,7 @@ export default function App() {
     restoration.current = { key: location.key, restoring: true, saved: scrollPositions.current.get(location.key) };
   }
   const page = location.pathname === '/notes' ? 'notes' : location.pathname === '/admin/notes' ? 'admin-notes' : location.pathname === '/desk' ? 'hub' : location.pathname === '/about' ? 'about' : location.pathname === '/resume' ? 'resume' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
-  usePageMeta(homeMeta, page === 'home');
+  usePageMeta({ ...homeMeta, ...pageDescriptions[page], ogDescription: page === 'home' ? homeMeta.ogDescription : pageDescriptions[page]?.description, path: location.pathname }, page !== 'case');
 
   useEffect(() => {
     const rememberScroll = () => {
@@ -131,6 +140,7 @@ export default function App() {
   const onNavigate = (destination) => {
     if (destination === 'hub') navigate('/desk');
     else if (destination === 'about') navigate('/about');
+    else if (destination === 'resume') navigate('/resume');
     else if (destination === 'playtime') navigate('/playtime');
     else if (destination === 'notes') navigate('/notes');
     else if (destination === 'home') navigate('/');
@@ -145,7 +155,7 @@ export default function App() {
       <main id="main" tabIndex={-1}>
         <Suspense fallback={<RouteLoading />}>
         <Routes>
-          <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><About /><Work active={category} onCategoryChange={setCategory} /><Experience /><Impact /></div>} />
+          <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><Work active={category} onCategoryChange={setCategory} /><About /><Experience /><Impact /></div>} />
           <Route path="/desk" element={<div className="page-enter"><Hero isHub onNavigate={onNavigate} /><CreatorHub /></div>} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/notes" element={<Suspense fallback={<p className="container" role="status" style={{ paddingTop: 180 }}>Loading notes…</p>}><Notes /></Suspense>} />

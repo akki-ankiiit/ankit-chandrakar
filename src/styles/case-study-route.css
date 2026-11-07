@@ -35,3 +35,19 @@
 @media (max-width: 749px) {
   .case-contents { border-bottom-color: #c7ceb770; }
 }
+
+.showcase-intro { max-width: 760px; padding-block: 44px; }
+.showcase-intro h1 { font-size: clamp(36px, 5vw, 64px); margin-bottom: 22px; }
+.showcase-intro p, .stream-deck-note { color: #57594f; font-size: 17px; line-height: 1.8; }
+.stream-deck-title { font-size: clamp(28px, 3vw, 36px); margin-bottom: 18px; }
+.stream-deck-note { margin-bottom: 28px; max-width: 70ch; }
+.stream-images figure { margin: 0 0 26px; }
+.stream-images figcaption { font-size: 14px; color: #57594f; line-height: 1.7; padding: 12px 4px; }
+.helix-walkthrough { margin-top: 48px; padding: 28px; border: 1px solid #c8ccba; background: #f0f1e3; border-radius: 12px; }
+.helix-walkthrough p, .helix-walkthrough li { font-size: 17px; line-height: 1.8; }
+.helix-walkthrough ol { margin: 24px 0; padding-left: 24px; }
+.helix-walkthrough li + li { margin-top: 20px; }
+.helix-score-note { padding-top: 20px; border-top: 1px solid #c8ccba; }
+.supporting-agents { margin-block: 56px; }
+.supporting-agents > summary { font-size: 24px; padding: 20px 0; cursor: pointer; }
+.supporting-agents > p { line-height: 1.7; }
