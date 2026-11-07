@@ -20,7 +20,7 @@ export const profile = {
   telephone: '+916260906952',
   website: 'https://ankitchandrakar.in',
   notion,
-  resume: '/ankit-chandrakar-resume.pdf',
+  resume: '/Ankit_Chandrakar_Senior_Product_Designer_Resume.pdf',
   announcement: 'Thoughtful products. A little curiosity. A lot of care.',
   headline: 'Ankit Chandrakar is a product designer who designs & codes </>',
   introduction: 'A Lead Product Designer turning complex workflows into thoughtful digital experiences.',
