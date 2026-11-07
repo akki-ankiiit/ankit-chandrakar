@@ -1,15 +1,17 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
+import ProjectOverview from '../components/ProjectOverview.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { contractorBhaiMeta } from '../data/contractorbhai-meta.js';
 import { applyPresentationBackground } from '../lib/presentationBackground.js';
 import '../styles/contractorbhai.css';
+import '../styles/cb-reading-page.css';
 
 const returnState = { category: 'case-studies', focusProject: 'contractorbhai' };
 
 function handlePresentationLoad(event) {
   applyPresentationBranding(event);
-  applyPresentationBackground(event, '#eeeee4');
+  applyPresentationBackground(event, '#fdfdf5');
 }
 
 function applyPresentationBranding(event) {
@@ -39,6 +41,7 @@ function applyPresentationBranding(event) {
 
 export default function ContractorBhaiCaseStudy() {
   const page = useRef(null);
+  const [presentationOpen, setPresentationOpen] = useState(false);
   usePageMeta(contractorBhaiMeta);
 
   useLayoutEffect(() => {
@@ -54,17 +57,26 @@ export default function ContractorBhaiCaseStudy() {
   }, []);
 
   return (
-    <section ref={page} className="cb-page" aria-label="ContractorBhai product design case study">
+    <section ref={page} className="cb-page cb-reading-page" aria-label="ContractorBhai product design case study">
       <nav className="cb-backbar" aria-label="Case study navigation">
         <ProjectBackLink state={returnState} label="Back to Case Studies" />
       </nav>
-      <iframe
-        className="cb-presentation"
-        src="/assets/ContractorBhai/Final.html"
-        title="ContractorBhai — interactive product design case study"
-        onLoad={handlePresentationLoad}
-        allowFullScreen
-      />
+      <ProjectOverview projectId="contractorbhai" />
+      <details className="cb-reading-presentation" onToggle={(event) => setPresentationOpen(event.currentTarget.open)}>
+        <summary>Explore the original presentation</summary>
+        <div className="cb-reading-presentation__intro">
+          <p>Browse slides, open the contents, or inspect the original screens.</p>
+          <a href="/assets/ContractorBhai/Final.html" target="_blank" rel="noopener noreferrer">Open standalone presentation ↗</a>
+        </div>
+        {presentationOpen && <iframe
+          className="cb-presentation"
+          src="/assets/ContractorBhai/Final.html"
+          title="ContractorBhai — interactive product design case study"
+          onLoad={handlePresentationLoad}
+          loading="lazy"
+          allowFullScreen
+        />}
+      </details>
     </section>
   );
 }

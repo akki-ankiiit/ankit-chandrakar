@@ -19,7 +19,7 @@ export default function About() {
             <h2 className="eyebrow"><Selection><img src={imagery.mark} width="27" height="30" alt="" /></Selection>{profile.role}</h2>
             <p>{profile.bio}</p>
             <p className="design-philosophy">{profile.philosophy}</p>
-            <Link className="text-link about-resume" to="/resume">My résumé, in a nutshell <Icon name="arrow" size={14} /></Link>
+             <Link className="text-link about-resume" to="/about">More about my practice <Icon name="arrow" size={14} /></Link>
           </Reveal>
         </div>
       </section>

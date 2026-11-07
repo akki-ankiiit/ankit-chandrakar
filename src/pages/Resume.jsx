@@ -4,9 +4,10 @@ import '../styles/resume.css';
 import { Pill } from '../components/ui.jsx';
 import { profile } from '../data/portfolio.js';
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+import usePageMeta from '../hooks/usePageMeta.js';
 
 // Renders every PDF page onto a canvas so the sheets sit on the page with no browser viewer chrome.
-function ResumeSheets({ src }) {
+function ResumeSheets({ src, onText }) {
   const hostRef = useRef(null);
   const [width, setWidth] = useState(0);
   const [failed, setFailed] = useState(false);
@@ -14,7 +15,7 @@ function ResumeSheets({ src }) {
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return undefined;
-    const update = () => setWidth(Math.round(host.clientWidth / 40) * 40);
+    const update = () => setWidth(Math.floor(host.clientWidth));
     update();
     const observer = new ResizeObserver(update);
     observer.observe(host);
@@ -34,7 +35,9 @@ function ResumeSheets({ src }) {
         pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
         loadingTask = pdfjs.getDocument(src);
         doc = await loadingTask.promise;
+        if (cancelled) return;
         host.replaceChildren();
+        const transcript = [];
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         for (let number = 1; number <= doc.numPages; number += 1) {
           const page = await doc.getPage(number);
@@ -52,7 +55,10 @@ function ResumeSheets({ src }) {
           canvas.setAttribute('aria-label', `Résumé page ${number} of ${doc.numPages}`);
           host.appendChild(canvas);
           await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+          const content = await page.getTextContent();
+          transcript.push(content.items.map((item) => item.str + (item.hasEOL ? '\n' : ' ')).join(''));
         }
+        if (!cancelled) onText(transcript.join('\n\n'));
       } catch {
         if (!cancelled) setFailed(true);
       }
@@ -62,7 +68,7 @@ function ResumeSheets({ src }) {
       cancelled = true;
       loadingTask?.destroy();
     };
-  }, [src, width]);
+  }, [src, width, onText]);
 
   return (
     <div className="resume-sheets" ref={hostRef}>
@@ -77,10 +83,8 @@ function ResumeSheets({ src }) {
 
 export default function Resume() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.title = 'My Resume — Ankit Chandrakar';
-  }, []);
+  const [resumeText, setResumeText] = useState('');
+  usePageMeta({ title: 'Résumé — Ankit Chandrakar · Product Designer', description: 'View or download Ankit Chandrakar’s résumé: product design across enterprise privacy, SaaS, design systems, and AI-assisted prototypes.', image: '/assets/social-preview.jpg', path: '/resume', siteUrl: profile.website });
 
   return (
     <section className="resume-page page-enter" aria-labelledby="resume-title">
@@ -95,7 +99,9 @@ export default function Resume() {
             <Pill className="resume-secondary" onClick={() => navigate('/')}>Go to home</Pill>
           </div>
         </header>
-        <ResumeSheets src={profile.resume} />
+        <p className="resume-reading-note">Download the original document or <a href={profile.resume} target="_blank" rel="noopener noreferrer">open the selectable PDF in a new tab ↗</a>.</p>
+        <ResumeSheets src={profile.resume} onText={setResumeText} />
+        {resumeText && <details className="resume-transcript"><summary>Read résumé as text</summary><div>{resumeText}</div></details>}
       </div>
     </section>
   );

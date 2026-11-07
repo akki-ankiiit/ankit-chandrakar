@@ -14,6 +14,63 @@ const pick = (ids) => ids.map((id) => projects.find((project) => project.id === 
 
 const packagingItems = [kSeriesCard, bondureCard, shinexCard, ...designProjects.filter((project) => project.id !== bondureCard.id)];
 
+// Card evidence stays local: project pages can evolve independently of the gallery.
+const productCards = {
+  'neostra-dsar': {
+    title: 'Neostra · Privacy workflows',
+    category: 'Privacy SaaS',
+    subtitle: 'Manage data subject requests through clear enterprise privacy workflows.',
+    href: '/work/neostra-dsar',
+    role: 'Lead Product Designer',
+    evidence: 'Product design',
+    coverAlt: 'Neostra DSAR — data subject request management product design',
+    image: '/assets/portfolio-evidence/neostra-requests.webp',
+    imageWidth: 1440,
+    imageHeight: 1000,
+    thumbnailSrcSet: '/assets/portfolio-evidence/neostra-requests-960.webp 960w, /assets/portfolio-evidence/neostra-requests.webp 1440w',
+    tags: ['DSAR management', 'Enterprise workflows'],
+  },
+  helix: {
+    category: 'Materials R&D',
+    subtitle: 'Review candidate formulations, constraints, and simulated agent work before planning a lab trial.',
+    href: '/work/helix',
+    evidence: 'Interactive prototype',
+    tags: ['Human-in-the-loop AI', 'Formulation workflows'],
+  },
+  contractorbhai: {
+    category: 'Relationship management',
+    subtitle: 'Give relationship managers contractor context, occasion reminders, and personalized messaging.',
+    evidence: 'Product design',
+    tags: ['Field sales', 'Contractor relationships'],
+  },
+  atlas: {
+    client: 'Selected work',
+    category: 'Field sales',
+    subtitle: 'Find nearby projects and show relevant local product evidence during sales visits.',
+    href: '/work/atlas-brand',
+    role: 'Product Designer',
+    evidence: 'Product design',
+    tags: ['Map-based discovery', 'Sales enablement'],
+  },
+  adhikar: {
+    category: 'Contractor loyalty',
+    subtitle: 'Help contractors track points, explore rewards, and share their project portfolios.',
+    href: '/work/adhikar-brand',
+    evidence: 'Product design',
+    tags: ['Rewards', 'Contractor portfolios'],
+  },
+  yesbot: {
+    subtitle: 'Connect knowledge sources, configure a business chatbot, and review conversations.',
+    evidence: 'Product design',
+  },
+  cryptotax: {
+    subtitle: 'Connect wallets, review transactions, and navigate cryptocurrency tax reporting.',
+    evidence: 'Product design',
+  },
+};
+
+const productCard = (project) => ({ ...project, ...(project.id === 'adhikar' ? project.appCover : {}), ...productCards[project.id] });
+
 function ProjectCard({ project, index, onOpen }) {
   const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
   const [videoFailed, setVideoFailed] = useState(false);
@@ -42,7 +99,7 @@ function ProjectCard({ project, index, onOpen }) {
             <img
               ref={videoRef}
               src={project.thumbnailVideo.poster}
-              alt={`${project.title} — case study cover`}
+              alt={project.coverAlt || `${project.title} — project cover`}
               width={project.thumbnailVideo.width}
               height={project.thumbnailVideo.height}
               loading="lazy"
@@ -54,7 +111,7 @@ function ProjectCard({ project, index, onOpen }) {
             src={project.thumbnail || project.image}
             srcSet={project.thumbnailSrcSet}
             sizes={project.thumbnailSrcSet ? '(max-width: 539px) 84vw, (max-width: 749px) calc(44vw - 9px), (max-width: 999px) calc(50vw - 60px), 440px' : undefined}
-            alt={`${project.title} — case study cover`}
+            alt={project.coverAlt || `${project.title} — project cover`}
             width={project.imageWidth || 1200}
             height={project.imageHeight || 850}
             loading="lazy"
@@ -71,6 +128,12 @@ function ProjectCard({ project, index, onOpen }) {
       </div>
       <h3>{project.title}</h3>
       <p>{project.subtitle || project.description}</p>
+      {project.evidence && (
+        <dl className="card-evidence">
+          <div><dt>Role</dt><dd>{project.role}</dd></div>
+          <div><dt>Evidence</dt><dd>{project.evidence}</dd></div>
+        </dl>
+      )}
       {project.tags && (
         <div className="project-tags">
           {project.tags.slice(0, 2).map((tag) => (
@@ -97,7 +160,7 @@ function ProjectCard({ project, index, onOpen }) {
           className="portfolio-card-button"
           to={project.href || `/work/${project.id}`}
           data-project-link={project.id}
-          aria-label={`Read ${project.title} case study`}
+          aria-label={`View ${project.title}${project.evidence ? ` — ${project.evidence.toLowerCase()}` : ' project'}`}
         >
           {cardInner}
         </Link>
@@ -131,21 +194,19 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
       case 'case-studies':
       default:
         return {
-          topline: 'From user research and architecture to scalable enterprise workflows',
-          items: pick(['contractorbhai', 'adhikar', 'atlas', 'cryptotax', 'yesbot']).map((project) => (
-            project.id === 'atlas' ? { ...project, href: '/work/atlas-brand' }
-              : project.id === 'adhikar' ? { ...project, ...project.appCover, href: '/work/adhikar-brand' } : project
-          )),
+          topline: 'Privacy, AI-assisted operations, and tools for people in the field',
+          items: pick(['neostra-dsar', 'helix', 'contractorbhai', 'atlas', 'adhikar']).map(productCard),
+          supporting: pick(['yesbot', 'cryptotax']).map(productCard),
         };
       case 'websites':
         return {
           topline: 'Editorial web design, responsive e-commerce, and digital brand experiences',
-          items: pick(['helix', 'blackspace', /* 'azure-interiors', */ 'golf-mill']),
+          items: pick(['blackspace', /* 'azure-interiors', */ 'golf-mill']),
         };
       case 'design-systems':
         return {
-          topline: 'Reusable component libraries, design tokens, and multi-product standards',
-          items: pick(['neostra-system', 'neostra-dsar', 'neostra-cpmp']),
+          topline: 'Shared product foundations, plus related consent and preference workflows',
+          items: pick(['neostra-system', 'neostra-cpmp']),
         };
       case 'packaging-designs':
         return {
@@ -163,14 +224,15 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
   };
 
   const categoryData = getCategoryData(active);
-  const dialogItems = active === 'packaging-designs' ? packagingItems : categoryData.items;
+  const dialogItems = [...categoryData.items, ...(categoryData.supporting || [])];
 
   return (
     <section id="work" className="work-section" aria-labelledby="work-title">
       <div className="work-container">
         <Reveal className="work-heading">
           <img className="work-flower" src="/assets/imagery/my-work-icon.svg" width="74" height="56" alt="" loading="lazy" />
-          <h2 id="work-title">My work</h2>
+          <h2 id="work-title">Selected work</h2>
+          <p className="work-intro">Product workflows first. Explore websites, systems, packaging, and brand work in the folders below.</p>
           <div className="folder-tabs" role="tablist" aria-label="Work categories">
             {categories.map((category, index) => (
               <button
@@ -209,6 +271,15 @@ export default function Work({ active = 'case-studies', onCategoryChange }) {
                 />
               ))}
             </div>
+            {categoryData.supporting && (
+              <section className="supporting-work" aria-labelledby="supporting-work-title">
+                <h3 id="supporting-work-title">More product examples</h3>
+                <p>Earlier explorations in conversational AI and fintech.</p>
+                <div className="portfolio-grid">
+                  {categoryData.supporting.map((project, index) => <ProjectCard key={project.id} project={project} index={categoryData.items.length + index} onOpen={setSelectedProject} />)}
+                </div>
+              </section>
+            )}
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 export const contractorBhaiMeta = {
   path: '/work/contractorbhai',
-  siteUrl: 'https://ankitchandrakar.in',
+  siteUrl: 'https://ankit.devs.surf',
   title: 'ContractorBhai: More personal field sales | Ankit Chandrakar',
   description: 'Designing a mobile relationship workspace for Tejas: contractor profiles, timely reminders, and thoughtful AI-assisted festival messages for field sales teams.',
   image: '/assets/ContractorBhai/cover.webp',

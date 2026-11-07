@@ -1,6 +1,6 @@
 import { createElement, lazy, Suspense } from 'react';
 import { FaBehance, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { profile } from '../data/portfolio.js';
 import { Pill, Reveal } from './ui.jsx';
 // Footer message form (email sending) is switched off for now. To bring it back, restore this import
@@ -14,27 +14,21 @@ const FlowerTrail = lazy(() => import('../playtime-app/components/interactive/Im
 const socialIcons = { linkedin: FaLinkedinIn, behance: FaBehance, x: FaXTwitter };
 
 export default function Contact({ visitor = false }) {
-  const navigate = useNavigate();
-  const openNotes = (event) => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
-    event.preventDefault();
-    navigate('/notes');
-  };
-
   return (
     <footer id="footer" className={`footer ft${visitor ? ' has-visitor' : ''}`}>
       {visitor && <img className="footer-visitor" src="/assets/footer-visitor.webp" alt="" aria-hidden="true" />}
       <Suspense fallback={null}><FlowerTrail /></Suspense>
       <Reveal className="container ft-inner">
         {/* 1. The ask */}
-        <h2>Hey Folks! What's up?</h2>
-        <h3 className="ft-lede">Coffee, collab, or chaos - take your pick! I’m up for all three. If something sparked your curiosity — let’s talk design, drama, or destinations.</h3>
+        <h2>Let’s talk product design.</h2>
+        <p className="ft-lede">{profile.availability} Have a role or a complex product challenge in mind? I’d love to hear about it.</p>
 
-        {/* 2. The two ways in: a note (primary) or an email */}
+        {/* 2. Direct contact and résumé */}
         <div className="ft-actions">
-          <Pill href="/notes" onClick={openNotes}>Leave a note</Pill>
-          <Pill className="ft-secondary" href={`mailto:${profile.email}`}>Email me</Pill>
+          <Pill href={`mailto:${profile.email}`}>Email me</Pill>
+          <Pill className="ft-secondary" href={profile.resume} download>Download résumé</Pill>
         </div>
+        <a className="text-link contact-email" href={`mailto:${profile.email}`}>{profile.email}</a>
         {/* 3. Elsewhere */}
         <div className="ft-elsewhere">
           <ul className="ft-socials" aria-label="Social links">
@@ -51,7 +45,10 @@ export default function Contact({ visitor = false }) {
         </div>
         */}
         {/* 4. Sign-off */}
-        <p className="ft-colophon">© {new Date().getFullYear()} {profile.fullName}. Made with Love & alot of efforts.</p>
+        <nav className="footer-page-links" aria-label="Explore more">
+          <Link to="/#work">Work</Link><Link to="/about">About</Link><Link to="/resume">Résumé</Link><Link to="/playtime">Playtime</Link><Link to="/desk">Design desk</Link><Link to="/notes">Leave a note</Link>
+        </nav>
+        <p className="ft-colophon">© {new Date().getFullYear()} {profile.fullName}. Made with love &amp; a lot of effort.</p>
       </Reveal>
       {/* Rolling hills along the foot of the footer. The pale sky multiplies into the footer colour, so only the hills show. */}
       <img className="ft-landscape" src="/assets/footer/meadow-2880.webp" srcSet="/assets/footer/meadow-1200.webp 1200w, /assets/footer/meadow-2880.webp 2880w" sizes="100vw" width="2880" height="792" alt="" aria-hidden="true" loading="lazy" decoding="async" />

@@ -29,7 +29,7 @@ function Choice({ label, value, values, onChange }) {
   );
 }
 
-export default function AgentsExperience() {
+export default function AgentsExperience({ anchorId = 'agents' }) {
   const [open, setOpen] = useState(null);
   const [custom, setCustom] = useState({});
   const [motion, setMotion] = useState('lively');
@@ -45,7 +45,7 @@ export default function AgentsExperience() {
     preview.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
     preview.current?.focus({ preventScroll: true });
   };
-  return <section id="agents" className="agents-page" aria-labelledby="agents-title">
+  return <section id={anchorId} className="agents-page" aria-labelledby="agents-title">
     <div className="agents-container">
       <header className="agents-intro">
         <div className="agents-intro-copy">

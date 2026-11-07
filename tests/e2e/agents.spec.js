@@ -37,9 +37,9 @@ test('Helix embeds Agents below its website, preserves its title and restores th
     history.pushState({}, '', url);
     dispatchEvent(new PopStateEvent('popstate'));
   }, agentsURL);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix.labs');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix Labs');
   await expect(page.getByRole('heading', { level: 2, name: 'Agents, with personality.', exact: true })).toBeVisible();
-  await expect(page).toHaveTitle('Helix.labs — Ankit Chandrakar');
+  await expect(page).toHaveTitle('Helix Labs — Product design by Ankit Chandrakar');
   const facade = page.locator('.showcase-site .showcase-embed-facade');
   if (await facade.count()) {
     await facade.click();
@@ -293,15 +293,15 @@ test('legacy route variants redirect to the embedded anchor without horizontal o
   for (const url of ['/agents', '/agents/', '/Agents', '/Agents/']) {
     await page.goto(url);
     await expect(page).toHaveURL(/\/work\/helix#agents$/);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix.labs');
-    await expect(page).toHaveTitle('Helix.labs — Ankit Chandrakar');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Helix Labs');
+    await expect(page).toHaveTitle('Helix Labs — Product design by Ankit Chandrakar');
     await expect.poll(() => anchorOffset(page)).toBeLessThan(3);
   }
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://ankit.devs.surf/assets/social-preview.jpg');
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://ankit.devs.surf/assets/video/Helix-clean-poster.webp');
   expect(await page.locator('.agents-page').evaluate((element) => {
     return parseFloat(getComputedStyle(element).paddingTop);
   })).toBe(page.viewportSize().width < 750 ? 24 : 32);
-  await expect(page.locator('#agents > .agents-container')).toHaveCount(1);
+  await expect(page.locator('#agents .agents-container')).toHaveCount(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect(await page.locator('.agents-card').evaluateAll((cards) => cards.every((card) => {
     const box = card.getBoundingClientRect();

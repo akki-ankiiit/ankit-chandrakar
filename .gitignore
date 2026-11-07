@@ -15,3 +15,6 @@ test-results/
 *.log
 coverage/
 *.tsbuildinfo
+# Local career-review inputs and owner-only content questions/screenshots.
+docs/private/
+public/ankit-remote-job-report.pdf

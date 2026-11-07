@@ -24,10 +24,14 @@ export default function usePageMeta({ title, description, ogDescription, image, 
     if (!enabled) return;
     const previousTitle = document.title;
     document.title = title;
+    const canonical = document.head.querySelector('link[rel="canonical"]');
+    const previousCanonical = canonical?.getAttribute('href');
+    canonical?.setAttribute('href', new URL(path || window.location.pathname, siteUrl || 'https://ankit.devs.surf').href);
     const restore = pageMetaTags({ title, description, ogDescription, image, imageType, imageAlt, imageWidth, imageHeight, twitterImage, twitterImageAlt, path }, siteUrl || window.location.origin)
       .map(([name, value]) => setMeta(name, value));
     return () => {
       restore.reverse().forEach((undo) => undo());
+      if (canonical && previousCanonical) canonical.setAttribute('href', previousCanonical);
       document.title = previousTitle;
     };
   }, [title, description, ogDescription, image, imageType, imageAlt, imageWidth, imageHeight, twitterImage, twitterImageAlt, path, siteUrl, enabled]);

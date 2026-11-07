@@ -3,9 +3,56 @@ import cryptotaxSlides from './cryptotax-images.json' with { type: 'json' };
 import yesbotSlides from './yesbot-images.json' with { type: 'json' };
 
 // Full slide decks stored locally (see scripts/optimize-slides.mjs), in slide order, stacked without gaps.
+const slideDescriptions = {
+  'YesBot.ai case study': [
+    'Introduction to the YesBot.ai business-chatbot design case study.',
+    'Product overview and responsive website introduction.',
+    'Published design process: research, ideation, personas, journeys, wireframes, and collaboration.',
+    'The original study’s 100-participant survey and reported priorities; these are source-reported findings.',
+    'Feature comparison of chatbot and business-support products.',
+    'Responsive device mockups introducing the YesBot.ai visual identity.',
+    'Personas documenting goals, challenges, and scenarios in the original study.',
+    'User-flow diagrams for connected chatbot-management tasks.',
+    'Design foundations: DM Sans typography, purple palette, and icon set.',
+    'Reusable components, controls, tables, and cards for the chatbot workspace.',
+    'Desktop wireframes for management and configuration screens.',
+    'Long-form website wireframe and content hierarchy.',
+    'High-fidelity workspace screens, including configuration and conversations.',
+    'Dashboard with usage, conversations, sentiment, leads, products, and bot channels; values are interface examples.',
+    'Marketing website design describing the chatbot offering.',
+    'Pricing-page design with tier comparison; displayed prices are presentation content.',
+    'Mobile dashboard and management interface explorations.',
+    'Desktop workspace, knowledge-source, and configuration interface variations.',
+    'Responsive marketing-website layouts.',
+    'Device mockups of dashboard and website designs.',
+    'Closing credits and mobile interface mockups.',
+  ],
+  'CryptoTax case study': [
+    'Introduction to cryptocurrency portfolio management and tax-reporting design.',
+    'Product overview: wallets, transactions, and reporting in one workspace.',
+    'Problem framing: fragmented tracking, manual errors, reporting complexity, and poor usability.',
+    'Desktop marketing-page device mockup.',
+    'Proposed solution directions in the original study; not verified integration or tax-accuracy results.',
+    'Published design-process outline from research to usability testing.',
+    'Research questions about portfolio and tax-management experience.',
+    'Research rationale: challenges, expectations, key features, and recommendations.',
+    'Interview-question and response material as presented in the original case study.',
+    'Source-reported survey priorities; these percentages are not product-performance outcomes.',
+    'Design foundations: Raleway typography, turquoise palette, and icons.',
+    'Personas with goals and challenges from the published narrative.',
+    'Competitive feature comparison of cryptocurrency and tax tools.',
+    'User-flow diagram connecting sign-in, account creation, transactions, wallets, and reporting.',
+    'Desktop account, wallet, and transaction wireframes.',
+    'Marketing website wireframe and section hierarchy.',
+    'High-fidelity desktop account, transaction, and tax-workflow explorations.',
+    'Marketing website design for the cryptocurrency tool.',
+    'Pricing-page exploration; displayed amounts are design content.',
+    'Mobile portfolio and transaction interface explorations and closing credits.',
+  ],
+};
 const deck = (title, slides) => [{
   id: 'slides', title, description: `The complete ${title}, slide by slide.`,
-  images: slides.map((image, index) => ({ ...image, alt: `${title} — slide ${index + 1} of ${slides.length}` })),
+  images: slides.map((image, index) => ({ ...image, alt: `${slideDescriptions[title]?.[index] || title} (${index + 1} of ${slides.length})` })),
 }];
 
 // Slide numbers preserve the order of the original Behance presentations.

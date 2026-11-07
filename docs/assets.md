@@ -7,6 +7,25 @@ directory used by some older generators is not this archive.
 
 ## Source-to-output manifest
 
+### Product-evidence captures (7 November 2026)
+
+`public/assets/portfolio-evidence/` contains browser viewport captures, encoded as
+1440px and 960px WebPs with Sharp (quality 85). They are observed design/demo
+artifacts, not production records or proof of measured outcomes.
+
+- `neostra-requests`, `neostra-collection-details`, `neostra-tokens`,
+  `neostra-button-states`, and `neostra-privacy-preferences`: the existing shared
+  Neostra Penpot viewer, linked in `src/data/portfolio.js`. Captures retain viewer
+  chrome and include only the visible portion of the named board. Product values
+  are sample data. Both original Figma links returned HTTP 403 during this review.
+- `helix-projects`: `https://helixlab-one.vercel.app/projects`.
+- `helix-pathways`: `https://helixlab-one.vercel.app/projects/p-gyp`.
+  These are screenshots of the interactive prototype; agent runs are simulated,
+  predictions and rankings are demo values, and no lab outcome is established.
+
+HTML captions and alternative text in `src/data/project-overviews.js` describe
+these boundaries. No separate Helix application files were changed.
+
 Each source below moved from the same relative path under `public/assets/` to
 `source-assets/`. Original names, bytes, and grouping are preserved. The existing
 public derivative URLs remain unchanged.

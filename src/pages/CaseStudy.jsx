@@ -1,22 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { profile, projects } from '../data/portfolio.js';
 import { Pill } from '../components/ui.jsx';
 import Icon from '../components/Icon.jsx';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import NotFound from './NotFound.jsx';
 import FigmaFilePage from './FigmaFilePage.jsx';
-import AgentsExperience from '../features/agents/AgentsExperience.jsx';
+import ProjectOverview from '../components/ProjectOverview.jsx';
+import HelixWalkthrough from '../components/HelixWalkthrough.jsx';
+import usePageMeta from '../hooks/usePageMeta.js';
+import { projectMetas } from '../data/project-meta.js';
+import { projectOverviews } from '../data/project-overviews.js';
 import '../styles/case-study-route.css';
+const AgentsExperience = lazy(() => import('../features/agents/AgentsExperience.jsx'));
 
 // Live third-party sites are heavy and slow to load, so they mount only when the visitor asks for them.
-function LiveEmbed({ src, title, label }) {
+function LiveEmbed({ src, title, label, preview }) {
   const [active, setActive] = useState(false);
   if (active) return <iframe src={src} title={title} referrerPolicy="strict-origin-when-cross-origin" />;
   let host = '';
   try { host = new URL(src).hostname.replace(/^www\./, ''); } catch { host = src; }
   return (
     <button type="button" className="showcase-preview showcase-embed-facade" onClick={() => setActive(true)} aria-label={`Load live preview of ${title}`}>
+      {preview && <img src={preview} alt="" width="1440" height="1000" loading="lazy" />}
       <span className="showcase-preview-caption"><strong>Load live preview</strong><small>{label || host}</small></span>
     </button>
   );
@@ -98,27 +104,34 @@ function CaseStudyContent({ project }) {
 }
 
 function ShowcasePage({ project }) {
+  const location = useLocation();
+  const [agentsOpen, setAgentsOpen] = useState(location.hash === '#agents');
   useEffect(() => {
-    document.title = `${project.title} — Ankit Chandrakar`;
-  }, [project]);
+    if (location.hash === '#agents') setAgentsOpen(true);
+  }, [location.hash]);
+  usePageMeta(projectMetas[project.id] || {
+    title: `${project.title} — Ankit Chandrakar`, description: project.description,
+    path: `/work/${project.id}`, image: project.image, siteUrl: profile.website,
+  });
 
   return (
     <article className="showcase-page page-enter">
       <div className="case-container">
         <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
-        {/* The page opens straight on the embed: no visible title, tagline or intro. The title stays for screen readers. */}
-        <h1 className="sr-only">{project.title}</h1>
+        {projectOverviews[project.id] ? <ProjectOverview projectId={project.id}>
+          {project.id === 'helix' && <HelixWalkthrough />}
+        </ProjectOverview> : <header className="showcase-intro"><h1>{project.title}</h1><p>{project.description}</p></header>}
       </div>
       <section className="showcase-site" aria-label={`${project.title} — ${project.embedLabel || 'live website'}`}>
         <div className="showcase-frame">
           {project.embedPreview ? <a className="showcase-preview" href={project.embedUrl} target="_blank" rel="noopener noreferrer">
             <img src={project.embedPreview.src} alt={project.embedPreview.alt} width={project.embedPreview.width} height={project.embedPreview.height} decoding="async" />
             <span className="showcase-preview-caption"><strong>{project.embedLinkLabel || 'Open the site in a new tab ↗'}</strong>{project.embedPreview.note && <small>{project.embedPreview.note}</small>}</span>
-          </a> : <LiveEmbed src={project.embedUrl} title={`${project.title} — ${project.embedLabel || 'live website'}`} label={project.embedLabel} />}
+          </a> : <LiveEmbed src={project.embedUrl} title={`${project.title} — ${project.id === 'helix' ? 'interactive prototype' : project.embedLabel || 'live website'}`} label={project.id === 'helix' ? 'Interactive prototype · simulated runs and demo data' : project.embedLabel} preview={project.id === 'helix' ? '/assets/portfolio-evidence/helix-projects.webp' : undefined} />}
         </div>
         <a className="text-link" href={project.embedUrl} target="_blank" rel="noreferrer">{project.embedLinkLabel || 'Open the site in a new tab ↗'}</a>
       </section>
-      {project.id === 'helix' && <AgentsExperience />}
+      {project.id === 'helix' && <details id="agents" className="case-container supporting-agents" open={agentsOpen} onToggle={(event) => setAgentsOpen(event.currentTarget.open)}><summary>Explore the agent character interaction study</summary><p>A separate interface and motion exploration, not a view of executing scientific agents.</p>{agentsOpen && <Suspense fallback={<p role="status">Loading the character study…</p>}><AgentsExperience anchorId="agents-study" /></Suspense>}</details>}
     </article>
   );
 }
@@ -128,16 +141,17 @@ const STREAM_SIZES = '(min-width: 1140px) 1044px, 100vw';
 
 function StreamPage({ project }) {
   const images = project.caseStudy.chapters.flatMap((chapter) => chapter.images);
-  useEffect(() => {
-    document.title = `${project.title} — Case study by Ankit Chandrakar`;
-  }, [project]);
+  usePageMeta(projectMetas[project.id]);
 
   return (
     <article className="stream-page page-enter" aria-label={`${project.title} case study`}>
       <div className="case-container">
         <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
+        <ProjectOverview projectId={project.id} />
+        <h2 className="stream-deck-title">The original case-study presentation</h2>
+        <p className="stream-deck-note">Preserved source material. Open any image at full size to inspect the detail; the overview above provides a text account of the work.</p>
         <div className="stream-images">
-          {images.map((image, index) => <img key={image.src} src={image.src} srcSet={image.srcSet} sizes={image.srcSet ? STREAM_SIZES : undefined} alt={image.alt} width={image.width} height={image.height} loading={index === 0 ? 'eager' : 'lazy'} fetchPriority={index === 0 ? 'high' : undefined} decoding="async" />)}
+          {images.map((image) => <figure key={image.src}><a href={image.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size image: ${image.alt}`}><img src={image.src} srcSet={image.srcSet} sizes={image.srcSet ? STREAM_SIZES : undefined} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" /></a><figcaption>{image.alt}</figcaption></figure>)}
         </div>
         {project.sourceUrl && <a className="text-link stream-source" href={project.sourceUrl} target="_blank" rel="noreferrer">View the original on {project.sourceLabel} ↗</a>}
       </div>

@@ -33,11 +33,12 @@ export default function AboutPage() {
       <section className="hero hero-compact about-page-hero" aria-labelledby="about-page-title">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">A little about me</p>
+            <p className="eyebrow">{profile.fullName} · {profile.role}</p>
             <h1 id="about-page-title">A little structure.<br />A little personality.</h1>
             <p className="hero-introduction">{profile.bio}</p>
+            <p className="about-availability">{profile.availability}</p>
             <div className="hero-socials">
-              <Pill href={profile.resume}>View résumé</Pill>
+              <Pill href={profile.resume} download>Download résumé</Pill>
               <SocialLinks />
             </div>
           </div>
