@@ -255,7 +255,10 @@ const cardThumbnails = {
     imageWidth: 1481,
     imageHeight: 1062,
   },
-  'neostra-system': optimizedCover('Neo', 1032, 740),
+  'neostra-system': {
+    ...optimizedCover('neostra-design-system', 1672, 941),
+    coverAlt: 'Illustrated design-system cards showing components, typography, icons, patterns, and documentation',
+  },
   'neostra-dsar': {
     image: '/assets/DSAR.webp',
     imageWidth: 1481,

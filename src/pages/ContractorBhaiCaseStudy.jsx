@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import ProjectOverview from '../components/ProjectOverview.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
@@ -41,7 +41,6 @@ function applyPresentationBranding(event) {
 
 export default function ContractorBhaiCaseStudy() {
   const page = useRef(null);
-  const [presentationOpen, setPresentationOpen] = useState(false);
   usePageMeta(contractorBhaiMeta);
 
   useLayoutEffect(() => {
@@ -62,21 +61,21 @@ export default function ContractorBhaiCaseStudy() {
         <ProjectBackLink state={returnState} label="Back to Case Studies" />
       </nav>
       <ProjectOverview projectId="contractorbhai" />
-      <details className="cb-reading-presentation" onToggle={(event) => setPresentationOpen(event.currentTarget.open)}>
-        <summary>Explore the original presentation</summary>
+      <section className="cb-reading-presentation" aria-labelledby="original-presentation-heading">
+        <h2 id="original-presentation-heading">Explore the original presentation</h2>
         <div className="cb-reading-presentation__intro">
           <p>Browse slides, open the contents, or inspect the original screens.</p>
           <a href="/assets/ContractorBhai/Final.html" target="_blank" rel="noopener noreferrer">Open standalone presentation ↗</a>
         </div>
-        {presentationOpen && <iframe
+        <iframe
           className="cb-presentation"
           src="/assets/ContractorBhai/Final.html"
           title="ContractorBhai — interactive product design case study"
           onLoad={handlePresentationLoad}
           loading="lazy"
           allowFullScreen
-        />}
-      </details>
+        />
+      </section>
     </section>
   );
 }

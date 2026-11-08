@@ -85,7 +85,10 @@ export default function Playtime() {
             <div className="hero-socials">
               <Pill onClick={() => {
                 const target = hostRef.current?.shadowRoot?.querySelector('#flower-trail') || hostRef.current;
-                if (target) scrollToTarget(target);
+                if (target) {
+                  target.querySelector('.playtime-experiment-entry a')?.focus({ preventScroll: true });
+                  scrollToTarget(target);
+                }
               }}>Start playing</Pill>
               <SocialLinks />
             </div>

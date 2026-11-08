@@ -1,9 +1,9 @@
 // Reading-layer content. Employment periods describe the role, not project launch dates.
 // Scope counts describe résumé-listed design scope, not measured product impact.
 // Penpot and Helix viewport captures are observed demo artifacts, not production records.
-const evidenceFigure = (name, alt, caption) => ({
-  src: `/assets/portfolio-evidence/${name}.webp`, width: 1440, height: 1000,
-  srcSet: `/assets/portfolio-evidence/${name}-960.webp 960w, /assets/portfolio-evidence/${name}.webp 1440w`,
+const evidenceFigure = (name, alt, caption, width = 1440, height = 1000) => ({
+  src: `/assets/portfolio-evidence/${name}.webp`, width, height,
+  srcSet: `/assets/portfolio-evidence/${name}-960.webp 960w, /assets/portfolio-evidence/${name}.webp ${width}w`,
   alt, caption,
 });
 const neostraRole = [
@@ -44,7 +44,7 @@ export const projectOverviews = {
           'The illustrated states include In review, Due soon, Overdue, Pending, and Verified. Search, a status filter, and request-type navigation give the list different entry points. Showing an assignee and due date beside the status makes the next responsibility and time pressure visible together; this is an explanation of the supplied design, not a measured usability result.',
           'The template is explicitly a demo workspace with sample data. Its counts, median response, and improvement text are interface examples, not observed operating results. The visible template documents request triage; it does not establish a complete intake-to-resolution implementation.',
         ],
-        figures: [evidenceFigure('neostra-requests', 'Neostra privacy-request template with request type, labeled status, assignee, due date, request search, and status filter.', 'Browser capture of the shared Penpot template. All names, counts, dates, and response-time figures are sample data.')],
+        figures: [evidenceFigure('neostra-requests-clean', 'Neostra privacy-request template with request type, labeled status, assignee, due date, request search, status filter, and sample-data disclosure.', 'Shared Penpot privacy-request template mockup. All names, counts, dates, and response-time figures are sample data.', 2000, 1510)],
       },
       {
         id: 'scope',
@@ -210,14 +210,16 @@ export const projectOverviews = {
         ],
         figures: [
           {
-            src: '/assets/ContractorBhai/prof0.webp', width: 804, height: 1700,
-            alt: 'ContractorBhai profile showing contractor details, call and WhatsApp actions, recent meeting context, and a relationship timeline.',
-            caption: 'Profile overview: contact actions sit with recent history and relationship context. Displayed values belong to the design example.',
+            src: '/assets/ContractorBhai/slide-mockups/profile-context-phone.webp', width: 800, height: 1441,
+            srcSet: '/assets/ContractorBhai/slide-mockups/profile-context-phone-480.webp 480w, /assets/ContractorBhai/slide-mockups/profile-context-phone.webp 800w',
+            alt: 'Original ContractorBhai phone mockup showing a contractor profile, call and WhatsApp actions, recent meeting context, and a relationship timeline.',
+            caption: 'Phone mockup from slide 5, “Context before contact”: contact actions sit with recent history and relationship context. Names, dates, and values are source design sample data.',
           },
           {
-            src: '/assets/ContractorBhai/remind.webp', width: 804, height: 2094,
-            alt: 'ContractorBhai reminders screen with birthday and anniversary entries, message actions, and a calendar.',
-            caption: 'Reminders connect an occasion to a next action, with a calendar below the list.',
+            src: '/assets/ContractorBhai/slide-mockups/occasion-reminders-phone.webp', width: 800, height: 1431,
+            srcSet: '/assets/ContractorBhai/slide-mockups/occasion-reminders-phone-480.webp 480w, /assets/ContractorBhai/slide-mockups/occasion-reminders-phone.webp 800w',
+            alt: 'Original ContractorBhai phone mockup with birthday and anniversary reminders, message actions, and a calendar.',
+            caption: 'Phone mockup from slide 7, “The next moment is already in view”: reminders connect an occasion to a next action. Names, dates, and event counts are source design sample data.',
           },
         ],
       },
@@ -230,14 +232,16 @@ export const projectOverviews = {
         ],
         figures: [
           {
-            src: '/assets/ContractorBhai/diw_ctrl.webp', width: 804, height: 1804,
-            alt: 'Festival-message editor with template choices, language, tone, length, message type, editable text, and a WhatsApp action.',
-            caption: 'Draft controls expose the wording choices before the WhatsApp handoff.',
+            src: '/assets/ContractorBhai/slide-mockups/editable-greeting-phone.webp', width: 800, height: 1434,
+            srcSet: '/assets/ContractorBhai/slide-mockups/editable-greeting-phone-480.webp 480w, /assets/ContractorBhai/slide-mockups/editable-greeting-phone.webp 800w',
+            alt: 'Original ContractorBhai phone mockup showing a scrolled festival-message editor with templates, language, tone, length, message type, editable text, and a WhatsApp action.',
+            caption: 'Phone mockup from slide 9, “The manager shapes the message”: draft controls expose wording choices before the WhatsApp handoff. The greeting and selected options are source design sample content.',
           },
           {
-            src: '/assets/ContractorBhai/rec1.webp', width: 804, height: 1748,
-            alt: 'Contractor recipient list with search, filters, individual selection controls, and a selected-recipient bar.',
-            caption: 'Recipient selection supports a group action while keeping individual choices visible.',
+            src: '/assets/ContractorBhai/slide-mockups/recipient-selection-phone.webp', width: 800, height: 1392,
+            srcSet: '/assets/ContractorBhai/slide-mockups/recipient-selection-phone-480.webp 480w, /assets/ContractorBhai/slide-mockups/recipient-selection-phone.webp 800w',
+            alt: 'Original ContractorBhai phone mockup showing recipient search, filters, individual selection controls, and a selected-recipient bar.',
+            caption: 'Phone mockup from slide 11, “Choose the people”: recipient selection keeps individual choices visible within a group action. Names, locations, and selection counts are source design sample data.',
           },
         ],
       },

@@ -11,6 +11,7 @@ import Experience from './components/Experience.jsx';
 import NotFound from './pages/NotFound.jsx';
 import usePageMeta from './hooks/usePageMeta.js';
 import { homeMeta } from './data/home-meta.js';
+import RouteErrorBoundary from './components/RouteErrorBoundary.jsx';
 const CaseStudy = lazy(() => import('./pages/CaseStudy.jsx'));
 const KSeriesCaseStudy = lazy(() => import('./pages/KSeriesCaseStudy.jsx'));
 const BondureCaseStudy = lazy(() => import('./pages/BondureCaseStudy.jsx'));
@@ -50,7 +51,7 @@ function RouteScrollRestoration({ restoration }) {
     const restore = () => {
       if (complete || restoration.current !== pending) return;
       const shadow = document.querySelector('.playtime-shadow-host')?.shadowRoot;
-      const playtimePending = location.pathname === '/playtime' && !shadow?.getElementById('top');
+      const playtimePending = location.pathname.replace(/\/+$/, '') === '/playtime' && !shadow?.getElementById('top');
       const target = location.hash ? document.getElementById(location.hash.slice(1)) || shadow?.getElementById(location.hash.slice(1)) : null;
       if (navigationType === 'POP' && saved !== undefined) {
         // The experiment wrappers reserve the full page height once ready.
@@ -62,7 +63,9 @@ function RouteScrollRestoration({ restoration }) {
       complete = true;
       pending.restoring = false;
       const projectLink = location.state?.focusProject && document.querySelector(`[data-project-link="${location.state.focusProject}"]`);
-      (projectLink || document.getElementById('main'))?.focus({ preventScroll: true });
+      const focusTarget = projectLink || target || document.getElementById('main');
+      if (focusTarget && !focusTarget.matches('a[href], button, input, select, textarea, [tabindex]')) focusTarget.setAttribute('tabindex', '-1');
+      focusTarget?.focus({ preventScroll: true });
     };
     const scheduleRestore = () => {
       cancelAnimationFrame(frame);
@@ -85,14 +88,15 @@ function RouteLoading() {
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const pathname = location.pathname.replace(/\/+$/, '') || '/';
   const [category, setCategory] = useState('case-studies');
   const scrollPositions = useRef(new Map());
   const restoration = useRef({ key: location.key, restoring: true, saved: undefined });
   if (restoration.current.key !== location.key) {
     restoration.current = { key: location.key, restoring: true, saved: scrollPositions.current.get(location.key) };
   }
-  const page = location.pathname === '/notes' ? 'notes' : location.pathname === '/admin/notes' ? 'admin-notes' : location.pathname === '/desk' ? 'hub' : location.pathname === '/about' ? 'about' : location.pathname === '/resume' ? 'resume' : location.pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(location.pathname) ? 'case' : location.pathname === '/' ? 'home' : 'not-found';
-  usePageMeta({ ...homeMeta, ...pageDescriptions[page], ogDescription: page === 'home' ? homeMeta.ogDescription : pageDescriptions[page]?.description, path: location.pathname }, page !== 'case');
+  const page = pathname === '/notes' ? 'notes' : pathname === '/admin/notes' ? 'admin-notes' : pathname === '/desk' ? 'hub' : pathname === '/about' ? 'about' : pathname === '/resume' ? 'resume' : pathname === '/playtime' ? 'playtime' : /^\/work\/[^/]+$/.test(pathname) ? 'case' : pathname === '/' ? 'home' : 'not-found';
+  usePageMeta({ ...homeMeta, ...pageDescriptions[page], ogDescription: page === 'home' ? homeMeta.ogDescription : pageDescriptions[page]?.description, path: pathname }, page !== 'case');
 
   useEffect(() => {
     const rememberScroll = () => {
@@ -152,7 +156,8 @@ export default function App() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <Header page={page} onNavigate={onNavigate} />
-      <main id="main" tabIndex={-1}>
+      <main id="main" tabIndex={-1} className={page === 'case' ? 'project-route' : undefined}>
+        <RouteErrorBoundary key={pathname} restoration={restoration}>
         <Suspense fallback={<RouteLoading />}>
         <Routes>
           <Route path="/" element={<div className="page-enter"><Hero onNavigate={onNavigate} /><Work active={category} onCategoryChange={setCategory} /><About /><Experience /><Impact /></div>} />
@@ -177,6 +182,7 @@ export default function App() {
         </Routes>
         <RouteScrollRestoration restoration={restoration} />
         </Suspense>
+        </RouteErrorBoundary>
       </main>
       <Contact visitor />
     </>

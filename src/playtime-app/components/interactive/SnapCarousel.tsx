@@ -266,9 +266,11 @@ export const SnapCarousel: React.FC = () => {
     <section 
       className="w-full min-h-[90vh] bg-[#f4f4f4] overflow-hidden flex flex-col items-center justify-center relative cursor-grab active:cursor-grabbing py-24"
       style={{ touchAction: 'pan-y' }}
+      aria-label="Project carousel"
+      aria-roledescription="carousel"
     >
       {/* Static Center Typography & Frame */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[460px] pointer-events-none z-20 flex flex-col justify-between">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[460px] pointer-events-none z-20 flex flex-col justify-between" style={{ width: 'min(340px, calc(100% - 32px))' }}>
         
         {/* Top Text */}
         <div className="absolute -top-24 left-0 right-0 text-center overflow-hidden">
@@ -295,7 +297,7 @@ export const SnapCarousel: React.FC = () => {
         </motion.div>
 
         {/* Bottom Text */}
-        <div className="absolute -bottom-24 left-0 right-0 text-center overflow-hidden">
+        <div className="absolute -bottom-16 left-0 right-0 text-center overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeItem.title + activeIndex + 'bottom'}
@@ -328,6 +330,11 @@ export const SnapCarousel: React.FC = () => {
             />
           ))}
         </motion.div>
+      </div>
+      <div className="absolute bottom-4 inset-x-0 z-30 flex justify-center gap-4 cursor-default">
+        <button type="button" aria-label="Previous project" onClick={() => snapToIndex((activeIndex - 1 + items.length) % items.length)} className="min-h-11 min-w-11 px-5 rounded-full border border-[#1a1a1a] bg-[#f4f4f4] text-xs text-[#1a1a1a]">← Previous</button>
+        <button type="button" aria-label="Next project" onClick={() => snapToIndex((activeIndex + 1) % items.length)} className="min-h-11 min-w-11 px-5 rounded-full border border-[#1a1a1a] bg-[#f4f4f4] text-xs text-[#1a1a1a]">Next →</button>
+        <p className="sr-only" role="status" aria-live="polite">Project {activeIndex % baseItems.length + 1} of {baseItems.length}: {activeItem.title}</p>
       </div>
     </section>
   );

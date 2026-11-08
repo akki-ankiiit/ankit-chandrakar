@@ -11,7 +11,7 @@
 .nav-more:not([open]) > .nav-more-links { display: none; }
 
 .hero.hero-compact.hiring-hero { padding-top: calc(var(--site-header-height) + 30px); padding-bottom: 30px; }
-.hiring-hero .hero-grid { grid-template-columns: minmax(0, 1.7fr) minmax(0, .8fr); gap: 24px; }
+.hiring-hero .hero-grid { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 24px; }
 .hiring-hero .hero-copy { max-width: 580px; }
 .hero-name { margin-bottom: 15px; font-size: 17px; color: var(--forest); }
 .hero.hero-compact.hiring-hero h1 { max-width: 570px; font-size: clamp(32px, 3.4vw, 43px); line-height: 1.16; letter-spacing: -1px; margin-bottom: 17px; }
@@ -22,9 +22,8 @@
 .hero-resume .pill { background: transparent; }
 .hero-resume .pill:hover { background: var(--beige); }
 .hero-email { display: inline-block; font-size: 13px; overflow-wrap: anywhere; line-height: 1.7; }
-.hero.hero-compact.hiring-hero .hero-art { width: 100%; max-width: 245px; margin: 0; justify-self: center; }
+.hero.hero-compact.hiring-hero .hero-art { width: 100%; max-width: 320px; margin: 0; justify-self: center; }
 .hiring-hero .ink-hero { padding: 0; }
-.hero-motion-control { display: block; margin: 8px auto 0; padding: 6px 8px; min-height: 32px; color: #535b4b; font-size: 11px; text-decoration: underline; text-underline-offset: 3px; }
 .hiring-hero + .work-section { padding-top: 30px; }
 
 .work-intro { max-width: 560px; margin-inline: auto; }
@@ -53,7 +52,7 @@
   .hero.hero-compact.hiring-hero .hero-introduction { font-size: 15px; }
   .hero-availability { margin-inline: auto; }
   .hiring-hero .hero-socials { gap: 12px; margin-block: 20px 14px; }
-  .hero.hero-compact.hiring-hero .hero-art { max-width: 105px; }
+  .hero.hero-compact.hiring-hero .hero-art { max-width: 145px; }
   .hiring-hero + .work-section { padding-top: 24px; }
   .card-evidence { gap: 10px; }
 }

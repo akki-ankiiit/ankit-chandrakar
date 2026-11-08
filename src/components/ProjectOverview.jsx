@@ -3,13 +3,14 @@ import { projectOverviews } from '../data/project-overviews.js';
 import '../styles/project-overview.css';
 
 function ProjectFigure({ figure }) {
+  const portrait = figure.height > figure.width * 1.25;
   return (
-    <figure className="project-overview__figure">
+    <figure className={`project-overview__figure${portrait ? ' project-overview__figure--portrait' : ''}`}>
       <a href={figure.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size image: ${figure.alt}`}>
         <img
           src={figure.src}
           srcSet={figure.srcSet}
-          sizes={figure.srcSet ? '(min-width: 1100px) 960px, 100vw' : undefined}
+          sizes={figure.srcSet ? portrait ? '(max-width: 599px) 240px, 300px' : '(min-width: 1100px) 960px, 100vw' : undefined}
           width={figure.width}
           height={figure.height}
           alt={figure.alt}

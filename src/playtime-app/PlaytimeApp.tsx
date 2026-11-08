@@ -73,7 +73,7 @@ function App() {
   return (
     <MotionConfig reducedMotion="user">
     <div id="top" className="playtime-app min-h-screen w-full flex flex-col bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] overflow-x-hidden relative font-sans selection:bg-[var(--color-accent-orange)] selection:text-white">
-      <main className="flex flex-col w-full relative z-10">
+      <div className="flex flex-col w-full relative z-10">
         <DeferredExperiment id="flower-trail" label="Flower trail" height="76vh" background="#F7F7F7"><FlowerTrailSection /></DeferredExperiment>
         {/* <DeferredExperiment id="typewriter" label="Typewriter" height="760px" background="#F7F7F7"><TypewriterSection /></DeferredExperiment> */}
         <div id="pocket-vibes"><PocketPlayerSection /></div>
@@ -86,7 +86,7 @@ function App() {
         <DeferredExperiment id="dot-field" label="Dot field" background="#002BFF"><DotBackgroundSection /></DeferredExperiment>
         {/* <DeferredExperiment id="globe-gallery" label="Globe gallery" background="#fff"><GlobeGallerySection /></DeferredExperiment> */}
         <DeferredExperiment id="dock" label="Dock" height="60vh" background="#0a0a0b"><DockSection /></DeferredExperiment>
-      </main>
+      </div>
     </div>
     </MotionConfig>
   );

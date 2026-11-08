@@ -9,6 +9,11 @@ directory used by some older generators is not this archive.
 
 ### Product-evidence captures (7 November 2026)
 
+The later `neostra-requests-clean{,-960}.webp` variants use the owner-supplied
+`public/assets/Privacy requests.png` export. The 4608×3480 source is preserved;
+the reading page uses optimized 2000×1510 and 960px derivatives. Its sample-data
+disclosure remains visible and is repeated in the HTML caption.
+
 `public/assets/portfolio-evidence/` contains browser viewport captures, encoded as
 1440px and 960px WebPs with Sharp (quality 85). They are observed design/demo
 artifacts, not production records or proof of measured outcomes.
@@ -25,6 +30,32 @@ artifacts, not production records or proof of measured outcomes.
 
 HTML captions and alternative text in `src/data/project-overviews.js` describe
 these boundaries. No separate Helix application files were changed.
+
+### ContractorBhai slide phone mockups (8 November 2026)
+
+`public/assets/ContractorBhai/slide-mockups/` exports actual `.device` elements
+from the unchanged `public/assets/ContractorBhai/Final.html`, served on the
+existing localhost:5173. Playwright used a 1608×980 desktop viewport, original
+1600×900 slide geometry at scale 1, and 3× pixel density after fonts and visible
+slide images decoded. Captures retain the original frames, screen crops, status
+bars, buttons, and shadows; surrounding content and backgrounds were hidden only
+in browser memory. Transparent crops include 72px side / 48px top / 104px bottom
+padding around device bounds (80px / 64px / 120px on dark slide 7). Ancestor
+overflow is released in memory so the original shadows remain complete. No
+presentation chrome or inspector is included.
+
+| Output stem | Source slide / title | `.screen-button` key | Source screen under `ContractorBhai/media/` | 800px / 480px dimensions |
+| --- | --- | --- | --- | --- |
+| `profile-context-phone` | 5 · Context before contact | `prof_top` | `webp-cd34e9ebb800.webp` | 800×1441 / 480×865 |
+| `occasion-reminders-phone` | 7 · The next moment is already in view | `remind` | `webp-1d2684908c39.webp` | 800×1431 / 480×859 |
+| `editable-greeting-phone` | 9 · The manager shapes the message | `diw_ctrl` | `webp-d8b0395a6124.webp` | 800×1434 / 480×860 |
+| `recipient-selection-phone` | 11 · Choose the people | `rec1` | `webp-24afe7ab72d5.webp` | 800×1392 / 480×835 |
+
+Each stem has `.webp` and `-480.webp` variants, encoded with Sharp at quality 90,
+alpha quality 100, smart subsampling, and effort 6. Figure metadata and responsive
+sources are in the ContractorBhai entry of `src/data/project-overviews.js`.
+Personal details, numbers, and selected states are source mockup/sample data;
+captions do not present them as product outcomes.
 
 Each source below moved from the same relative path under `public/assets/` to
 `source-assets/`. Original names, bytes, and grouping are preserved. The existing
