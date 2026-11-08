@@ -16,8 +16,8 @@ for (const [name, route] of studies) {
     const isThanQ = name === 'ThanQ';
     if (!isThanQ) {
       await expect(page.locator('h1')).toHaveText(name);
-      await expect(page.locator('.cb-presentation')).toHaveCount(0);
-      await page.locator('.cb-reading-presentation > summary').press('Enter');
+      await expect(page.locator('.cb-reading-presentation > h2')).toHaveText('Explore the original presentation');
+      await expect(page.locator('.cb-presentation')).toHaveCount(1);
       await page.locator('.cb-presentation').scrollIntoViewIfNeeded();
     }
     const prefix = isThanQ ? 'tq-' : '';

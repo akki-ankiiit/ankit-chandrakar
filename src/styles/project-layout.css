@@ -1,0 +1,53 @@
+/* A single page rail for project navigation, titles, and reading content. */
+.project-route {
+  --project-width: 1140px;
+  --project-gutter: 48px;
+  --project-top: 20px;
+}
+
+.project-route :is(.case-study-page, .showcase-page, .stream-page, .figma-file-page, .cb-page.cb-reading-page) {
+  padding-top: calc(var(--site-header-height) + var(--project-top));
+}
+.project-route :is(.figma-file-page, .cb-page.cb-reading-page) { max-width: none; padding-inline: 0; }
+
+.project-route :is(.case-container, .project-header-rail, .cb-reading-page .cb-backbar, .ks-page .ks-inner, .thanq-guidelines-backbar) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--project-width);
+  margin-inline: auto;
+  padding-inline: var(--project-gutter);
+}
+.project-header-rail { min-height: 44px; display: flex; align-items: center; }
+.project-route :is(.case-breadcrumb, .ks-page .ks-breadcrumb) { margin-bottom: 20px; }
+.project-route .case-breadcrumb { min-height: 44px; }
+.project-route .case-title-row h1 { font-size: clamp(28px, 3vw, 40px); }
+.project-route .showcase-intro { max-width: var(--project-width); margin-inline: auto; padding: 16px var(--project-gutter) 28px; }
+.project-route .showcase-intro h1 { font-size: clamp(28px, 3vw, 40px); margin-bottom: 16px; }
+.project-route .figma-file-toolbar { max-width: var(--project-width); padding-inline: var(--project-gutter); margin-block: 20px; }
+.project-route .figma-file-viewer { width: calc(100% - 2 * var(--project-gutter)); max-width: 1200px; margin-inline: auto; border: 0; border-radius: 0; }
+.project-route .figma-file-page:fullscreen { padding: 16px; }
+.project-route .figma-file-page:fullscreen > .project-header-rail { display: none; }
+.project-route .figma-file-page:fullscreen .figma-file-viewer { width: 100%; max-width: none; }
+.project-route .cb-reading-presentation > h2,
+.project-route .cb-reading-presentation__intro { max-width: var(--project-width); padding-inline: var(--project-gutter); }
+.project-route .cb-reading-presentation > h2 { padding-block: 16px; }
+.project-route .cb-reading-presentation__intro { padding-bottom: 16px; }
+.project-route .case-body { padding-top: 36px; }
+.project-route .case-section { margin-bottom: 36px; }
+.project-route .case-next { margin-top: 32px; padding-block: 24px; }
+.project-route .ks-page .ks-section { padding-block: 32px; }
+.project-route .pk-section { padding-block: 32px; }
+.project-route .pk-head { margin-bottom: 20px; }
+.project-route .pk-hero-art { margin-top: 28px; }
+.project-route .helix-walkthrough { margin-top: 28px; padding: 24px; }
+.project-route .supporting-agents { margin-block: 32px; }
+.project-route .thanq-guidelines-presentation { padding-top: calc(var(--site-header-height) + var(--project-top)); padding-inline: 0; }
+.project-route .thanq-guidelines-frame { width: calc(100% - 32px); }
+
+@media (max-width: 1000px) { .project-route { --project-gutter: 35px; } }
+@media (max-width: 749px) {
+  .project-route { --project-gutter: 24px; --project-top: 16px; }
+  .project-route .case-breadcrumb { gap: 10px; }
+  .project-route .helix-walkthrough { padding: 20px; }
+  .project-route .thanq-guidelines-frame { width: calc(100% - 24px); }
+}

@@ -40,7 +40,7 @@ export default function FigmaFilePage({ project }) {
 
   return (
     <section className="figma-file-page" ref={pageRef} aria-label={`${project.title} project overview and design file`}>
-      <ProjectBackLink state={{ category: project.id === 'neostra-cpmp' ? 'design-systems' : 'case-studies', focusProject: project.id }} label="Back to selected work" />
+      <div className="project-header-rail"><ProjectBackLink state={{ category: project.id === 'neostra-cpmp' ? 'design-systems' : 'case-studies', focusProject: project.id }} label="Back to selected work" /></div>
       <ProjectOverview projectId={project.id} />
       <header className="figma-file-toolbar">
         <div className="figma-file-heading">

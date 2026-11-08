@@ -61,10 +61,11 @@ export const DockSection = () => {
       {/* Center text just for presentation */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="text-center">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white/20">
-            Hover the Dock
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white/70">
+            <span className="md:hidden">Swipe the Dock</span>
+            <span className="hidden md:inline">Hover the Dock</span>
           </h2>
-          <p className="mt-2 text-xl md:text-2xl font-semibold tracking-tight text-white/20">
+          <p className="mt-2 text-xl md:text-2xl font-semibold tracking-tight text-white/70">
             more smoother than your mac
           </p>
         </div>

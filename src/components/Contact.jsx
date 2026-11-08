@@ -20,7 +20,7 @@ export default function Contact({ visitor = false }) {
       <Suspense fallback={null}><FlowerTrail /></Suspense>
       <Reveal className="container ft-inner">
         {/* 1. The ask */}
-        <h2>Let’s talk product design.</h2>
+        <h2>Let’s talk about product design.</h2>
         <p className="ft-lede">{profile.availability} Have a role or a complex product challenge in mind? I’d love to hear about it.</p>
 
         {/* 2. Direct contact and résumé */}

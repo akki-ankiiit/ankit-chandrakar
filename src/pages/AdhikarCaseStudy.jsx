@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import ProjectBackLink from '../components/ProjectBackLink.jsx';
 import ProjectOverview from '../components/ProjectOverview.jsx';
 import usePageMeta from '../hooks/usePageMeta.js';
@@ -16,7 +16,6 @@ function handlePresentationLoad(event) {
 
 export default function AdhikarCaseStudy() {
   const page = useRef(null);
-  const [presentationOpen, setPresentationOpen] = useState(false);
   usePageMeta(adhikarMeta);
 
   useLayoutEffect(() => {
@@ -37,21 +36,21 @@ export default function AdhikarCaseStudy() {
         <ProjectBackLink state={returnState} label="Back to Case Studies" />
       </nav>
       <ProjectOverview projectId="adhikar" />
-      <details className="cb-reading-presentation" onToggle={(event) => setPresentationOpen(event.currentTarget.open)}>
-        <summary>Explore the original presentation</summary>
+      <section className="cb-reading-presentation" aria-labelledby="original-presentation-heading">
+        <h2 id="original-presentation-heading">Explore the original presentation</h2>
         <div className="cb-reading-presentation__intro">
           <p>Browse slides, open the contents, or inspect the original screens.</p>
           <a href="/assets/Adhikar/Adhikaar-App-Presentation.html" target="_blank" rel="noopener noreferrer">Open standalone presentation ↗</a>
         </div>
-        {presentationOpen && <iframe
+        <iframe
           className="cb-presentation"
           src="/assets/Adhikar/Adhikaar-App-Presentation.html"
           title="Adhikar — interactive app presentation"
           onLoad={handlePresentationLoad}
           loading="lazy"
           allowFullScreen
-        />}
-      </details>
+        />
+      </section>
     </section>
   );
 }

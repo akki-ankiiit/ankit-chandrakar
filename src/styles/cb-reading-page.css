@@ -13,16 +13,16 @@
 }
 
 .cb-reading-page .cb-reading-presentation {
-  max-width: 1040px;
+  max-width: 1200px;
   margin: 0 auto;
-  border-top: 1px solid #28282826;
 }
 
-.cb-reading-page .cb-reading-presentation > summary {
+.cb-reading-page .cb-reading-presentation > h2 {
+  max-width: 1040px;
+  margin-inline: auto;
   padding: 24px clamp(12px, 4vw, 40px);
   font-size: 22px;
   line-height: 1.5;
-  cursor: pointer;
 }
 
 .cb-reading-page .cb-reading-presentation__intro {
@@ -33,6 +33,8 @@
   padding: 0 clamp(12px, 4vw, 40px) 24px;
   font-size: 16px;
   line-height: 1.65;
+  max-width: 1040px;
+  margin-inline: auto;
 }
 
 .cb-reading-page .cb-reading-presentation__intro a {
@@ -41,11 +43,12 @@
 }
 
 .cb-reading-page .cb-presentation {
-  height: 76vh;
-  height: 76dvh;
+  height: auto;
+  aspect-ratio: 16 / 10;
   min-height: 420px;
-  border: 1px solid #28282826;
-  border-radius: 8px;
+  max-height: calc(100dvh - 48px);
+  border: 0;
+  border-radius: 0;
 }
 
 @media print {

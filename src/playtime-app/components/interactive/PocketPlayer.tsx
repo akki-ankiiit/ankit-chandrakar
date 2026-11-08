@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useId } from 'react';
 import YouTube from 'react-youtube';
 import type { YouTubeEvent, YouTubePlayer } from 'react-youtube';
 
@@ -29,18 +29,33 @@ const PLAYLIST = [
   { id: 'hT_nvWreIhg', title: "Counting Stars", artist: "OneRepublic" },
 ];
 
+const LOAD_TIMEOUT_MS = 12000;
+type PlaybackStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'error';
+const hasYouTubeApi = () => typeof (window as typeof window & { YT?: { Player?: unknown } }).YT?.Player === 'function';
+
 export const PocketPlayer = () => {
   const [currentView, setCurrentView] = useState<'menu' | 'nowPlaying'>('menu');
   const [selectedIndex, setSelectedIndex] = useState(0);
   
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [status, updateStatus] = useState<PlaybackStatus>('idle');
+  const statusRef = useRef<PlaybackStatus>('idle');
+  const setStatus = useCallback((next: PlaybackStatus) => {
+    statusRef.current = next;
+    updateStatus(next);
+  }, []);
+  const isPlaying = status === 'playing';
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const playerHostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
   const [playerRequested, setPlayerRequested] = useState(false);
   const [playerReady, setPlayerReady] = useState<YouTubePlayer | null>(null);
+  const [apiReady, setApiReady] = useState(hasYouTubeApi);
+  const [attempt, setAttempt] = useState(0);
+  const attemptRef = useRef(0);
+  const failedRef = useRef(false);
+  const menuId = useId();
   const playIntent = useRef(false);
   const mountedRef = useRef(false);
   const generationRef = useRef(0);
@@ -48,6 +63,8 @@ export const PocketPlayer = () => {
   const isScrubbing = useRef(false);
 
   const currentTrack = PLAYLIST[currentTrackIndex];
+  const trackRef = useRef(currentTrack.id);
+  trackRef.current = currentTrack.id;
 
   useEffect(() => {
     mountedRef.current = true;
@@ -57,6 +74,45 @@ export const PocketPlayer = () => {
       playerRef.current = null;
     };
   }, []);
+
+  const failPlayback = useCallback((session: number) => {
+    if (!mountedRef.current || session !== attemptRef.current || failedRef.current) return;
+    failedRef.current = true;
+    generationRef.current += 1;
+    playerRef.current = null;
+    setPlayerReady(null);
+    playIntent.current = false;
+    setStatus('error');
+  }, [setStatus]);
+
+  const failed = status === 'error';
+  useEffect(() => {
+    if (!playerRequested || apiReady || failed) return;
+    if (hasYouTubeApi()) { setApiReady(true); return; }
+    // A failed SDK load leaves the underlying loader's shared promise pending.
+    // Gate react-youtube mounting so Retry can use a fresh SDK script.
+    const script = document.createElement('script');
+    script.src = 'https://www.youtube.com/iframe_api';
+    script.async = true;
+    script.dataset.pocketYoutubeApi = '';
+    const onError = () => failPlayback(attempt);
+    script.addEventListener('error', onError);
+    const poll = window.setInterval(() => { if (hasYouTubeApi()) setApiReady(true); }, 100);
+    const timeout = window.setTimeout(onError, LOAD_TIMEOUT_MS);
+    document.head.appendChild(script);
+    return () => {
+      clearInterval(poll);
+      clearTimeout(timeout);
+      script.removeEventListener('error', onError);
+      script.remove();
+    };
+  }, [playerRequested, apiReady, failed, attempt, failPlayback]);
+
+  useEffect(() => {
+    if (status !== 'loading') return;
+    const timer = window.setTimeout(() => failPlayback(attempt), LOAD_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [status, attempt, currentTrack.id, failPlayback]);
 
   // Both raw YT instances and SDK wrappers can throw or return promises.
   // Check the actual iframe and instance again after every async boundary.
@@ -82,8 +138,9 @@ export const PocketPlayer = () => {
         // Only auto-update time if we aren't currently scrubbing it manually
         if (!isScrubbing.current && !document.hidden && playerRef.current) {
           const player = playerRef.current;
+          const track = trackRef.current;
           const time = await runPlayerCommand(p => p.getCurrentTime(), player);
-          if (mountedRef.current && playerRef.current === player && typeof time === 'number') setCurrentTime(time);
+          if (mountedRef.current && playerRef.current === player && trackRef.current === track && typeof time === 'number') setCurrentTime(time);
         }
       }, 1000);
     }
@@ -102,22 +159,23 @@ export const PocketPlayer = () => {
   }, [currentTrack.id, playerReady, runPlayerCommand]);
 
   const onReady = async (event: YouTubeEvent) => {
+    if (attempt !== attemptRef.current || !mountedRef.current || failedRef.current) return;
     const player = event.target;
     const generation = generationRef.current;
     try {
       const iframe = await player.getIframe();
-      if (!mountedRef.current || generationRef.current !== generation || !iframe?.isConnected ||
+      if (!mountedRef.current || attempt !== attemptRef.current || generationRef.current !== generation || !iframe?.isConnected ||
           !playerHostRef.current?.contains(iframe)) return;
+      if (failedRef.current) return;
       playerRef.current = player;
       setPlayerReady(player);
-      const length = await runPlayerCommand(p => p.getDuration(), player);
-      if (mountedRef.current && playerRef.current === player && typeof length === 'number') setDuration(length);
     } catch {
       // StrictMode may deliver readiness from the already-destroyed iframe.
     }
   };
 
   const onStateChange = (event: YouTubeEvent) => {
+    if (attempt !== attemptRef.current || failedRef.current) return;
     void runPlayerCommand(async player => {
       // 1 = playing, 2 = paused, 0 = ended
       if (event.data === 1) {
@@ -125,52 +183,111 @@ export const PocketPlayer = () => {
           await player.pauseVideo();
           return;
         }
-        setIsPlaying(true);
+        setStatus('playing');
+        const track = trackRef.current;
         const length = await player.getDuration();
-        if (mountedRef.current && playerRef.current === player && typeof length === 'number') setDuration(length);
+        if (mountedRef.current && playerRef.current === player && trackRef.current === track && typeof length === 'number') setDuration(length);
       } else if (event.data === 2) {
-        setIsPlaying(false);
+        // A delayed pause from the previous track must not cancel a new load.
+        if (!playIntent.current || statusRef.current === 'playing') {
+          playIntent.current = false;
+          setStatus('paused');
+        }
+      } else if (event.data === 3 && playIntent.current) {
+        setStatus('loading');
       } else if (event.data === 0) {
-        playIntent.current = true;
-        handleNext();
+        if (!playIntent.current) return;
+        changeTrack(1);
       }
     }, event.target);
   };
 
+  const onError = async (event: YouTubeEvent) => {
+    const generation = generationRef.current;
+    try {
+      const iframe = await event.target.getIframe();
+      if (!mountedRef.current || attempt !== attemptRef.current || generation !== generationRef.current ||
+          !iframe?.isConnected || !playerHostRef.current?.contains(iframe)) return;
+      failPlayback(attempt);
+    } catch {
+      // Ignore errors from an instance that was destroyed before this callback.
+    }
+  };
+
+  const retryPlayback = () => {
+    failedRef.current = false;
+    generationRef.current += 1;
+    attemptRef.current += 1;
+    playerRef.current = null;
+    setPlayerReady(null);
+    setApiReady(hasYouTubeApi());
+    setAttempt(attemptRef.current);
+    setCurrentTime(0);
+    setDuration(0);
+    playIntent.current = true;
+    setStatus('loading');
+    setCurrentView('nowPlaying');
+    setPlayerRequested(true);
+  };
+
   const handlePlayPause = () => {
+    setCurrentView('nowPlaying');
+    if (failed) { retryPlayback(); return; }
     playIntent.current = !playIntent.current;
-    setIsPlaying(playIntent.current);
+    setStatus(playIntent.current ? 'loading' : 'paused');
     setPlayerRequested(true);
     if (!playerReady) return;
     void runPlayerCommand(player => playIntent.current ? player.playVideo() : player.pauseVideo());
   };
 
-  const handleNext = () => {
-    setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+  const changeTrack = (direction: number) => {
+    setCurrentTrackIndex((prev) => (prev + direction + PLAYLIST.length) % PLAYLIST.length);
     setCurrentTime(0);
+    setDuration(0);
+    if (playIntent.current) setStatus('loading');
   };
 
-  const handlePrev = () => {
-    setCurrentTrackIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
-    setCurrentTime(0);
+  const moveSelection = (direction: number) => {
+    setSelectedIndex((prev) => (prev + direction + PLAYLIST.length) % PLAYLIST.length);
   };
+  const handleNext = () => currentView === 'menu' ? moveSelection(1) : changeTrack(1);
+  const handlePrev = () => currentView === 'menu' ? moveSelection(-1) : changeTrack(-1);
 
   const handleMenuClick = () => {
+    setSelectedIndex(currentTrackIndex);
     setCurrentView('menu');
   };
 
   const handleSelectClick = () => {
     if (currentView === 'menu') {
-      setCurrentTrackIndex(selectedIndex);
       setCurrentView('nowPlaying');
-      setIsPlaying(true);
+      // playVideo() can be a no-op for a song that is already playing; no new
+      // SDK event would arrive to clear a redundant loading timeout.
+      if (selectedIndex === currentTrackIndex && statusRef.current === 'playing') return;
+      setCurrentTrackIndex(selectedIndex);
+      setStatus('loading');
       playIntent.current = true;
       setPlayerRequested(true);
-      if (playerReady && selectedIndex === currentTrackIndex) {
+      if (failed) {
+        retryPlayback();
+      } else if (playerReady && selectedIndex === currentTrackIndex) {
         void runPlayerCommand(player => player.playVideo());
       }
     } else {
       handlePlayPause();
+    }
+  };
+
+  const handleMenuKeyDown = (event: React.KeyboardEvent) => {
+    if (currentView !== 'menu') return;
+    if (['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Home', 'End'].includes(event.key)) {
+      event.preventDefault();
+      if (event.key === 'Home') setSelectedIndex(0);
+      else if (event.key === 'End') setSelectedIndex(PLAYLIST.length - 1);
+      else moveSelection(event.key === 'ArrowDown' || event.key === 'ArrowRight' ? 1 : -1);
+    } else if (event.target === event.currentTarget.querySelector('[role="listbox"]') && (event.key === 'Enter' || event.key === ' ')) {
+      event.preventDefault();
+      handleSelectClick();
     }
   };
 
@@ -250,21 +367,20 @@ export const PocketPlayer = () => {
 
   const handlePointerUp = (e: React.PointerEvent) => {
     isDragging.current = false;
-    e.currentTarget.releasePointerCapture(e.pointerId);
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
     
     // If we were scrubbing, apply the new time to the youtube player
-    if (isScrubbing.current && playerRef.current) {
-      void runPlayerCommand(player => player.seekTo(currentTime, true));
-      isScrubbing.current = false;
-    }
+    if (isScrubbing.current && playerRef.current) void runPlayerCommand(player => player.seekTo(currentTime, true));
+    isScrubbing.current = false;
   };
 
   return (
-    <div className="w-[300px] h-[480px] bg-gradient-to-b from-[#fdfdfd] to-[#e6e6e6] rounded-[32px] p-6 shadow-[inset_0_1px_4px_rgba(255,255,255,1),_0_20px_40px_-10px_rgba(0,0,0,0.3)] flex flex-col items-center gap-8 relative border border-gray-300">
+    <div onKeyDown={handleMenuKeyDown} className="w-[300px] h-[480px] bg-gradient-to-b from-[#fdfdfd] to-[#e6e6e6] rounded-[32px] p-6 shadow-[inset_0_1px_4px_rgba(255,255,255,1),_0_20px_40px_-10px_rgba(0,0,0,0.3)] flex flex-col items-center gap-8 relative border border-gray-300">
       
       {/* Hidden YouTube Player */}
       <div ref={playerHostRef} className="hidden">
-        {playerRequested && <YouTube
+        {playerRequested && apiReady && !failed && <YouTube
+          key={attempt}
           videoId={PLAYLIST[0].id}
           opts={{
             playerVars: {
@@ -275,6 +391,7 @@ export const PocketPlayer = () => {
           }}
           onReady={onReady}
           onStateChange={onStateChange}
+          onError={onError}
         />}
       </div>
 
@@ -305,7 +422,7 @@ export const PocketPlayer = () => {
               </svg>
             )}
           </span>
-          <span className="text-center flex-1">{currentView === 'menu' ? 'Music' : 'Now Playing'}</span>
+          <span className="text-center flex-1" role="status" aria-live="polite">{currentView === 'menu' && !failed ? 'Music' : ({ idle: 'Ready to play', loading: 'Loading music…', playing: 'Now Playing', paused: 'Paused', error: 'Music unavailable' })[status]}</span>
           <span className="w-8 flex justify-end">
             <div className="w-5 h-2.5 border border-[#1a2f4c] rounded-sm relative p-[1px]">
               <div className="w-[80%] h-full bg-[#1a2f4c] rounded-sm" />
@@ -316,9 +433,9 @@ export const PocketPlayer = () => {
 
         {/* Content Area */}
         <div className="flex-1 w-full relative z-10 bg-[#B5C5D8] overflow-hidden">
-          {currentView === 'menu' ? (
+          {currentView === 'menu' && !failed ? (
             // MENU VIEW
-            <div className="w-full h-full relative pointer-events-none">
+            <div role="listbox" aria-label="Music tracks" aria-activedescendant={`${menuId}-${selectedIndex}`} tabIndex={0} className="w-full h-full relative focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#1a2f4c]">
               <div 
                 className="w-full absolute left-0 top-0 transition-transform duration-150 ease-out flex flex-col py-1"
                 style={{ transform: `translateY(-${Math.max(0, selectedIndex - 3) * 24}px)` }}
@@ -326,6 +443,10 @@ export const PocketPlayer = () => {
                 {PLAYLIST.map((track, idx) => (
                   <div 
                     key={track.id} 
+                    id={`${menuId}-${idx}`}
+                    role="option"
+                    aria-selected={idx === selectedIndex}
+                    aria-label={`${track.title} — ${track.artist}`}
                     className={`w-full h-6 px-2 shrink-0 text-[11px] font-bold flex justify-between items-center transition-colors ${idx === selectedIndex ? 'bg-gradient-to-b from-[#2a68c0] to-[#1a4a9c] text-white' : 'text-[#1a2f4c]'}`}
                   >
                     <span className="truncate flex-1 pr-2">{track.title}</span>
@@ -335,6 +456,11 @@ export const PocketPlayer = () => {
                   </div>
                 ))}
               </div>
+            </div>
+          ) : failed ? (
+            <div className="h-full flex flex-col items-center justify-center gap-2 px-3 text-center text-[#1a2f4c]">
+              <p role="alert" className="text-xs">Music couldn’t load. Check your connection and try again.</p>
+              <button type="button" onClick={(event) => { event.stopPropagation(); retryPlayback(); }} className="min-h-11 px-4 rounded-full bg-[#1a2f4c] text-white text-xs">Retry music</button>
             </div>
           ) : (
             // NOW PLAYING VIEW
@@ -378,7 +504,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handleMenuClick}
-          className="absolute top-4 font-bold text-[#888] text-[11px] tracking-widest hover:text-[#555] active:text-[#333] transition-colors uppercase z-10"
+          className="absolute top-0 min-h-11 min-w-16 font-bold text-[#555] text-[11px] tracking-widest hover:text-[#333] active:text-[#111] transition-colors uppercase z-10"
         >
           Menu
         </button>
@@ -388,7 +514,7 @@ export const PocketPlayer = () => {
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handlePrev}
           aria-label="Previous track"
-          className="absolute left-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors z-10 p-2"
+          className="absolute left-1 w-11 h-11 flex items-center justify-center text-[#555] hover:text-[#333] active:text-[#111] transition-colors z-10"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
@@ -400,7 +526,7 @@ export const PocketPlayer = () => {
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handleNext}
           aria-label="Next track"
-          className="absolute right-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors z-10 p-2"
+          className="absolute right-1 w-11 h-11 flex items-center justify-center text-[#555] hover:text-[#333] active:text-[#111] transition-colors z-10"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
@@ -411,8 +537,8 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handlePlayPause}
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-          className="absolute bottom-4 text-[#888] hover:text-[#555] active:text-[#333] transition-colors flex items-center justify-center z-10 p-2"
+          aria-label={status === 'loading' ? 'Cancel loading' : isPlaying ? 'Pause' : 'Play'}
+          className="absolute bottom-0 min-w-11 h-11 text-[#555] hover:text-[#333] active:text-[#111] transition-colors flex items-center justify-center z-10 p-2"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5">
             <path d="M8 5v14l11-7z" />
@@ -426,7 +552,7 @@ export const PocketPlayer = () => {
         <button 
           onPointerDown={(e) => e.stopPropagation()}
           onClick={handleSelectClick}
-          aria-label="Select track"
+          aria-label={currentView === 'menu' ? 'Select track' : status === 'loading' ? 'Cancel loading selected track' : isPlaying ? 'Pause selected track' : 'Play selected track'}
           className="w-[74px] h-[74px] bg-gradient-to-b from-[#f4f4f4] to-[#ebebeb] rounded-full shadow-[inset_0_1px_3px_rgba(255,255,255,1),_0_2px_6px_rgba(0,0,0,0.2)] active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.1),_0_1px_2px_rgba(0,0,0,0.1)] border border-white/50 transition-shadow z-20"
         />
       </div>

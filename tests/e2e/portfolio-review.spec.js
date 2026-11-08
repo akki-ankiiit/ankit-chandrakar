@@ -59,7 +59,7 @@ test('navigation works by keyboard and metadata follows client navigation', asyn
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://ankit.devs.surf/resume');
 });
 
-test('project stories are readable without embeds, expose evidence, and fit the viewport', async ({ page }) => {
+test('project stories expose evidence, keep presentations same-origin, and fit the viewport', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
@@ -69,7 +69,12 @@ test('project stories are readable without embeds, expose evidence, and fit the 
     await expect(page.locator('h1')).toHaveText(title);
     await expect(page.locator('.project-overview__summary')).toBeVisible();
     await expect(page.locator('.project-overview h2').first()).toBeVisible();
-    await expect(page.locator('iframe')).toHaveCount(0);
+    const hasPresentation = ['contractorbhai', 'atlas-brand', 'adhikar-brand'].includes(route);
+    const frames = page.locator('iframe');
+    await expect(frames).toHaveCount(hasPresentation ? 1 : 0);
+    if (hasPresentation) {
+      expect(await frames.evaluate(frame => new URL(frame.src).origin)).toBe(new URL(page.url()).origin);
+    }
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', new RegExp(title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.evaluate(() => {
@@ -113,7 +118,6 @@ test('opening a shared project and moving to About replaces project-specific met
 test('a screen can be inspected by keyboard and the presentation restores its trigger', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/work/contractorbhai');
-  await page.locator('.cb-reading-presentation > summary').click();
   await page.locator('.cb-presentation').scrollIntoViewIfNeeded();
   const frame=page.frameLocator('.cb-presentation');
   const trigger=frame.locator('.slide.current [data-inspect]').first();

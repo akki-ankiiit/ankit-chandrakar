@@ -63,15 +63,7 @@ function CaseStudyContent({ project }) {
   const index = projects.findIndex((item) => item.id === project.id);
   const next = projects[(index + 1) % projects.length];
 
-  useEffect(() => {
-    document.title = `${project.title} — Case study by Ankit Chandrakar`;
-    const description = document.querySelector('meta[name="description"]');
-    const previous = description?.content;
-    if (description) description.content = project.description;
-    return () => {
-      if (description && previous) description.content = previous;
-    };
-  }, [project]);
+  usePageMeta({ title: `${project.title} — Case study by Ankit Chandrakar`, description: project.description, image: project.image, path: `/work/${project.id}`, siteUrl: profile.website });
 
   const contributionNumber = project.embedUrl ? '05' : '04';
   const contents = [{ id: 'overview', label: 'Overview' }, { id: 'challenge', label: 'The challenge' }, { id: 'approach', label: 'The approach' }, ...(project.embedUrl ? [{ id: 'live', label: 'The live site' }] : []), ...(hasPresentation ? [{ id: 'presentation', label: 'Presentation' }] : [{ id: 'contribution', label: 'Design scope' }])];
@@ -80,7 +72,7 @@ function CaseStudyContent({ project }) {
     <article className="case-study-page page-enter" ref={article}>
       <header className="case-hero case-container">
         <div className="case-breadcrumb"><ProjectBackLink state={{ category: project.group, focusProject: project.id }} /><span>PROJECT {String(index + 1).padStart(2, '0')} / {project.category.toUpperCase()}</span></div>
-        <div className="case-title-row"><div><p className="eyebrow">{project.caseStudy.eyebrow || 'From the design scrapbook'}</p><h1 className="sr-only">{project.title}</h1><p className="case-subtitle">{project.subtitle}</p></div><div className="case-stamp"><Icon size={24} /><span>thoughtfully<br />put together.</span></div></div>
+        <div className="case-title-row"><div><p className="eyebrow">{project.caseStudy.eyebrow || 'From the design scrapbook'}</p><h1>{project.title}</h1><p className="case-subtitle">{project.subtitle}</p></div><div className="case-stamp"><Icon size={24} /><span>thoughtfully<br />put together.</span></div></div>
         <dl className="case-facts"><div><dt>My role</dt><dd>{project.role}</dd></div><div><dt>Scope</dt><dd>{project.scope}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div><div><dt>{project.sourceLabel ? 'Original publication' : 'Organization'}</dt><dd>{project.sourceLabel ? <a href={project.sourceUrl} target="_blank" rel="noreferrer">View on {project.sourceLabel} ↗</a> : project.client}</dd></div></dl>
         <figure className="case-cover"><img src={project.image} alt={`${project.title} — scrapbook cover illustration`} width="1200" height="850" fetchPriority="high" /><figcaption><span>From sketches to considered experiences.</span><span>Illustrated project cover</span></figcaption></figure>
       </header>
@@ -116,8 +108,8 @@ function ShowcasePage({ project }) {
 
   return (
     <article className="showcase-page page-enter">
-      <div className="case-container">
-        <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
+      <div className="project-reading">
+        <div className="project-header-rail"><ProjectBackLink state={{ category: project.group, focusProject: project.id }} /></div>
         {projectOverviews[project.id] ? <ProjectOverview projectId={project.id}>
           {project.id === 'helix' && <HelixWalkthrough />}
         </ProjectOverview> : <header className="showcase-intro"><h1>{project.title}</h1><p>{project.description}</p></header>}
@@ -145,15 +137,17 @@ function StreamPage({ project }) {
 
   return (
     <article className="stream-page page-enter" aria-label={`${project.title} case study`}>
-      <div className="case-container">
-        <ProjectBackLink state={{ category: project.group, focusProject: project.id }} />
+      <div className="project-reading">
+        <div className="project-header-rail"><ProjectBackLink state={{ category: project.group, focusProject: project.id }} /></div>
         <ProjectOverview projectId={project.id} />
+        <div className="case-container">
         <h2 className="stream-deck-title">The original case-study presentation</h2>
         <p className="stream-deck-note">Preserved source material. Open any image at full size to inspect the detail; the overview above provides a text account of the work.</p>
         <div className="stream-images">
           {images.map((image) => <figure key={image.src}><a href={image.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size image: ${image.alt}`}><img src={image.src} srcSet={image.srcSet} sizes={image.srcSet ? STREAM_SIZES : undefined} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" /></a><figcaption>{image.alt}</figcaption></figure>)}
         </div>
         {project.sourceUrl && <a className="text-link stream-source" href={project.sourceUrl} target="_blank" rel="noreferrer">View the original on {project.sourceLabel} ↗</a>}
+        </div>
       </div>
     </article>
   );

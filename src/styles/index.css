@@ -8,10 +8,11 @@
 @import './ink-art.css';
 @import './impact.css';
 @import './route-loading.css';
+@import './project-layout.css';
 
 @font-face { font-family: Henriette; src: url('/assets/fonts/Henriette-Regular.otf') format('opentype'); font-weight: 100 900; font-style: normal; font-display: swap; }
 
-:root { font-family: Henriette, Georgia, serif; color: #282828; background: #fdfdf5; font-synthesis: none; --site-header-height: 134px; --paper: #fdfdf5; --beige: #efeedc; --ink: #282828; --forest: #343831; --accent: #c5de9b; --accent-strong: #60784b; --green: var(--accent); --muted: #7c7b70; --gold: #8c6a49; --ease: cubic-bezier(.22, 1, .36, 1); }
+:root { font-family: Henriette, Georgia, serif; color: #282828; background: #fdfdf5; font-synthesis: none; --site-header-height: 134px; --paper: #fdfdf5; --beige: #efeedc; --ink: #282828; --forest: #343831; --accent: #c5de9b; --accent-strong: #60784b; --green: var(--accent); --muted: #65685e; --gold: #8c6a49; --ease: cubic-bezier(.22, 1, .36, 1); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height) + 16px); }
 body { margin: 0; min-width: 320px; -webkit-font-smoothing: antialiased; }
@@ -49,8 +50,9 @@ main:focus { outline: none; }
 .pill > svg { transition: transform .65s var(--ease); }
 .pill:hover > svg { transform: rotate(180deg); }
 .social-links { display: flex; align-items: center; gap: 16px; }
-.social-links a { display: inline-flex; align-items: center; justify-content: center; padding-block: 6px; transition: opacity .2s, transform .3s var(--ease); }
+.social-links a { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding-block: 6px; transition: opacity .2s, transform .3s var(--ease); }
 .social-links a:hover { opacity: .6; transform: translateY(-3px) rotate(-5deg); }
+.hero-socials:has(> .social-links) { flex-wrap: wrap; }
 .text-link { font-size: 14px; text-decoration: underline; text-underline-offset: 5px; }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #28282835; border-radius: 50%; background: var(--paper); transition: background .2s, transform .25s; }
 .icon-button:hover { background: var(--green); transform: rotate(5deg); }

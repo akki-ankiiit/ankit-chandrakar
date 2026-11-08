@@ -411,10 +411,10 @@ test('Fluid keeps its DOM poster after WebGL loss and releases the video source 
 
 test('Back restores the saved Playtime position instead of replaying its deep link', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/playtime#globe-gallery');
-  const globe = page.locator('#globe-gallery');
-  await expect(globe).toBeAttached();
-  await expect.poll(() => globe.evaluate((node) => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(3);
+  await page.goto('/playtime#dot-field');
+  const experiment = page.locator('#dot-field');
+  await expect(experiment).toBeAttached();
+  await expect.poll(() => experiment.evaluate((node) => Math.abs(node.getBoundingClientRect().top))).toBeLessThan(3);
   await page.evaluate(() => scrollTo({ top: 2000, behavior: 'instant' }));
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(2000);
   // The scroll listener records the browser's event before leaving this entry.
@@ -423,7 +423,7 @@ test('Back restores the saved Playtime position instead of replaying its deep li
   await expect(page).toHaveURL('/about');
   await expect(page.locator('#about-page-title')).toBeVisible();
   await page.goBack();
-  await expect(page).toHaveURL('/playtime#globe-gallery');
+  await expect(page).toHaveURL('/playtime#dot-field');
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(2000);
   // Activating an in-shadow anchor must keep React Router's history key intact.
   const entry = page.locator('#flipbook').getByRole('link', { name: 'Explore Flipbook', exact: true });

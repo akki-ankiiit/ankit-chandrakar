@@ -178,7 +178,7 @@
 @media (max-width: 559px) { .notes-list { grid-template-columns: minmax(0, 1fr); } .public-note-ticket__paper { min-height: 180px; } .public-note-ticket__content { padding: 24px 22px 20px; } }
 @media (max-width: 899px) { .admin-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 749px) { .note-new { width: 100%; } }
-@media (max-width: 420px) { .is-compact .contact-fields { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .is-compact .contact-fields, .note-tile-form .is-compact .contact-fields { grid-template-columns: 1fr; } }
 @media (max-width: 749px) {
   .notes-page { padding-bottom: 40px; }
   .admin-notes-page { padding-top: 166px; padding-bottom: 40px; }

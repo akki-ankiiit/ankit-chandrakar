@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const pagesData = [
@@ -236,6 +236,7 @@ interface LeafProps {
 const Leaf: React.FC<LeafProps> = ({ index, isFlipped, front, back, totalLeaves }) => {
   return (
     <motion.div
+      data-flipbook-leaf={index}
       className="absolute top-0 left-0 w-full h-full origin-left"
       style={{
         transformStyle: 'preserve-3d',
@@ -274,6 +275,19 @@ const Leaf: React.FC<LeafProps> = ({ index, isFlipped, front, back, totalLeaves 
 
 export const Flipbook: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    // Reserve room for the entire open spread, including the spine and perspective.
+    const resize = () => setScale(Math.min(1, Math.max(0, scene.clientWidth - 32) / 760));
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(scene);
+    return () => observer.disconnect();
+  }, []);
 
   const handleBookClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // If they click on the right half of the screen, flip forward.
@@ -322,10 +336,10 @@ export const Flipbook: React.FC = () => {
       </div>
 
       {/* 3D Scene Container */}
-      <div className="w-full max-w-[800px] flex justify-center z-10 select-none">
+      <div ref={sceneRef} data-flipbook-scene className="w-full max-w-[800px] relative z-10 select-none" style={{ height: 520 * scale }}>
         <div 
-          className="relative"
-          style={{ perspective: '2500px', width: '380px', height: '520px' }}
+          className="absolute left-1/2 top-0"
+          style={{ perspective: '2500px', width: 380, height: 520, marginLeft: -190, transform: `scale(${scale})`, transformOrigin: 'center top' }}
         >
           {/* Dynamic Drop Shadow */}
           <motion.div 
@@ -377,19 +391,19 @@ export const Flipbook: React.FC = () => {
       </div>
       
       {/* Controls */}
-      <div className="absolute bottom-12 w-full px-8 md:px-24 flex justify-between items-center z-20 pointer-events-none">
+      <div className="absolute bottom-8 md:bottom-12 w-full px-8 md:px-24 grid grid-cols-2 md:grid-cols-[auto_1fr_auto] gap-x-4 gap-y-3 items-center z-20 pointer-events-none">
         <button 
           onClick={handlePrev} 
           disabled={currentPage === 0}
-          className="pointer-events-auto px-6 py-3 bg-[#111] text-white text-[10px] tracking-widest uppercase rounded-full hover:scale-105 transition-transform disabled:opacity-0 disabled:pointer-events-none"
+          className="pointer-events-auto justify-self-start min-h-11 px-6 py-3 bg-[#111] text-white text-[10px] tracking-widest uppercase rounded-full hover:scale-105 transition-transform disabled:opacity-0 disabled:pointer-events-none"
         >
           Previous
         </button>
-        <p className="text-[10px] tracking-[0.2em] text-[#111] uppercase opacity-50">Click edges or buttons to flip</p>
+        <p data-flipbook-help className="order-3 col-span-2 md:order-none md:col-span-1 text-center text-[10px] tracking-[0.2em] text-[#111] uppercase opacity-70">Click edges or buttons to flip</p>
         <button 
           onClick={handleNext}
           disabled={currentPage === leaves.length}
-          className="pointer-events-auto px-6 py-3 bg-[#111] text-white text-[10px] tracking-widest uppercase rounded-full hover:scale-105 transition-transform disabled:opacity-0 disabled:pointer-events-none"
+          className="pointer-events-auto justify-self-end min-h-11 px-6 py-3 bg-[#111] text-white text-[10px] tracking-widest uppercase rounded-full hover:scale-105 transition-transform disabled:opacity-0 disabled:pointer-events-none"
         >
           Next
         </button>

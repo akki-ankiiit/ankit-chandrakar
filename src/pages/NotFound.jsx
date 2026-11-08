@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Icon from '../components/Icon.jsx';
+import usePageMeta from '../hooks/usePageMeta.js';
 
 export default function NotFound({
   title = 'This chapter hasn’t been written.',
   message = 'The page you’re looking for may have moved, been renamed, or never made it past the sketchbook. Let’s get you back to familiar ground.',
 }) {
-  useEffect(() => {
-    document.title = 'Page not found — Ankit Chandrakar';
-  }, []);
+  const location = useLocation();
+  usePageMeta({ title: 'Page not found — Ankit Chandrakar', description: 'Find your way back to Ankit Chandrakar’s selected product design work, résumé, and contact information.', image: '/assets/social-preview.jpg', path: location.pathname.replace(/\/+$/, '') || '/', siteUrl: 'https://ankit.devs.surf' });
 
   return (
     <section className="not-found">
