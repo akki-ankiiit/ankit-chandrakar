@@ -38,7 +38,9 @@ export default function Header({ page, onNavigate }) {
 
   useEffect(() => {
     const closeMore = (event) => {
-      if (!desktopMore.current?.contains(event.target)) desktopMore.current?.removeAttribute('open');
+      for (const more of [desktopMore.current, mobileMore.current]) {
+        if (!more?.contains(event.target)) more?.removeAttribute('open');
+      }
     };
     document.addEventListener('pointerdown', closeMore);
     return () => document.removeEventListener('pointerdown', closeMore);
@@ -97,7 +99,8 @@ export default function Header({ page, onNavigate }) {
       event.currentTarget.removeAttribute('open');
       event.currentTarget.querySelector('summary')?.focus();
     }} onBlur={(event) => {
-      if (!event.currentTarget.contains(event.relatedTarget)) event.currentTarget.removeAttribute('open');
+      // WebKit pointer clicks can blur the summary without focusing the link.
+      if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) event.currentTarget.removeAttribute('open');
     }}>
       <summary className="nav-link">More</summary>
       <div className="nav-more-links">
