@@ -5,7 +5,9 @@ import '../styles/bondure.css';
 import usePageMeta from '../hooks/usePageMeta.js';
 import { PkHero, PkPager, PkRole, PkSection } from '../components/packaging/CaseParts.jsx';
 import { kSeriesCard } from '../data/k-series.js';
-import { bondureCard, bondureHero, bondureImages as img, bondureMeta, brief, hq, ideas, logo, notes, products, results, role, system } from '../data/bondure.js';
+import BagViewer from '../components/packaging/BagViewer.jsx';
+import { bondureBags } from '../data/bags-3d.js';
+import { baseRange, bondureCard, bondureHero, bondureImages as img, bondureMeta, brief, hq, ideas, logo, notes, products, results, role, system } from '../data/bondure.js';
 
 const pic = (key, alt, props = {}) => <img src={img[key].src} width={img[key].width} height={img[key].height} alt={alt} decoding="async" {...props} />;
 const accent = (product) => ({ '--accent-product': product.accent });
@@ -15,7 +17,7 @@ const ideaItems = ideas.items.filter((idea) => filled(idea.name) && filled(idea.
 const hqSteps = hq.steps.filter((step) => filled(step.text));
 const hasIdeas = ideaItems.length > 0;
 // Sequential chapter numbers that skip any hidden section.
-const sectionIds = ['bd-brief', ...(hasIdeas ? ['bd-ideas'] : []), 'bd-logo', 'bd-system', 'bd-hq', 'bd-details', 'bd-results'];
+const sectionIds = ['bd-brief', ...(hasIdeas ? ['bd-ideas'] : []), 'bd-logo', 'bd-system', 'bd-base', 'bd-hq', 'bd-details', 'bd-results'];
 const num = (id) => String(sectionIds.indexOf(id) + 1).padStart(2, '0');
 const [, figurePrefix, figureDigits, figureUnit] = results.figure.match(/^(\D*)(\d+)(.*)$/);
 
@@ -93,6 +95,26 @@ function System() {
   );
 }
 
+function BaseRange() {
+  return (
+    <PkSection id="bd-base" number={num('bd-base')} title={baseRange.heading} lede={baseRange.lede}>
+      <ul className="bd-cards bd-base-cards" role="list">
+        {baseRange.products.map((product) => (
+          <li key={product.id} className="bd-card" style={accent(product)}>
+            <div className="bd-card-art">{pic(product.image, product.alt, { loading: 'lazy' })}</div>
+            <div className="bd-card-body">
+              <h3>{product.name}</h3>
+              <p className="bd-card-type">{product.type}</p>
+              <p className="bd-card-type">{product.standard}</p>
+              <p className="bd-card-facts"><span><i aria-hidden="true" />{product.colour} <code>{product.accent}</code></span><span>{product.pack}</span></p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </PkSection>
+  );
+}
+
 function Hq() {
   return (
     <PkSection id="bd-hq" number={num('bd-hq')} title={hq.heading} lede={hq.lede} className={hqSteps.length ? '' : 'bd-hq-only'}>
@@ -153,7 +175,11 @@ export default function BondureCaseStudy() {
 
   return (
     <article className="case-study-page pk-page bd-page">
-      <PkHero crumb="PACKAGING & IDENTITY / TEJAS" client="Tejas" title={bondureHero.title} subtitle={bondureHero.subtitle} facts={bondureHero.facts}>
+      <PkHero crumb="PACKAGING & IDENTITY / TEJAS" client="Tejas" title={bondureHero.title} subtitle={bondureHero.subtitle} facts={bondureHero.facts} showTitle>
+        <section className="bd-3d" aria-labelledby="bd-3d-title">
+          <div className="bd-3d-head"><h2 id="bd-3d-title">The range in 3D</h2><p>Rotate, zoom and move each bag.</p></div>
+          <BagViewer bags={bondureBags} label="BONDURE 3D bag viewer" />
+        </section>
         <Bags />
       </PkHero>
       <div className="case-container pk-story">
@@ -161,6 +187,7 @@ export default function BondureCaseStudy() {
         <Ideas />
         <Logo />
         <System />
+        <BaseRange />
         <Hq />
         <Details />
         <Results />

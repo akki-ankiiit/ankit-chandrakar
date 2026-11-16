@@ -1,0 +1,58 @@
+/* Interactive 3D bag viewer, shared by the K-Series and BONDURE case studies. */
+.bv { --bv-accent: var(--accent-strong); --bv-line: var(--pk-line, #d9dcc9); --bv-soft: var(--pk-soft, #5a6350); font-family: Henriette, Georgia, serif; }
+
+.bv-picker { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.bv-chip { min-height: 44px; padding: 8px 16px; border: 1px solid var(--bv-line); border-bottom: 4px solid var(--chip, var(--bv-line)); border-radius: 7px; background: var(--paper); color: var(--ink); font: 400 17px/1.2 Henriette, Georgia, serif; cursor: pointer; transition: background-color .2s, border-color .2s, box-shadow .2s; }
+.bv-chip:hover { background: var(--panel, #f3f2e6); }
+.bv-chip[aria-pressed='true'] { background: var(--panel, #f3f2e6); border-color: var(--ink); border-bottom-color: var(--chip, var(--ink)); box-shadow: inset 0 0 0 1px var(--ink); }
+
+.bv-frame { position: relative; }
+.bv-stage { position: relative; overflow: hidden; width: 100%; aspect-ratio: 16 / 11; max-height: min(78vh, 720px); min-height: 380px; border: 1px solid var(--panel-line, #dfe1d0); border-radius: 14px; background: radial-gradient(120% 90% at 50% 38%, #ffffff 0%, var(--panel, #f3f2e6) 62%, #e7e6d6 100%); touch-action: none; cursor: grab; }
+.bv-stage:active { cursor: grabbing; }
+.bv-stage:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 4px; }
+.bv-stage canvas { display: block; }
+
+.bv-top { position: absolute; inset: 14px 14px auto; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 10px; pointer-events: none; }
+.bv-name { margin: 0; padding: 6px 12px; border-left: 3px solid var(--bv-accent); border-radius: 0 8px 8px 0; background: #ffffffd9; font-size: 15px; line-height: 1.4; color: var(--ink); backdrop-filter: blur(6px); }
+.bv-variants { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--bv-line); border-radius: 999px; background: #ffffffd9; pointer-events: auto; backdrop-filter: blur(6px); }
+.bv-variant { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 4px 12px; border: 0; border-radius: 999px; background: transparent; color: var(--ink); font: 400 14px/1 Henriette, Georgia, serif; cursor: pointer; }
+.bv-variant::before { content: ''; width: 11px; height: 11px; border: 1px solid #28282855; border-radius: 50%; background: #9a9a96; }
+.bv-variant.is-white::before { background: #fbfbf7; }
+.bv-variant[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+
+.bv-toolbar { position: absolute; inset: auto 14px 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; pointer-events: none; }
+.bv-views, .bv-tools { display: inline-flex; gap: 2px; padding: 4px; border: 1px solid var(--bv-line); border-radius: 12px; background: #ffffffe6; box-shadow: 0 6px 22px #2828281a; pointer-events: auto; backdrop-filter: blur(8px); }
+.bv-views button, .bv-tools button { display: inline-grid; place-items: center; min-width: 44px; min-height: 40px; padding: 6px 12px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 400 14px/1 Henriette, Georgia, serif; cursor: pointer; transition: background-color .2s, color .2s; }
+.bv-tools button { padding-inline: 10px; }
+.bv-views button:hover, .bv-tools button:hover { background: var(--panel, #f3f2e6); }
+.bv-views button[aria-pressed='true'], .bv-tools button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+.bv-views button:focus-visible, .bv-tools button:focus-visible, .bv-variant:focus-visible, .bv-chip:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+
+.bv-loading { position: absolute; left: 50%; top: 50%; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; background: #ffffffe6; font-size: 14px; color: var(--bv-soft); transform: translate(-50%, -50%); pointer-events: none; }
+.bv-spinner { width: 16px; height: 16px; border: 2px solid var(--bv-line); border-top-color: var(--bv-accent); border-radius: 50%; animation: bv-spin .8s linear infinite; }
+@keyframes bv-spin { to { transform: rotate(360deg); } }
+.bv-message { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 24px; text-align: center; font-size: 15px; color: var(--bv-soft); }
+
+.bv-help { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-top: 12px; font-size: 13px; line-height: 1.5; color: var(--bv-soft); }
+.bv-help svg { flex-shrink: 0; color: var(--accent-strong); }
+.bv-help-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .bv-help-pointer, .bv-help-keys { display: none; }
+  .bv-help-touch { display: inline; }
+}
+
+@media (max-width: 749px) {
+  .bv-stage { aspect-ratio: 4 / 5; min-height: 0; max-height: 64vh; }
+  .bv-chip { flex: 1 1 auto; padding-inline: 10px; font-size: 15px; }
+  .bv-top { inset: 10px 10px auto; }
+  .bv-name { font-size: 13px; }
+  .bv-toolbar { position: static; margin-top: 10px; gap: 8px; }
+  .bv-views, .bv-tools { box-shadow: none; }
+  .bv-views, .bv-tools { padding: 3px; }
+  .bv-views button { min-width: 0; padding-inline: 9px; font-size: 13px; }
+  .bv-tools button { min-width: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bv-spinner { animation-duration: 2s; }
+  .bv-chip, .bv-views button, .bv-tools button { transition: none; }
+}

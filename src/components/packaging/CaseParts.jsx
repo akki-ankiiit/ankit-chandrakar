@@ -6,7 +6,7 @@ import { packagingNeighbours } from '../../data/packaging.js';
 // Shared building blocks for the packaging case studies, so all three share one hierarchy:
 // hero (client, title, one-line summary, facts), numbered sections (number, title, one-line lede), role, pager.
 
-export function PkHero({ crumb, client, title, subtitle, facts, children }) {
+export function PkHero({ crumb, client, title, subtitle, facts, showTitle = false, children }) {
   return (
     <header className="pk-hero case-container">
       <div className="case-breadcrumb">
@@ -14,7 +14,7 @@ export function PkHero({ crumb, client, title, subtitle, facts, children }) {
         <span>{crumb}</span>
       </div>
       <p className="pk-client">{client}</p>
-      <h1 className="sr-only">{title}</h1>
+      <h1 className={showTitle ? undefined : 'sr-only'}>{title}</h1>
       <p className="pk-subtitle">{subtitle}</p>
       <dl className="pk-facts">
         {facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}

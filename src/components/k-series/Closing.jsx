@@ -12,7 +12,8 @@ export function Results() {
   </div>;
 }
 
-export function Approval() {
+// `afterPhotos` renders straight after the portrait pair (used for the 3D bag viewer).
+export function Approval({ afterPhotos = null }) {
   const { profile } = recognition;
   const portrait = recognition.figures.find((figure) => figure.key === 'me-and-sunil');
   const brochure = recognition.figures.find((figure) => figure.key === 'signed-brochure');
@@ -21,6 +22,7 @@ export function Approval() {
       <figure>{pic(profile.imageKey, profile.alt, { sizes: '(max-width: 749px) 45vw, 540px' })}<figcaption>{profile.name}, {profile.role}</figcaption></figure>
       <figure>{pic(portrait.key, portrait.alt, { sizes: '(max-width: 749px) 45vw, 540px' })}<figcaption>{portrait.caption}</figcaption></figure>
     </div>
+    {afterPhotos}
     <div className="ks-approval-bottom">
       <div className="ks-approval-copy">
         <p className="ks-recognition-name">{profile.name}</p>

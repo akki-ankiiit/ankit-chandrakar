@@ -95,3 +95,20 @@
 /* HQ section with only its intro (no steps yet): keep it compact. */
 .bd-page .pk-section.bd-hq-only { padding-block: 32px; }
 .bd-page .pk-section.bd-hq-only .pk-head { margin-bottom: 0; }
+
+/* 3D bag viewer at the top of the hero */
+.bd-page .bd-3d { margin-bottom: 48px; }
+.bd-page .bd-3d-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 20px; }
+.bd-page .bd-3d-head h2 { font-size: 25px; line-height: 1.2; letter-spacing: -.4px; }
+.bd-page .bd-3d-head p { color: var(--pk-soft); font-size: 15px; }
+@media (max-width: 749px) {
+  .bd-page .bd-3d { margin-bottom: 36px; }
+  .bd-page .bd-3d-head { display: block; }
+  .bd-page .bd-3d-head p { margin-top: 6px; }
+}
+
+/* BONDURE BASE cards: the rendered bags are taller than the original three, so size them by height. */
+.bd-page .bd-base-cards .bd-card-art img { width: auto; height: 212px; max-height: none; }
+@media (max-width: 749px) {
+  .bd-page .bd-base-cards .bd-card-art img { width: 100%; height: auto; max-width: 120px; }
+}

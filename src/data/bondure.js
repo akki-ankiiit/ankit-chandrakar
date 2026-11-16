@@ -68,6 +68,30 @@ export const products = [
   },
 ];
 
+// BONDURE BASE tile adhesives. Bag images are front renders of the 3D models (public/assets/3d-bags);
+// accents are sampled from the colour band at the bottom of each bag's artwork.
+export const baseRange = {
+  heading: 'BONDURE BASE, the tile adhesives.',
+  lede: 'Three flexible tile adhesives for porcelain, ceramic and natural stone tiles. Each grade has its own colour.',
+  products: [
+    {
+      id: 'b555', image: 'base-b555', name: 'BASE B-555', type: 'Flexible Tile Adhesive', standard: 'C1T · EN 12004',
+      colour: 'Purple', accent: '#4A0749', pack: '20 kg',
+      alt: 'BONDURE BASE B-555 Flexible Tile Adhesive bag in purple, 20 kg',
+    },
+    {
+      id: 'b565', image: 'base-b565', name: 'BASE B-565', type: 'Flexible Tile Adhesive', standard: 'EN 12004',
+      colour: 'Red', accent: '#BC342B', pack: '20 kg',
+      alt: 'BONDURE BASE B-565 Flexible Tile Adhesive bag in red, 20 kg',
+    },
+    {
+      id: 'b585', image: 'base-b585', name: 'BASE B-585', type: 'Flexible Tile Adhesive', standard: 'EN 12004',
+      colour: 'Teal', accent: '#024E4F', pack: '20 kg',
+      alt: 'BONDURE BASE B-585 Flexible Tile Adhesive bag in teal, 20 kg',
+    },
+  ],
+};
+
 export const system = {
   heading: 'One family, three colours.',
   lede: 'The same layout on every bag. Only the colour and the product name change.',

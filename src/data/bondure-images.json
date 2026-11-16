@@ -58,5 +58,20 @@
     "src": "/assets/Bondure/icon-easy.webp",
     "width": 132,
     "height": 132
+  },
+  "base-b555": {
+    "src": "/assets/Bondure/base-b555.webp",
+    "width": 1060,
+    "height": 1424
+  },
+  "base-b565": {
+    "src": "/assets/Bondure/base-b565.webp",
+    "width": 1060,
+    "height": 1424
+  },
+  "base-b585": {
+    "src": "/assets/Bondure/base-b585.webp",
+    "width": 1060,
+    "height": 1424
   }
 }
