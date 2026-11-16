@@ -66,5 +66,11 @@ for (const icon of icons) {
   await save(icon.key, sharp(cut).resize({ width: R * 4, kernel: 'lanczos3' }), `${icon.key}.webp`, { quality: 92, alphaQuality: 100, effort: 5 });
 }
 
+// 6. BONDURE BASE bags: front renders of the 3D models, already optimised. Only their sizes are recorded here.
+for (const key of ['base-b555', 'base-b565', 'base-b585']) {
+  const { width, height } = await sharp(`${DIR}/${key}.webp`).metadata();
+  manifest[key] = { src: `${WEB}/${key}.webp`, width, height };
+}
+
 await writeFile('src/data/bondure-images.json', `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(`Wrote ${Object.keys(manifest).length} entries to src/data/bondure-images.json`);

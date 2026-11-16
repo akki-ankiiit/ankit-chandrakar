@@ -9,6 +9,8 @@ import { Back, Front } from '../components/k-series/Interactive.jsx';
 import { Approval, Results } from '../components/k-series/Closing.jsx';
 import { Listening, Naming, Problem, Shelf, StrategyShift } from '../components/k-series/StorySections.jsx';
 import { Section } from '../components/k-series/parts.jsx';
+import BagViewer from '../components/packaging/BagViewer.jsx';
+import { kSeriesBags } from '../data/bags-3d.js';
 import { kSeriesCard, kSeriesHero, kSeriesImages, kSeriesMeta, kSeriesPath, recognition, role, strategyShift } from '../data/k-series.js';
 
 const cover = kSeriesImages['k90-front'];
@@ -23,7 +25,10 @@ export default function KSeriesCaseStudy() {
     <header className="ks-hero ks-inner">
       <nav className="ks-breadcrumb" aria-label="Case study"><ProjectBackLink state={workState} /></nav>
       <Section id="ks-approval" eyebrow="01 / Approval" title={recognition.heading} lede={recognition.lede} className="ks-approval-section">
-        <Approval />
+        <Approval afterPhotos={<div className="ks-3d" aria-labelledby="ks-3d-title">
+          <div className="ks-overview-heading"><h2 id="ks-3d-title">The range in 3D</h2><p>Rotate, zoom and move every grade.</p></div>
+          <BagViewer bags={kSeriesBags} label="K-Series 3D bag viewer" />
+        </div>} />
       </Section>
       <p className="ks-eyebrow">Kamdhenu Adhesive / Packaging & naming</p>
       <h1 className="sr-only">{kSeriesHero.title}</h1>
