@@ -46,6 +46,12 @@ await save('me-and-sunil', sharp(`${SRC}/Me&Sunil.jpg`).rotate().resize({ width:
 
 await copyFile(`${SRC}/Kamdhenu Adhesive.svg`, `${OUT}/kamdhenu-adhesive-logo.svg`);
 await copyFile(`${SRC}/Kamdhenu Group Logo.svg`, `${OUT}/kamdhenu-group-logo.svg`);
+// Shelf front views: renders of the 3D bag models (public/assets/packaging/K-Series/shelf-*.webp), already optimised.
+for (const grade of ['k50', 'k60', 'k80', 'k90']) {
+  const { width, height } = await sharp(`${OUT}/shelf-${grade}.webp`).metadata();
+  manifest[`shelf-${grade}`] = { src: `${WEB}/shelf-${grade}.webp`, width, height };
+}
+
 manifest['logo-adhesive'] = { src: `${WEB}/kamdhenu-adhesive-logo.svg`, width: 527, height: 139 };
 manifest['logo-group'] = { src: `${WEB}/kamdhenu-group-logo.svg`, width: 548, height: 209 };
 

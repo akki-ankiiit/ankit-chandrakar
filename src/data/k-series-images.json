@@ -153,5 +153,25 @@
     "src": "/assets/packaging/K-Series/kamdhenu-group-logo.svg",
     "width": 548,
     "height": 209
+  },
+  "shelf-k50": {
+    "src": "/assets/packaging/K-Series/shelf-k50.webp",
+    "width": 900,
+    "height": 1209
+  },
+  "shelf-k60": {
+    "src": "/assets/packaging/K-Series/shelf-k60.webp",
+    "width": 900,
+    "height": 1209
+  },
+  "shelf-k80": {
+    "src": "/assets/packaging/K-Series/shelf-k80.webp",
+    "width": 900,
+    "height": 1209
+  },
+  "shelf-k90": {
+    "src": "/assets/packaging/K-Series/shelf-k90.webp",
+    "width": 900,
+    "height": 1209
   }
 }

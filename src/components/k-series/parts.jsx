@@ -20,5 +20,5 @@ export function GradeTabs({ label, idPrefix, active, onChange }) {
 
 export function ShelfFigure({ grade }) {
   const alt = `${grade.code} front of pack — ${grade.english}`;
-  return <figure className="ks-shelf-item" role="listitem"><div className="ks-shelf-bag">{pic(`${grade.id}-front`, alt, { sizes: '(max-width: 749px) 38vw, 200px' })}</div><figcaption>{grade.code}<span>{grade.use}</span></figcaption></figure>;
+  return <figure className="ks-shelf-item" role="listitem"><div className="ks-shelf-bag">{pic(`shelf-${grade.id}`, alt, { sizes: '(max-width: 749px) 38vw, 200px' })}</div><figcaption>{grade.code}<span>{grade.use}</span></figcaption></figure>;
 }
